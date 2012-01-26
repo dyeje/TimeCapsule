@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/goto_profile"
+		android:icon="@drawable/ic_menu_profile"
+		android:title="@string/activ_profile" />
+	<item
+		android:id="@+id/goto_map"
+		android:icon="@drawable/ic_menu_map"
+		android:title="@string/activ_map" />
+	<item
+		android:id="@+id/goto_friends"
+		android:icon="@drawable/ic_menu_friends"
+		android:title="@string/activ_friends" />
+	<item
+		android:id="@+id/goto_journal"
+		android:icon="@drawable/ic_menu_journal"
+		android:title="@string/activ_journal" />
+	<item
+		android:id="@+id/goto_settings"
+		android:icon="@drawable/ic_menu_settings"
+		android:title="@string/activ_settings" />
+</menu>

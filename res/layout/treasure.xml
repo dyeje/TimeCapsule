@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+			<RelativeLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center">
+
+				<ImageView
+					android:id="@+id/play_button"
+					android:text="media"
+					android:paddingTop="20sp"
+					android:src="@drawable/play_icon"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />
+
+			</RelativeLayout>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingTop="10dp">
+
+				<TextView
+					android:id="@+id/description"
+					style="@style/MyStyle"
+					android:text="Description: A funny Youtube video I found"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingTop="10dp">
+
+				<TextView
+					android:text="left by"
+					style="@style/MyStyle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+
+				<TextView
+					android:id="@+id/leftBy"
+					android:text="User"
+					style="@style/MyStyle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+				<TextView
+					android:text="on"
+					style="@style/MyStyle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+
+				<TextView
+					android:id="@+id/leftOn"
+					android:text="Date"
+					style="@style/MyStyle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/timesFound"
+				android:text="Found X Times"
+				style="@style/MyStyle"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:layout_weight="2" />
+
+			<LinearLayout
+				android:id="@+id/comment_layout"
+				android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingTop="10dp">
+
+				<TextView
+					android:id="@+id/comment"
+					android:text="Comments:"
+					style="@style/MyStyle"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+</LinearLayout>

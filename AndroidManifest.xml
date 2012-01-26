@@ -1,22 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="soc.net" android:versionCode="1" android:versionName="1.0">
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-sdk android:minSdkVersion="7" />
+    package="soc.net"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-	<application android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name">
-		<uses-library android:name="com.google.android.maps" />
-		<activity android:label="@string/app_name" android:name=".CapsuleMapActivity"
-		    android:theme="@android:style/Theme.NoTitleBar">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-			
-		</activity>
-		
-	</application>
-	
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-sdk android:minSdkVersion="7" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity
+            android:name="com.gvsu.socnet.ProfileActivity"
+            android:label="@string/activ_profile" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.CapsuleMapActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.AddCapsule"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.CapsuleActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.FriendsActivity"
+            android:label="@string/activ_friends" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.JournalActivity"
+            android:label="@string/activ_journal" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.NavigationMenu"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.SettingsActivity"
+            android:label="@string/activ_settings" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.TreasureActivity"
+            android:label="@string/app_name" >
+        </activity>
+    </application>
+
 </manifest>

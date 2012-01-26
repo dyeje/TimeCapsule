@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="MyStyle" parent="@android:Theme">
+		<item name="android:textViewStyle">@style/MyTextViewStyle</item>
+		<item name="android:windowBackground">@color/background_color</item>
+		<item name="android:colorBackground">@color/background_color</item>
+		<item name="android:windowNoTitle">true</item>
+	</style>
+
+	<style name="MyTextViewStyle" parent="@android:style/Widget.TextView">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">#000000</item>
+		<item name="android:paddingLeft">5dp</item>
+	</style>
+
+	<style name="WindowTitleBackground">
+		<item name="android:background">@color/titlebackgroundcolor</item>
+	</style>
+</resources>

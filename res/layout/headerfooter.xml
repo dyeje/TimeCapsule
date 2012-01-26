@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:weightSum="10"
+	android:id="@+id/commonlayout"
+	android:background="#FFFFFF">
+	<LinearLayout
+		android:id="@+id/llheader"
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:background="@drawable/titlebar"
+		android:layout_weight="1">
+
+		<RelativeLayout
+			android:id="@+id/relativeLayout1"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="center">
+			<Button
+				android:id="@+id/pirate_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_marginRight="2dp"
+				android:layout_centerVertical="true"
+				android:background="@drawable/ic_tab_profile_color" />
+			<Button
+				android:id="@+id/Button_logout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toLeftOf="@+id/pirate_button"
+				android:layout_marginRight="2dp"
+				android:layout_centerVertical="true"
+				android:background="@drawable/ic_tab_journal_color" />
+		</RelativeLayout>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/lldata"
+		android:layout_weight="8"
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:background="#FFFFFF">
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/llfooter"
+		android:layout_weight="1"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		android:layout_height="0dp"
+		android:visibility="visible"
+		android:background="@drawable/titlebar"
+		android:weightSum="5.0"
+		android:gravity="center"
+		android:layout_margin="0dp">
+
+		<Button
+			android:id="@+id/home"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/blnk_button"
+			android:textColor="#FFFFFF"
+			android:padding="10px"></Button>
+
+		<Button
+			android:id="@+id/issue"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/blnk_button"
+			android:textColor="#FFFFFF"
+			android:padding="10px"></Button>
+
+		<Button
+			android:id="@+id/browse"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/blnk_button"
+			android:textColor="#FFFFFF"
+			android:padding="10px"></Button>
+
+		<Button
+			android:id="@+id/search"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/blnk_button"
+			android:textColor="#FFFFFF"
+			android:padding="10px"></Button>
+
+		<Button
+			android:layout_height="wrap_content"
+			android:id="@+id/map_button"
+			android:background="@drawable/ic_tab_map_color"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:textColor="#FFFFFF"
+			android:padding="10px"></Button>
+	</LinearLayout>
+
+</LinearLayout>
