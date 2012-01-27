@@ -110,31 +110,34 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
      * then the method stops.
      * @param capsules
      */
-    protected boolean parseAndDrawCapsules(String capsules) {
-    	itemizedoverlays.clear();
-    	capsuleOverlays.clear();
-    	
-    	String[] splitCapsules = capsules.split("\\n");
-    	
-    	for(int i = 0; i < splitCapsules.length; i++) {
-    		String capsule = splitCapsules[i];
-    		String[] capsuleData = capsule.split("\\t");
-    		
-    		int tID = Integer.parseInt(capsuleData[0]);
-    		double latitude = Double.parseDouble(capsuleData[2]) * 1000000.0;
-    		double longitude = Double.parseDouble(capsuleData[1]) * 1000000.0;
-    		
-    		int lat = (int) latitude;
-    		int lng = (int) longitude;
-    		
-    		GeoPoint point = new GeoPoint(lat, lng);
-    		
-    		CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, tID);
-    		
-    		itemizedoverlays.addOverlay(item);
+    protected void parseAndDrawCapsules(String capsules) {
+    	if(capsules != "") {
+    		itemizedoverlays.clear();
+    		capsuleOverlays.clear();
+
+    		String[] splitCapsules = capsules.split("\\n");
+
+    		for(int i = 0; i < splitCapsules.length; i++) {
+    			String[] capsuleData = splitCapsules[i].split("\\t");
+    			
+    			if(capsuleData[i] != "") {
+
+    				int tID = Integer.parseInt(capsuleData[0]);
+    				double latitude = Double.parseDouble(capsuleData[1]) * 1000000.0;
+    				double longitude = Double.parseDouble(capsuleData[2]) * 1000000.0;
+
+    				int lat = (int) latitude;
+    				int lng = (int) longitude;
+
+    				GeoPoint point = new GeoPoint(lat, lng);
+
+    				CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, tID);
+
+    				itemizedoverlays.addOverlay(item);
+    			}
+    		}
+    		capsuleOverlays.add(itemizedoverlays);
     	}
-    	capsuleOverlays.add(itemizedoverlays);
-    	return true;
     }
     
 	@Override
