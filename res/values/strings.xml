@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name ="create_capsule">Create A Capsule</string>
 	<string name="hello">Hello World!</string>
 	<string name="app_name">Time Capsule</string>
 	<string name="activ_profile">Profile</string>

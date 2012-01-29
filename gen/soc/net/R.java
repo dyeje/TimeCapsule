@@ -63,13 +63,14 @@ public final class R {
         public static final int comment=0x7f0a0028;
         public static final int comment_layout=0x7f0a0027;
         public static final int commonlayout=0x7f0a0008;
+        public static final int create_capsule=0x7f0a0029;
         public static final int description=0x7f0a0023;
         public static final int footer=0x7f0a0015;
-        public static final int goto_friends=0x7f0a002b;
-        public static final int goto_journal=0x7f0a002c;
-        public static final int goto_map=0x7f0a002a;
-        public static final int goto_profile=0x7f0a0029;
-        public static final int goto_settings=0x7f0a002d;
+        public static final int goto_friends=0x7f0a002c;
+        public static final int goto_journal=0x7f0a002d;
+        public static final int goto_map=0x7f0a002b;
+        public static final int goto_profile=0x7f0a002a;
+        public static final int goto_settings=0x7f0a002e;
         public static final int header=0x7f0a0016;
         public static final int home=0x7f0a000f;
         public static final int imageView1=0x7f0a0003;
@@ -116,25 +117,27 @@ public final class R {
         public static final int treasure=0x7f03000a;
     }
     public static final class menu {
-        public static final int nav_menu=0x7f090000;
+        public static final int capsule_add=0x7f090000;
+        public static final int nav_menu=0x7f090001;
     }
     public static final class string {
-        public static final int activ_friends=0x7f07000d;
-        public static final int activ_journal=0x7f07000e;
-        public static final int activ_map=0x7f07000c;
-        public static final int activ_profile=0x7f070002;
-        public static final int activ_settings=0x7f07000f;
-        public static final int app_name=0x7f070001;
-        public static final int button_achieve=0x7f07000b;
-        public static final int button_clan=0x7f07000a;
-        public static final int button_message=0x7f070008;
-        public static final int button_stats=0x7f070009;
-        public static final int hello=0x7f070000;
-        public static final int text_achieve=0x7f070007;
-        public static final int text_clan=0x7f070006;
-        public static final int text_name=0x7f070003;
-        public static final int text_rank=0x7f070004;
-        public static final int text_stats=0x7f070005;
+        public static final int activ_friends=0x7f07000e;
+        public static final int activ_journal=0x7f07000f;
+        public static final int activ_map=0x7f07000d;
+        public static final int activ_profile=0x7f070003;
+        public static final int activ_settings=0x7f070010;
+        public static final int app_name=0x7f070002;
+        public static final int button_achieve=0x7f07000c;
+        public static final int button_clan=0x7f07000b;
+        public static final int button_message=0x7f070009;
+        public static final int button_stats=0x7f07000a;
+        public static final int create_capsule=0x7f070000;
+        public static final int hello=0x7f070001;
+        public static final int text_achieve=0x7f070008;
+        public static final int text_clan=0x7f070007;
+        public static final int text_name=0x7f070004;
+        public static final int text_rank=0x7f070005;
+        public static final int text_stats=0x7f070006;
     }
     public static final class style {
         public static final int MyStyle=0x7f080000;
