@@ -9,6 +9,7 @@ import soc.net.R;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -75,8 +76,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
     
     public void onStart() {
     	super.onStart();
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
     }
     
     public void onStop() {
@@ -86,14 +87,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
     
     public void onRestart() {
     	super.onRestart();
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
     }
     
     public void onResume() {
     	super.onResume();
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
     }
     
     public void onPause() {
@@ -175,6 +176,25 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 			userOverlays.add(itemizeduseroverlay);
 			
 			retrieveCapsules(userLocation);
+		} else { 
+			Criteria crit = new Criteria();
+			crit.setAccuracy(Criteria.ACCURACY_FINE);
+			String provider = locationManager.getBestProvider(crit, true);
+			Location lastLocation = locationManager.getLastKnownLocation(provider);
+			if(lastLocation != null) {
+				itemizeduseroverlay.clear();
+				userOverlays.clear();
+
+				double lat = location.getLatitude() * 1000000.0;
+				double lng = location.getLongitude() * 1000000.0;
+				
+				userLocation = new GeoPoint((int) lat, (int) lng);
+				userOverlay = new OverlayItem(userLocation, "User", "User");
+				itemizeduseroverlay.addOverlay(userOverlay);
+				userOverlays.add(itemizeduseroverlay);
+				
+				retrieveCapsules(userLocation);
+			}		
 		}
 	}
 
@@ -199,7 +219,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.create_capsule:
-	        //launch the camera
+	        captureImage();
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
