@@ -43,7 +43,20 @@ public class Server {
 	}
 	
 	public static String getTreasure(String lat, String lng) {
-		String command = GETTREAS + "lat=" + lat + "&long=" + lng + "&radius=4";
+		String command = GETTREAS + 
+				"lat=" + lat + 
+				"&long=" + lng + 
+				"&radius=4";
+		return get(command);
+	}
+	
+	public static String uploadTreasure(String path) {
+		String command = "http://api.imgur.com/2/upload?" +
+				"key=30b2407b8988775ad0f9e9339cfb4ddd" +
+				"&image=" + path
+				//+ "&name=GVSUSOCNETHOLYBALLS18947240197"
+				//+ "&title=JMDJMDJMD"
+				;
 		return get(command);
 	}
 

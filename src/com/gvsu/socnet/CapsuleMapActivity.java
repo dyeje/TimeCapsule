@@ -41,8 +41,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
-	List<Overlay> capsuleOverlays;
-	List<Overlay> userOverlays;
+	List<Overlay> mapOverlays;
 	Drawable capsuleDrawable;
 	Drawable userDrawable;
 	DefaultOverlays itemizedoverlays;
@@ -62,8 +61,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
         
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         
-        capsuleOverlays = mapView.getOverlays();
-        userOverlays = mapView.getOverlays();
+        mapOverlays = mapView.getOverlays();
         
         capsuleDrawable = this.getResources().getDrawable(R.drawable.androidmarker);
         itemizedoverlays = new DefaultOverlays(capsuleDrawable, this);
@@ -129,7 +127,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
     protected void parseAndDrawCapsules(String capsules) {
     	if(capsules != "") {
     		itemizedoverlays.clear();
-    		capsuleOverlays.clear();
 
     		String[] splitCapsules = capsules.split("\\n");
 
@@ -152,7 +149,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
     				itemizedoverlays.addOverlay(item);
     			}
     		}
-    		capsuleOverlays.add(itemizedoverlays);
+    		mapOverlays.add(itemizedoverlays);
     	}
     }
     
@@ -165,7 +162,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	public void onLocationChanged(Location location) {
 		if(location != null) {
 			itemizeduseroverlay.clear();
-			userOverlays.clear();
 
 			double lat = location.getLatitude() * 1000000.0;
 			double lng = location.getLongitude() * 1000000.0;
@@ -173,9 +169,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 			userLocation = new GeoPoint((int) lat, (int) lng);
 			userOverlay = new OverlayItem(userLocation, "User", "User");
 			itemizeduseroverlay.addOverlay(userOverlay);
-			userOverlays.add(itemizeduseroverlay);
+			mapOverlays.add(itemizeduseroverlay);
 			
 			retrieveCapsules(userLocation);
+			mapOverlays.add(itemizeduseroverlay);
 		} else { 
 			Criteria crit = new Criteria();
 			crit.setAccuracy(Criteria.ACCURACY_FINE);
@@ -183,15 +180,13 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 			Location lastLocation = locationManager.getLastKnownLocation(provider);
 			if(lastLocation != null) {
 				itemizeduseroverlay.clear();
-				userOverlays.clear();
 
-				double lat = location.getLatitude() * 1000000.0;
-				double lng = location.getLongitude() * 1000000.0;
+				double lat = lastLocation.getLatitude() * 1000000.0;
+				double lng = lastLocation.getLongitude() * 1000000.0;
 				
 				userLocation = new GeoPoint((int) lat, (int) lng);
 				userOverlay = new OverlayItem(userLocation, "User", "User");
 				itemizeduseroverlay.addOverlay(userOverlay);
-				userOverlays.add(itemizeduseroverlay);
 				
 				retrieveCapsules(userLocation);
 			}		
@@ -235,6 +230,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 
 	    // start the image capture Intent
 	    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+	    
+	    //Doesn't work. \/
+	    //String path = fileUri.toString();
+	    //Server.uploadTreasure(path);
 	}
 	
 	/** Create a file Uri for saving an image or video */
@@ -265,7 +264,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    File mediaFile;
 	    if (type == MEDIA_TYPE_IMAGE){
 	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-	        "IMG_"+ timeStamp + ".jpg");
+	    	        "IMG_"+ timeStamp + ".jpg");
 	    } else if(type == MEDIA_TYPE_VIDEO) {
 	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
 	        "VID_"+ timeStamp + ".mp4");
@@ -281,8 +280,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 	        if (resultCode == RESULT_OK) {
 	            // Image captured and saved to fileUri specified in the Intent
-	            Toast.makeText(this, "Image saved to:\n" +
-	                     data.getData(), Toast.LENGTH_LONG).show();
+	            
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // User cancelled the image capture
 	        } else {
