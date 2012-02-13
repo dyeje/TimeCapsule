@@ -1,6 +1,9 @@
 package com.gvsu.socnet;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +11,9 @@ import java.util.List;
 import soc.net.R;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -17,6 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,6 +58,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	String lastRetrieve;
 	LocationManager locationManager;
 	Uri fileUri;
+	FileInputStream in;
+    BufferedInputStream buf;
+    Bitmap bMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -231,9 +241,25 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    // start the image capture Intent
 	    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	    
-	    //Doesn't work. \/
-	    //String path = fileUri.toString();
-	    //Server.uploadTreasure(path);
+	    try {
+	    	in = new FileInputStream(fileUri.toString());
+            buf = new BufferedInputStream(in);
+            bMap = BitmapFactory.decodeStream(buf);
+            if (in != null)
+             in.close();
+            if (buf != null)
+             buf.close();
+        } catch (Exception e) {
+            Log.e("Error reading file", e.toString());
+        }
+	    
+	    ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
+	    
+	    bMap.compress(CompressFormat.JPEG, 0, bos);
+	    
+	    String data = null;
+	    data = Base64.encodeToString(bos.toByteArray(), Base64.DEFAULT);
+	    Server.uploadTreasure(data);
 	}
 	
 	/** Create a file Uri for saving an image or video */
