@@ -54,7 +54,7 @@ public class Server {
 		String command = "http://api.imgur.com/2/upload?" +
 				"key=30b2407b8988775ad0f9e9339cfb4ddd" +
 				"&image=" + path
-				//+ "&name=GVSUSOCNETHOLYBALLS18947240197"
+				//+ "&name=GVSUSOCNETHOLYBALLS"
 				//+ "&title=JMDJMDJMD"
 				;
 		return get(command);

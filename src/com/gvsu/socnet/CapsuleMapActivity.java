@@ -4,6 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -59,114 +66,120 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	LocationManager locationManager;
 	Uri fileUri;
 	FileInputStream in;
-    BufferedInputStream buf;
-    Bitmap bMap;
+	BufferedInputStream buf;
+	Bitmap bMap;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        MapView mapView = (MapView) findViewById(R.id.mapview);
-        mapView.setBuiltInZoomControls(true);
-        
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        
-        mapOverlays = mapView.getOverlays();
-        
-        capsuleDrawable = this.getResources().getDrawable(R.drawable.androidmarker);
-        itemizedoverlays = new DefaultOverlays(capsuleDrawable, this);
-        
-        userDrawable = this.getResources().getDrawable(R.drawable.marker);
-        itemizeduseroverlay = new DefaultOverlays(userDrawable, this);
-        
-        lastRetrieve = null;
-    }
-    
-    public void onStart() {
-    	super.onStart();
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
-    }
-    
-    public void onStop() {
-    	super.onStop();
-    	locationManager.removeUpdates(this);
-    }
-    
-    public void onRestart() {
-    	super.onRestart();
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
-    }
-    
-    public void onResume() {
-    	super.onResume();
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
-    }
-    
-    public void onPause() {
-    	super.onPause();
-       	locationManager.removeUpdates(this);
-    }
-
-    /**
-     * Retrieve string from the server of all treasures relevant
-     * to the users current location.
-     */
-    protected void retrieveCapsules(GeoPoint userLoc) {
-    	String lat = Double.toString(userLoc.getLatitudeE6() / 1000000.0);
-    	String lng = Double.toString(userLoc.getLongitudeE6() / 1000000.0);
-    	String retrieve = Server.getTreasure(lat, lng);
-    	if(lastRetrieve != retrieve || lastRetrieve == null) {
-    		lastRetrieve = retrieve;
-    		parseAndDrawCapsules(retrieve);
-    	}
-    	
-	}
-    
-    /**
-     * Takes a long string taken from the server.  Splits
-     * it into an array of a string per capsule.  Splits
-     * each string for the capsules by the separate variables
-     * which are then used to generate capsule object.  If
-     * capsules is identical to the previously retrieved string
-     * then the method stops.
-     * @param capsules
-     */
-    protected void parseAndDrawCapsules(String capsules) {
-    	if(capsules != "") {
-    		itemizedoverlays.clear();
-
-    		String[] splitCapsules = capsules.split("\\n");
-
-    		for(int i = 0; i < splitCapsules.length; i++) {
-    			String[] capsuleData = splitCapsules[i].split("\\t");
-    			
-    			if(capsuleData[i] != "") {
-
-    				int tID = Integer.parseInt(capsuleData[0]);
-    				double latitude = Double.parseDouble(capsuleData[1]) * 1000000.0;
-    				double longitude = Double.parseDouble(capsuleData[2]) * 1000000.0;
-
-    				int lat = (int) latitude;
-    				int lng = (int) longitude;
-
-    				GeoPoint point = new GeoPoint(lat, lng);
-
-    				CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, tID);
-
-    				itemizedoverlays.addOverlay(item);
-    			}
-    		}
-    		mapOverlays.add(itemizedoverlays);
-    	}
-    }
-    
 	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		MapView mapView = (MapView) findViewById(R.id.mapview);
+		mapView.setBuiltInZoomControls(true);
+
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+		mapOverlays = mapView.getOverlays();
+
+		capsuleDrawable = this.getResources().getDrawable(R.drawable.androidmarker);
+		itemizedoverlays = new DefaultOverlays(capsuleDrawable, this);
+
+		userDrawable = this.getResources().getDrawable(R.drawable.marker);
+		itemizeduseroverlay = new DefaultOverlays(userDrawable, this);
+
+		lastRetrieve = null;
 	}
+
+	public void onStart() {
+		super.onStart();
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+	}
+
+	public void onStop() {
+		super.onStop();
+		locationManager.removeUpdates(this);
+	}
+
+	public void onRestart() {
+		super.onRestart();
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+	}
+
+	public void onResume() {
+		super.onResume();
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		locationManager.removeUpdates(this);
+	}
+
+	/**
+	 * Retrieve string from the server of all treasures relevant
+	 * to the users current location.
+	 */
+	 protected void retrieveCapsules(GeoPoint userLoc) {
+		String lat = Double.toString(userLoc.getLatitudeE6() / 1000000.0);
+		String lng = Double.toString(userLoc.getLongitudeE6() / 1000000.0);
+		String retrieve = Server.getTreasure(lat, lng);
+		if(lastRetrieve != retrieve || lastRetrieve == null) {
+			lastRetrieve = retrieve;
+			parseAndDrawCapsules(retrieve);
+		}
+
+	 }
+
+	 /**
+	  * Takes a long string taken from the server.  Splits
+	  * it into an array of a string per capsule.  Splits
+	  * each string for the capsules by the separate variables
+	  * which are then used to generate capsule object.  If
+	  * capsules is identical to the previously retrieved string
+	  * then the method stops.
+	  * @param capsules
+	  */
+	 protected void parseAndDrawCapsules(String capsules) {
+		 if(capsules != "") {
+			 itemizedoverlays.clear();
+
+			 String[] splitCapsules = capsules.split("\\n");
+
+			 for(int i = 0; i < splitCapsules.length; i++) {
+				 String[] capsuleData = splitCapsules[i].split("\\t");
+
+				 if(splitCapsules[i] != "") {
+
+					 try{
+						 int tID = Integer.parseInt(capsuleData[0]);
+						 double latitude = Double.parseDouble(capsuleData[1]) * 1000000.0;
+						 double longitude = Double.parseDouble(capsuleData[2]) * 1000000.0;
+
+						 int lat = (int) latitude;
+						 int lng = (int) longitude;
+
+						 GeoPoint point = new GeoPoint(lat, lng);
+
+						 CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, tID);
+
+						 itemizedoverlays.addOverlay(item);
+					 } catch(NumberFormatException ex) {
+						 System.out.println("Improper treasure format, encountered Number Format Exception.");
+					 } catch(ArrayIndexOutOfBoundsException ex) {
+						 System.out.println("Array Index out of Bounds, problem traversing array.");
+					 }
+				 }
+			 }
+			 mapOverlays.add(itemizedoverlays);
+		 }
+	 }
+
+	 @Override
+	 protected boolean isRouteDisplayed() {
+		 return false;
+	 }
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -241,7 +254,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    // start the image capture Intent
 	    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	    
-	    try {
+	    /*try {
+	    	//File file = new File(fileUri.toString())
 	    	in = new FileInputStream(fileUri.toString());
             buf = new BufferedInputStream(in);
             bMap = BitmapFactory.decodeStream(buf);
@@ -258,8 +272,27 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    bMap.compress(CompressFormat.JPEG, 0, bos);
 	    
 	    String data = null;
-	    data = Base64.encodeToString(bos.toByteArray(), Base64.DEFAULT);
-	    Server.uploadTreasure(data);
+	    try {
+			data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(Base64.encodeToString(bos.toByteArray(), Base64.DEFAULT));
+		    data += "&" + URLEncoder.encode("key", "UTF-8") + "=" + URLEncoder.encode("key=30b2407b8988775ad0f9e9339cfb4ddd", "UTF-8");
+		    data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode("GVSUSOCNETHOLYBALLS", "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    try {
+	    URL url = new URL("http://api.imgur.com/2/upload");
+	    URLConnection conn = url.openConnection();
+	    conn.setDoOutput(true);
+	    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+	    wr.write(data);
+	    wr.flush();
+	    } catch (MalformedURLException URLex) {
+	    	
+	    	
+	    } catch (IOException ex) {
+	    	
+	    }*/
+	    	
 	}
 	
 	/** Create a file Uri for saving an image or video */
