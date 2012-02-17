@@ -30,6 +30,8 @@ public class NavigationMenu extends Activity implements
 
 		Button btnPirate = (Button) findViewById(R.id.pirate_button);
 		btnPirate.setOnClickListener(this);
+		Button btnMap = (Button) findViewById(R.id.map_button);
+		btnMap.setOnClickListener(this);
 	}
 
 	/****************************************************************
@@ -155,6 +157,7 @@ public class NavigationMenu extends Activity implements
 		case R.id.map_button:
 			Toast.makeText(getApplicationContext(), "Map",
 			    Toast.LENGTH_SHORT).show();
+			gotoMap();
 			break;
 		default:
 			break;

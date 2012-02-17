@@ -22,4 +22,5 @@
 		<item>setting 2</item>
 		<item>setting 3</item>
 	</string-array>
+	<string name="capture">Capture a Moment</string>
 </resources>

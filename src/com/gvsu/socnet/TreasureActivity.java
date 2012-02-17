@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import soc.net.R;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,14 +77,22 @@ public class TreasureActivity extends NavigationMenu implements
 		Log.println(3, "debug", "after D");
 
 		// Get Treasure Info From Server
-		String[] treasureInfo = Server.getTreasure("4").split("\t");
+		String[] treasureInfo = Server.getTreasure("22").split("\t");
+		String debug = "";
+		for (String str : treasureInfo) {
+			debug += str;
+			debug += " - ";
+		}
+
+		Log.d("debug", debug);
 
 		description.setText("\n\nQuestion: " + treasureInfo[2]
 		    + "\nAnswer: " + treasureInfo[3] + "\n\nPoints: "
 		    + treasureInfo[4]);
+		description.setTextColor(Color.BLACK);
 
 		TextView leftOn = (TextView) findViewById(R.id.leftOn);
-		leftOn.setText(treasureInfo[5].substring(0, 10));
+		leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
 
 		TextView timesFound = (TextView) findViewById(R.id.timesFound);
 		timesFound.setText("(Found " + treasureInfo[0] + " times)");
@@ -136,11 +145,11 @@ public class TreasureActivity extends NavigationMenu implements
 		return str;
 	}
 
-//	public String setTreasure() {
-//		String s = Server
-//		    .get("http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setTreasure.php?id=4&locLat=10&locLong=10&question=hello&answer=world&points=2&created=0&expires=0");
-//		return s;
-//	}
+	// public String setTreasure() {
+	// String s = Server
+	// .get("http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setTreasure.php?id=4&locLat=10&locLong=10&question=hello&answer=world&points=2&created=0&expires=0");
+	// return s;
+	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

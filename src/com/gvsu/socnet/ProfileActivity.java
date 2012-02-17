@@ -1,10 +1,11 @@
 package com.gvsu.socnet;
 
-
 import soc.net.R;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +17,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /****************************************************************
- * com.gvsusocnet.treasurehunt.ProfileActivity
- * @author Caleb Gomer
+ * com.gvsusocnet.ProfileActivity
  * @version 1.0
  ***************************************************************/
 public class ProfileActivity extends NavigationMenu implements
     OnClickListener {
 
-	/** String GETUSER */
 	private final String GETUSER = "getUser.php?id=";
+	private SharedPreferences prefs;
+	public static String BASIC_INFO = "basic_info";
+	public static String TAB = "\t";
 
 	/****************************************************************
 	 * @see com.gvsusocnet.NavigationMenu#onCreate(android.os.Bundle)
@@ -41,30 +43,45 @@ public class ProfileActivity extends NavigationMenu implements
 		btnStat.setOnClickListener(this);
 		TextView btnClan = (TextView) findViewById(R.id.text_clan);
 		btnClan.setOnClickListener(this);
-		RelativeLayout btnAchieve = (RelativeLayout) findViewById(R.id.button_achieve);
-		btnAchieve.setOnClickListener(this);
+//		RelativeLayout btnAchieve = (RelativeLayout) findViewById(R.id.button_achieve);
+//		btnAchieve.setOnClickListener(this);
 
 		// for testing add_capsule
-		Button addCapsule = (Button) findViewById(R.id.button1);
+		Button addCapsule = (Button) findViewById(R.id.btn_capture);
 		addCapsule.setOnClickListener(this);
 		addCapsule.setText("Capture a moment");
 
-		updateBasicInfo();
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		updateBasicInfo(false);
+	}
+
+	private void setBasicInfo() {
+
+		String info = prefs.getString(BASIC_INFO, "");
+		if (!info.equals("")) {
+			String[] userInfo = info.split(TAB);
+
+			TextView name = (TextView) findViewById(R.id.text_player);
+			name.setText(userInfo[0]);
+			TextView stats = (TextView) findViewById(R.id.text_stats);
+			stats.setText("Level " + userInfo[1]);
+		} else {
+			TextView name = (TextView) findViewById(R.id.text_player);
+			name.setText("Sever Error");
+		}
 	}
 
 	/**************************************************************** void
 	 ***************************************************************/
-	public void updateBasicInfo() {
-		String s = Server.getUser(getPlayerId());
-		String[] userInfo = s.split("\t");
-
-		for (String str : userInfo)
-			Log.v("debug", str);
-
-		TextView name = (TextView) findViewById(R.id.text_player);
-		name.setText(userInfo[0]);
-		TextView stats = (TextView) findViewById(R.id.text_stats);
-		stats.setText("Level " + userInfo[1]);
+	private void updateBasicInfo(boolean checkServer) {
+		if (checkServer) {
+			String s = Server.getUser(getPlayerId());
+			if (!s.equals("")) {
+				prefs.edit().putString(BASIC_INFO, s).commit();
+			}
+		}
+		setBasicInfo();
 	}
 
 	/****************************************************************
@@ -114,13 +131,12 @@ public class ProfileActivity extends NavigationMenu implements
 			showDialog(getStats(), "Detailed Stats");
 			// show(getTreasure("4"), "Treasure Info");
 			break;
-		case R.id.button_achieve:
-			// show("you have no trophies", "Trophies");
-			gotoTreasure();
-			break;
-		case R.id.button1:
-			Intent myIntent = new Intent().setClassName(
-			    "com.gvsusocnet", "com.gvsusocnet.AddCapsule");
+//		case R.id.button_achieve:
+//			// show("you have no trophies", "Trophies");
+//			gotoTreasure();
+//			break;
+		case R.id.btn_capture:
+			Intent myIntent = new Intent(this, AddCapsule.class);
 			startActivity(myIntent);
 			break;
 		default:
@@ -133,8 +149,7 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @return boolean
 	 ***************************************************************/
 	private boolean gotoTreasure() {
-		Intent myIntent = new Intent().setClassName("com.gvsusocnet",
-		    "com.gvsusocnet.TreasureActivity");
+		Intent myIntent = new Intent(this, TreasureActivity.class);
 		startActivity(myIntent);
 		return true;
 	}
@@ -172,7 +187,7 @@ public class ProfileActivity extends NavigationMenu implements
 	 ***************************************************************/
 	@Override
 	public void onResume() {
-		updateBasicInfo();
+		updateBasicInfo(true);
 		super.onResume();
 	}
 }

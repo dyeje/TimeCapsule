@@ -19,6 +19,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
+import android.util.Log;
+
 /****************************************************************
  * com.gvsusocnet.Server
  * @author Caleb Gomer, Jeremy Dye
@@ -26,11 +28,32 @@ import org.apache.http.protocol.HTTP;
  ***************************************************************/
 public class Server {
 	
-	//Get Treasure
+	//Get Capsule
 	private static final String GETTREAS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getTreasure.php?";
+	
+	//Create Capsule
+	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setTreasure.php?id=";
 
 	//Get User
 	private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
+	
+	//Set User
+	private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
+	
+	
+	
+	public static String newUser(String name, int skill, int ability, int permissions) {
+		String command = SETUSER + "&name=" + name + "&skill=" + skill +  "&ability="+ability+"&perm="+permissions;
+		return get(command);
+	}
+	
+	public static String newCapsule(String lat, String lon, String title, String description, int views, long created) {
+		String command = NEWCAPSULE + "&locLat="+lat+"&locLong="+lon+"&question="+title+"&answer="+description+"&points="+views+"&created="+created+"&expires=blabla";
+		Log.d("debug", command);
+		//&locLat=12&locLong=12&question=hi&answer=hi&points=hi&created=hi&expires=hi
+		return get(command);
+	}
+	
 	
 	public static String getUser(String id) {
 		String command = GETUSER + id;
