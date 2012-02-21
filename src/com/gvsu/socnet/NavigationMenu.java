@@ -28,10 +28,10 @@ public class NavigationMenu extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.headerfooter);
 
-		Button btnPirate = (Button) findViewById(R.id.pirate_button);
-		btnPirate.setOnClickListener(this);
-		Button btnMap = (Button) findViewById(R.id.map_button);
-		btnMap.setOnClickListener(this);
+		Button btnCapture = (Button) findViewById(R.id.capture_button);
+		btnCapture.setOnClickListener(this);
+//		Button btnMap = (Button) findViewById(R.id.map_button);
+//		btnMap.setOnClickListener(this);
 	}
 
 	/****************************************************************
@@ -114,32 +114,32 @@ public class NavigationMenu extends Activity implements
 
 	@Override
 	public void onBackPressed() {
-		if (this.getClass() == ProfileActivity.class) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-			    this);
-			builder
-			    .setMessage("Are you sure you want to exit?")
-			    .setCancelable(false)
-			    .setPositiveButton("Yes",
-			        new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog,
-				            int id) {
-					        Log.println(3, "debug", "App Closing");
-					        finish();
-				        }
-			        })
-			    .setNegativeButton("No",
-			        new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog,
-				            int id) {
-					        Log.println(3, "debug",
-					            "App Close Canceled");
-					        dialog.cancel();
-				        }
-			        });
-			AlertDialog closeAlert = builder.create();
-			closeAlert.show();
-		} else
+		// if (this.getClass() == ProfileActivity.class) {
+		// AlertDialog.Builder builder = new AlertDialog.Builder(
+		// this);
+		// builder
+		// .setMessage("Are you sure you want to exit?")
+		// .setCancelable(false)
+		// .setPositiveButton("Yes",
+		// new DialogInterface.OnClickListener() {
+		// public void onClick(DialogInterface dialog,
+		// int id) {
+		// Log.println(3, "debug", "App Closing");
+		// finish();
+		// }
+		// })
+		// .setNegativeButton("No",
+		// new DialogInterface.OnClickListener() {
+		// public void onClick(DialogInterface dialog,
+		// int id) {
+		// Log.println(3, "debug",
+		// "App Close Canceled");
+		// dialog.cancel();
+		// }
+		// });
+		// AlertDialog closeAlert = builder.create();
+		// closeAlert.show();
+		// } else
 			super.onBackPressed();
 	}
 
@@ -150,15 +150,17 @@ public class NavigationMenu extends Activity implements
 	public void onClick(View v) {
 		Log.v("debug", "Button Clicked");
 		switch (v.getId()) {
-		case R.id.pirate_button:
-			Toast.makeText(getApplicationContext(), "Pirate",
+		case R.id.capture_button:
+			Toast.makeText(getApplicationContext(), "Capture a Moment",
 			    Toast.LENGTH_SHORT).show();
+			Intent myIntent = new Intent(this, AddCapsule.class);
+			startActivity(myIntent);
 			break;
-		case R.id.map_button:
-			Toast.makeText(getApplicationContext(), "Map",
-			    Toast.LENGTH_SHORT).show();
-			gotoMap();
-			break;
+//		case R.id.map_button:
+//			Toast.makeText(getApplicationContext(), "Map",
+//			    Toast.LENGTH_SHORT).show();
+//			gotoMap();
+//			break;
 		default:
 			break;
 		}

@@ -35,10 +35,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
@@ -61,6 +63,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	DefaultOverlays itemizedoverlays;
 	DefaultOverlays itemizeduseroverlay;
 	GeoPoint userLocation;
+	MapController mapController;
 	OverlayItem userOverlay;
 	String lastRetrieve;
 	LocationManager locationManager;
@@ -72,10 +75,17 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		
+		/** I was trying to get the header and footer around the  map...
+		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
+		ViewGroup.inflate(this, R.layout.profile, vg); */
+		
+		setContentView(R.layout.map);
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
+		mapController = mapView.getController();
+		
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 		mapOverlays = mapView.getOverlays();
@@ -238,7 +248,13 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener{
 	    switch (item.getItemId()) {
 	    case R.id.create_capsule:
 	        captureImage();
+	        Intent i = new Intent(getBaseContext(), AddCapsule.class);
+	        startActivity(i);
 	        return true;
+	    case R.id.center_map:
+	    	mapController.animateTo(userLocation);
+	    	mapController.setZoom(20);
+	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }

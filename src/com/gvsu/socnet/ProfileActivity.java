@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,23 +34,24 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @param savedInstanceState
 	 ***************************************************************/
 	public void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
 		ViewGroup.inflate(this, R.layout.profile, vg);
 
 		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
 		btnInfo.setOnClickListener(this);
-		TextView btnStat = (TextView) findViewById(R.id.text_stats);
+		TextView btnStat = (TextView) findViewById(R.id.text_name);
 		btnStat.setOnClickListener(this);
-		TextView btnClan = (TextView) findViewById(R.id.text_clan);
+		TextView btnClan = (TextView) findViewById(R.id.text_age);
 		btnClan.setOnClickListener(this);
 //		RelativeLayout btnAchieve = (RelativeLayout) findViewById(R.id.button_achieve);
 //		btnAchieve.setOnClickListener(this);
 
 		// for testing add_capsule
-		Button addCapsule = (Button) findViewById(R.id.btn_capture);
-		addCapsule.setOnClickListener(this);
-		addCapsule.setText("Capture a moment");
+//		Button addCapsule = (Button) findViewById(R.id.btn_capture);
+//		addCapsule.setOnClickListener(this);
+//		addCapsule.setText("Capture a moment");
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -62,12 +64,12 @@ public class ProfileActivity extends NavigationMenu implements
 		if (!info.equals("")) {
 			String[] userInfo = info.split(TAB);
 
-			TextView name = (TextView) findViewById(R.id.text_player);
+			TextView name = (TextView) findViewById(R.id.text_name);
 			name.setText(userInfo[0]);
-			TextView stats = (TextView) findViewById(R.id.text_stats);
+			TextView stats = (TextView) findViewById(R.id.text_age);
 			stats.setText("Level " + userInfo[1]);
 		} else {
-			TextView name = (TextView) findViewById(R.id.text_player);
+			TextView name = (TextView) findViewById(R.id.text_name);
 			name.setText("Sever Error");
 		}
 	}
@@ -95,14 +97,15 @@ public class ProfileActivity extends NavigationMenu implements
 		Log.println(3, "debug", s);
 		/*********LOG**********LOG*************/
 
-		String str = "Level: " + userInfo[1] + "\nAbility: "
-		    + userInfo[2] + "\nPermissions: " + userInfo[3]
-		    + "\n\nTreasures Found: " + "xxx"
-		    + "\nTreasures Placed: " + "xxx";
+//		String str = "Level: " + userInfo[1] + "\nAbility: "
+//		    + userInfo[2] + "\nPermissions: " + userInfo[3]
+//		    + "\n\nTreasures Found: " + "xxx"
+//		    + "\nTreasures Placed: " + "xxx";
 		// for (int i = 0; i < 10; i++)
 		// str += "\nMore Stats: XXX";
 
-		return str;
+//		return str;
+		return "";
 	}
 
 	/****************************************************************
@@ -124,10 +127,10 @@ public class ProfileActivity extends NavigationMenu implements
 		case R.id.player_info:
 			showDialog(getStats(), "Detailed Stats");
 			break;
-		case R.id.text_stats:
+		case R.id.text_name:
 			showDialog(getStats(), "Detailed Stats");
 			break;
-		case R.id.text_clan:
+		case R.id.text_age:
 			showDialog(getStats(), "Detailed Stats");
 			// show(getTreasure("4"), "Treasure Info");
 			break;
