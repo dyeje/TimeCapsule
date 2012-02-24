@@ -78,8 +78,8 @@ public class ProfileActivity extends NavigationMenu implements
 
 	/**************************************************************** void
 	 ***************************************************************/
-	private void updateBasicInfo(boolean checkServer) {
-		if (checkServer) {
+	private void updateBasicInfo(boolean updateFirst) {
+		if (updateFirst) {
 			String s = Server.getUser(getPlayerId());
 			if (!s.equals("")) {
 				prefs.edit().putString(BASIC_INFO, s).commit();
