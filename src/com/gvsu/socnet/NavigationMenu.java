@@ -30,8 +30,8 @@ public class NavigationMenu extends Activity implements
 
 		Button btnCapture = (Button) findViewById(R.id.capture_button);
 		btnCapture.setOnClickListener(this);
-//		Button btnMap = (Button) findViewById(R.id.map_button);
-//		btnMap.setOnClickListener(this);
+		// Button btnMap = (Button) findViewById(R.id.map_button);
+		// btnMap.setOnClickListener(this);
 	}
 
 	/****************************************************************
@@ -54,22 +54,27 @@ public class NavigationMenu extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result = false;
 		switch (item.getItemId()) {
-		case R.id.goto_profile:
-			if (this.getClass() != ProfileActivity.class)
-				result = gotoProfile();
-			break;
+		// case R.id.goto_profile:
+		// if (this.getClass() != ProfileActivity.class)
+		// result = gotoProfile();
+		// break;
 		case R.id.goto_map:
-//			if (getBaseContext().getClass() != MyMapActivity.class)
-				result = gotoMap();
+			// if (getBaseContext().getClass() != MyMapActivity.class)
+			result = gotoMap();
 			break;
-		case R.id.goto_friends:
-			if (this.getClass() != FriendsActivity.class)
-				result = gotoFriends();
+		case R.id.capture_moment:
+			Intent i = new Intent(getApplicationContext(), AddCapsule.class);
+			startActivity(i);
+			result = true;
 			break;
-		case R.id.goto_journal:
-			if (this.getClass() != JournalActivity.class)
-				result = gotoJournal();
-			break;
+		// case R.id.goto_friends:
+		// if (this.getClass() != FriendsActivity.class)
+		// result = gotoFriends();
+		// break;
+		// case R.id.goto_journal:
+		// if (this.getClass() != JournalActivity.class)
+		// result = gotoJournal();
+		// break;
 		case R.id.goto_settings:
 			// if (this.getClass() != SettingsActivity.class)
 			result = gotoSettings();
@@ -82,32 +87,37 @@ public class NavigationMenu extends Activity implements
 		return result;
 	}
 
-	private boolean gotoProfile() {
-		Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
-		startActivity(myIntent);
-		return true;
-	}
+//	private boolean gotoProfile() {
+//		Intent myIntent = new Intent(getBaseContext(),
+//		    ProfileActivity.class);
+//		startActivity(myIntent);
+//		return true;
+//	}
 
 	private boolean gotoMap() {
-		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
+		Intent myIntent = new Intent(getBaseContext(),
+		    CapsuleMapActivity.class);
 		startActivity(myIntent);
 		return true;
 	}
 
-	private boolean gotoFriends() {
-		Intent myIntent = new Intent(getBaseContext(), FriendsActivity.class);
-		startActivity(myIntent);
-		return true;
-	}
-
-	private boolean gotoJournal() {
-		Intent myIntent = new Intent(getBaseContext(), JournalActivity.class);
-		startActivity(myIntent);
-		return true;
-	}
+//	private boolean gotoFriends() {
+//		Intent myIntent = new Intent(getBaseContext(),
+//		    FriendsActivity.class);
+//		startActivity(myIntent);
+//		return true;
+//	}
+//
+//	private boolean gotoJournal() {
+//		Intent myIntent = new Intent(getBaseContext(),
+//		    JournalActivity.class);
+//		startActivity(myIntent);
+//		return true;
+//	}
 
 	private boolean gotoSettings() {
-		Intent myIntent = new Intent(getBaseContext(), SettingsActivity.class);
+		Intent myIntent = new Intent(getBaseContext(),
+		    SettingsActivity.class);
 		startActivity(myIntent);
 		return true;
 	}
@@ -140,7 +150,7 @@ public class NavigationMenu extends Activity implements
 		// AlertDialog closeAlert = builder.create();
 		// closeAlert.show();
 		// } else
-			super.onBackPressed();
+		super.onBackPressed();
 	}
 
 	/****************************************************************
@@ -151,16 +161,16 @@ public class NavigationMenu extends Activity implements
 		Log.v("debug", "Button Clicked");
 		switch (v.getId()) {
 		case R.id.capture_button:
-			Toast.makeText(getApplicationContext(), "Capture a Moment",
-			    Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(),
+			    "Capture a Moment", Toast.LENGTH_SHORT).show();
 			Intent myIntent = new Intent(this, AddCapsule.class);
 			startActivity(myIntent);
 			break;
-//		case R.id.map_button:
-//			Toast.makeText(getApplicationContext(), "Map",
-//			    Toast.LENGTH_SHORT).show();
-//			gotoMap();
-//			break;
+		// case R.id.map_button:
+		// Toast.makeText(getApplicationContext(), "Map",
+		// Toast.LENGTH_SHORT).show();
+		// gotoMap();
+		// break;
 		default:
 			break;
 		}

@@ -24,7 +24,6 @@ import android.widget.TextView;
 public class ProfileActivity extends NavigationMenu implements
     OnClickListener {
 
-	private final String GETUSER = "getUser.php?id=";
 	private SharedPreferences prefs;
 	public static String BASIC_INFO = "basic_info";
 	public static String TAB = "\t";
@@ -45,13 +44,15 @@ public class ProfileActivity extends NavigationMenu implements
 		btnStat.setOnClickListener(this);
 		TextView btnClan = (TextView) findViewById(R.id.text_age);
 		btnClan.setOnClickListener(this);
-//		RelativeLayout btnAchieve = (RelativeLayout) findViewById(R.id.button_achieve);
-//		btnAchieve.setOnClickListener(this);
+		// RelativeLayout btnAchieve = (RelativeLayout)
+		// findViewById(R.id.button_achieve);
+		// btnAchieve.setOnClickListener(this);
 
 		// for testing add_capsule
-//		Button addCapsule = (Button) findViewById(R.id.btn_capture);
-//		addCapsule.setOnClickListener(this);
-//		addCapsule.setText("Capture a moment");
+		// Button addCapsule = (Button)
+		// findViewById(R.id.btn_capture);
+		// addCapsule.setOnClickListener(this);
+		// addCapsule.setText("Capture a moment");
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -59,18 +60,19 @@ public class ProfileActivity extends NavigationMenu implements
 	}
 
 	private void setBasicInfo() {
+		TextView name = (TextView) findViewById(R.id.text_name);
+		TextView stats = (TextView) findViewById(R.id.text_age);
 
 		String info = prefs.getString(BASIC_INFO, "");
-		if (!info.equals("")) {
+		Log.d("debug", info);
+		if (!info.equals("")
+		    && !info.contains("Connection Failed (I/O)")) {
 			String[] userInfo = info.split(TAB);
 
-			TextView name = (TextView) findViewById(R.id.text_name);
 			name.setText(userInfo[0]);
-			TextView stats = (TextView) findViewById(R.id.text_age);
 			stats.setText("Level " + userInfo[1]);
 		} else {
-			TextView name = (TextView) findViewById(R.id.text_name);
-			name.setText("Sever Error");
+			name.setText(info);
 		}
 	}
 
@@ -97,14 +99,14 @@ public class ProfileActivity extends NavigationMenu implements
 		Log.println(3, "debug", s);
 		/*********LOG**********LOG*************/
 
-//		String str = "Level: " + userInfo[1] + "\nAbility: "
-//		    + userInfo[2] + "\nPermissions: " + userInfo[3]
-//		    + "\n\nTreasures Found: " + "xxx"
-//		    + "\nTreasures Placed: " + "xxx";
+		// String str = "Level: " + userInfo[1] + "\nAbility: "
+		// + userInfo[2] + "\nPermissions: " + userInfo[3]
+		// + "\n\nTreasures Found: " + "xxx"
+		// + "\nTreasures Placed: " + "xxx";
 		// for (int i = 0; i < 10; i++)
 		// str += "\nMore Stats: XXX";
 
-//		return str;
+		// return str;
 		return "";
 	}
 
@@ -134,10 +136,10 @@ public class ProfileActivity extends NavigationMenu implements
 			showDialog(getStats(), "Detailed Stats");
 			// show(getTreasure("4"), "Treasure Info");
 			break;
-//		case R.id.button_achieve:
-//			// show("you have no trophies", "Trophies");
-//			gotoTreasure();
-//			break;
+		// case R.id.button_achieve:
+		// // show("you have no trophies", "Trophies");
+		// gotoTreasure();
+		// break;
 		case R.id.btn_capture:
 			Intent myIntent = new Intent(this, AddCapsule.class);
 			startActivity(myIntent);
