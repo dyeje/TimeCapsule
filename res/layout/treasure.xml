@@ -1,111 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
 
-	<ScrollView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-		<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center|top"
+            android:orientation="vertical"
+            android:paddingTop="10dp" >
 
-			<RelativeLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center">
+            <TextView
+                android:id="@+id/capsule_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Capsule Title"
+                android:textSize="20sp" />
 
-				<ImageView
-					android:id="@+id/play_button"
-					android:text="media"
-					android:paddingTop="20sp"
-					android:src="@drawable/play_icon"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="left by" />
 
-			</RelativeLayout>
+            <TextView
+                android:id="@+id/capsule_creator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User"
+                android:textSize="20sp" />
 
-			<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="on" />
 
-				<TextView
-					android:id="@+id/description"
-					style="@style/MyStyle"
-					android:text="Description: A funny Youtube video I found"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/leftOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp"
+                android:text="Date" />
 
-			</LinearLayout>
+            <ImageView
+                android:id="@+id/play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/play_icon"
+                android:text="media" />
 
-			<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingTop="10dp">
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A funny Youtube video I found" />
 
-				<TextView
-					android:text="left by"
-					style="@style/MyStyle"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1" />
+            <TextView
+                android:id="@+id/timesFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp"
+                android:text="Read X Times" />
 
-				<TextView
-					android:id="@+id/leftBy"
-					android:text="User"
-					style="@style/MyStyle"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1" />
-				<TextView
-					android:text="on"
-					style="@style/MyStyle"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1" />
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Logbook"
+                android:textSize="20sp" />
 
-				<TextView
-					android:id="@+id/leftOn"
-					android:text="Date"
-					style="@style/MyStyle"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1" />
-			</LinearLayout>
+            <LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
 
-			<TextView
-				android:id="@+id/timesFound"
-				android:text="Found X Times"
-				style="@style/MyStyle"
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_weight="2" />
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="comments" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
-			<LinearLayout
-				android:id="@+id/comment_layout"
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingTop="10dp">
-
-				<TextView
-					android:id="@+id/comment"
-					android:text="Comments:"
-					style="@style/MyStyle"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content" />
-
-			</LinearLayout>
-
-		</LinearLayout>
-
-	</ScrollView>
 </LinearLayout>

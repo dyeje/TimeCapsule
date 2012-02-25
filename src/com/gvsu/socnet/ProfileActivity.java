@@ -44,6 +44,7 @@ public class ProfileActivity extends NavigationMenu implements
 		btnStat.setOnClickListener(this);
 		TextView btnClan = (TextView) findViewById(R.id.text_age);
 		btnClan.setOnClickListener(this);
+		
 		// RelativeLayout btnAchieve = (RelativeLayout)
 		// findViewById(R.id.button_achieve);
 		// btnAchieve.setOnClickListener(this);
@@ -143,6 +144,10 @@ public class ProfileActivity extends NavigationMenu implements
 		case R.id.btn_capture:
 			Intent myIntent = new Intent(this, AddCapsule.class);
 			startActivity(myIntent);
+			break;
+		case -123:
+			Intent i = new Intent(getApplicationContext(), TreasureActivity.class);
+			startActivity(i);
 			break;
 		default:
 			super.onClick(v);

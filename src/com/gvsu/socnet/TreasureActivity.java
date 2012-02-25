@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,9 +28,6 @@ import com.gvsu.socnet.data.Comment;
 public class TreasureActivity extends NavigationMenu implements
     OnClickListener {
 
-	/** String GETTREAS */
-	private final String GETTREAS = "getTreasure.php?id=";
-
 	/** String YOUTUBE */
 	private final String YOUTUBE = "http://www.youtube.com/watch?v=";
 
@@ -40,14 +38,18 @@ public class TreasureActivity extends NavigationMenu implements
 	ArrayList<TextView> comments;
 
 	public void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
 		ViewGroup.inflate(this, R.layout.treasure, vg);
+//		setContentView(R.layout.treasure);
 
 		ImageView playButton = (ImageView) findViewById(R.id.play_button);
 		playButton.setOnClickListener(this);
+		TextView title = (TextView)findViewById(R.id.capsule_title);
+		TextView description = (TextView) findViewById(R.id.description);
 
-		commentList = (LinearLayout) findViewById(R.id.comment_layout);
+//		commentList = (LinearLayout) findViewById(R.id.comment_layout);
 		comments = new ArrayList<TextView>();
 
 		TextView t = new TextView(this);
@@ -72,12 +74,9 @@ public class TreasureActivity extends NavigationMenu implements
 			i++;
 		}
 
-		Log.println(3, "debug", "before D");
-		TextView description = (TextView) findViewById(R.id.description);
-		Log.println(3, "debug", "after D");
 
 		// Get Treasure Info From Server
-		String[] treasureInfo = Server.getTreasure("22").split("\t");
+		String[] treasureInfo = Server.getTreasure("36").split("\t");
 		String debug = "";
 		for (String str : treasureInfo) {
 			debug += str;
@@ -86,19 +85,17 @@ public class TreasureActivity extends NavigationMenu implements
 
 		Log.d("debug", debug);
 
-		description.setText("\n\nQuestion: " + treasureInfo[2]
-		    + "\nAnswer: " + treasureInfo[3] + "\n\nPoints: "
-		    + treasureInfo[4]);
-		description.setTextColor(Color.BLACK);
+		title.setText(treasureInfo[2]);
+		description.setText(treasureInfo[3]);
 
 		TextView leftOn = (TextView) findViewById(R.id.leftOn);
 		leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
 
 		TextView timesFound = (TextView) findViewById(R.id.timesFound);
-		timesFound.setText("(Found " + treasureInfo[0] + " times)");
+		timesFound.setText("(Read " + treasureInfo[0] + " times)");
 
 		for (TextView c : comments) {
-			commentList.addView(c);
+//			commentList.addView(c);
 		}
 
 		// TextView tv = (TextView) findViewById(R.id.)

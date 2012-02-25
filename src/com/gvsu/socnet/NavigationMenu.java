@@ -79,6 +79,11 @@ public class NavigationMenu extends Activity implements
 			// if (this.getClass() != SettingsActivity.class)
 			result = gotoSettings();
 			break;
+			
+		case R.id.goto_capsule:
+			Intent in = new Intent(getApplicationContext(), TreasureActivity.class);
+			startActivity(in);
+			break;
 		default:
 			result = super.onOptionsItemSelected(item);
 		}

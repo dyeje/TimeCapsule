@@ -21,6 +21,10 @@
 		android:icon="@drawable/ic_menu_journal"
 		android:title="@string/activ_journal" /> -->
 	<item
+		android:id="@+id/goto_capsule"
+		android:icon="@drawable/ic_menu_map"
+		android:title="capsule" />
+	<item
 		android:id="@+id/goto_settings"
 		android:icon="@drawable/ic_menu_settings"
 		android:title="@string/activ_settings" />
