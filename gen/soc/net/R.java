@@ -71,8 +71,8 @@ public final class R {
         public static final int capture_button=0x7f0a000f;
         public static final int capture_moment=0x7f0a0036;
         public static final int center_map=0x7f0a0034;
-        public static final int comment=0x7f0a0032;
-        public static final int comment_layout=0x7f0a0031;
+        public static final int comment=0x7f0a0031;
+        public static final int comment_layout=0x7f0a0032;
         public static final int commonlayout=0x7f0a000c;
         public static final int create_capsule=0x7f0a0033;
         public static final int description=0x7f0a002f;

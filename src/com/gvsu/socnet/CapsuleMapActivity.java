@@ -147,7 +147,6 @@ public class CapsuleMapActivity extends MapActivity implements
 			lastRetrieve = retrieve;
 			parseAndDrawCapsules(retrieve);
 		}
-
 	}
 
 	/**
@@ -187,11 +186,11 @@ public class CapsuleMapActivity extends MapActivity implements
 
 						itemizedoverlays.addOverlay(item);
 					} catch (NumberFormatException ex) {
-						System.out
-						    .println("Improper treasure format, encountered Number Format Exception.");
+						System.out.println
+							("Improper treasure format, encountered Number Format Exception.");
 					} catch (ArrayIndexOutOfBoundsException ex) {
-						System.out
-						    .println("Array Index out of Bounds, problem traversing array.");
+						System.out.println
+							("Array Index out of Bounds, problem traversing array.");
 					}
 				}
 			}
@@ -213,8 +212,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = location.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new OverlayItem(userLocation, "User",
-			    "User");
+			userOverlay = new OverlayItem(userLocation, "User", "User");
 			itemizeduseroverlay.addOverlay(userOverlay);
 			mapOverlays.add(itemizeduseroverlay);
 
@@ -223,23 +221,19 @@ public class CapsuleMapActivity extends MapActivity implements
 		} else {
 			Criteria crit = new Criteria();
 			crit.setAccuracy(Criteria.ACCURACY_FINE);
-			String provider = locationManager.getBestProvider(crit,
-			    true);
+			String provider = locationManager.getBestProvider(crit, true);
 			Location lastLocation = locationManager
 			    .getLastKnownLocation(provider);
-			if (lastLocation != null) {
-				itemizeduseroverlay.clear();
+			itemizeduseroverlay.clear();
 
-				double lat = lastLocation.getLatitude() * 1000000.0;
-				double lng = lastLocation.getLongitude() * 1000000.0;
+			double lat = lastLocation.getLatitude() * 1000000.0;
+			double lng = lastLocation.getLongitude() * 1000000.0;
 
-				userLocation = new GeoPoint((int) lat, (int) lng);
-				userOverlay = new OverlayItem(userLocation, "User",
-				    "User");
-				itemizeduseroverlay.addOverlay(userOverlay);
+			userLocation = new GeoPoint((int) lat, (int) lng);
+			userOverlay = new OverlayItem(userLocation, "User", "User");
+			itemizeduseroverlay.addOverlay(userOverlay);
 
-				retrieveCapsules(userLocation);
-			}
+			retrieveCapsules(userLocation);
 		}
 	}
 
@@ -259,7 +253,6 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.capsule_add, menu);
 		inflater.inflate(R.menu.capsule_add, menu);
 		return true;
 	}
