@@ -39,7 +39,7 @@ public class ProfileActivity extends NavigationMenu implements
 		View.inflate(this, R.layout.profile, vg);
 
 		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
-		
+
 		btnBack.setVisibility(View.INVISIBLE);
 		btnInfo.setOnClickListener(this);
 		TextView btnStat = (TextView) findViewById(R.id.text_name);
@@ -55,8 +55,13 @@ public class ProfileActivity extends NavigationMenu implements
 	}
 
 	private void setBasicInfo() {
+		TextView username = (TextView)findViewById(R.id.text_username);
 		TextView name = (TextView) findViewById(R.id.text_name);
-		TextView stats = (TextView) findViewById(R.id.text_age);
+		TextView location = (TextView) findViewById(R.id.text_location);
+		TextView gender = (TextView) findViewById(R.id.text_gender);
+		TextView age = (TextView) findViewById(R.id.text_age);
+		TextView interests = (TextView) findViewById(R.id.text_interests);
+		TextView about = (TextView) findViewById(R.id.text_about);
 
 		String info = prefs.getString(BASIC_INFO, "");
 		Log.d("debug", info);
@@ -64,8 +69,21 @@ public class ProfileActivity extends NavigationMenu implements
 		    && !info.contains("Connection Failed (I/O)")) {
 			String[] userInfo = info.split(TAB);
 
+			username.setText(userInfo[8]);
 			name.setText(userInfo[0]);
-			stats.setText("Level " + userInfo[1]);
+			location.setText(userInfo[1] + ", " + userInfo[2]);
+			String strGender;
+			if (userInfo[3].equalsIgnoreCase("m")) {
+				strGender = "Male";
+			} else if (userInfo[3].equalsIgnoreCase("f")) {
+				strGender = "Female";
+			} else {
+				strGender = "Other";
+			}
+			gender.setText(strGender);
+			age.setText(userInfo[4]+" years old");
+			interests.setText("Interests:\n" + userInfo[5]);
+			about.setText("About me:\n" + userInfo[6]);
 		} else {
 			name.setText(info);
 		}
@@ -109,7 +127,7 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @return String
 	 ***************************************************************/
 	public String getPlayerId() {
-		return "2";
+		return prefs.getString("player_id", "01");
 	}
 
 	/****************************************************************
@@ -123,13 +141,13 @@ public class ProfileActivity extends NavigationMenu implements
 		/*********LOG**********LOG*************/
 		switch (v.getId()) {
 		case R.id.player_info:
-			showDialog(getStats(), "Detailed Stats");
+//			showDialog(getStats(), "Detailed Stats");
 			break;
 		case R.id.text_name:
-			showDialog(getStats(), "Detailed Stats");
+//			showDialog(getStats(), "Detailed Stats");
 			break;
 		case R.id.text_age:
-			showDialog(getStats(), "Detailed Stats");
+//			showDialog(getStats(), "Detailed Stats");
 			break;
 		case R.id.btn_capture:
 			Intent myIntent = new Intent(this, AddCapsule.class);

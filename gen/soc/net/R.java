@@ -119,14 +119,14 @@ public final class R {
         public static final int profile_button=0x7f0a0015;
         public static final int settingsList=0x7f0a003b;
         public static final int text_about=0x7f0a003a;
-        public static final int text_age=0x7f0a0036;
+        public static final int text_age=0x7f0a0038;
         public static final int text_capsule_rating=0x7f0a0032;
         public static final int text_capsules_created=0x7f0a002c;
         public static final int text_capsules_opened=0x7f0a002f;
-        public static final int text_gender=0x7f0a0038;
+        public static final int text_gender=0x7f0a0037;
         public static final int text_interests=0x7f0a0039;
         public static final int text_level=0x7f0a000b;
-        public static final int text_location=0x7f0a0037;
+        public static final int text_location=0x7f0a0036;
         public static final int text_name=0x7f0a0035;
         public static final int text_new_capsule_description=0x7f0a0007;
         public static final int text_new_capsule_name=0x7f0a0001;
@@ -148,8 +148,9 @@ public final class R {
         public static final int profile=0x7f030006;
         public static final int profile_border=0x7f030007;
         public static final int settings=0x7f030008;
-        public static final int titlebar=0x7f030009;
-        public static final int treasure=0x7f03000a;
+        public static final int text_dialog=0x7f030009;
+        public static final int titlebar=0x7f03000a;
+        public static final int treasure=0x7f03000b;
     }
     public static final class menu {
         public static final int capsule_add=0x7f090000;
