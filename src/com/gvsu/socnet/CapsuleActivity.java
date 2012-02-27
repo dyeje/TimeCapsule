@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import soc.net.R;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -51,7 +53,9 @@ public class CapsuleActivity extends NavigationMenu implements
 		createFakeComments();
 
 		// Get Treasure Info From Server
-		String[] treasureInfo = Server.getTreasure("36").split("\t");
+		String id = PreferenceManager.getDefaultSharedPreferences(
+		    getApplicationContext()).getString("capsule", "0");
+		String[] treasureInfo = Server.getCapsule(id).split("\t");
 		String debug = "";
 		for (String str : treasureInfo) {
 			debug += str;
@@ -98,7 +102,7 @@ public class CapsuleActivity extends NavigationMenu implements
 	 * @return String
 	 ***************************************************************/
 	public String getTreasure(String id) {
-		String s = Server.getTreasure(id);
+		String s = Server.getCapsule(id);
 		String[] treasureInfo = s.split("\t");
 
 		/*********LOG**********LOG*************/

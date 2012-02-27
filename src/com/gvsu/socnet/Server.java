@@ -29,7 +29,7 @@ public class Server {
 	private static final String GETTREAS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getTreasure.php?";
 
 	// Create Capsule
-	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setTreasure.php?id=";
+	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?id=";
 
 	// Get User
 	private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
@@ -45,13 +45,10 @@ public class Server {
 	}
 
 	public static String newCapsule(String lat, String lon,
-	    String title, String description, int views, long created) {
-		String command = NEWCAPSULE + "&locLat=" + lat + "&locLong="
-		    + lon + "&question=" + title + "&answer=" + description
-		    + "&points=" + views + "&created=" + created
-		    + "&expires=blabla";
+	    String title, String description) {
+		String command = NEWCAPSULE + "&title=" + title + "&locLat="
+		    + lat + "&locLong=" + lon + "&description=" + description;
 		Log.d("debug", command);
-		// &locLat=12&locLong=12&question=hi&answer=hi&points=hi&created=hi&expires=hi
 		return get(command);
 	}
 
@@ -60,7 +57,7 @@ public class Server {
 		return get(command);
 	}
 
-	public static String getTreasure(String id) {
+	public static String getCapsule(String id) {
 		String command = GETTREAS + "id=" + id;
 		return get(command);
 	}

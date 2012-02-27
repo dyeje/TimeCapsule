@@ -1,6 +1,5 @@
 package com.gvsu.socnet;
 
-import java.util.Calendar;
 import soc.net.R;
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.google.android.maps.GeoPoint;
 
 /****************************************************************
@@ -64,33 +65,40 @@ public class AddCapsule extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.btn_capture:
 
-			String lat = Double
-			    .toString(userLocation.getLatitudeE6() / 1000000.0);
-			String lng = Double.toString(userLocation
-			    .getLongitudeE6() / 1000000.0);
+			if (userLocation != null) {
+				String lat = Double.toString(userLocation
+				    .getLatitudeE6() / 1000000.0);
+				String lng = Double.toString(userLocation
+				    .getLongitudeE6() / 1000000.0);
 
-			String name = "";
-			char[] nam = this.name.getText().toString().toCharArray();
-			for (int i = 0; i < nam.length; i++) {
-				if (nam[i] == ' ')
-					name += "_";
-				else
-					name += nam[i];
+				String name = "";
+				char[] nam = this.name.getText().toString()
+				    .toCharArray();
+				for (int i = 0; i < nam.length; i++) {
+					if (nam[i] == ' ')
+						name += "+";
+					else
+						name += nam[i];
+				}
+
+				String description = "";
+				char[] descript = this.description.getText()
+				    .toString().toCharArray();
+				for (int i = 0; i < descript.length; i++) {
+					if (descript[i] == ' ')
+						description += "+";
+					else
+						description += descript[i];
+				}
+
+				Server.newCapsule(lat, lng, name.toString(),
+				    description);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(),
+				    "Unable to determine location",
+				    Toast.LENGTH_SHORT).show();
 			}
-
-			String description = "";
-			char[] descript = this.description.getText().toString()
-			    .toCharArray();
-			for (int i = 0; i < descript.length; i++) {
-				if (descript[i] == ' ')
-					description += "_";
-				else
-					description += descript[i];
-			}
-
-			Server.newCapsule(lat, lng, name.toString(), description,
-			    0, Calendar.getInstance().getTimeInMillis());
-			finish();
 			break;
 		case R.id.btn_cancel:
 			finish();
