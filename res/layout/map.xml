@@ -4,32 +4,61 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical"
-    android:weightSum="10" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/llheader"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/header_map" >
+        android:layout_height="50dip"
+        android:layout_margin="0dip"
+        android:background="@drawable/header_and_footer"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible" >
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center" >
+        <Button
+            android:id="@+id/map_back_button"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/back"
+            android:textColor="#FFFFFF" >
+        </Button>
 
-            <Button
-                android:id="@+id/capture_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="2dp"
-                android:background="@drawable/camera" />
+        <Button
+            android:id="@+id/map_blank1"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/blnk_button"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
 
-        </RelativeLayout>
+        <Button
+            android:id="@+id/map_blank2"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/blnk_button"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
+
+        <Button
+            android:id="@+id/map_blank3"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/blnk_button"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
+
+        <Button
+            android:id="@+id/map_capture_button"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/camera" />
     </LinearLayout>
 
     <LinearLayout
@@ -40,29 +69,74 @@
         android:background="#FFFFFF" >
 
         <com.google.android.maps.MapView
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="052hGP8baB134-07jsNPWSex3ULk3_gzGEADloA"
-            android:clickable="true" /> <!-- calebs api key -->
-        <!-- android:apiKey="0DYjEaTwZugbC39-tQds60JYG2iS2KpI-9zEQrQ" -->
-        <!-- jeremy's api key -->
-        <!-- jeremy lap top key 
-        android:apiKey="052hGP8baB134-07jsNPWSex3ULk3_gzGEADloA" -->
+            android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
+            android:clickable="true" />
+        <!-- calebs api key is in use -->
+        <!--
+        jeremy's lap top key 
+        android:apiKey="052hGP8baB134-07jsNPWSex3ULk3_gzGEADloA"
+        -->
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llfooter"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/footer"
+        android:layout_height="50dip"
+        android:layout_margin="0dip"
+        android:background="@drawable/header_and_footer"
         android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="visible"
-        android:weightSum="5.0" >
+        android:visibility="visible" >
+
+        <Button
+            android:id="@+id/map_profile_button"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginLeft="2dip"
+            android:background="@drawable/user_pic"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
+
+        <Button
+            android:id="@+id/map_blank4"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/blnk_button"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
+
+        <Button
+            android:id="@+id/map_blank5"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/blnk_button"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
+
+        <Button
+            android:id="@+id/map_blank6"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/blnk_button"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
+
+        <Button
+            android:id="@+id/map_map_button"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/ic_tab_map_grey"
+            android:padding="10dip"
+            android:textColor="#FFFFFF" >
+        </Button>
     </LinearLayout>
 
 </LinearLayout>

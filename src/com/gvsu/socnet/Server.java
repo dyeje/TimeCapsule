@@ -1,8 +1,5 @@
 package com.gvsu.socnet;
 
-
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,59 +24,60 @@ import android.util.Log;
  * @version 1.0
  ***************************************************************/
 public class Server {
-	
-	//Get Capsule
+
+	// Get Capsule
 	private static final String GETTREAS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getTreasure.php?";
-	
-	//Create Capsule
+
+	// Create Capsule
 	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setTreasure.php?id=";
 
-	//Get User
+	// Get User
 	private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
-	
-	//Set User
+
+	// Set User
 	private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
-	
-	
-	
-	public static String newUser(String name, int skill, int ability, int permissions) {
-		String command = SETUSER + "&name=" + name + "&skill=" + skill +  "&ability="+ability+"&perm="+permissions;
+
+	public static String newUser(String name, int skill, int ability,
+	    int permissions) {
+		String command = SETUSER + "&name=" + name + "&skill="
+		    + skill + "&ability=" + ability + "&perm=" + permissions;
 		return get(command);
 	}
-	
-	public static String newCapsule(String lat, String lon, String title, String description, int views, long created) {
-		String command = NEWCAPSULE + "&locLat="+lat+"&locLong="+lon+"&question="+title+"&answer="+description+"&points="+views+"&created="+created+"&expires=blabla";
+
+	public static String newCapsule(String lat, String lon,
+	    String title, String description, int views, long created) {
+		String command = NEWCAPSULE + "&locLat=" + lat + "&locLong="
+		    + lon + "&question=" + title + "&answer=" + description
+		    + "&points=" + views + "&created=" + created
+		    + "&expires=blabla";
 		Log.d("debug", command);
-		//&locLat=12&locLong=12&question=hi&answer=hi&points=hi&created=hi&expires=hi
+		// &locLat=12&locLong=12&question=hi&answer=hi&points=hi&created=hi&expires=hi
 		return get(command);
 	}
-	
-	
+
 	public static String getUser(String id) {
 		String command = GETUSER + id;
 		return get(command);
 	}
-	
+
 	public static String getTreasure(String id) {
 		String command = GETTREAS + "id=" + id;
 		return get(command);
 	}
-	
+
 	public static String getTreasure(String lat, String lng) {
-		String command = GETTREAS + 
-				"lat=" + lat + 
-				"&long=" + lng + 
-				"&radius=4";
+		String command = GETTREAS + "lat=" + lat + "&long=" + lng
+		    + "&radius=4";
 		return get(command);
 	}
-	
+
 	public static String uploadTreasure(String path) {
-		String command = "http://api.imgur.com/2/upload?" +
-				"key=30b2407b8988775ad0f9e9339cfb4ddd" +
-				"&image=" + path
-				//+ "&name=GVSUSOCNETHOLYBALLS"
-				//+ "&title=JMDJMDJMD"
-				;
+		String command = "http://api.imgur.com/2/upload?"
+		    + "key=30b2407b8988775ad0f9e9339cfb4ddd" + "&image="
+		    + path
+		// + "&name=GVSUSOCNETHOLYBALLS"
+		// + "&title=JMDJMDJMD"
+		;
 		return get(command);
 	}
 

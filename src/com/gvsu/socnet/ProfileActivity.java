@@ -4,6 +4,7 @@ import soc.net.R;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -12,9 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /****************************************************************
@@ -32,28 +31,23 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @see com.gvsusocnet.NavigationMenu#onCreate(android.os.Bundle)
 	 * @param savedInstanceState
 	 ***************************************************************/
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-		ViewGroup.inflate(this, R.layout.profile, vg);
+		View.inflate(this, R.layout.profile, vg);
 
 		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
+		
+		btnBack.setVisibility(View.INVISIBLE);
 		btnInfo.setOnClickListener(this);
 		TextView btnStat = (TextView) findViewById(R.id.text_name);
 		btnStat.setOnClickListener(this);
 		TextView btnClan = (TextView) findViewById(R.id.text_age);
 		btnClan.setOnClickListener(this);
-		
-		// RelativeLayout btnAchieve = (RelativeLayout)
-		// findViewById(R.id.button_achieve);
-		// btnAchieve.setOnClickListener(this);
 
-		// for testing add_capsule
-		// Button addCapsule = (Button)
-		// findViewById(R.id.btn_capture);
-		// addCapsule.setOnClickListener(this);
-		// addCapsule.setText("Capture a moment");
+		thisClass = getClass();
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -122,6 +116,7 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @see com.gvsusocnet.NavigationMenu#onClick(android.view.View)
 	 * @param v
 	 ***************************************************************/
+	@Override
 	public void onClick(View v) {
 		/*********LOG**********LOG*************/
 		Log.println(2, "debug", "Click Switch");
@@ -135,18 +130,14 @@ public class ProfileActivity extends NavigationMenu implements
 			break;
 		case R.id.text_age:
 			showDialog(getStats(), "Detailed Stats");
-			// show(getTreasure("4"), "Treasure Info");
 			break;
-		// case R.id.button_achieve:
-		// // show("you have no trophies", "Trophies");
-		// gotoTreasure();
-		// break;
 		case R.id.btn_capture:
 			Intent myIntent = new Intent(this, AddCapsule.class);
 			startActivity(myIntent);
 			break;
 		case -123:
-			Intent i = new Intent(getApplicationContext(), TreasureActivity.class);
+			Intent i = new Intent(getApplicationContext(),
+			    CapsuleActivity.class);
 			startActivity(i);
 			break;
 		default:
@@ -159,7 +150,7 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @return boolean
 	 ***************************************************************/
 	private boolean gotoTreasure() {
-		Intent myIntent = new Intent(this, TreasureActivity.class);
+		Intent myIntent = new Intent(this, CapsuleActivity.class);
 		startActivity(myIntent);
 		return true;
 	}

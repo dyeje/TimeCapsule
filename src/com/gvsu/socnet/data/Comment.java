@@ -1,8 +1,6 @@
 /** Comment.java */
 package com.gvsu.socnet.data;
 
-import android.widget.ImageView;
-
 /****************************************************************
  * data.Comment
  * @author Caleb Gomer
@@ -10,19 +8,19 @@ import android.widget.ImageView;
  ***************************************************************/
 public class Comment {
 
-//	private ImageView pic;
+	// private ImageView pic;
 	private String user;
 	private String body;
 
-	public Comment(/*ImageView pic,*/ String user, String body) {
-//		this.pic = pic;
+	public Comment(/* ImageView pic, */String user, String body) {
+		// this.pic = pic;
 		this.user = user;
 		this.body = body;
 	}
-	
+
 	@Override
-	public String toString(){
-		return user+":\n\t"+body;
+	public String toString() {
+		return user + ":\n\t" + body;
 	}
 
 }

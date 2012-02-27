@@ -1,30 +1,19 @@
 package com.gvsu.socnet;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
 import soc.net.R;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.google.android.maps.GeoPoint;
 
 /****************************************************************
@@ -34,12 +23,13 @@ import com.google.android.maps.GeoPoint;
  ***************************************************************/
 public class AddCapsule extends Activity implements OnClickListener,
     LocationListener {
-	
+
 	private Button capture, cancel, addpicture;
 	private EditText name, content, description;
 	private LocationManager locationManager;
 	private GeoPoint userLocation;
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_capsule);
@@ -48,7 +38,7 @@ public class AddCapsule extends Activity implements OnClickListener,
 		capture.setOnClickListener(this);
 		cancel = (Button) findViewById(R.id.btn_cancel);
 		cancel.setOnClickListener(this);
-		addpicture = (Button)findViewById(R.id.btn_add_picture);
+		addpicture = (Button) findViewById(R.id.btn_add_picture);
 		addpicture.setOnClickListener(this);
 
 		name = (EditText) findViewById(R.id.text_new_capsule_name);
@@ -63,10 +53,13 @@ public class AddCapsule extends Activity implements OnClickListener,
 		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
 		locationManager.requestLocationUpdates(
 		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
-		
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+		this.getWindow()
+		    .setSoftInputMode(
+		        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_capture:
@@ -136,6 +129,7 @@ public class AddCapsule extends Activity implements OnClickListener,
 	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
 	 * @param arg0
 	 ***************************************************************/
+	@Override
 	public void onProviderDisabled(String arg0) {
 		// TODO Auto-generated method stub
 
@@ -145,6 +139,7 @@ public class AddCapsule extends Activity implements OnClickListener,
 	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
 	 * @param arg0
 	 ***************************************************************/
+	@Override
 	public void onProviderEnabled(String arg0) {
 		// TODO Auto-generated method stub
 
@@ -156,11 +151,13 @@ public class AddCapsule extends Activity implements OnClickListener,
 	 * @param arg1
 	 * @param arg2
 	 ***************************************************************/
+	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
 		locationManager.requestLocationUpdates(
@@ -169,16 +166,19 @@ public class AddCapsule extends Activity implements OnClickListener,
 		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		locationManager.removeUpdates(this);
 	}
 
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		locationManager.removeUpdates(this);
 	}
 
+	@Override
 	public void onStop() {
 		super.onStop();
 		locationManager.removeUpdates(this);

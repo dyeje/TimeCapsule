@@ -1,26 +1,14 @@
 package com.gvsu.socnet;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import soc.net.R;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -28,15 +16,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -52,7 +37,7 @@ import com.google.android.maps.OverlayItem;
  *
  */
 public class CapsuleMapActivity extends MapActivity implements
-    LocationListener {
+    LocationListener, OnClickListener {
 
 	List<Overlay> mapOverlays;
 	Drawable capsuleDrawable;
@@ -68,6 +53,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	FileInputStream in;
 	BufferedInputStream buf;
 	Bitmap bMap;
+	long lastTimeMapCentered;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -97,8 +83,19 @@ public class CapsuleMapActivity extends MapActivity implements
 		itemizeduseroverlay = new DefaultOverlays(userDrawable, this);
 
 		lastRetrieve = null;
+
+		lastTimeMapCentered = 0L;
+
+		// Set up header-footer buttons
+		Button btnBack = (Button) findViewById(R.id.map_back_button);
+		btnBack.setOnClickListener(this);
+		Button btnCapture = (Button) findViewById(R.id.map_capture_button);
+		btnCapture.setOnClickListener(this);
+		Button btnProfile = (Button) findViewById(R.id.map_profile_button);
+		btnProfile.setOnClickListener(this);
 	}
 
+	@Override
 	public void onStart() {
 		super.onStart();
 		locationManager.requestLocationUpdates(
@@ -107,11 +104,13 @@ public class CapsuleMapActivity extends MapActivity implements
 		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 	}
 
+	@Override
 	public void onStop() {
 		super.onStop();
 		locationManager.removeUpdates(this);
 	}
 
+	@Override
 	public void onRestart() {
 		super.onRestart();
 		locationManager.requestLocationUpdates(
@@ -120,6 +119,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
 		locationManager.requestLocationUpdates(
@@ -128,6 +128,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		locationManager.removeUpdates(this);
@@ -186,11 +187,11 @@ public class CapsuleMapActivity extends MapActivity implements
 
 						itemizedoverlays.addOverlay(item);
 					} catch (NumberFormatException ex) {
-						System.out.println
-							("Improper treasure format, encountered Number Format Exception.");
+						System.out
+						    .println("Improper treasure format, encountered Number Format Exception.");
 					} catch (ArrayIndexOutOfBoundsException ex) {
-						System.out.println
-							("Array Index out of Bounds, problem traversing array.");
+						System.out
+						    .println("Array Index out of Bounds, problem traversing array.");
 					}
 				}
 			}
@@ -212,7 +213,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = location.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new OverlayItem(userLocation, "User", "User");
+			userOverlay = new OverlayItem(userLocation, "User",
+			    "User");
 			itemizeduseroverlay.addOverlay(userOverlay);
 			mapOverlays.add(itemizeduseroverlay);
 
@@ -221,7 +223,8 @@ public class CapsuleMapActivity extends MapActivity implements
 		} else {
 			Criteria crit = new Criteria();
 			crit.setAccuracy(Criteria.ACCURACY_FINE);
-			String provider = locationManager.getBestProvider(crit, true);
+			String provider = locationManager.getBestProvider(crit,
+			    true);
 			Location lastLocation = locationManager
 			    .getLastKnownLocation(provider);
 			itemizeduseroverlay.clear();
@@ -230,11 +233,13 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = lastLocation.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new OverlayItem(userLocation, "User", "User");
+			userOverlay = new OverlayItem(userLocation, "User",
+			    "User");
 			itemizeduseroverlay.addOverlay(userOverlay);
 
 			retrieveCapsules(userLocation);
 		}
+		centerMap(false);
 	}
 
 	@Override
@@ -266,11 +271,43 @@ public class CapsuleMapActivity extends MapActivity implements
 			startActivity(i);
 			return true;
 		case R.id.center_map:
-			mapController.animateTo(userLocation);
-			mapController.setZoom(20);
+			centerMap(true);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	/****************************************************************
+	 * Centers the map on user's location as it changes, but
+	 * at most every 5 seconds to avoid excessive 'jittering'
+	 * @returns void
+	 ***************************************************************/
+	private void centerMap(boolean forceRefresh) {
+		long now = Calendar.getInstance().getTimeInMillis();
+		if (now > lastTimeMapCentered + 5000 || forceRefresh) {
+			lastTimeMapCentered = now;
+			mapController.animateTo(userLocation);
+			mapController.setZoom(20);
+		}
+	}
+
+	/****************************************************************
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 * @param v
+	 ***************************************************************/
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.map_back_button:
+			finish();
+			break;
+		case R.id.map_capture_button:
+			break;
+		case R.id.map_profile_button:
+			break;
+		case R.id.map_map_button:
+			break;
+		}
+
 	}
 }
