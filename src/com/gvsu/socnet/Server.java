@@ -37,10 +37,15 @@ public class Server {
 	// Set User
 	private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
 
-	public static String newUser(String name, int skill, int ability,
-	    int permissions) {
-		String command = SETUSER + "&name=" + name + "&skill="
-		    + skill + "&ability=" + ability + "&perm=" + permissions;
+	public static String newUser(String name, String location,
+	    String state, String gender, String age, String interests,
+	    String about, String password, String username) {
+		String command = SETUSER + "&name=" + name + "&location="
+		    + location + "&state=" + state + "&gender=" + gender
+		    + "&age=" + age + "&interest=" + interests + "&about="
+		    + about + "&password=" + password + "&userName="
+		    + username;
+		Log.d("debug", command);
 		return get(command);
 	}
 

@@ -4,7 +4,6 @@ package com.gvsu.socnet;
 import soc.net.R;
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -42,7 +41,8 @@ public abstract class NavigationMenu extends Activity implements
 		btnMap = (Button) findViewById(R.id.map_button);
 		btnMap.setOnClickListener(this);
 	}
-	
+
+	@Override
 	public void onResume() {
 		super.onResume();
 	}
@@ -154,7 +154,8 @@ public abstract class NavigationMenu extends Activity implements
 		}
 
 	}
-	
+
+	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 	}

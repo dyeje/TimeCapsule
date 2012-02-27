@@ -4,14 +4,6 @@
     android:layout_height="fill_parent"
     android:gravity="center"
     android:orientation="vertical" >
-    android:background="@drawable/clouds"
-
-    <!--
-         <TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="1" />
-    -->
 
     <TextView
         android:id="@+id/login_title"
@@ -19,7 +11,6 @@
         android:layout_height="wrap_content"
         android:text="Time Capsule"
         android:textSize="15pt" />
-        android:textColor="@color/gvsu_blue"
 
     <TextView
         android:id="@+id/loginresult"
@@ -27,7 +18,6 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textSize="7pt" />
-		android:textColor="@color/red"
 
     <EditText
         android:id="@+id/username"
@@ -46,24 +36,18 @@
         android:minWidth="200dp"
         android:singleLine="True" >
     </EditText>
-    <!--
-         <Spinner
-		android:id="@+id/semester_spinner"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:prompt="@string/semester_prompt" />
-    -->
 
     <Button
         android:id="@+id/button_start"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="login" />
-    <!--
-         <ImageView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="1" />
-    -->
+
+    <TextView
+        android:id="@+id/button_new_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="@string/create_user" />
 
 </LinearLayout>

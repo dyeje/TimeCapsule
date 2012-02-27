@@ -13,6 +13,8 @@ public class CapsuleOverlayItem extends OverlayItem {
 		super(point, title, snippet);
 		this.cID = cID;
 	}
-	
-	public int getCID() { return cID; }
+
+	public int getCID() {
+		return cID;
+	}
 }

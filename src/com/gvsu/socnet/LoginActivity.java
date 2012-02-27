@@ -27,9 +27,7 @@ public class LoginActivity extends Activity implements
     OnClickListener {
 
 	public static final String PLAYER_ID = "player_id";
-	public TextView loginResult = null;
-	public TextView username = null;
-	public TextView password = null;
+	public TextView loginResult, username, password, newUser;
 	public Button loginButton = null;
 
 	@Override
@@ -41,9 +39,7 @@ public class LoginActivity extends Activity implements
 		SharedPreferences prefs = PreferenceManager
 		    .getDefaultSharedPreferences(getApplicationContext());
 
-		if (prefs.getString(PLAYER_ID, "").equals("")) {
-
-		} else {
+		if (!prefs.getString(PLAYER_ID, "").equals("")) {
 			gotoProfile();
 		}
 
@@ -54,6 +50,8 @@ public class LoginActivity extends Activity implements
 		username.requestFocus();
 		password = (EditText) findViewById(R.id.password);
 		loginResult = (TextView) findViewById(R.id.loginresult);
+		newUser = (TextView) findViewById(R.id.button_new_user);
+		newUser.setOnClickListener(this);
 
 		// this is very temporary
 		username.setHint("Enter Player ID");
@@ -65,25 +63,33 @@ public class LoginActivity extends Activity implements
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 * @param v
 	 ***************************************************************/
+	@Override
 	public void onClick(View v) {
-		if (v.getId() != R.id.button_start)
-			return;
+		switch (v.getId()) {
+		case R.id.button_start:
 
-		// if (username.getText().toString().equals("")
-		// || password.getText().toString().equals("")) {
-		// showDialog("Missing Information",
-		// "Please enter a username and password", this);
-		// return;
-		// }
+			// if (username.getText().toString().equals("")
+			// || password.getText().toString().equals("")) {
+			// showDialog("Missing Information",
+			// "Please enter a username and password", this);
+			// return;
+			// }
 
-		// temporarily sets user ID to the 'username' box for
-		// debugging
-		PreferenceManager
-		    .getDefaultSharedPreferences(getApplicationContext())
-		    .edit()
-		    .putString(PLAYER_ID, username.getText().toString())
-		    .commit();
-		gotoProfile();
+			// temporarily sets user ID to the 'username' box for
+			// debugging
+			PreferenceManager
+			    .getDefaultSharedPreferences(getApplicationContext())
+			    .edit()
+			    .putString(PLAYER_ID, username.getText().toString())
+			    .commit();
+			gotoProfile();
+			break;
+		case R.id.button_new_user:
+			Intent i = new Intent(getApplicationContext(),
+			    NewUserActivity.class);
+			startActivity(i);
+			finish();
+		}
 
 	}
 

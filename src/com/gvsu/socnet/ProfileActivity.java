@@ -4,15 +4,14 @@ import soc.net.R;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,7 +54,7 @@ public class ProfileActivity extends NavigationMenu implements
 	}
 
 	private void setBasicInfo() {
-		TextView username = (TextView)findViewById(R.id.text_username);
+		TextView username = (TextView) findViewById(R.id.text_username);
 		TextView name = (TextView) findViewById(R.id.text_name);
 		TextView location = (TextView) findViewById(R.id.text_location);
 		TextView gender = (TextView) findViewById(R.id.text_gender);
@@ -81,7 +80,7 @@ public class ProfileActivity extends NavigationMenu implements
 				strGender = "Other";
 			}
 			gender.setText(strGender);
-			age.setText(userInfo[4]+" years old");
+			age.setText(userInfo[4] + " years old");
 			interests.setText("Interests:\n" + userInfo[5]);
 			about.setText("About me:\n" + userInfo[6]);
 		} else {
@@ -141,13 +140,13 @@ public class ProfileActivity extends NavigationMenu implements
 		/*********LOG**********LOG*************/
 		switch (v.getId()) {
 		case R.id.player_info:
-//			showDialog(getStats(), "Detailed Stats");
+			// showDialog(getStats(), "Detailed Stats");
 			break;
 		case R.id.text_name:
-//			showDialog(getStats(), "Detailed Stats");
+			// showDialog(getStats(), "Detailed Stats");
 			break;
 		case R.id.text_age:
-//			showDialog(getStats(), "Detailed Stats");
+			// showDialog(getStats(), "Detailed Stats");
 			break;
 		case R.id.btn_capture:
 			Intent myIntent = new Intent(this, AddCapsule.class);

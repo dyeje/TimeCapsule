@@ -101,11 +101,11 @@ public class Base64 {
 
 		int eLen = (sLen / 3) * 3; // Length of even 24-bits.
 		int cCnt = ((sLen - 1) / 3 + 1) << 2; // Returned character
-											  // count
+		                                      // count
 		int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length
-																// of
-																// returned
-																// array
+		                                                        // of
+		                                                        // returned
+		                                                        // array
 		char[] dArr = new char[dLen];
 
 		// Encode even 24-bits
@@ -161,7 +161,7 @@ public class Base64 {
 		// what size the returned array will be,
 		// so we don't have to reallocate & copy it later.
 		int sepCnt = 0; // Number of separator characters. (Actually
-						// illegal characters, but that's a bonus...)
+		                // illegal characters, but that's a bonus...)
 		for (int i = 0; i < sLen; i++)
 			// If input is "pure" (I.e. no line separators or illegal
 			// chars) base64 this loop can be commented out.
@@ -181,14 +181,14 @@ public class Base64 {
 		int len = ((sLen - sepCnt) * 6 >> 3) - pad;
 
 		byte[] dArr = new byte[len]; // Preallocate byte[] of exact
-									 // length
+		                             // length
 
 		for (int s = 0, d = 0; d < len;) {
 			// Assemble three bytes into an int from four "valid"
 			// characters.
 			int i = 0;
 			for (int j = 0; j < 4; j++) { // j only increased if a
-										  // valid char was found.
+				                          // valid char was found.
 				int c = IA[sArr[s++]];
 				if (c >= 0)
 					i |= c << (18 - j * 6);
@@ -222,7 +222,7 @@ public class Base64 {
 			return new byte[0];
 
 		int sIx = 0, eIx = sLen - 1; // Start and end index after
-									 // trimming.
+		                             // trimming.
 
 		// Trim illegal chars from start
 		while (sIx < eIx && IA[sArr[sIx]] < 0)
@@ -236,14 +236,14 @@ public class Base64 {
 		int pad = sArr[eIx] == '=' ? (sArr[eIx - 1] == '=' ? 2 : 1)
 		    : 0; // Count '=' at end.
 		int cCnt = eIx - sIx + 1; // Content count including possible
-								  // separators
+		                          // separators
 		int sepCnt = sLen > 76 ? (sArr[76] == '\r' ? cCnt / 78 : 0) << 1
 		    : 0;
 
 		int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of
-													// decoded bytes
+		                                            // decoded bytes
 		byte[] dArr = new byte[len]; // Preallocate byte[] of exact
-									 // length
+		                             // length
 
 		// Decode all but the last 0 - 2 bytes.
 		int d = 0;
@@ -298,11 +298,11 @@ public class Base64 {
 
 		int eLen = (sLen / 3) * 3; // Length of even 24-bits.
 		int cCnt = ((sLen - 1) / 3 + 1) << 2; // Returned character
-											  // count
+		                                      // count
 		int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length
-																// of
-																// returned
-																// array
+		                                                        // of
+		                                                        // returned
+		                                                        // array
 		byte[] dArr = new byte[dLen];
 
 		// Encode even 24-bits
@@ -357,7 +357,7 @@ public class Base64 {
 		// what size the returned array will be,
 		// so we don't have to reallocate & copy it later.
 		int sepCnt = 0; // Number of separator characters. (Actually
-						// illegal characters, but that's a bonus...)
+		                // illegal characters, but that's a bonus...)
 		for (int i = 0; i < sLen; i++)
 			// If input is "pure" (I.e. no line separators or illegal
 			// chars) base64 this loop can be commented out.
@@ -377,14 +377,14 @@ public class Base64 {
 		int len = ((sLen - sepCnt) * 6 >> 3) - pad;
 
 		byte[] dArr = new byte[len]; // Preallocate byte[] of exact
-									 // length
+		                             // length
 
 		for (int s = 0, d = 0; d < len;) {
 			// Assemble three bytes into an int from four "valid"
 			// characters.
 			int i = 0;
 			for (int j = 0; j < 4; j++) { // j only increased if a
-										  // valid char was found.
+				                          // valid char was found.
 				int c = IA[sArr[s++] & 0xff];
 				if (c >= 0)
 					i |= c << (18 - j * 6);
@@ -420,7 +420,7 @@ public class Base64 {
 			return new byte[0];
 
 		int sIx = 0, eIx = sLen - 1; // Start and end index after
-									 // trimming.
+		                             // trimming.
 
 		// Trim illegal chars from start
 		while (sIx < eIx && IA[sArr[sIx] & 0xff] < 0)
@@ -434,14 +434,14 @@ public class Base64 {
 		int pad = sArr[eIx] == '=' ? (sArr[eIx - 1] == '=' ? 2 : 1)
 		    : 0; // Count '=' at end.
 		int cCnt = eIx - sIx + 1; // Content count including possible
-								  // separators
+		                          // separators
 		int sepCnt = sLen > 76 ? (sArr[76] == '\r' ? cCnt / 78 : 0) << 1
 		    : 0;
 
 		int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of
-													// decoded bytes
+		                                            // decoded bytes
 		byte[] dArr = new byte[len]; // Preallocate byte[] of exact
-									 // length
+		                             // length
 
 		// Decode all but the last 0 - 2 bytes.
 		int d = 0;
@@ -512,7 +512,7 @@ public class Base64 {
 		// what size the returned array will be,
 		// so we don't have to reallocate & copy it later.
 		int sepCnt = 0; // Number of separator characters. (Actually
-						// illegal characters, but that's a bonus...)
+		                // illegal characters, but that's a bonus...)
 		for (int i = 0; i < sLen; i++)
 			// If input is "pure" (I.e. no line separators or illegal
 			// chars) base64 this loop can be commented out.
@@ -533,14 +533,14 @@ public class Base64 {
 		int len = ((sLen - sepCnt) * 6 >> 3) - pad;
 
 		byte[] dArr = new byte[len]; // Preallocate byte[] of exact
-									 // length
+		                             // length
 
 		for (int s = 0, d = 0; d < len;) {
 			// Assemble three bytes into an int from four "valid"
 			// characters.
 			int i = 0;
 			for (int j = 0; j < 4; j++) { // j only increased if a
-										  // valid char was found.
+				                          // valid char was found.
 				int c = IA[str.charAt(s++)];
 				if (c >= 0)
 					i |= c << (18 - j * 6);
@@ -574,7 +574,7 @@ public class Base64 {
 			return new byte[0];
 
 		int sIx = 0, eIx = sLen - 1; // Start and end index after
-									 // trimming.
+		                             // trimming.
 
 		// Trim illegal chars from start
 		while (sIx < eIx && IA[s.charAt(sIx) & 0xff] < 0)
@@ -589,14 +589,14 @@ public class Base64 {
 		    : 1)
 		    : 0; // Count '=' at end.
 		int cCnt = eIx - sIx + 1; // Content count including possible
-								  // separators
+		                          // separators
 		int sepCnt = sLen > 76 ? (s.charAt(76) == '\r' ? cCnt / 78
 		    : 0) << 1 : 0;
 
 		int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of
-													// decoded bytes
+		                                            // decoded bytes
 		byte[] dArr = new byte[len]; // Preallocate byte[] of exact
-									 // length
+		                             // length
 
 		// Decode all but the last 0 - 2 bytes.
 		int d = 0;

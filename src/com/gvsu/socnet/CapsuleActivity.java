@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import soc.net.R;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -53,12 +51,13 @@ public class CapsuleActivity extends NavigationMenu implements
 		createFakeComments();
 
 		// Get Treasure Info From Server
-		//String id = PreferenceManager.getDefaultSharedPreferences(
-		//    getApplicationContext()).getString("capsule", "0");
+		// String id = PreferenceManager.getDefaultSharedPreferences(
+		// getApplicationContext()).getString("capsule", "0");
 		Intent intent = this.getIntent();
 		int id = intent.getIntExtra("cID", 0);
-		String[] treasureInfo = Server.getCapsule(Integer.toString(id)).split("\t");
-		//String[] treasureInfo = Server.getCapsule(id).split("\t");
+		String[] treasureInfo = Server.getCapsule(
+		    Integer.toString(id)).split("\t");
+		// String[] treasureInfo = Server.getCapsule(id).split("\t");
 		String debug = "";
 		for (String str : treasureInfo) {
 			debug += str;
@@ -66,15 +65,15 @@ public class CapsuleActivity extends NavigationMenu implements
 		}
 
 		Log.d("debug", debug);
-
-		title.setText(treasureInfo[2]);
-		description.setText(treasureInfo[3]);
-
-		TextView leftOn = (TextView) findViewById(R.id.leftOn);
-		leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
-
-		TextView timesFound = (TextView) findViewById(R.id.timesFound);
-		timesFound.setText("(Read " + treasureInfo[0] + " times)");
+//
+//		title.setText(treasureInfo[2]);
+//		description.setText(treasureInfo[3]);
+//
+//		TextView leftOn = (TextView) findViewById(R.id.leftOn);
+//		leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
+//
+//		TextView timesFound = (TextView) findViewById(R.id.timesFound);
+//		timesFound.setText("(Read " + treasureInfo[0] + " times)");
 
 		// TextView tv = (TextView) findViewById(R.id.)
 		thisClass = getClass();

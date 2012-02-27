@@ -28,7 +28,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 
 /**
  * Map to display and retrieve capsules.
@@ -213,8 +212,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = location.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new CapsuleOverlayItem(userLocation, "User",
-			    "User", 0);
+			userOverlay = new CapsuleOverlayItem(userLocation,
+			    "User", "User", 0);
 			itemizeduseroverlay.addOverlay(userOverlay);
 			mapOverlays.add(itemizeduseroverlay);
 
@@ -233,8 +232,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = lastLocation.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new CapsuleOverlayItem(userLocation, "User",
-			    "User", 0);
+			userOverlay = new CapsuleOverlayItem(userLocation,
+			    "User", "User", 0);
 			itemizeduseroverlay.addOverlay(userOverlay);
 
 			retrieveCapsules(userLocation);
@@ -296,6 +295,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 * @param v
 	 ***************************************************************/
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.map_back_button:

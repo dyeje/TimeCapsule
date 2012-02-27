@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name ="create_capsule">Create A Capsule</string>
-	<string name="hello">Hello World!</string>
-	<string name="app_name">Time Capsule</string>
-	<string name="activ_profile">Profile</string>
-	<string name="text_name">Name</string>
+
+    <string name="create_capsule">Create A Capsule</string>
+    <string name="hello">Hello World!</string>
+    <string name="app_name">Time Capsule</string>
+    <string name="activ_profile">Profile</string>
+    <!--
+    <string name="text_name">Name</string>
 	<string name="text_rank">Level XX</string>
 	<string name="text_stats">Level: XX</string>
 	<string name="text_clan">Clan Tag</string>
 	<string name="text_achieve">Trophies</string>
-	<string name="button_message">Message Me</string>
+    -->
+    <!--
+    <string name="button_message">Message Me</string>
 	<string name="button_stats">Detailed Stats</string>
 	<string name="button_clan">Clan Info</string>
 	<string name="button_achieve">See All</string>
-	<string name="activ_map">Map</string>
-	<string name="activ_friends">Friends</string>
-	<string name="activ_journal">Journal</string>
-	<string name="activ_settings">Settings</string>
-	<string-array name="settingsList">
-		<item>setting 1</item>
-		<item>setting 2</item>
-		<item>setting 3</item>
-	</string-array>
-	<string name="capture">Capture a Moment</string>
+    -->
+    <string name="create_user"><u>New User</u></string>
+    <string name="activ_map">Map</string>
+    <string name="activ_friends">Friends</string>
+    <string name="activ_journal">Journal</string>
+    <string name="activ_settings">Settings</string>
+    <string name="capture">Capture a Moment</string>
+
 </resources>
