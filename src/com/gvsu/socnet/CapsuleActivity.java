@@ -53,9 +53,12 @@ public class CapsuleActivity extends NavigationMenu implements
 		createFakeComments();
 
 		// Get Treasure Info From Server
-		String id = PreferenceManager.getDefaultSharedPreferences(
-		    getApplicationContext()).getString("capsule", "0");
-		String[] treasureInfo = Server.getCapsule(id).split("\t");
+		//String id = PreferenceManager.getDefaultSharedPreferences(
+		//    getApplicationContext()).getString("capsule", "0");
+		Intent intent = this.getIntent();
+		int id = intent.getIntExtra("cID", 0);
+		String[] treasureInfo = Server.getCapsule(Integer.toString(id)).split("\t");
+		//String[] treasureInfo = Server.getCapsule(id).split("\t");
 		String debug = "";
 		for (String str : treasureInfo) {
 			debug += str;

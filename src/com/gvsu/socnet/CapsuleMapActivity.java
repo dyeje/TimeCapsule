@@ -46,7 +46,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	DefaultOverlays itemizeduseroverlay;
 	GeoPoint userLocation;
 	MapController mapController;
-	OverlayItem userOverlay;
+	CapsuleOverlayItem userOverlay;
 	String lastRetrieve;
 	LocationManager locationManager;
 	Uri fileUri;
@@ -171,11 +171,11 @@ public class CapsuleMapActivity extends MapActivity implements
 				if (splitCapsules[i] != "") {
 
 					try {
-						int tID = Integer.parseInt(capsuleData[0]);
+						int cID = Integer.parseInt(capsuleData[0]);
 						double latitude = Double
-						    .parseDouble(capsuleData[1]) * 1000000.0;
-						double longitude = Double
 						    .parseDouble(capsuleData[2]) * 1000000.0;
+						double longitude = Double
+						    .parseDouble(capsuleData[3]) * 1000000.0;
 
 						int lat = (int) latitude;
 						int lng = (int) longitude;
@@ -183,7 +183,7 @@ public class CapsuleMapActivity extends MapActivity implements
 						GeoPoint point = new GeoPoint(lat, lng);
 
 						CapsuleOverlayItem item = new CapsuleOverlayItem(
-						    point, null, null, tID);
+						    point, null, null, cID);
 
 						itemizedoverlays.addOverlay(item);
 					} catch (NumberFormatException ex) {
@@ -213,8 +213,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = location.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new OverlayItem(userLocation, "User",
-			    "User");
+			userOverlay = new CapsuleOverlayItem(userLocation, "User",
+			    "User", 0);
 			itemizeduseroverlay.addOverlay(userOverlay);
 			mapOverlays.add(itemizeduseroverlay);
 
@@ -233,8 +233,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			double lng = lastLocation.getLongitude() * 1000000.0;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
-			userOverlay = new OverlayItem(userLocation, "User",
-			    "User");
+			userOverlay = new CapsuleOverlayItem(userLocation, "User",
+			    "User", 0);
 			itemizeduseroverlay.addOverlay(userOverlay);
 
 			retrieveCapsules(userLocation);
