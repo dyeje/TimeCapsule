@@ -29,7 +29,7 @@ public class Server {
 	private static final String GETTREAS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getTreasure.php?";
 
 	// Create Capsule
-	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?id=";
+	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
 
 	// Get User
 	private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
@@ -46,7 +46,7 @@ public class Server {
 
 	public static String newCapsule(String lat, String lon,
 	    String title, String description) {
-		String command = NEWCAPSULE + "&title=" + title + "&locLat="
+		String command = NEWCAPSULE + "title=" + title + "&locLat="
 		    + lat + "&locLong=" + lon + "&description=" + description;
 		Log.d("debug", command);
 		return get(command);
