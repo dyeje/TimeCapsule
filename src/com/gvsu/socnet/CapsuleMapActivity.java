@@ -52,6 +52,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	FileInputStream in;
 	BufferedInputStream buf;
 	Bitmap bMap;
+	Criteria crit;
 	long lastTimeMapCentered;
 
 	@Override
@@ -84,6 +85,19 @@ public class CapsuleMapActivity extends MapActivity implements
 		lastRetrieve = null;
 
 		lastTimeMapCentered = 0L;
+		
+//		crit = new Criteria();
+//		crit.setAccuracy(Criteria.ACCURACY_FINE);
+//		
+//		String provider = locationManager.getBestProvider(crit, true);
+//		Location lastLocation = locationManager.getLastKnownLocation(provider);
+//		
+//		double lat = lastLocation.getLatitude() * 1000000.0;
+//		double lng = lastLocation.getLongitude() * 1000000.0;
+//		
+//		userLocation = new GeoPoint((int) lat, (int) lng);
+//		
+//		retrieveCapsules(userLocation);
 
 		// Set up header-footer buttons
 		Button btnBack = (Button) findViewById(R.id.map_back_button);
@@ -220,12 +234,9 @@ public class CapsuleMapActivity extends MapActivity implements
 			retrieveCapsules(userLocation);
 			mapOverlays.add(itemizeduseroverlay);
 		} else {
-			Criteria crit = new Criteria();
-			crit.setAccuracy(Criteria.ACCURACY_FINE);
-			String provider = locationManager.getBestProvider(crit,
-			    true);
+			String provider = locationManager.getBestProvider(crit, true);
 			Location lastLocation = locationManager
-			    .getLastKnownLocation(provider);
+					.getLastKnownLocation(provider);
 			itemizeduseroverlay.clear();
 
 			double lat = lastLocation.getLatitude() * 1000000.0;
@@ -238,7 +249,7 @@ public class CapsuleMapActivity extends MapActivity implements
 
 			retrieveCapsules(userLocation);
 		}
-		centerMap(false);
+//		centerMap(false);
 	}
 
 	@Override
