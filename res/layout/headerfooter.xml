@@ -17,14 +17,14 @@
         android:visibility="visible" >
 
         <Button
-            android:id="@+id/back_button"
+            android:id="@+id/menu_button"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/back"
+            android:layout_marginRight="25dip"
+            android:background="@drawable/ic_menu_settings"
             android:textColor="#FFFFFF" >
         </Button>
+            android:layout_marginLeft="5dip"
 
         <Button
             android:id="@+id/blank1"
@@ -38,23 +38,23 @@
         </Button>
 
         <Button
-            android:id="@+id/blank2"
+            android:id="@+id/profile_button"
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
-            android:background="@drawable/blnk_button"
+            android:background="@drawable/user_pic"
             android:padding="10dip"
             android:textColor="#FFFFFF" >
         </Button>
 
         <Button
-            android:id="@+id/blank3"
+            android:id="@+id/map_button"
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
-            android:background="@drawable/blnk_button"
+            android:background="@drawable/ic_tab_map_color"
             android:padding="10dip"
             android:textColor="#FFFFFF" >
         </Button>
@@ -76,7 +76,7 @@
         android:background="#FFFFFF" >
     </LinearLayout>
 
-    <LinearLayout
+    <!-- <LinearLayout
         android:id="@+id/llfooter"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
@@ -141,6 +141,6 @@
             android:padding="10dip"
             android:textColor="#FFFFFF" >
         </Button>
-    </LinearLayout>
+    </LinearLayout> -->
 
 </LinearLayout>

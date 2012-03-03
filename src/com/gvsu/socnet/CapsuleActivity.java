@@ -36,11 +36,11 @@ public class CapsuleActivity extends NavigationMenu implements
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
 		View.inflate(this, R.layout.treasure, vg);
-		// setContentView(R.layout.treasure);
+//		 setContentView(R.layout.treasure);
 
-		btnCapture.setVisibility(View.INVISIBLE);
-		btnMap.setVisibility(View.INVISIBLE);
-		btnProfile.setVisibility(View.INVISIBLE);
+//		btnCapture.setVisibility(View.INVISIBLE);
+//		btnMap.setVisibility(View.INVISIBLE);
+//		btnProfile.setVisibility(View.INVISIBLE);
 
 		ImageView playButton = (ImageView) findViewById(R.id.play_button);
 		playButton.setOnClickListener(this);

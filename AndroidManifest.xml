@@ -48,6 +48,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name="com.gvsu.socnet.map.FilterActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.gvsu.socnet.CapsuleActivity"
             android:label="@string/app_name" >
         </activity>

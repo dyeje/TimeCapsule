@@ -39,7 +39,8 @@ public class ProfileActivity extends NavigationMenu implements
 
 		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
 
-		btnBack.setVisibility(View.INVISIBLE);
+//		btnMenu.setVisibility(View.INVISIBLE);
+		btnProfile.setEnabled(false);
 		btnInfo.setOnClickListener(this);
 		TextView btnStat = (TextView) findViewById(R.id.text_name);
 		btnStat.setOnClickListener(this);

@@ -1,5 +1,41 @@
 package com.gvsu.socnet;
 
+
+/**
+ * Note about filtering activity
+ * I was unable to figure out a way to
+ * have a popout box contain a slider, so
+ * I made a separate activity to do the
+ * filtering. (this is the way the geo-
+ * caching app was doing it as well)
+ * Api 11+ has a much better way to do
+ * a popout thing, but we can't exactly
+ * use that high of an api level...
+ * 
+ * to get the values that I stored,
+ * create a SharedPreferences object
+ * from the default shared preferences
+ * and say
+ * 
+ * prefs.getLong(FilterActivity.START_RANGE, 0L);
+ * 
+ * to get the start date/time (in milliseconds)
+ * and say
+ * 
+ * prefs.getLong(FilterActivity.END_RANGE, 0L);
+ * 
+ * to get the end date/time (in milliseconds)
+ * I also set up a minimum rating filter too.
+ * say
+ * 
+ * prefs.getFloat(FilterActivity.MIN_RATING, 1);
+ * 
+ * to get the minimum rating (it is a float value
+ * because my rating bar increments by .25 stars)
+ * 
+ * let me know if you have any questions!
+ */
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.util.Calendar;
@@ -8,6 +44,7 @@ import java.util.List;
 import soc.net.R;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
@@ -16,6 +53,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +67,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.gvsu.socnet.map.FilterActivity;
 
 /**
  * Map to display and retrieve capsules.
@@ -85,23 +125,27 @@ public class CapsuleMapActivity extends MapActivity implements
 		lastRetrieve = null;
 
 		lastTimeMapCentered = 0L;
-		
-//		crit = new Criteria();
-//		crit.setAccuracy(Criteria.ACCURACY_FINE);
-//		
-//		String provider = locationManager.getBestProvider(crit, true);
-//		Location lastLocation = locationManager.getLastKnownLocation(provider);
-//		
-//		double lat = lastLocation.getLatitude() * 1000000.0;
-//		double lng = lastLocation.getLongitude() * 1000000.0;
-//		
-//		userLocation = new GeoPoint((int) lat, (int) lng);
-//		
-//		retrieveCapsules(userLocation);
+
+		// crit = new Criteria();
+		// crit.setAccuracy(Criteria.ACCURACY_FINE);
+		//
+		// String provider = locationManager.getBestProvider(crit,
+		// true);
+		// Location lastLocation =
+		// locationManager.getLastKnownLocation(provider);
+		//
+		// double lat = lastLocation.getLatitude() * 1000000.0;
+		// double lng = lastLocation.getLongitude() * 1000000.0;
+		//
+		// userLocation = new GeoPoint((int) lat, (int) lng);
+		//
+		// retrieveCapsules(userLocation);
 
 		// Set up header-footer buttons
 		Button btnBack = (Button) findViewById(R.id.map_back_button);
 		btnBack.setOnClickListener(this);
+		Button btnFilter = (Button) findViewById(R.id.map_filter_button);
+		btnFilter.setOnClickListener(this);
 		Button btnCapture = (Button) findViewById(R.id.map_capture_button);
 		btnCapture.setOnClickListener(this);
 		Button btnProfile = (Button) findViewById(R.id.map_profile_button);
@@ -111,10 +155,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
-		locationManager.requestLocationUpdates(
-		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+		requestLocationUpdates();
 	}
 
 	@Override
@@ -126,25 +167,40 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onRestart() {
 		super.onRestart();
-		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
-		locationManager.requestLocationUpdates(
-		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+		requestLocationUpdates();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
-		locationManager.requestLocationUpdates(
-		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+		String info = "";
+		SharedPreferences prefs = PreferenceManager
+		    .getDefaultSharedPreferences(getApplicationContext());
+		info += "startDate: "
+		    + prefs.getLong(FilterActivity.START_RANGE, 0L);
+		info += " endDate: "
+		    + prefs.getLong(FilterActivity.END_RANGE, 0L);
+		info += " minRating: "
+		    + prefs.getFloat(FilterActivity.MIN_RATING, -1);
+		Log.d("debug", info);
+		requestLocationUpdates();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		locationManager.removeUpdates(this);
+	}
+
+	/****************************************************************
+	 * You called this a few times so I moved it into one method  
+	 * @return void
+	 ***************************************************************/
+	protected void requestLocationUpdates() {
+		locationManager.requestLocationUpdates(
+		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+		locationManager.requestLocationUpdates(
+		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 	}
 
 	/**
@@ -234,9 +290,10 @@ public class CapsuleMapActivity extends MapActivity implements
 			retrieveCapsules(userLocation);
 			mapOverlays.add(itemizeduseroverlay);
 		} else {
-			String provider = locationManager.getBestProvider(crit, true);
+			String provider = locationManager.getBestProvider(crit,
+			    true);
 			Location lastLocation = locationManager
-					.getLastKnownLocation(provider);
+			    .getLastKnownLocation(provider);
 			itemizeduseroverlay.clear();
 
 			double lat = lastLocation.getLatitude() * 1000000.0;
@@ -249,7 +306,7 @@ public class CapsuleMapActivity extends MapActivity implements
 
 			retrieveCapsules(userLocation);
 		}
-//		centerMap(false);
+		// centerMap(false);
 	}
 
 	@Override
@@ -276,10 +333,10 @@ public class CapsuleMapActivity extends MapActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.create_capsule:
-			Intent i = new Intent(getBaseContext(), AddCapsule.class);
-			startActivity(i);
-			return true;
+		// case R.id.create_capsule:
+		// Intent i = new Intent(getBaseContext(), AddCapsule.class);
+		// startActivity(i);
+		// return true;
 		case R.id.center_map:
 			centerMap(true);
 			return true;
@@ -310,7 +367,14 @@ public class CapsuleMapActivity extends MapActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.map_back_button:
-			finish();
+			Intent i = new Intent(getApplicationContext(),
+			    SettingsActivity.class);
+			startActivity(i);
+			break;
+		case R.id.map_filter_button:
+			Intent i1 = new Intent(getApplicationContext(),
+			    FilterActivity.class);
+			startActivity(i1);
 			break;
 		case R.id.map_capture_button:
 			break;

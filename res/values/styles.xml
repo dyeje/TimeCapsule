@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<style name="MyStyle" parent="@android:Theme">
-		<item name="android:textViewStyle">@style/MyTextViewStyle</item>
-		<item name="android:windowBackground">@color/background_color</item>
-		<item name="android:colorBackground">@color/background_color</item>
-		<item name="android:windowNoTitle">true</item>
-	</style>
 
-	<style name="MyTextViewStyle" parent="@android:style/Widget.TextView">
-		<item name="android:layout_width">fill_parent</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textColor">#FFFFFF</item>
-		<item name="android:paddingLeft">5dp</item>
-	</style>
+    <style name="MyStyle" parent="@android:Theme">
+        <item name="android:textViewStyle">@style/MyTextViewStyle</item>
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:colorBackground">@color/background_color</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
-	<style name="WindowTitleBackground">
-		<item name="android:background">@color/titlebackgroundcolor</item>
-	</style>
+    <style name="MyTextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+
+    <style name="WindowTitleBackground">
+        <item name="android:background">@color/titlebackgroundcolor</item>
+    </style>
+
+    <style name="ratingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_full</item>
+        <item name="android:minHeight">72px</item>
+        <item name="android:maxHeight">72px</item>
+    </style>
+
 </resources>
