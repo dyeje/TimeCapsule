@@ -23,6 +23,7 @@ public class CapsuleActivity extends NavigationMenu implements
 
 	/** String YOUTUBE */
 	private final String YOUTUBE = "http://www.youtube.com/watch?v=";
+	private final String TAB = "\t";
 
 	/** LinearLayout commentList */
 	LinearLayout commentList;
@@ -36,11 +37,11 @@ public class CapsuleActivity extends NavigationMenu implements
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
 		View.inflate(this, R.layout.treasure, vg);
-//		 setContentView(R.layout.treasure);
+		// setContentView(R.layout.treasure);
 
-//		btnCapture.setVisibility(View.INVISIBLE);
-//		btnMap.setVisibility(View.INVISIBLE);
-//		btnProfile.setVisibility(View.INVISIBLE);
+		// btnCapture.setVisibility(View.INVISIBLE);
+		// btnMap.setVisibility(View.INVISIBLE);
+		// btnProfile.setVisibility(View.INVISIBLE);
 
 		ImageView playButton = (ImageView) findViewById(R.id.play_button);
 		playButton.setOnClickListener(this);
@@ -51,13 +52,10 @@ public class CapsuleActivity extends NavigationMenu implements
 		createFakeComments();
 
 		// Get Treasure Info From Server
-		// String id = PreferenceManager.getDefaultSharedPreferences(
-		// getApplicationContext()).getString("capsule", "0");
 		Intent intent = this.getIntent();
-		int id = intent.getIntExtra("cID", 0);
-		String[] treasureInfo = Server.getCapsule(
-		    Integer.toString(id)).split("\t");
-		// String[] treasureInfo = Server.getCapsule(id).split("\t");
+		String id = intent.getStringExtra("cID");
+		Log.d("debug", "id = " + id);
+		String[] treasureInfo = Server.getCapsule(id).split(TAB);
 		String debug = "";
 		for (String str : treasureInfo) {
 			debug += str;
@@ -65,18 +63,23 @@ public class CapsuleActivity extends NavigationMenu implements
 		}
 
 		Log.d("debug", debug);
-//
-//		title.setText(treasureInfo[2]);
-//		description.setText(treasureInfo[3]);
-//
-//		TextView leftOn = (TextView) findViewById(R.id.leftOn);
-//		leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
-//
-//		TextView timesFound = (TextView) findViewById(R.id.timesFound);
-//		timesFound.setText("(Read " + treasureInfo[0] + " times)");
+		//
+		title.setText(treasureInfo[0]);
+		description.setText(treasureInfo[3]);
+		//
+		// TextView leftOn = (TextView) findViewById(R.id.leftOn);
+		// leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
+		//
+		// TextView timesFound = (TextView)
+		// findViewById(R.id.timesFound);
+		// timesFound.setText("(Read " + treasureInfo[0] + " times)");
 
 		// TextView tv = (TextView) findViewById(R.id.)
-		thisClass = getClass();
+	}
+
+	@Override
+	protected void refresh() {
+
 	}
 
 	/****************************************************************
@@ -103,7 +106,7 @@ public class CapsuleActivity extends NavigationMenu implements
 	 * @param id
 	 * @return String
 	 ***************************************************************/
-	public String getTreasure(String id) {
+	public String getCapsule(String id) {
 		String s = Server.getCapsule(id);
 		String[] treasureInfo = s.split("\t");
 

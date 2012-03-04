@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -17,17 +18,22 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name="com.gvsu.socnet.LoginActivity"
-            android:label="@string/app_name" >
+            android:name="com.gvsu.socnet.CapsuleMapActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.LoginActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.gvsu.socnet.NewUserActivity"
@@ -41,11 +47,6 @@
             android:name="com.gvsu.socnet.AddCapsule"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
-        </activity>
-        <activity
-            android:name="com.gvsu.socnet.CapsuleMapActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.gvsu.socnet.map.FilterActivity"

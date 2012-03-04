@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,9 +25,11 @@ public abstract class NavigationMenu extends Activity implements
     OnClickListener {
 
 	/** Class<? extends Object> thisClass Differentiates each different activity that extends NavigationMenu */
-	protected Class<? extends Object> thisClass;
+	// protected Class<? extends Object> thisClass;
 
 	protected Button btnMenu, btnCapture, btnProfile, btnMap;
+
+	protected abstract void refresh();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,26 +73,15 @@ public abstract class NavigationMenu extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result = false;
 		switch (item.getItemId()) {
-		// case R.id.goto_profile:
-		// if (this.getClass() != ProfileActivity.class)
-		// result = gotoProfile();
-		// break;
-//		case R.id.goto_map:
-//			result = gotoMap();
-//			break;
-//		case R.id.capture_moment:
-//			Intent i = new Intent(getApplicationContext(),
-//			    AddCapsule.class);
-//			startActivity(i);
-//			result = true;
-//			break;
-//		case R.id.goto_settings:
-//			result = gotoSettings();
-//			break;
-
+		case R.id.refresh:
+			refresh();
+			break;
 		case R.id.goto_capsule:
 			Intent in = new Intent(getApplicationContext(),
 			    CapsuleActivity.class);
+			in.putExtra("cID", PreferenceManager
+			    .getDefaultSharedPreferences(getApplicationContext())
+			    .getString("capsule_id", "0"));
 			startActivity(in);
 			result = true;
 			break;
@@ -102,21 +94,21 @@ public abstract class NavigationMenu extends Activity implements
 	}
 
 	private boolean gotoProfile() {
-		Log.d("debug", thisClass.toString());
-		if (thisClass != ProfileActivity.class) {
-			Intent myIntent = new Intent(getBaseContext(),
-			    ProfileActivity.class);
-			startActivity(myIntent);
-		}
+		// Log.d("debug", thisClass.toString());
+		// if (thisClass != ProfileActivity.class) {
+		Intent myIntent = new Intent(getBaseContext(),
+		    ProfileActivity.class);
+		startActivity(myIntent);
+		// }
 		return true;
 	}
 
 	private boolean gotoMap() {
-		if (thisClass != CapsuleMapActivity.class) {
-			Intent myIntent = new Intent(getBaseContext(),
-			    CapsuleMapActivity.class);
-			startActivity(myIntent);
-		}
+		// if (thisClass != CapsuleMapActivity.class) {
+		Intent myIntent = new Intent(getBaseContext(),
+		    CapsuleMapActivity.class);
+		startActivity(myIntent);
+		// }
 		return true;
 	}
 

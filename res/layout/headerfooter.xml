@@ -6,33 +6,34 @@
     android:background="#FFFFFF"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llheader"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:layout_margin="0dip"
         android:background="@drawable/header_and_footer"
-        android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible" >
+        android:gravity="center"
 
         <Button
             android:id="@+id/menu_button"
             android:layout_width="50dip"
             android:layout_height="50dip"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="25dip"
             android:background="@drawable/ic_menu_settings"
             android:textColor="#FFFFFF" >
         </Button>
-            android:layout_marginLeft="5dip"
 
         <Button
-            android:id="@+id/blank1"
+            android:id="@+id/profile_edit_button"
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
-            android:background="@drawable/blnk_button"
+            android:layout_toLeftOf="@+id/profile_button"
+            android:background="@drawable/back"
             android:padding="10dip"
             android:textColor="#FFFFFF" >
         </Button>
@@ -43,6 +44,7 @@
             android:layout_height="50dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
+            android:layout_toLeftOf="@+id/map_button"
             android:background="@drawable/user_pic"
             android:padding="10dip"
             android:textColor="#FFFFFF" >
@@ -54,6 +56,7 @@
             android:layout_height="50dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
+            android:layout_toLeftOf="@+id/capture_button"
             android:background="@drawable/ic_tab_map_color"
             android:padding="10dip"
             android:textColor="#FFFFFF" >
@@ -63,10 +66,11 @@
             android:id="@+id/capture_button"
             android:layout_width="50dip"
             android:layout_height="50dip"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:background="@drawable/camera" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/lldata"
@@ -75,72 +79,5 @@
         android:layout_weight="8"
         android:background="#FFFFFF" >
     </LinearLayout>
-
-    <!-- <LinearLayout
-        android:id="@+id/llfooter"
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:layout_margin="0dip"
-        android:background="@drawable/header_and_footer"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="visible" >
-        android:layout_weight="1"
-
-        <Button
-            android:id="@+id/profile_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/user_pic"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" >
-        </Button>
-
-        <Button
-            android:id="@+id/blank4"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/blnk_button"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" >
-        </Button>
-
-        <Button
-            android:id="@+id/blank5"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/blnk_button"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" >
-        </Button>
-
-        <Button
-            android:id="@+id/blank6"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/blnk_button"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" >
-        </Button>
-
-        <Button
-            android:id="@+id/map_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/ic_tab_map_color"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" >
-        </Button>
-    </LinearLayout> -->
 
 </LinearLayout>

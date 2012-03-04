@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
--->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
     android:background="@drawable/background"
     android:orientation="vertical" >
-
-    <!--
-    android:layout_above="@+id/footer"
-    android:layout_below="@+id/header"
-    -->
-
 
     <!-- Player Information -->
 
@@ -26,7 +15,6 @@
         android:layout_marginBottom="10dip"
         android:layout_marginLeft="5dip"
         android:textSize="40sp" />
-        android:text="username"
 
     <LinearLayout
         android:id="@+id/player_info"
@@ -119,7 +107,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:textSize="20sp" />
-                android:text="name"
 
             <TextView
                 android:id="@+id/text_location"
@@ -127,15 +114,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:textSize="20sp" />
-                android:text="location"
-
-            <TextView
-                android:id="@+id/text_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:textSize="20sp" />
-                android:text="gender"
 
             <TextView
                 android:id="@+id/text_age"
@@ -143,7 +121,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:textSize="20sp" />
-                android:text="age"
+
+            <TextView
+                android:id="@+id/text_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="Interests:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_interests"
@@ -151,7 +142,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:textSize="20sp" />
-                android:text="interests"
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="About Me:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_about"
@@ -159,17 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:textSize="20sp" />
-                android:text="about: user&apos;s about me section"
         </LinearLayout>
     </LinearLayout> <!-- Player Achievements -->
-
-
-    <!--
-         <Button
-        android:id="@+id/btn_capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/capture" />
-    -->
 
 </LinearLayout> <!-- </RelativeLayout> -->

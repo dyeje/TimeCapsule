@@ -1,6 +1,5 @@
 package com.gvsu.socnet;
 
-
 /**
  * Note about filtering activity
  * I was unable to figure out a way to
@@ -34,6 +33,7 @@ package com.gvsu.socnet;
  * because my rating bar increments by .25 stars)
  * 
  * let me know if you have any questions!
+ * (or just delete this when you read it)
  */
 
 import java.io.BufferedInputStream;
@@ -141,15 +141,32 @@ public class CapsuleMapActivity extends MapActivity implements
 		//
 		// retrieveCapsules(userLocation);
 
-		// Set up header-footer buttons
-		Button btnBack = (Button) findViewById(R.id.map_back_button);
-		btnBack.setOnClickListener(this);
-		Button btnFilter = (Button) findViewById(R.id.map_filter_button);
-		btnFilter.setOnClickListener(this);
-		Button btnCapture = (Button) findViewById(R.id.map_capture_button);
-		btnCapture.setOnClickListener(this);
-		Button btnProfile = (Button) findViewById(R.id.map_profile_button);
-		btnProfile.setOnClickListener(this);
+		/** Register header-footer buttons for clicks*/
+		((Button) findViewById(R.id.map_settings_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_filter_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_capture_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_profile_button))
+		    .setOnClickListener(this);
+
+		// Old way of registering buttons for clicks
+		// We can go back to it if we ever need the buttons outside
+		// the onCreate method
+
+		// Button btnSettings = (Button)
+		// findViewById(R.id.map_settings_button);
+		// btnSettings.setOnClickListener(this);
+		// Button btnFilter = (Button)
+		// findViewById(R.id.map_filter_button);
+		// btnFilter.setOnClickListener(this);
+		// Button btnCapture = (Button)
+		// findViewById(R.id.map_capture_button);
+		// btnCapture.setOnClickListener(this);
+		// Button btnProfile = (Button)
+		// findViewById(R.id.map_profile_button);
+		// btnProfile.setOnClickListener(this);
 	}
 
 	@Override
@@ -182,7 +199,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		    + prefs.getLong(FilterActivity.END_RANGE, 0L);
 		info += " minRating: "
 		    + prefs.getFloat(FilterActivity.MIN_RATING, -1);
-		Log.d("debug", info);
+		Log.d("debug", "filters: " + info);
 		requestLocationUpdates();
 	}
 
@@ -246,6 +263,8 @@ public class CapsuleMapActivity extends MapActivity implements
 						double longitude = Double
 						    .parseDouble(capsuleData[3]) * 1000000.0;
 
+						Log.d("debug", "lat = " + latitude
+						    + " lon = " + longitude);
 						int lat = (int) latitude;
 						int lng = (int) longitude;
 
@@ -306,7 +325,13 @@ public class CapsuleMapActivity extends MapActivity implements
 
 			retrieveCapsules(userLocation);
 		}
-		// centerMap(false);
+
+		// updates user's location as they move if they checked
+		// the optional box in preferences
+		if (PreferenceManager.getDefaultSharedPreferences(
+		    getApplicationContext()).getBoolean("follow_user", false)) {
+			centerMap(false);
+		}
 	}
 
 	@Override
@@ -333,10 +358,6 @@ public class CapsuleMapActivity extends MapActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
-		// case R.id.create_capsule:
-		// Intent i = new Intent(getBaseContext(), AddCapsule.class);
-		// startActivity(i);
-		// return true;
 		case R.id.center_map:
 			centerMap(true);
 			return true;
@@ -351,8 +372,10 @@ public class CapsuleMapActivity extends MapActivity implements
 	 * @returns void
 	 ***************************************************************/
 	private void centerMap(boolean forceRefresh) {
+		Log.d("debug", "centering map");
 		long now = Calendar.getInstance().getTimeInMillis();
-		if (now > lastTimeMapCentered + 5000 || forceRefresh) {
+		if ((now > lastTimeMapCentered + 5000 || forceRefresh)
+		    && userLocation != null) {
 			lastTimeMapCentered = now;
 			mapController.animateTo(userLocation);
 			mapController.setZoom(20);
@@ -366,7 +389,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.map_back_button:
+		case R.id.map_settings_button:
 			Intent i = new Intent(getApplicationContext(),
 			    SettingsActivity.class);
 			startActivity(i);
@@ -377,8 +400,14 @@ public class CapsuleMapActivity extends MapActivity implements
 			startActivity(i1);
 			break;
 		case R.id.map_capture_button:
+			Intent i2 = new Intent(getApplicationContext(),
+			    AddCapsule.class);
+			startActivity(i2);
 			break;
 		case R.id.map_profile_button:
+			Intent i3 = new Intent(getApplicationContext(),
+			    ProfileActivity.class);
+			startActivity(i3);
 			break;
 		case R.id.map_map_button:
 			break;

@@ -67,7 +67,6 @@ public final class R {
         public static final int user_picture=0x7f02002b;
     }
     public static final class id {
-        public static final int blank1=0x7f0a000f;
         public static final int btn_add_document=0x7f0a0005;
         public static final int btn_add_picture=0x7f0a0003;
         public static final int btn_add_video=0x7f0a0004;
@@ -92,13 +91,13 @@ public final class R {
         public static final int llheader=0x7f0a000d;
         public static final int login_title=0x7f0a0014;
         public static final int loginresult=0x7f0a0015;
-        public static final int map_back_button=0x7f0a001a;
         public static final int map_blank1=0x7f0a001b;
         public static final int map_button=0x7f0a0011;
         public static final int map_capture_button=0x7f0a001f;
         public static final int map_filter_button=0x7f0a001c;
         public static final int map_map_button=0x7f0a001e;
         public static final int map_profile_button=0x7f0a001d;
+        public static final int map_settings_button=0x7f0a001a;
         public static final int mapview=0x7f0a0020;
         public static final int menu_button=0x7f0a000e;
         public static final int num_capsule_rating=0x7f0a0043;
@@ -111,10 +110,12 @@ public final class R {
         public static final int play_button=0x7f0a004e;
         public static final int player_info=0x7f0a003b;
         public static final int profile_button=0x7f0a0010;
+        public static final int profile_edit_button=0x7f0a000f;
         public static final int radio_female=0x7f0a0031;
         public static final int radio_male=0x7f0a0030;
         public static final int radio_unsure=0x7f0a0032;
         public static final int rating_bar=0x7f0a0027;
+        public static final int refresh=0x7f0a0055;
         public static final int seek_bar_layout=0x7f0a0025;
         public static final int settingsList=0x7f0a0049;
         public static final int textView1=0x7f0a0021;

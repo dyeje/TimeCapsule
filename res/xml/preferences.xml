@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="capsule" >
 
-<!--     <PreferenceCategory
-        android:key="first_category"
-        android:title="First Category" >
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="perform_updates"
-            android:summary="Enable or disable data updates"
-            android:title="Enable updates" />
-
-        <ListPreference
-            android:defaultValue="1000"
-            android:dependency="perform_updates"
-            android:entries="@array/updateInterval"
-            android:entryValues="@array/updateIntervalValues"
-            android:key="updates_interval"
-            android:summary="Define how often updates will be performed"
-            android:title="Updates interval" />
-    </PreferenceCategory> -->
     <PreferenceCategory
-        android:key="second_category"
-        android:title="Debug Information" >
+        android:key="profile"
+        android:title="Profile" >
         <EditTextPreference
-            android:defaultValue="01"
+            android:defaultValue="1"
             android:dialogMessage="Provide an ID"
             android:dialogTitle="Player ID"
             android:key="player_id"
-            android:summary="What is your player ID?"
+            android:summary="Player ID to Test"
             android:title="Player ID" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="capsule"
+        android:title="Capsule" >
         <EditTextPreference
-            android:defaultValue="01"
+            android:defaultValue="1"
             android:dialogMessage="Provide an ID"
             android:dialogTitle="Capsule ID"
-            android:key="capsule"
-            android:summary="Capsule ID To Test"
+            android:key="capsule_id"
+            android:summary="Capsule ID to Test"
             android:title="Capsule ID" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="map"
+        android:title="Map Preferences" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="follow_user"
+            android:summary="Follow your location around the map as you move"
+            android:title="Follow Me" />
     </PreferenceCategory>
 
 </PreferenceScreen>

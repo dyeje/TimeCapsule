@@ -26,7 +26,7 @@ import android.util.Log;
 public class Server {
 
 	// Get Capsule
-	private static final String GETTREAS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getTreasure.php?";
+	private static final String GETCAPS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
 
 	// Create Capsule
 	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
@@ -58,17 +58,17 @@ public class Server {
 	}
 
 	public static String getUser(String id) {
-		String command = GETUSER + id;
+		String command = GETUSER + "id=" + id;
 		return get(command);
 	}
 
 	public static String getCapsule(String id) {
-		String command = GETTREAS + "id=" + id;
+		String command = GETCAPS + id;
 		return get(command);
 	}
 
 	public static String getTreasure(String lat, String lng) {
-		String command = GETTREAS + "lat=" + lat + "&long=" + lng
+		String command = GETCAPS + "lat=" + lat + "&long=" + lng
 		    + "&radius=4";
 		return get(command);
 	}

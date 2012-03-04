@@ -2,8 +2,12 @@ package com.gvsu.socnet;
 
 import soc.net.R;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -22,9 +26,14 @@ import android.widget.TextView;
 public class ProfileActivity extends NavigationMenu implements
     OnClickListener {
 
-	private SharedPreferences prefs;
-	public static String BASIC_INFO = "basic_info";
-	public static String TAB = "\t";
+	// private SharedPreferences prefs;
+	public final String PROFILE = "profile";
+	private final String TAB = "\t";
+	private final String NO_CONN = "No Network Connection";
+	private final String NO_CONN_INFO = "Many features of this app will not work without an internet connection";
+	private TextView username, name, location, gender, age,
+	    interests, aboutme;
+	private OnSharedPreferenceChangeListener listener;
 
 	/****************************************************************
 	 * @see com.gvsusocnet.NavigationMenu#onCreate(android.os.Bundle)
@@ -39,7 +48,14 @@ public class ProfileActivity extends NavigationMenu implements
 
 		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
 
-//		btnMenu.setVisibility(View.INVISIBLE);
+		username = (TextView) findViewById(R.id.text_username);
+		name = (TextView) findViewById(R.id.text_name);
+		location = (TextView) findViewById(R.id.text_location);
+		gender = (TextView) findViewById(R.id.text_gender);
+		age = (TextView) findViewById(R.id.text_age);
+		interests = (TextView) findViewById(R.id.text_interests);
+		aboutme = (TextView) findViewById(R.id.text_about);
+
 		btnProfile.setEnabled(false);
 		btnInfo.setOnClickListener(this);
 		TextView btnStat = (TextView) findViewById(R.id.text_name);
@@ -47,88 +63,173 @@ public class ProfileActivity extends NavigationMenu implements
 		TextView btnClan = (TextView) findViewById(R.id.text_age);
 		btnClan.setOnClickListener(this);
 
-		thisClass = getClass();
+		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
+		setInfo(prefs);
+		listener = new OnSharedPreferenceChangeListener() {
 
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			public void onSharedPreferenceChanged(
+			    SharedPreferences sPrefs, String key) {
 
-		updateBasicInfo(false);
+				Log.d("debug", "prefs updated:key=" + key);
+
+				if (key.equals("username")) {
+					username.setText(sPrefs.getString(key, ""));
+				} else if (key.equals("name")) {
+					name.setText(sPrefs.getString(key, ""));
+				} else if (key.equals("location")) {
+					location.setText(sPrefs.getString(key, ""));
+				} else if (key.equals("age")) {
+					age.setText(sPrefs.getString(key, ""));
+				} else if (key.equals("gender")) {
+					gender.setText(sPrefs.getString(key, ""));
+				} else if (key.equals("interests")) {
+					interests.setText(sPrefs.getString(key, ""));
+				} else if (key.equals("aboutme")) {
+					aboutme.setText(sPrefs.getString(key, ""));
+				} else {
+					Log.d("debug",
+					    "I don't know what was changed, updating all");
+					setInfo(sPrefs);
+				}
+			}
+		};
 	}
 
-	private void setBasicInfo() {
-		TextView username = (TextView) findViewById(R.id.text_username);
-		TextView name = (TextView) findViewById(R.id.text_name);
-		TextView location = (TextView) findViewById(R.id.text_location);
-		TextView gender = (TextView) findViewById(R.id.text_gender);
-		TextView age = (TextView) findViewById(R.id.text_age);
-		TextView interests = (TextView) findViewById(R.id.text_interests);
-		TextView about = (TextView) findViewById(R.id.text_about);
+	/****************************************************************
+	 * @see android.app.Activity#onResume()
+	 ***************************************************************/
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
 
-		String info = prefs.getString(BASIC_INFO, "");
-		Log.d("debug", info);
-		if (!info.equals("")
-		    && !info.contains("Connection Failed (I/O)")) {
-			String[] userInfo = info.split(TAB);
+	@Override
+	public void onStart() {
+		super.onStart();
+		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
+		prefs.registerOnSharedPreferenceChangeListener(listener);
 
-			username.setText(userInfo[8]);
-			name.setText(userInfo[0]);
-			location.setText(userInfo[1] + ", " + userInfo[2]);
-			String strGender;
-			if (userInfo[3].equalsIgnoreCase("m")) {
-				strGender = "Male";
-			} else if (userInfo[3].equalsIgnoreCase("f")) {
-				strGender = "Female";
-			} else {
-				strGender = "Other";
-			}
-			gender.setText(strGender);
-			age.setText(userInfo[4] + " years old");
-			interests.setText("Interests:\n" + userInfo[5]);
-			about.setText("About me:\n" + userInfo[6]);
+		if (isOnline()) {
+			refresh();
 		} else {
-			name.setText(info);
+			showDialog(NO_CONN, NO_CONN_INFO);
 		}
 	}
 
-	/**************************************************************** void
+	@Override
+	public void onStop() {
+		super.onStop();
+		getSharedPreferences(PROFILE, 0)
+		    .unregisterOnSharedPreferenceChangeListener(listener);
+	}
+
+	private void setInfo(SharedPreferences prefs) {
+		username.setText(prefs.getString("username", "-----"));
+		name.setText(prefs.getString("name", "----"));
+		location.setText(prefs.getString("location", "---, --"));
+		gender.setText(prefs.getString("gender", "--"));
+		age.setText(prefs.getString("age", "--") + " years old");
+		interests.setText(prefs.getString("interests", "-----"));
+		aboutme.setText(prefs.getString("aboutme", "-----"));
+	}
+
+	/****************************************************************
+	 * Checks server for user information and updates any changes 
+	 * void
 	 ***************************************************************/
-	private void updateBasicInfo(boolean updateFirst) {
-		if (updateFirst) {
-			String s = Server.getUser(getPlayerId());
-			if (!s.equals("")) {
-				prefs.edit().putString(BASIC_INFO, s).commit();
+	@Override
+	protected void refresh() {
+		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
+		boolean online = isOnline();
+
+		// make sure we have internet connection before talking to
+		// server
+		if (online) {
+			Log.d("debug", "updating from network");
+			String playerId = prefs.getString("player_id", "");
+			if (playerId.equals("")) {
+				Intent i = new Intent(getApplicationContext(),
+				    LoginActivity.class);
+				startActivity(i);
+				finish();
+			} else {
+				String s = Server.getUser(playerId);
+				if (!s.equals("")) {
+					String[] userinfo = s.split(TAB);
+					SharedPreferences.Editor editor = prefs.edit();
+					if (!prefs.getString("username", "").equals(
+					    userinfo[8]))
+						editor.putString("username", userinfo[8]);
+					if (!prefs.getString("name", "").equals(
+					    userinfo[0]))
+						editor.putString("name", userinfo[0]);
+					String strLocation = userinfo[1] + ", "
+					    + userinfo[2];
+					if (!prefs.getString("location", "").equals(
+					    strLocation))
+						editor.putString("location", userinfo[1]
+						    + ", " + userinfo[2]);
+					String strGender = userinfo[3];
+					if (strGender.equalsIgnoreCase("m")) {
+						strGender = "Male";
+					} else if (strGender.equalsIgnoreCase("f")) {
+						strGender = "Female";
+					} else {
+						strGender = "Other";
+					}
+					if (!prefs.getString("gender", "").equals(
+					    strGender))
+						editor.putString("gender", strGender);
+					if (!prefs.getString("age", "").equals(
+					    userinfo[4]))
+						editor.putString("age", userinfo[4]);
+					if (!prefs.getString("interests", "").equals(
+					    userinfo[5]))
+						editor.putString("interests", userinfo[5]);
+					if (!prefs.getString("aboutme", "").equals(
+					    userinfo[6]))
+						editor.putString("aboutme", userinfo[6]);
+					editor.commit();
+				}
 			}
+		} else {
+			Log.d("debug", "couldn't update - no network connection");
 		}
-		setBasicInfo();
 	}
 
 	/****************************************************************
 	 * @return String
 	 ***************************************************************/
-	public String getStats() {
-		String s = Server.getUser(getPlayerId());
-		String[] userInfo = s.split("\t");
+	public String getStats(SharedPreferences prefs) {
+		String strId = prefs.getString("user_id", "");
+		if (!strId.equals("")) {
+			// String s = Server.getUser(strId);
+			// String[] userInfo = s.split("\t");
+			//
+			// /*********LOG**********LOG*************/
+			// Log.println(3, "debug", s);
+			// /*********LOG**********LOG*************/
 
-		/*********LOG**********LOG*************/
-		Log.println(3, "debug", s);
-		/*********LOG**********LOG*************/
+			// String str = "Level: " + userInfo[1] + "\nAbility: "
+			// + userInfo[2] + "\nPermissions: " + userInfo[3]
+			// + "\n\nTreasures Found: " + "xxx"
+			// + "\nTreasures Placed: " + "xxx";
+			// for (int i = 0; i < 10; i++)
+			// str += "\nMore Stats: XXX";
 
-		// String str = "Level: " + userInfo[1] + "\nAbility: "
-		// + userInfo[2] + "\nPermissions: " + userInfo[3]
-		// + "\n\nTreasures Found: " + "xxx"
-		// + "\nTreasures Placed: " + "xxx";
-		// for (int i = 0; i < 10; i++)
-		// str += "\nMore Stats: XXX";
-
-		// return str;
-		return "";
+			// return str;
+			return "";
+		} else {
+			return "";
+		}
 	}
 
-	/****************************************************************
-	 * @return String
-	 ***************************************************************/
-	public String getPlayerId() {
-		return prefs.getString("player_id", "01");
-	}
+	// /****************************************************************
+	// * @return String
+	// ***************************************************************/
+	// public String getPlayerId() {
+	// return prefs.getString("player_id", "");
+	// }
 
 	/****************************************************************
 	 * @see com.gvsusocnet.NavigationMenu#onClick(android.view.View)
@@ -174,10 +275,10 @@ public class ProfileActivity extends NavigationMenu implements
 	}
 
 	/****************************************************************
-	 * @param info
-	 * @param title void
+	 * @param title
+	 * @param info void
 	 ***************************************************************/
-	private void showDialog(String info, String title) {
+	private void showDialog(String title, String info) {
 		/*********LOG**********LOG*************/
 		// Log.println(3, "debug", "showing: " + info);
 		/*********LOG**********LOG*************/
@@ -201,12 +302,13 @@ public class ProfileActivity extends NavigationMenu implements
 		alertDialog.show();
 	}
 
-	/****************************************************************
-	 * @see android.app.Activity#onResume()
-	 ***************************************************************/
-	@Override
-	public void onResume() {
-		updateBasicInfo(true);
-		super.onResume();
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = cm.getActiveNetworkInfo();
+		if (info != null && info.isConnected()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

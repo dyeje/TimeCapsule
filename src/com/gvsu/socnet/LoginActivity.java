@@ -36,8 +36,7 @@ public class LoginActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		SharedPreferences prefs = PreferenceManager
-		    .getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences prefs = getSharedPreferences("profile", 0);
 
 		if (!prefs.getString(PLAYER_ID, "").equals("")) {
 			gotoProfile();
@@ -77,9 +76,7 @@ public class LoginActivity extends Activity implements
 
 			// temporarily sets user ID to the 'username' box for
 			// debugging
-			PreferenceManager
-			    .getDefaultSharedPreferences(getApplicationContext())
-			    .edit()
+			getSharedPreferences("profile", 0).edit()
 			    .putString(PLAYER_ID, username.getText().toString())
 			    .commit();
 			gotoProfile();
