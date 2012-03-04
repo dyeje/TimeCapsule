@@ -58,12 +58,12 @@ public class Server {
 	}
 
 	public static String getUser(String id) {
-		String command = GETUSER + "id=" + id;
+		String command = GETUSER + id;
 		return get(command);
 	}
 
 	public static String getCapsule(String id) {
-		String command = GETCAPS + id;
+		String command = GETCAPS + "id=" + id;
 		return get(command);
 	}
 

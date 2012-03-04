@@ -35,7 +35,7 @@ public class DefaultOverlays extends ItemizedOverlay {
 		if (item.getTitle() == "User")
 			return true;
 		Intent intent = new Intent(mContext, CapsuleActivity.class);
-		intent.putExtra("cID", item.getCID());
+		intent.putExtra("cID", Integer.toString(item.getCID()));
 		mContext.startActivity(intent);
 		return true;
 	}
