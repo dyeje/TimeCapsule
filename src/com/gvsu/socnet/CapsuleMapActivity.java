@@ -161,23 +161,6 @@ public class CapsuleMapActivity extends MapActivity implements
 		    .setOnClickListener(this);
 		((Button) findViewById(R.id.map_map_button))
 		    .setOnClickListener(this);
-
-		// Old way of registering buttons for clicks
-		// We can go back to it if we ever need the buttons outside
-		// the onCreate method
-
-		// Button btnSettings = (Button)
-		// findViewById(R.id.map_settings_button);
-		// btnSettings.setOnClickListener(this);
-		// Button btnFilter = (Button)
-		// findViewById(R.id.map_filter_button);
-		// btnFilter.setOnClickListener(this);
-		// Button btnCapture = (Button)
-		// findViewById(R.id.map_capture_button);
-		// btnCapture.setOnClickListener(this);
-		// Button btnProfile = (Button)
-		// findViewById(R.id.map_profile_button);
-		// btnProfile.setOnClickListener(this);
 	}
 
 	@Override
@@ -227,10 +210,14 @@ public class CapsuleMapActivity extends MapActivity implements
 	 * @return void
 	 ***************************************************************/
 	protected void requestLocationUpdates() {
+//		locationManager.requestLocationUpdates(
+//		    LocationManager.NETWORK_PROVIDER, 5 * 100, 2f, this);
+//		locationManager.requestLocationUpdates(
+//		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 5 * 100, 2f, this);
+			LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		locationManager.requestLocationUpdates(
-		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+			LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	/**

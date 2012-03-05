@@ -27,15 +27,14 @@ public class Server {
 
 	// Get Capsule
 	private static final String GETCAPS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
-
 	// Create Capsule
 	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
-
 	// Get User
 	private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
-
 	// Set User
 	private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
+	// Get Comments
+	private static final String GETCOMMENTS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getVisit.php?";
 
 	public static String newUser(String name, String location,
 	    String state, String gender, String age, String interests,
@@ -70,6 +69,17 @@ public class Server {
 	public static String getTreasure(String lat, String lng) {
 		String command = GETCAPS + "lat=" + lat + "&long=" + lng
 		    + "&radius=4";
+		return get(command);
+	}
+	
+	public static String getComments(String capsuleId) {
+		String command = GETCOMMENTS + "capsuleId=" + capsuleId;
+		return get(command);
+	}
+
+	public static String getComments(String capsuleId, String userId) {
+		String command = GETCOMMENTS + "userId=" + userId
+		    + "&capsuleId=" + capsuleId;
 		return get(command);
 	}
 

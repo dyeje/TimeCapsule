@@ -311,4 +311,15 @@ public class ProfileActivity extends NavigationMenu implements
 			return false;
 		}
 	}
+	
+	protected boolean gotoProfile() {
+		
+		return false;
+	}
+	protected boolean gotoMap() {
+		Intent myIntent = new Intent(getBaseContext(),
+		    CapsuleMapActivity.class);
+		startActivity(myIntent);
+		return true;
+	}
 }

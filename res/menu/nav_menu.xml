@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/goto_capsule"
-        android:icon="@drawable/ic_menu_map"
+        android:icon="@drawable/ic_capsule"
         android:title="Capsule"/>
     <item
         android:id="@+id/refresh"
-        android:icon="@drawable/ic_launcher"
         android:title="Refresh"/>
+        android:icon="@drawable/ic_capsule"
 
 </menu>

@@ -29,6 +29,8 @@ public abstract class NavigationMenu extends Activity implements
 
 	protected Button btnMenu, btnCapture, btnProfile, btnMap;
 
+	protected abstract boolean gotoProfile();
+	protected abstract boolean gotoMap();
 	protected abstract void refresh();
 
 	@Override
@@ -92,25 +94,24 @@ public abstract class NavigationMenu extends Activity implements
 		    + ((result) ? "successful" : "unsuccessful"));
 		return result;
 	}
+//	private boolean gotoProfile() {
+//		// Log.d("debug", thisClass.toString());
+//		// if (thisClass != ProfileActivity.class) {
+//		Intent myIntent = new Intent(getBaseContext(),
+//		    ProfileActivity.class);
+//		startActivity(myIntent);
+//		// }
+//		return true;
+//	}
 
-	private boolean gotoProfile() {
-		// Log.d("debug", thisClass.toString());
-		// if (thisClass != ProfileActivity.class) {
-		Intent myIntent = new Intent(getBaseContext(),
-		    ProfileActivity.class);
-		startActivity(myIntent);
-		// }
-		return true;
-	}
-
-	private boolean gotoMap() {
-		// if (thisClass != CapsuleMapActivity.class) {
-		Intent myIntent = new Intent(getBaseContext(),
-		    CapsuleMapActivity.class);
-		startActivity(myIntent);
-		// }
-		return true;
-	}
+//	private boolean gotoMap() {
+//		// if (thisClass != CapsuleMapActivity.class) {
+//		Intent myIntent = new Intent(getBaseContext(),
+//		    CapsuleMapActivity.class);
+//		startActivity(myIntent);
+//		// }
+//		return true;
+//	}
 
 	private boolean gotoSettings() {
 		Intent myIntent = new Intent(getBaseContext(),
@@ -125,7 +126,7 @@ public abstract class NavigationMenu extends Activity implements
 	 ***************************************************************/
 	@Override
 	public void onClick(View v) {
-		Log.v("debug", "Button Clicked");
+//		Log.v("debug", "Button Clicked");
 		switch (v.getId()) {
 		case R.id.menu_button:
 			Intent intent = new Intent(getApplicationContext(),
@@ -148,10 +149,5 @@ public abstract class NavigationMenu extends Activity implements
 			break;
 		}
 
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
 	}
 }

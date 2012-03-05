@@ -28,7 +28,8 @@ public class AddCapsule extends Activity implements OnClickListener,
 	private Button capture, cancel, addpicture;
 	private EditText name, content, description;
 	private LocationManager locationManager;
-	private GeoPoint userLocation;
+	// private GeoPoint userLocation;
+	private Location userLocation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,9 @@ public class AddCapsule extends Activity implements OnClickListener,
 		    .getSystemService(Context.LOCATION_SERVICE);
 
 		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+		    LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		locationManager.requestLocationUpdates(
-		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+		    LocationManager.GPS_PROVIDER, 0, 0, this);
 
 		this.getWindow()
 		    .setSoftInputMode(
@@ -65,11 +66,12 @@ public class AddCapsule extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.btn_capture:
 
-			if (userLocation != null) {
-				String lat = Double.toString(userLocation
-				    .getLatitudeE6() / 1000000.0);
-				String lng = Double.toString(userLocation
-				    .getLongitudeE6() / 1000000.0);
+			if (userLocation != null
+			    && userLocation.getAccuracy() < 500) {
+				// String lat = Double.toString(userLocation
+				// .getLatitudeE6() / 1e6);
+				// String lng = Double.toString(userLocation
+				// .getLongitudeE6() / 1e6);
 
 				String name = "";
 				char[] nam = this.name.getText().toString()
@@ -91,8 +93,10 @@ public class AddCapsule extends Activity implements OnClickListener,
 						description += descript[i];
 				}
 
-				Server.newCapsule(lat, lng, name.toString(),
-				    description);
+				Server.newCapsule(
+				    Double.toString(userLocation.getLatitude()),
+				    Double.toString(userLocation.getLongitude()),
+				    name.toString(), description);
 				finish();
 			} else {
 				Toast.makeText(getApplicationContext(),
@@ -112,25 +116,28 @@ public class AddCapsule extends Activity implements OnClickListener,
 	public void onLocationChanged(Location location) {
 		if (location != null) {
 
-			double lat = location.getLatitude() * 1000000.0;
-			double lng = location.getLongitude() * 1000000.0;
+			userLocation = location;
+			// double lat = location.getLatitude() * 1000000.0;
+			// double lng = location.getLongitude() * 1000000.0;
 
-			userLocation = new GeoPoint((int) lat, (int) lng);
+			// userLocation = new GeoPoint((int) lat, (int) lng);
 
-		} else {
-			Criteria crit = new Criteria();
-			crit.setAccuracy(Criteria.ACCURACY_FINE);
-			String provider = locationManager.getBestProvider(crit,
-			    true);
-			Location lastLocation = locationManager
-			    .getLastKnownLocation(provider);
-			if (lastLocation != null) {
-				double lat = lastLocation.getLatitude() * 1000000.0;
-				double lng = lastLocation.getLongitude() * 1000000.0;
-
-				userLocation = new GeoPoint((int) lat, (int) lng);
-			}
 		}
+		// else {
+		// Criteria crit = new Criteria();
+		// crit.setAccuracy(Criteria.ACCURACY_FINE);
+		// String provider = locationManager.getBestProvider(crit,
+		// true);
+		// Location lastLocation = locationManager
+		// .getLastKnownLocation(provider);
+		// if (lastLocation != null) {
+		// userLocation = location;
+		// double lat = lastLocation.getLatitude() * 1000000.0;
+		// double lng = lastLocation.getLongitude() * 1000000.0;
+		//
+		// userLocation = new GeoPoint((int) lat, (int) lng);
+		// }
+		// }
 	}
 
 	/****************************************************************

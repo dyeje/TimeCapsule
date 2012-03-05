@@ -23,13 +23,18 @@ public class CapsuleActivity extends NavigationMenu implements
 
 	/** String YOUTUBE */
 	private final String YOUTUBE = "http://www.youtube.com/watch?v=";
+
+	/** String TAB */
 	private final String TAB = "\t";
+
+	/** String capsuleId */
+	private String capsuleId;
 
 	/** LinearLayout commentList */
 	LinearLayout commentList;
 
 	/** ArrayList<TextView> comments */
-	ArrayList<TextView> comments;
+	// ArrayList<TextView> comments;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,19 +53,21 @@ public class CapsuleActivity extends NavigationMenu implements
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
 
-		commentList = (LinearLayout) findViewById(R.id.comment_layout);
-		createFakeComments();
-
 		// Get Treasure Info From Server
 		Intent intent = this.getIntent();
-		String id = intent.getStringExtra("cID");
-		Log.d("debug", "id = " + id);
-		String[] treasureInfo = Server.getCapsule(id).split(TAB);
+		final String cId = intent.getStringExtra("cID");
+		capsuleId = cId;
+		Log.d("debug", "id = " + capsuleId);
+		String[] treasureInfo = Server.getCapsule(capsuleId).split(
+		    TAB);
 		String debug = "";
 		for (String str : treasureInfo) {
 			debug += str;
 			debug += " - ";
 		}
+
+		commentList = (LinearLayout) findViewById(R.id.comment_layout);
+		createComments();
 
 		Log.d("debug", debug);
 		//
@@ -129,32 +136,38 @@ public class CapsuleActivity extends NavigationMenu implements
 		return true;
 	}
 
-	private void createFakeComments() {
-		comments = new ArrayList<TextView>();
+	private void createComments() {
+		String commentsFromServer = Server.getComments(capsuleId);
+		Log.d("debug", capsuleId + ":" + commentsFromServer);
+		String[] strArrayComments = commentsFromServer.split("\n");
+		for (String s : strArrayComments) {
+			if (!s.equals("")) {
+				String[] strArrayComment = s.split("\t");
+				// Log.d("debug", s);
+				String[] strArrayUser = Server.getUser(
+				    strArrayComment[0]).split("\t");
+				TextView t = new TextView(this);
+				String user = strArrayUser[8];
+				t.setId(Integer.parseInt(strArrayComment[0]));
+				t.setText(new Comment(user, strArrayComment[2])
+				    .toString());
+				t.setPadding(0, 10, 0, 0);
+				commentList.addView(t);
+			}
+		}
+	}
 
-		TextView t = new TextView(this);
-		t.setText(new Comment("Caleb", "This is fun").toString());
-		t.setPadding(0, 10, 0, 0);
-		// commentList.addView(t);
-		TextView t1 = new TextView(this);
-		t1.setPadding(0, 10, 0, 0);
-		t1.setText(new Comment("Joe", "I like youtube").toString());
-		// commentList.addView(t1);
+	protected boolean gotoProfile() {
+		Intent myIntent = new Intent(getBaseContext(),
+		    ProfileActivity.class);
+		startActivity(myIntent);
+		return false;
+	}
 
-		comments.add(t);
-		comments.add(t1);
-//		int i = 0;
-//		while (i <= 5) {
-//			TextView T = new TextView(this);
-//			T.setText(new Comment("Person" + i,
-//			    "Random Gibberish to show scrolling effect " + i)
-//			    .toString());
-//			T.setPadding(0, 10, 0, 0);
-//			comments.add(T);
-//			i++;
-//		}
-//		for (TextView c : comments) {
-//			commentList.addView(c);
-//		}
+	protected boolean gotoMap() {
+		Intent myIntent = new Intent(getBaseContext(),
+		    CapsuleMapActivity.class);
+		startActivity(myIntent);
+		return true;
 	}
 }
