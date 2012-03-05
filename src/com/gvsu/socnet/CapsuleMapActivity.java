@@ -61,6 +61,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -85,6 +86,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	DefaultOverlays itemizeduseroverlay;
 	GeoPoint userLocation;
 	MapController mapController;
+	MapView mapView;
 	CapsuleOverlayItem userOverlay;
 	String lastRetrieve;
 	LocationManager locationManager;
@@ -94,6 +96,8 @@ public class CapsuleMapActivity extends MapActivity implements
 	Bitmap bMap;
 	Criteria crit;
 	long lastTimeMapCentered;
+	int numNotifiedAboutPoorLocation;
+	boolean warnedAboutDriving;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -104,8 +108,13 @@ public class CapsuleMapActivity extends MapActivity implements
 		// ViewGroup.inflate(this, R.layout.map, vg);
 
 		setContentView(R.layout.map);
-		MapView mapView = (MapView) findViewById(R.id.mapview);
+		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
+		mapView.setSatellite(true);
+		mapView.setDrawingCacheEnabled(true);
+		mapView
+		    .setDrawingCacheQuality(MapView.DRAWING_CACHE_QUALITY_AUTO);
+		// mapView.setStreetView(true);
 
 		mapController = mapView.getController();
 
@@ -115,7 +124,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		mapOverlays = mapView.getOverlays();
 
 		capsuleDrawable = this.getResources().getDrawable(
-		    R.drawable.androidmarker);
+		    R.drawable.ic_capsule);
 		itemizedoverlays = new DefaultOverlays(capsuleDrawable, this);
 
 		userDrawable = this.getResources().getDrawable(
@@ -149,6 +158,8 @@ public class CapsuleMapActivity extends MapActivity implements
 		((Button) findViewById(R.id.map_capture_button))
 		    .setOnClickListener(this);
 		((Button) findViewById(R.id.map_profile_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_map_button))
 		    .setOnClickListener(this);
 
 		// Old way of registering buttons for clicks
@@ -201,6 +212,8 @@ public class CapsuleMapActivity extends MapActivity implements
 		    + prefs.getFloat(FilterActivity.MIN_RATING, -1);
 		Log.d("debug", "filters: " + info);
 		requestLocationUpdates();
+		warnedAboutDriving = false;
+		numNotifiedAboutPoorLocation = 0;
 	}
 
 	@Override
@@ -215,7 +228,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	 ***************************************************************/
 	protected void requestLocationUpdates() {
 		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 5 * 1000, 2f, this);
+		    LocationManager.NETWORK_PROVIDER, 5 * 100, 2f, this);
 		locationManager.requestLocationUpdates(
 		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 	}
@@ -225,10 +238,8 @@ public class CapsuleMapActivity extends MapActivity implements
 	 * to the users current location.
 	 */
 	protected void retrieveCapsules(GeoPoint userLoc) {
-		String lat = Double
-		    .toString(userLoc.getLatitudeE6() / 1000000.0);
-		String lng = Double
-		    .toString(userLoc.getLongitudeE6() / 1000000.0);
+		String lat = Double.toString(userLoc.getLatitudeE6() / 1e6);
+		String lng = Double.toString(userLoc.getLongitudeE6() / 1e6);
 		String retrieve = Server.getTreasure(lat, lng);
 		if (lastRetrieve != retrieve || lastRetrieve == null) {
 			lastRetrieve = retrieve;
@@ -259,12 +270,10 @@ public class CapsuleMapActivity extends MapActivity implements
 					try {
 						int cID = Integer.parseInt(capsuleData[0]);
 						double latitude = Double
-						    .parseDouble(capsuleData[2]) * 1000000.0;
+						    .parseDouble(capsuleData[2]) * 1e6;
 						double longitude = Double
-						    .parseDouble(capsuleData[3]) * 1000000.0;
+						    .parseDouble(capsuleData[3]) * 1e6;
 
-						Log.d("debug", "lat = " + latitude
-						    + " lon = " + longitude);
 						int lat = (int) latitude;
 						int lng = (int) longitude;
 
@@ -294,11 +303,23 @@ public class CapsuleMapActivity extends MapActivity implements
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if (location != null) {
+		Log.d("debug", "accuracy = " + location.getAccuracy()
+		    + " speed = " + location.getSpeed());
+		if (location.getSpeed() > 25 && !warnedAboutDriving) {
+			warnedAboutDriving = true;
+			Toast
+			    .makeText(
+			        this,
+			        "Caution: do not use this application while driving ",
+			        Toast.LENGTH_LONG).show();
+		}
+		// will not accept location without a good accuracy
+		if (location != null && location.getAccuracy() <= 500) {
+			Log.d("debug", location.getAccuracy() + " good enough accuracy");
 			itemizeduseroverlay.clear();
 
-			double lat = location.getLatitude() * 1000000.0;
-			double lng = location.getLongitude() * 1000000.0;
+			double lat = location.getLatitude() * 1e6;
+			double lng = location.getLongitude() * 1e6;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
 			userOverlay = new CapsuleOverlayItem(userLocation,
@@ -308,7 +329,44 @@ public class CapsuleMapActivity extends MapActivity implements
 
 			retrieveCapsules(userLocation);
 			mapOverlays.add(itemizeduseroverlay);
+
+			// updates user's location as they move if they checked
+			// the optional box in preferences
+			if (PreferenceManager.getDefaultSharedPreferences(
+			    getApplicationContext()).getBoolean("follow_user",
+			    false)) {
+				centerMap(false);
+			}
+//			numNotifiedAboutPoorLocation = 0;
+		} else if (location != null && location.hasAccuracy()) {
+			// if accuracy is bad, will let user know it is still
+			// looking
+			switch (numNotifiedAboutPoorLocation) {
+			case 0:
+				Toast.makeText(CapsuleMapActivity.this,
+				    "Waiting for a better GPS position...",
+				    Toast.LENGTH_LONG).show();
+				break;
+			case 1:
+				Toast.makeText(CapsuleMapActivity.this,
+					"Still waiting for a better GPS position...",
+					Toast.LENGTH_LONG).show();
+				break;
+			case 2:
+			case 3:
+			case 4:
+				Toast.makeText(CapsuleMapActivity.this,
+					"Still waiting...",
+					Toast.LENGTH_LONG).show();
+				break;
+			}
+			numNotifiedAboutPoorLocation++;
 		} else {
+			// if gps has no accuracy, will resposition on last known
+			// location
+			Toast.makeText(this, "Not sure where you are...",
+			    Toast.LENGTH_LONG).show();
+			numNotifiedAboutPoorLocation++;
 			String provider = locationManager.getBestProvider(crit,
 			    true);
 			Location lastLocation = locationManager
@@ -324,13 +382,6 @@ public class CapsuleMapActivity extends MapActivity implements
 			itemizeduseroverlay.addOverlay(userOverlay);
 
 			retrieveCapsules(userLocation);
-		}
-
-		// updates user's location as they move if they checked
-		// the optional box in preferences
-		if (PreferenceManager.getDefaultSharedPreferences(
-		    getApplicationContext()).getBoolean("follow_user", false)) {
-			centerMap(false);
 		}
 	}
 
@@ -374,11 +425,14 @@ public class CapsuleMapActivity extends MapActivity implements
 	private void centerMap(boolean forceRefresh) {
 		Log.d("debug", "centering map");
 		long now = Calendar.getInstance().getTimeInMillis();
-		if ((now > lastTimeMapCentered + 5000 || forceRefresh)
+		if ((now > lastTimeMapCentered + 1000 || forceRefresh)
 		    && userLocation != null) {
 			lastTimeMapCentered = now;
 			mapController.animateTo(userLocation);
-			mapController.setZoom(20);
+			PreferenceManager
+			    .getDefaultSharedPreferences(getApplicationContext())
+			    .edit().putBoolean("follow_user", true);
+			// mapController.setZoom(20);
 		}
 	}
 
@@ -410,6 +464,16 @@ public class CapsuleMapActivity extends MapActivity implements
 			startActivity(i3);
 			break;
 		case R.id.map_map_button:
+			if (mapView.isSatellite()) {
+				mapView.setSatellite(false);
+				((Button) findViewById(R.id.map_map_button))
+				    .setBackgroundResource(R.drawable.ic_tab_map_grey);
+			} else {
+				mapView.setSatellite(true);
+				((Button) findViewById(R.id.map_map_button))
+				    .setBackgroundResource(R.drawable.ic_tab_map_color);
+			}
+
 			break;
 		}
 

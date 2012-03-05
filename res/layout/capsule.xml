@@ -42,14 +42,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/play_icon"
-                android:text="media" />
+                android:text="media"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="A funny Youtube video I found" />
+                android:text="A funny Youtube video I found"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/timesFound"

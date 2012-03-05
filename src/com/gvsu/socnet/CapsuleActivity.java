@@ -36,7 +36,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-		View.inflate(this, R.layout.treasure, vg);
+		View.inflate(this, R.layout.capsule, vg);
 		// setContentView(R.layout.treasure);
 
 		// btnCapture.setVisibility(View.INVISIBLE);
@@ -143,18 +143,18 @@ public class CapsuleActivity extends NavigationMenu implements
 
 		comments.add(t);
 		comments.add(t1);
-		int i = 0;
-		while (i <= 5) {
-			TextView T = new TextView(this);
-			T.setText(new Comment("Person" + i,
-			    "Random Gibberish to show scrolling effect " + i)
-			    .toString());
-			T.setPadding(0, 10, 0, 0);
-			comments.add(T);
-			i++;
-		}
-		for (TextView c : comments) {
-			commentList.addView(c);
-		}
+//		int i = 0;
+//		while (i <= 5) {
+//			TextView T = new TextView(this);
+//			T.setText(new Comment("Person" + i,
+//			    "Random Gibberish to show scrolling effect " + i)
+//			    .toString());
+//			T.setPadding(0, 10, 0, 0);
+//			comments.add(T);
+//			i++;
+//		}
+//		for (TextView c : comments) {
+//			commentList.addView(c);
+//		}
 	}
 }

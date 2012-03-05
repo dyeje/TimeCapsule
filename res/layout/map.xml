@@ -60,7 +60,7 @@
             android:layout_height="50dip"
             android:layout_marginRight="2dip"
             android:layout_toLeftOf="@+id/map_capture_button"
-            android:background="@drawable/ic_tab_map_grey"
+            android:background="@drawable/ic_tab_map_color"
             android:padding="10dip"
             android:textColor="#FFFFFF" />
 
