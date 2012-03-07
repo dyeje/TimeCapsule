@@ -36,7 +36,7 @@ package com.gvsu.socnet;
  * (or just delete this when you read it)
  */
 
-import java.io.BufferedInputStream;
+
 import java.io.FileInputStream;
 import java.util.Calendar;
 import java.util.List;
@@ -45,13 +45,11 @@ import soc.net.R;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -62,7 +60,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -90,10 +87,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	CapsuleOverlayItem userOverlay;
 	String lastRetrieve;
 	LocationManager locationManager;
-	Uri fileUri;
 	FileInputStream in;
-	BufferedInputStream buf;
-	Bitmap bMap;
 	Criteria crit;
 	long lastTimeMapCentered;
 	int numNotifiedAboutPoorLocation;
