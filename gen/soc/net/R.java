@@ -111,7 +111,7 @@ public final class R {
         public static final int play_button=0x7f0a000d;
         public static final int player_info=0x7f0a0043;
         public static final int profile_button=0x7f0a0018;
-        public static final int profile_edit_button=0x7f0a0017;
+        public static final int progress_bar_big=0x7f0a0017;
         public static final int radio_female=0x7f0a0039;
         public static final int radio_male=0x7f0a0038;
         public static final int radio_unsure=0x7f0a003a;

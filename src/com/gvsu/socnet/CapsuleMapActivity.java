@@ -60,6 +60,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -102,6 +103,9 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+	    setProgressBarVisibility(true);
 
 		// I am trying to get the header and footer around the map...
 		// ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
@@ -166,7 +170,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		requestLocationUpdates();
+		// requestLocationUpdates();
 	}
 
 	@Override
@@ -178,7 +182,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onRestart() {
 		super.onRestart();
-		requestLocationUpdates();
+		// requestLocationUpdates();
 	}
 
 	@Override
@@ -210,14 +214,14 @@ public class CapsuleMapActivity extends MapActivity implements
 	 * @return void
 	 ***************************************************************/
 	protected void requestLocationUpdates() {
-//		locationManager.requestLocationUpdates(
-//		    LocationManager.NETWORK_PROVIDER, 5 * 100, 2f, this);
-//		locationManager.requestLocationUpdates(
-//		    LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
+		// locationManager.requestLocationUpdates(
+		// LocationManager.NETWORK_PROVIDER, 5 * 100, 2f, this);
+		// locationManager.requestLocationUpdates(
+		// LocationManager.GPS_PROVIDER, 5 * 1000, 2f, this);
 		locationManager.requestLocationUpdates(
-			LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		    LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		locationManager.requestLocationUpdates(
-			LocationManager.GPS_PROVIDER, 0, 0, this);
+		    LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	/**
@@ -302,7 +306,8 @@ public class CapsuleMapActivity extends MapActivity implements
 		}
 		// will not accept location without a good accuracy
 		if (location != null && location.getAccuracy() <= 500) {
-			Log.d("debug", location.getAccuracy() + " good enough accuracy");
+			Log.d("debug", location.getAccuracy()
+			    + " good enough accuracy");
 			itemizeduseroverlay.clear();
 
 			double lat = location.getLatitude() * 1e6;
@@ -324,7 +329,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			    false)) {
 				centerMap(false);
 			}
-//			numNotifiedAboutPoorLocation = 0;
+			// numNotifiedAboutPoorLocation = 0;
 		} else if (location != null && location.hasAccuracy()) {
 			// if accuracy is bad, will let user know it is still
 			// looking
@@ -336,15 +341,13 @@ public class CapsuleMapActivity extends MapActivity implements
 				break;
 			case 1:
 				Toast.makeText(CapsuleMapActivity.this,
-					"Still waiting for a better GPS position...",
-					Toast.LENGTH_LONG).show();
+				    "Still waiting for a better GPS position...",
+				    Toast.LENGTH_LONG).show();
 				break;
-			case 2:
-			case 3:
-			case 4:
-				Toast.makeText(CapsuleMapActivity.this,
-					"Still waiting...",
-					Toast.LENGTH_LONG).show();
+			default:
+				if (numNotifiedAboutPoorLocation % 10 == 0)
+					Toast.makeText(CapsuleMapActivity.this,
+					    "Still waiting...", Toast.LENGTH_LONG).show();
 				break;
 			}
 			numNotifiedAboutPoorLocation++;
@@ -360,8 +363,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			    .getLastKnownLocation(provider);
 			itemizeduseroverlay.clear();
 
-			double lat = lastLocation.getLatitude() * 1000000.0;
-			double lng = lastLocation.getLongitude() * 1000000.0;
+			double lat = lastLocation.getLatitude() * 1e6;
+			double lng = lastLocation.getLongitude() * 1e6;
 
 			userLocation = new GeoPoint((int) lat, (int) lng);
 			userOverlay = new CapsuleOverlayItem(userLocation,
