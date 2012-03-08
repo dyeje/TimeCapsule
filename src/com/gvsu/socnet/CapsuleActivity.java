@@ -1,7 +1,5 @@
 package com.gvsu.socnet;
 
-import java.util.ArrayList;
-
 import soc.net.R;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,10 +26,10 @@ public class CapsuleActivity extends NavigationMenu implements
 	private final String TAB = "\t";
 
 	/** String capsuleId */
-	private String capsuleId;
+	// private String capsuleId;
 
 	/** LinearLayout commentList */
-	LinearLayout commentList;
+	// LinearLayout commentList;
 
 	/** ArrayList<TextView> comments */
 	// ArrayList<TextView> comments;
@@ -42,37 +40,35 @@ public class CapsuleActivity extends NavigationMenu implements
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
 		View.inflate(this, R.layout.capsule, vg);
+		refresh();
+
+		// ImageView playButton = (ImageView)
+		// findViewById(R.id.play_button);
+		// playButton.setOnClickListener(this);
+
 		// setContentView(R.layout.treasure);
 
 		// btnCapture.setVisibility(View.INVISIBLE);
 		// btnMap.setVisibility(View.INVISIBLE);
 		// btnProfile.setVisibility(View.INVISIBLE);
-
-		ImageView playButton = (ImageView) findViewById(R.id.play_button);
-		playButton.setOnClickListener(this);
-		TextView title = (TextView) findViewById(R.id.capsule_title);
-		TextView description = (TextView) findViewById(R.id.description);
-
 		// Get Treasure Info From Server
-		Intent intent = this.getIntent();
-		final String cId = intent.getStringExtra("cID");
-		capsuleId = cId;
-		Log.d("debug", "id = " + capsuleId);
-		String[] treasureInfo = Server.getCapsule(capsuleId).split(
-		    TAB);
-		String debug = "";
-		for (String str : treasureInfo) {
-			debug += str;
-			debug += " - ";
-		}
+		// Intent intent = this.getIntent();
+		// final String cId = intent.getStringExtra("cID");
+		// Log.d("debug", "Capsule id = " + cId);
+		// setTitleAndDescription(cId);
+		// addComments(cId);
+		// capsuleId = cId;
 
-		commentList = (LinearLayout) findViewById(R.id.comment_layout);
-		createComments();
+		// commentList = (LinearLayout)
+		// findViewById(R.id.comment_layout);
 
-		Log.d("debug", debug);
+		// String debug = "";
+		// for (String str : treasureInfo) {
+		// debug += str;
+		// debug += " - ";
+		// }
+		// Log.d("debug", debug);
 		//
-		title.setText(treasureInfo[0]);
-		description.setText(treasureInfo[3]);
 		//
 		// TextView leftOn = (TextView) findViewById(R.id.leftOn);
 		// leftOn.setText(treasureInfo[5]/* .substring(0, 10) */);
@@ -84,9 +80,16 @@ public class CapsuleActivity extends NavigationMenu implements
 		// TextView tv = (TextView) findViewById(R.id.)
 	}
 
+	/****************************************************************
+	 * Get capsule info from the server and display it
+	 **************************************************************
+	 */
 	@Override
 	protected void refresh() {
-
+		Intent intent = this.getIntent();
+		final String cId = intent.getStringExtra("cID");
+		setTitleAndDescription(cId);
+		addComments(cId);
 	}
 
 	/****************************************************************
@@ -113,31 +116,42 @@ public class CapsuleActivity extends NavigationMenu implements
 	 * @param id
 	 * @return String
 	 ***************************************************************/
-	public String getCapsule(String id) {
-		String s = Server.getCapsule(id);
-		String[] treasureInfo = s.split("\t");
-
-		/*********LOG**********LOG*************/
-		Log.println(3, "debug", s);
-		/*********LOG**********LOG*************/
-
-		String str =
-		// "Lat: " + treasureInfo[0] + "\tLong: " + treasureInfo[1] +
-		"\n\nQuestion: " + treasureInfo[2] + "\nAnswer: "
-		    + treasureInfo[3] + "\n\nPoints: " + treasureInfo[4];
-		// + "\n\nCreated: " + treasureInfo[5] + "\nExpires: "
-		// + treasureInfo[6];
-
-		return str;
-	}
+	// public String getCapsule(String id) {
+	// String s = Server.getCapsule(id);
+	// String[] treasureInfo = s.split("\t");
+	//
+	// /*********LOG**********LOG*************/
+	// Log.println(3, "debug", s);
+	// /*********LOG**********LOG*************/
+	//
+	// String str =
+	// // "Lat: " + treasureInfo[0] + "\tLong: " + treasureInfo[1] +
+	// "\n\nQuestion: " + treasureInfo[2] + "\nAnswer: "
+	// + treasureInfo[3] + "\n\nPoints: " + treasureInfo[4];
+	// // + "\n\nCreated: " + treasureInfo[5] + "\nExpires: "
+	// // + treasureInfo[6];
+	//
+	// return str;
+	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return true;
 	}
 
-	private void createComments() {
+	private void setTitleAndDescription(String capsuleId) {
+		TextView title = (TextView) findViewById(R.id.capsule_title);
+		TextView description = (TextView) findViewById(R.id.description);
+		String[] treasureInfo = Server.getCapsule(capsuleId).split(
+		    TAB);
+		title.setText(treasureInfo[0]);
+		description.setText(treasureInfo[3]);
+	}
+
+	private void addComments(String capsuleId) {
+		LinearLayout commentList = (LinearLayout) findViewById(R.id.comment_layout);
 		String commentsFromServer = Server.getComments(capsuleId);
+
 		Log.d("debug", capsuleId + ":" + commentsFromServer);
 		String[] strArrayComments = commentsFromServer.split("\n");
 		for (String s : strArrayComments) {
@@ -157,6 +171,13 @@ public class CapsuleActivity extends NavigationMenu implements
 		}
 	}
 
+	protected boolean gotoMenu() {
+		//TODO
+		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+		startActivity(i);
+		return true;
+	}
+
 	protected boolean gotoProfile() {
 		Intent myIntent = new Intent(getBaseContext(),
 		    ProfileActivity.class);
@@ -169,5 +190,9 @@ public class CapsuleActivity extends NavigationMenu implements
 		    CapsuleMapActivity.class);
 		startActivity(myIntent);
 		return true;
+	}
+
+	protected boolean newCapsule() {
+		return false;
 	}
 }

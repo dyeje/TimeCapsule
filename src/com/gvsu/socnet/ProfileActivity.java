@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /****************************************************************
  * com.gvsusocnet.ProfileActivity
@@ -233,39 +234,38 @@ public class ProfileActivity extends NavigationMenu implements
 	// return prefs.getString("player_id", "");
 	// }
 
-	/****************************************************************
-	 * @see com.gvsusocnet.NavigationMenu#onClick(android.view.View)
-	 * @param v
-	 ***************************************************************/
-	@Override
-	public void onClick(View v) {
-		/*********LOG**********LOG*************/
-		Log.println(2, "debug", "Click Switch");
-		/*********LOG**********LOG*************/
-		switch (v.getId()) {
-		case R.id.player_info:
-			// showDialog(getStats(), "Detailed Stats");
-			break;
-		case R.id.text_name:
-			// showDialog(getStats(), "Detailed Stats");
-			break;
-		case R.id.text_age:
-			// showDialog(getStats(), "Detailed Stats");
-			break;
-		case R.id.btn_capture:
-			Intent myIntent = new Intent(this, AddCapsule.class);
-			startActivity(myIntent);
-			break;
-		case -123:
-			Intent i = new Intent(getApplicationContext(),
-			    CapsuleActivity.class);
-			startActivity(i);
-			break;
-		default:
-			super.onClick(v);
-			break;
-		}
-	}
+//	/****************************************************************
+//	 * @see com.gvsusocnet.NavigationMenu#onClick(android.view.View)
+//	 * @param v
+//	 ***************************************************************/
+//	@Override
+//	public void onClick(View v) {
+//		/*********LOG**********LOG*************/
+//		Log.println(2, "debug", "Click Switch");
+//		/*********LOG**********LOG*************/
+//		switch (v.getId()) {
+//		case R.id.player_info:
+//			// showDialog(getStats(), "Detailed Stats");
+//			break;
+//		case R.id.text_name:
+//			// showDialog(getStats(), "Detailed Stats");
+//			break;
+//		case R.id.text_age:
+//			// showDialog(getStats(), "Detailed Stats");
+//			break;
+//		case R.id.btn_capture:
+//			newCapsule();
+//			break;
+//		case -123:
+//			Intent i = new Intent(getApplicationContext(),
+//			    CapsuleActivity.class);
+//			startActivity(i);
+//			break;
+//		default:
+//			super.onClick(v);
+//			break;
+//		}
+//	}
 
 	/****************************************************************
 	 * @return boolean
@@ -314,13 +314,28 @@ public class ProfileActivity extends NavigationMenu implements
 		}
 	}
 	
+	protected boolean gotoMenu() {
+		//TODO
+		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+		startActivity(i);
+		return true;
+	}
+
 	protected boolean gotoProfile() {
-		
+		//TODO
+		Toast.makeText(this, "you're already here!", Toast.LENGTH_SHORT);
 		return false;
 	}
+
 	protected boolean gotoMap() {
 		Intent myIntent = new Intent(getBaseContext(),
 		    CapsuleMapActivity.class);
+		startActivity(myIntent);
+		return true;
+	}
+
+	protected boolean newCapsule() {
+		Intent myIntent = new Intent(this, AddCapsule.class);
 		startActivity(myIntent);
 		return true;
 	}
