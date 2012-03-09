@@ -57,7 +57,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
@@ -99,16 +98,16 @@ public class CapsuleMapActivity extends MapActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
-//		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-//		View.inflate(this, R.layout.map, vg);
-		 setContentView(R.layout.map);
+		// ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
+		// View.inflate(this, R.layout.map, vg);
+		setContentView(R.layout.map);
 
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);
 		mapView.setDrawingCacheEnabled(true);
 		mapView
-		    .setDrawingCacheQuality(MapView.DRAWING_CACHE_QUALITY_AUTO);
+		    .setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_AUTO);
 		// mapView.setStreetView(true);
 
 		mapController = mapView.getController();

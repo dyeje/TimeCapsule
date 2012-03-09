@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +74,7 @@ public class ProfileActivity extends NavigationMenu implements
 		setInfo(prefs);
 		listener = new OnSharedPreferenceChangeListener() {
 
+			@Override
 			public void onSharedPreferenceChanged(
 			    SharedPreferences sPrefs, String key) {
 
@@ -237,6 +237,7 @@ public class ProfileActivity extends NavigationMenu implements
 		}
 	}
 
+	@Override
 	protected boolean gotoMenu() {
 		Intent i = new Intent(getApplicationContext(),
 		    SettingsActivity.class);
@@ -244,6 +245,7 @@ public class ProfileActivity extends NavigationMenu implements
 		return true;
 	}
 
+	@Override
 	protected boolean gotoProfile() {
 		Toast.makeText(this, "Edit your profile", Toast.LENGTH_SHORT)
 		    .show();
@@ -253,6 +255,7 @@ public class ProfileActivity extends NavigationMenu implements
 		return false;
 	}
 
+	@Override
 	protected boolean gotoMap() {
 		Intent myIntent = new Intent(getBaseContext(),
 		    CapsuleMapActivity.class);
@@ -260,6 +263,7 @@ public class ProfileActivity extends NavigationMenu implements
 		return true;
 	}
 
+	@Override
 	protected boolean newCapsule() {
 		Intent myIntent = new Intent(this, AddCapsuleActivity.class);
 		startActivity(myIntent);

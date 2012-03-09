@@ -26,11 +26,11 @@ public abstract class NavigationMenu extends Activity implements
 	protected Button btnMenu, btnCapture, btnProfile, btnMap;
 
 	protected abstract boolean gotoMenu();
-	
+
 	protected abstract boolean gotoProfile();
 
 	protected abstract boolean gotoMap();
-	
+
 	protected abstract boolean newCapsule();
 
 	protected abstract void refresh();

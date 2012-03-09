@@ -37,6 +37,10 @@ public class Server {
 	private static final String GETCOMMENTS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getVisit.php?";
 	// Add Comment
 	private static final String ADDCOMMENT = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setVisit.php?";
+	// Get Rating
+	private static final String GETRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getRate.php?";
+	// Set Rating
+	private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
 
 	public static String newUser(String name, String location,
 	    String state, String gender, String age, String interests,
@@ -100,6 +104,18 @@ public class Server {
 	public static String getComments(String capsuleId, String userId) {
 		String command = GETCOMMENTS + "userId=" + userId
 		    + "&capsuleId=" + capsuleId;
+		return get(command);
+	}
+
+	public static String getRating(String capsuleId) {
+		String command = GETRATING + "capsuleId=" + capsuleId;
+		return get(command);
+	}
+
+	public static String addRating(String userId, String capsuleId,
+	    String rating) {
+		String command = ADDRATING + "userId=" + userId
+		    + "&capsuleId=" + capsuleId + "&rating=" + rating;
 		return get(command);
 	}
 

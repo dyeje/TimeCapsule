@@ -24,16 +24,19 @@ public class SettingsActivity extends PreferenceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
-		
+
 		CheckBoxPreference logout = (CheckBoxPreference) findPreference("logout");
-		logout.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			
-			public boolean onPreferenceClick(Preference preference) {
-				getSharedPreferences("profile", 0).edit().clear().commit();
-				finish();
-				return false;
-			}
-		});
+		logout
+		    .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			    @Override
+			    public boolean onPreferenceClick(Preference preference) {
+				    getSharedPreferences("profile", 0).edit().clear()
+				        .commit();
+				    finish();
+				    return false;
+			    }
+		    });
 	}
 
 	@Override

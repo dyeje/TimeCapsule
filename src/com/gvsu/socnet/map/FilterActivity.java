@@ -37,6 +37,7 @@ public class FilterActivity extends Activity implements
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 * @param savedInstanceState
 	 ***************************************************************/
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.map_filter);
 
@@ -71,6 +72,7 @@ public class FilterActivity extends Activity implements
 	/****************************************************************
 	 * @see android.app.Activity#onDestroy()
 	 ***************************************************************/
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
@@ -78,6 +80,7 @@ public class FilterActivity extends Activity implements
 	/****************************************************************
 	 * @see android.app.Activity#onPause()
 	 ***************************************************************/
+	@Override
 	protected void onPause() {
 		SharedPreferences.Editor edit = PreferenceManager
 		    .getDefaultSharedPreferences(getApplicationContext())
@@ -96,6 +99,7 @@ public class FilterActivity extends Activity implements
 	/****************************************************************
 	 * @see android.app.Activity#onRestart()
 	 ***************************************************************/
+	@Override
 	protected void onRestart() {
 		super.onRestart();
 	}
@@ -103,6 +107,7 @@ public class FilterActivity extends Activity implements
 	/****************************************************************
 	 * @see android.app.Activity#onResume()
 	 ***************************************************************/
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}
@@ -110,6 +115,7 @@ public class FilterActivity extends Activity implements
 	/****************************************************************
 	 * @see android.app.Activity#onStart()
 	 ***************************************************************/
+	@Override
 	protected void onStart() {
 		super.onStart();
 	}
@@ -117,6 +123,7 @@ public class FilterActivity extends Activity implements
 	/****************************************************************
 	 * @see android.app.Activity#onStop()
 	 ***************************************************************/
+	@Override
 	protected void onStop() {
 		super.onStop();
 	}
@@ -127,6 +134,7 @@ public class FilterActivity extends Activity implements
 	 * @param minValue
 	 * @param maxValue
 	 ***************************************************************/
+	@Override
 	public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar,
 	    Long minValue, Long maxValue) {
 		// handle changed range values

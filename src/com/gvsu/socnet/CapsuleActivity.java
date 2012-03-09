@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gvsu.socnet.data.Comment;
 
@@ -58,9 +61,10 @@ public class CapsuleActivity extends NavigationMenu implements
 	protected void refresh() {
 		Intent intent = this.getIntent();
 		final String cId = intent.getStringExtra("cID");
-		setTitleAndDescription(cId);
+		setCapsuleInfo(cId);
 		setComments(cId);
 		setupAddComments(cId);
+		setupAddRating(cId);
 	}
 
 	/****************************************************************
@@ -83,20 +87,19 @@ public class CapsuleActivity extends NavigationMenu implements
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return true;
-	}
-
-	private void setTitleAndDescription(String capsuleId) {
-		// TODO update capsule to show new info from server (timestamp
-		// etc.)
+	private void setCapsuleInfo(String capsuleId) {
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
+		TextView leftOn = (TextView) findViewById(R.id.left_on);
+		RatingBar rating = (RatingBar) findViewById(R.id.capsule_rating_bar);
+
 		String[] treasureInfo = Server.getCapsule(capsuleId).split(
 		    TAB);
 		title.setText(treasureInfo[0]);
 		description.setText(treasureInfo[3]);
+		leftOn.setText("Left on " + treasureInfo[4]);
+		rating
+		    .setRating(Float.parseFloat(Server.getRating(capsuleId)));
 	}
 
 	private void setComments(final String capsuleId) {
@@ -111,14 +114,13 @@ public class CapsuleActivity extends NavigationMenu implements
 			for (String s : strArrayComments) {
 				if (!s.equals("")) {
 					String[] strArrayComment = s.split("\t");
-					// Log.d("debug", s);
 					String[] strArrayUser = Server.getUser(
 					    strArrayComment[0]).split("\t");
 					TextView t = new TextView(this);
 					String user = strArrayUser[8];
 					t.setId(Integer.parseInt(strArrayComment[0]));
-					t.setText(new Comment(user, strArrayComment[2])
-					    .toString());
+					t.setText(new Comment(user, strArrayComment[2],
+					    strArrayComment[1]).toString());
 					t.setPadding(0, 10, 0, 0);
 					commentList.addView(t);
 				}
@@ -130,10 +132,12 @@ public class CapsuleActivity extends NavigationMenu implements
 		}
 	}
 
+	//
 	private void setupAddComments(final String capsuleId) {
 		((Button) findViewById(R.id.button_add_comment))
 		    .setOnClickListener(new OnClickListener() {
 
+			    @Override
 			    public void onClick(View v) {
 				    EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
 				    Server.addComment(
@@ -146,6 +150,51 @@ public class CapsuleActivity extends NavigationMenu implements
 		    });
 	}
 
+	private void setupAddRating(final String capsuleId) {
+
+		final RatingBar ratingBar = ((RatingBar) findViewById(R.id.capsule_rating_bar));
+		final LinearLayout submitLayout = ((LinearLayout) findViewById(R.id.submit_rating_layout));
+		final Button submitButton = ((Button) findViewById(R.id.capsule_rating_submit));
+		final Button cancelButton = ((Button) findViewById(R.id.capsule_rating_cancel));
+
+		final float ratingBeforeUserMessedWithIt = ratingBar
+		    .getRating();
+
+		// listens for ratingbar to be changed
+		ratingBar.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				submitLayout.setVisibility(View.VISIBLE);
+				return false;
+			}
+		});
+
+		// listens for ratingbar submit button
+		submitButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Server.addRating(getSharedPreferences("profile", 0)
+				    .getString("player_id", "0"), capsuleId, Float
+				    .toString(ratingBar.getRating()));
+				refresh();
+				Toast.makeText(getApplicationContext(),
+				    "Rating Submitted", Toast.LENGTH_SHORT).show();
+				submitLayout.setVisibility(View.GONE);
+			}
+		});
+		cancelButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				submitLayout.setVisibility(View.GONE);
+				ratingBar.setRating(ratingBeforeUserMessedWithIt);
+			}
+		});
+	}
+
+	@Override
 	protected boolean gotoMenu() {
 		Intent i = new Intent(getApplicationContext(),
 		    SettingsActivity.class);
@@ -153,6 +202,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		return true;
 	}
 
+	@Override
 	protected boolean gotoProfile() {
 		Intent myIntent = new Intent(getBaseContext(),
 		    ProfileActivity.class);
@@ -160,6 +210,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		return false;
 	}
 
+	@Override
 	protected boolean gotoMap() {
 		Intent myIntent = new Intent(getBaseContext(),
 		    CapsuleMapActivity.class);
@@ -167,6 +218,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		return true;
 	}
 
+	@Override
 	protected boolean newCapsule() {
 		return false;
 	}

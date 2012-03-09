@@ -7,11 +7,12 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dip"
+        android:layout_weight="9" >
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:gravity="center|top"
             android:orientation="vertical"
             android:paddingTop="10dp" >
@@ -23,6 +24,22 @@
                 android:text="Capsule Title"
                 android:textSize="20sp" />
 
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp"
+                android:text="A funny Youtube video I found"
+                android:textSize="20sp" />
+
+            <RatingBar
+                android:id="@+id/capsule_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1" />
             <TextView
                 android:id="@+id/capsule_creator"
                 android:layout_width="wrap_content"
@@ -31,10 +48,9 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/leftOn"
+                android:id="@+id/left_on"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10sp"
                 android:text="Left on MM/dd/yyyy" />
 
             <ImageView
@@ -46,37 +62,32 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A funny Youtube video I found"
-                android:textSize="20sp" />
-
-            <TextView
                 android:id="@+id/timesFound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10sp"
                 android:text="Read XX Times" />
 
             <TextView
                 android:id="@+id/comment"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
                 android:text="Comments"
                 android:textSize="20sp" />
 
             <LinearLayout
                 android:id="@+id/comment_layout"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
                 android:orientation="vertical" >
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/feedback_layout"
                 android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:layout_height="fill_parent"
                 android:orientation="vertical" >
 
                 <EditText
@@ -84,16 +95,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Add a comment"
-                    android:minWidth="175dip" />
+                    android:minWidth="200dip" />
 
                 <Button
                     android:id="@+id/button_add_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="175dip"
+                    android:minWidth="200dip"
                     android:text="Submit" />
+
+                <!--
+                     <RatingBar
+                    android:id="@+id/capsule_my_rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5" />
+                -->
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/submit_rating_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/capsule_rating_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Rate Capsule" />
+
+        <Button
+            android:id="@+id/capsule_rating_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -59,12 +59,12 @@ public class NewUserActivity extends Activity implements
 		SharedPreferences prefs = getSharedPreferences("profile", 0);
 		if (!prefs.getString("player_id", "").equals("")) {
 			editing = true;
-			username.setVisibility(EditText.GONE);
-			password.setVisibility(TextView.GONE);
+			username.setVisibility(View.GONE);
+			password.setVisibility(View.GONE);
 			((TextView) findViewById(R.id.text_view_username))
-			    .setVisibility(TextView.GONE);
+			    .setVisibility(View.GONE);
 			((TextView) findViewById(R.id.text_view_password))
-			    .setVisibility(TextView.GONE);
+			    .setVisibility(View.GONE);
 
 			name.setText(prefs.getString("name", ""));
 			city.setText(prefs.getString("location", ", ")
@@ -219,9 +219,9 @@ public class NewUserActivity extends Activity implements
 
 	private void makeUserLogin() {
 		((LinearLayout) findViewById(R.id.text_fields))
-		    .setVisibility(LinearLayout.GONE);
+		    .setVisibility(View.GONE);
 		((LinearLayout) findViewById(R.id.login_fields))
-		    .setVisibility(LinearLayout.VISIBLE);
+		    .setVisibility(View.VISIBLE);
 		((Button) findViewById(R.id.btn_login))
 		    .setOnClickListener(this);
 	}

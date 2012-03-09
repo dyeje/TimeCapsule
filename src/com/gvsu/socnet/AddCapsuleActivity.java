@@ -3,7 +3,6 @@ package com.gvsu.socnet;
 import soc.net.R;
 import android.app.Activity;
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,15 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
-
 /****************************************************************
  * com.gvsusocnet.AddCapsule
  * 
  * @version 1.0
  ***************************************************************/
-public class AddCapsuleActivity extends Activity implements OnClickListener,
-    LocationListener {
+public class AddCapsuleActivity extends Activity implements
+    OnClickListener, LocationListener {
 
 	private Button capture, cancel, addpicture;
 	private EditText name, content, description;
