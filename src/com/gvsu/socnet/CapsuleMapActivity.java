@@ -436,7 +436,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			break;
 		case R.id.map_capture_button:
 			Intent i2 = new Intent(getApplicationContext(),
-			    AddCapsule.class);
+			    AddCapsuleActivity.class);
 			startActivity(i2);
 			break;
 		case R.id.map_profile_button:

@@ -35,6 +35,8 @@ public class Server {
 	private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
 	// Get Comments
 	private static final String GETCOMMENTS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getVisit.php?";
+	// Add Comment
+	private static final String ADDCOMMENT = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setVisit.php?";
 
 	public static String newUser(String name, String location,
 	    String state, String gender, String age, String interests,
@@ -99,6 +101,23 @@ public class Server {
 		String command = GETCOMMENTS + "userId=" + userId
 		    + "&capsuleId=" + capsuleId;
 		return get(command);
+	}
+
+	// Adds a comment left by a user on a specific capsule
+	public static String addComment(String userId, String capsuleId,
+	    String comment) {
+		String result;
+		try {
+			String command = ADDCOMMENT + "userId=" + userId
+			    + "&capsuleId=" + capsuleId + "&comments=" + comment;
+			Log.d("debug", "addComment command: " + command);
+			result = get(command);
+			Log.d("debug", "result: " + result);
+			return get(result);
+		} catch (IllegalStateException e) {
+			result = "An error occured";
+		}
+		return result;
 	}
 
 	public static String uploadTreasure(String path) {

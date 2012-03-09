@@ -22,13 +22,12 @@ import com.google.android.maps.GeoPoint;
  * 
  * @version 1.0
  ***************************************************************/
-public class AddCapsule extends Activity implements OnClickListener,
+public class AddCapsuleActivity extends Activity implements OnClickListener,
     LocationListener {
 
 	private Button capture, cancel, addpicture;
 	private EditText name, content, description;
 	private LocationManager locationManager;
-	// private GeoPoint userLocation;
 	private Location userLocation;
 
 	@Override

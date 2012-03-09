@@ -261,7 +261,7 @@ public class ProfileActivity extends NavigationMenu implements
 	}
 
 	protected boolean newCapsule() {
-		Intent myIntent = new Intent(this, AddCapsule.class);
+		Intent myIntent = new Intent(this, AddCapsuleActivity.class);
 		startActivity(myIntent);
 		return true;
 	}
