@@ -48,6 +48,19 @@ public class Server {
 		return get(command);
 	}
 
+	public static String editUser(String id, String name,
+	    String location, String state, String gender, String age,
+	    String interests, String about, String password,
+	    String username) {
+		String command = SETUSER + id + "&name=" + name
+		    + "&location=" + location + "&state=" + state
+		    + "&gender=" + gender + "&age=" + age + "&interest="
+		    + interests + "&about=" + about + "&password=" + password
+		    + "&userName=" + username;
+		Log.d("debug", command);
+		return get(command);
+	}
+
 	public static String newCapsule(String lat, String lon,
 	    String title, String description) {
 		String command = NEWCAPSULE + "title=" + title + "&locLat="
@@ -61,6 +74,11 @@ public class Server {
 		return get(command);
 	}
 
+	public static String authenticate(String id, String password) {
+		String command = GETUSER + id + "&password=" + password;
+		return get(command);
+	}
+
 	public static String getCapsule(String id) {
 		String command = GETCAPS + "id=" + id;
 		return get(command);
@@ -71,7 +89,7 @@ public class Server {
 		    + "&radius=4";
 		return get(command);
 	}
-	
+
 	public static String getComments(String capsuleId) {
 		String command = GETCOMMENTS + "capsuleId=" + capsuleId;
 		return get(command);
@@ -101,11 +119,9 @@ public class Server {
 		try {
 			response = client.execute(post);
 		} catch (ClientProtocolException e2) {
-			// TODO
 			e2.printStackTrace();
 			return "Connection Failed (Client)";
 		} catch (IOException e2) {
-			// TODO
 			e2.printStackTrace();
 			return "Connection Failed (I/O)";
 		}

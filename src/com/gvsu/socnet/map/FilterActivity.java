@@ -72,7 +72,6 @@ public class FilterActivity extends Activity implements
 	 * @see android.app.Activity#onDestroy()
 	 ***************************************************************/
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 
@@ -98,7 +97,6 @@ public class FilterActivity extends Activity implements
 	 * @see android.app.Activity#onRestart()
 	 ***************************************************************/
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		super.onRestart();
 	}
 
@@ -106,7 +104,6 @@ public class FilterActivity extends Activity implements
 	 * @see android.app.Activity#onResume()
 	 ***************************************************************/
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
@@ -114,7 +111,6 @@ public class FilterActivity extends Activity implements
 	 * @see android.app.Activity#onStart()
 	 ***************************************************************/
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 	}
 
@@ -122,7 +118,6 @@ public class FilterActivity extends Activity implements
 	 * @see android.app.Activity#onStop()
 	 ***************************************************************/
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 	}
 

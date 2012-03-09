@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
-    android:background="@drawable/background"
+    android:background="@drawable/background2"
     android:orientation="vertical" >
 
     <!-- Player Information -->
@@ -25,6 +25,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
+            android:layout_marginRight="10dip"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
@@ -36,19 +37,22 @@
                 android:text="capsules created"
                 android:textSize="12sp" />
 
-            <TextView
+            <!--
+                 <TextView
                 android:id="@+id/num_capsules_created"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:text="21"
                 android:textSize="20sp" />
+            -->
 
             <ImageView
                 android:id="@+id/picture1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/androidmarker" />
+                android:src="@drawable/capsule"
+                android:text="21" />
 
             <TextView
                 android:id="@+id/text_capsules_opened"
@@ -57,7 +61,7 @@
                 android:layout_marginLeft="5dip"
                 android:text="capsules opened"
                 android:textSize="12sp" />
-
+            <!--
             <TextView
                 android:id="@+id/num_capsules_opened"
                 android:layout_width="wrap_content"
@@ -65,12 +69,14 @@
                 android:layout_marginLeft="5dip"
                 android:text="246"
                 android:textSize="20sp" />
+            -->
 
             <ImageView
                 android:id="@+id/picture2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/androidmarker" />
+                android:src="@drawable/capsule"
+                android:text="246" />
 
             <TextView
                 android:id="@+id/text_capsule_rating"
@@ -80,21 +86,23 @@
                 android:text="average rating"
                 android:textSize="12sp" />
 
-            <TextView
+            <!--
+                 <TextView
                 android:id="@+id/num_capsule_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:text="4.20"
                 android:textSize="20sp" />
+            -->
 
             <ImageView
                 android:id="@+id/picture3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/androidmarker" />
+                android:src="@drawable/capsule"
+                android:text="4.20" />
         </LinearLayout>
->
 
         <LinearLayout
             android:layout_width="wrap_content"

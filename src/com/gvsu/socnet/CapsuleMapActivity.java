@@ -36,7 +36,6 @@ package com.gvsu.socnet;
  * (or just delete this when you read it)
  */
 
-
 import java.io.FileInputStream;
 import java.util.Calendar;
 import java.util.List;
@@ -58,9 +57,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -96,16 +97,12 @@ public class CapsuleMapActivity extends MapActivity implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-	    setProgressBarVisibility(true);
+		super.onCreate(savedInstanceState);
+//		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
+//		View.inflate(this, R.layout.map, vg);
+		 setContentView(R.layout.map);
 
-		// I am trying to get the header and footer around the map...
-		// ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-		// ViewGroup.inflate(this, R.layout.map, vg);
-
-		setContentView(R.layout.map);
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);

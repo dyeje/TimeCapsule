@@ -4,6 +4,9 @@ package com.gvsu.socnet;
 import soc.net.R;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -21,6 +24,16 @@ public class SettingsActivity extends PreferenceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		
+		CheckBoxPreference logout = (CheckBoxPreference) findPreference("logout");
+		logout.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			public boolean onPreferenceClick(Preference preference) {
+				getSharedPreferences("profile", 0).edit().clear().commit();
+				finish();
+				return false;
+			}
+		});
 	}
 
 	@Override

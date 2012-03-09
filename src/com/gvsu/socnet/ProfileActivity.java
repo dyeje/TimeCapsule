@@ -1,7 +1,6 @@
 package com.gvsu.socnet;
 
 import soc.net.R;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +9,13 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,10 +28,11 @@ public class ProfileActivity extends NavigationMenu implements
     OnClickListener {
 
 	// private SharedPreferences prefs;
-	public final String PROFILE = "profile";
+	public final String PROFILE = "profile", PLAYER_ID = "player_id";
 	private final String TAB = "\t";
 	private final String NO_CONN = "No Network Connection";
 	private final String NO_CONN_INFO = "Many features of this app will not work without an internet connection";
+	private final String PROFILE_NOT_RETRIEVED = "Sorry, your profile could not be retrieved :(";
 	private TextView username, name, location, gender, age,
 	    interests, aboutme;
 	private OnSharedPreferenceChangeListener listener;
@@ -44,6 +43,12 @@ public class ProfileActivity extends NavigationMenu implements
 	 ***************************************************************/
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		// makes sure user is logged in, otherwise kicks them out to
+		// the login screen
+		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "")
+		    .equals("")) {
+			logout();
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
@@ -59,7 +64,7 @@ public class ProfileActivity extends NavigationMenu implements
 		interests = (TextView) findViewById(R.id.text_interests);
 		aboutme = (TextView) findViewById(R.id.text_about);
 
-		btnProfile.setEnabled(false);
+		btnProfile.setBackgroundResource(R.drawable.user_pic_edit);
 		btnInfo.setOnClickListener(this);
 		TextView btnStat = (TextView) findViewById(R.id.text_name);
 		btnStat.setOnClickListener(this);
@@ -150,130 +155,44 @@ public class ProfileActivity extends NavigationMenu implements
 		if (online) {
 			Log.d("debug", "updating from network");
 			String playerId = prefs.getString("player_id", "");
-			if (playerId.equals("")) {
-				Intent i = new Intent(getApplicationContext(),
-				    LoginActivity.class);
-				startActivity(i);
-				finish();
-			} else {
-				String s = Server.getUser(playerId);
-				if (!s.equals("")) {
-					String[] userinfo = s.split(TAB);
-					SharedPreferences.Editor editor = prefs.edit();
-					if (!prefs.getString("username", "").equals(
-					    userinfo[8]))
-						editor.putString("username", userinfo[8]);
-					if (!prefs.getString("name", "").equals(
-					    userinfo[0]))
-						editor.putString("name", userinfo[0]);
-					String strLocation = userinfo[1] + ", "
-					    + userinfo[2];
-					if (!prefs.getString("location", "").equals(
-					    strLocation))
-						editor.putString("location", userinfo[1]
-						    + ", " + userinfo[2]);
-					String strGender = userinfo[3];
-					if (strGender.equalsIgnoreCase("m")) {
-						strGender = "Male";
-					} else if (strGender.equalsIgnoreCase("f")) {
-						strGender = "Female";
-					} else {
-						strGender = "Other";
-					}
-					if (!prefs.getString("gender", "").equals(
-					    strGender))
-						editor.putString("gender", strGender);
-					if (!prefs.getString("age", "").equals(
-					    userinfo[4]))
-						editor.putString("age", userinfo[4]);
-					if (!prefs.getString("interests", "").equals(
-					    userinfo[5]))
-						editor.putString("interests", userinfo[5]);
-					if (!prefs.getString("aboutme", "").equals(
-					    userinfo[6]))
-						editor.putString("aboutme", userinfo[6]);
-					editor.commit();
+			String s = Server.getUser(playerId);
+			if (!s.equals("")) {
+				String[] userinfo = s.split(TAB);
+				SharedPreferences.Editor editor = prefs.edit();
+				if (!prefs.getString("username", "").equals(
+				    userinfo[8]))
+					editor.putString("username", userinfo[8]);
+				if (!prefs.getString("name", "").equals(userinfo[0]))
+					editor.putString("name", userinfo[0]);
+				String strLocation = userinfo[1] + ", " + userinfo[2];
+				if (!prefs.getString("location", "").equals(
+				    strLocation))
+					editor.putString("location", userinfo[1] + ", "
+					    + userinfo[2]);
+				String strGender = userinfo[3];
+				if (strGender.equalsIgnoreCase("m")) {
+					strGender = "Male";
+				} else if (strGender.equalsIgnoreCase("f")) {
+					strGender = "Female";
+				} else {
+					strGender = "Other";
 				}
+				if (!prefs.getString("gender", "").equals(strGender))
+					editor.putString("gender", strGender);
+				if (!prefs.getString("age", "").equals(userinfo[4]))
+					editor.putString("age", userinfo[4]);
+				if (!prefs.getString("interests", "").equals(
+				    userinfo[5]))
+					editor.putString("interests", userinfo[5]);
+				if (!prefs.getString("aboutme", "").equals(
+				    userinfo[6]))
+					editor.putString("aboutme", userinfo[6]);
+				editor.commit();
 			}
 		} else {
 			Log.d("debug", "couldn't update - no network connection");
+			showDialog(NO_CONN, PROFILE_NOT_RETRIEVED);
 		}
-	}
-
-	/****************************************************************
-	 * @return String
-	 ***************************************************************/
-	public String getStats(SharedPreferences prefs) {
-		String strId = prefs.getString("user_id", "");
-		if (!strId.equals("")) {
-			// String s = Server.getUser(strId);
-			// String[] userInfo = s.split("\t");
-			//
-			// /*********LOG**********LOG*************/
-			// Log.println(3, "debug", s);
-			// /*********LOG**********LOG*************/
-
-			// String str = "Level: " + userInfo[1] + "\nAbility: "
-			// + userInfo[2] + "\nPermissions: " + userInfo[3]
-			// + "\n\nTreasures Found: " + "xxx"
-			// + "\nTreasures Placed: " + "xxx";
-			// for (int i = 0; i < 10; i++)
-			// str += "\nMore Stats: XXX";
-
-			// return str;
-			return "";
-		} else {
-			return "";
-		}
-	}
-
-	// /****************************************************************
-	// * @return String
-	// ***************************************************************/
-	// public String getPlayerId() {
-	// return prefs.getString("player_id", "");
-	// }
-
-//	/****************************************************************
-//	 * @see com.gvsusocnet.NavigationMenu#onClick(android.view.View)
-//	 * @param v
-//	 ***************************************************************/
-//	@Override
-//	public void onClick(View v) {
-//		/*********LOG**********LOG*************/
-//		Log.println(2, "debug", "Click Switch");
-//		/*********LOG**********LOG*************/
-//		switch (v.getId()) {
-//		case R.id.player_info:
-//			// showDialog(getStats(), "Detailed Stats");
-//			break;
-//		case R.id.text_name:
-//			// showDialog(getStats(), "Detailed Stats");
-//			break;
-//		case R.id.text_age:
-//			// showDialog(getStats(), "Detailed Stats");
-//			break;
-//		case R.id.btn_capture:
-//			newCapsule();
-//			break;
-//		case -123:
-//			Intent i = new Intent(getApplicationContext(),
-//			    CapsuleActivity.class);
-//			startActivity(i);
-//			break;
-//		default:
-//			super.onClick(v);
-//			break;
-//		}
-//	}
-
-	/****************************************************************
-	 * @return boolean
-	 ***************************************************************/
-	private boolean gotoTreasure() {
-		Intent myIntent = new Intent(this, CapsuleActivity.class);
-		startActivity(myIntent);
-		return true;
 	}
 
 	/****************************************************************
@@ -281,9 +200,6 @@ public class ProfileActivity extends NavigationMenu implements
 	 * @param info void
 	 ***************************************************************/
 	private void showDialog(String title, String info) {
-		/*********LOG**********LOG*************/
-		// Log.println(3, "debug", "showing: " + info);
-		/*********LOG**********LOG*************/
 
 		AlertDialog.Builder builder;
 		AlertDialog alertDialog;
@@ -304,6 +220,13 @@ public class ProfileActivity extends NavigationMenu implements
 		alertDialog.show();
 	}
 
+	private void logout() {
+		Intent i = new Intent(getApplicationContext(),
+		    LoginActivity.class);
+		startActivity(i);
+		finish();
+	}
+
 	public boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
@@ -313,17 +236,20 @@ public class ProfileActivity extends NavigationMenu implements
 			return false;
 		}
 	}
-	
+
 	protected boolean gotoMenu() {
-		//TODO
-		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+		Intent i = new Intent(getApplicationContext(),
+		    SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
 
 	protected boolean gotoProfile() {
-		//TODO
-		Toast.makeText(this, "you're already here!", Toast.LENGTH_SHORT);
+		Toast.makeText(this, "Edit your profile", Toast.LENGTH_SHORT)
+		    .show();
+		Intent i = new Intent(getApplicationContext(),
+		    NewUserActivity.class);
+		startActivity(i);
 		return false;
 	}
 

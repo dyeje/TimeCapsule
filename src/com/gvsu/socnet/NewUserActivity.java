@@ -4,13 +4,16 @@ package com.gvsu.socnet;
 import soc.net.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 /****************************************************************
  * com.gvsu.socnet.NewUserActivity
@@ -24,6 +27,7 @@ public class NewUserActivity extends Activity implements
 	    aboutme;
 	RadioButton male, female, unsure;
 	Button create, cancel;
+	boolean editing, worked = false, authenticated = false;
 
 	/****************************************************************
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -52,61 +56,152 @@ public class NewUserActivity extends Activity implements
 		cancel = (Button) findViewById(R.id.button_cancel);
 		cancel.setOnClickListener(this);
 
+		SharedPreferences prefs = getSharedPreferences("profile", 0);
+		if (!prefs.getString("player_id", "").equals("")) {
+			editing = true;
+			username.setVisibility(EditText.GONE);
+			password.setVisibility(TextView.GONE);
+			((TextView) findViewById(R.id.text_view_username))
+			    .setVisibility(TextView.GONE);
+			((TextView) findViewById(R.id.text_view_password))
+			    .setVisibility(TextView.GONE);
+
+			name.setText(prefs.getString("name", ""));
+			city.setText(prefs.getString("location", ", ")
+			    .split(", ")[0]);
+			state.setText(prefs.getString("location", ", ").split(
+			    ", ")[1]);
+			String strGender = prefs.getString("gender", "");
+			if (strGender.equalsIgnoreCase("Male")) {
+				male.setChecked(true);
+			} else if (strGender.equalsIgnoreCase("Female")) {
+				female.setChecked(true);
+			} else {
+				unsure.setChecked(true);
+			}
+			age.setText(prefs.getString("age", ""));
+			interests.setText(prefs.getString("interests", ""));
+			aboutme.setText(prefs.getString("aboutme", ""));
+			create.setText("Save Changes");
+		} else {
+			editing = false;
+		}
+
 		// for debug purposes
-		username.setText("User1");
-		password.setText("abcd1234");
-		name.setText("User number 1");
-		city.setText("Allendale");
-		state.setText("MI");
-		age.setText("21");
-		interests.setText("Pizza and Apple Pie");
-		aboutme.setText("I eat pizza and pie");
-		female.setChecked(true);
+		// username.setText("User1");
+		// password.setText("abcd1234");
+		// name.setText("User number 1");
+		// city.setText("Allendale");
+		// state.setText("MI");
+		// age.setText("21");
+		// interests.setText("Pizza and Apple Pie");
+		// aboutme.setText("I eat pizza and pie");
+		// female.setChecked(true);
 	}
 
 	@Override
 	public void onClick(View v) {
+		String gender;
+		if (male.isChecked()) {
+			gender = "m";
+		} else if (female.isChecked()) {
+			gender = "f";
+
+		} else if (unsure.isChecked()) {
+			gender = "u";
+		} else {
+			gender = "?";
+		}
+
+		String name = fixSpaces(this.name.getText().toString());
+		String username = fixSpaces(this.username.getText()
+		    .toString());
+		String password = fixSpaces(this.password.getText()
+		    .toString());
+		String city = fixSpaces(this.city.getText().toString());
+		String state = fixSpaces(this.state.getText().toString());
+		String age = fixSpaces(this.age.getText().toString());
+		String interests = fixSpaces(this.interests.getText()
+		    .toString());
+		String aboutme = fixSpaces(this.aboutme.getText().toString());
+
 		switch (v.getId()) {
 		case R.id.button_create_account:
-			String gender;
-			if (male.isChecked()) {
-				gender = "m";
-			} else if (female.isChecked()) {
-				gender = "f";
 
-			} else if (unsure.isChecked()) {
-				gender = "u";
+			/*******************************
+			 * Editing an existing profile
+			 ******************************/
+			if (editing) {
+				makeUserLogin();
+				/*******************************
+				 * Creating a new profile
+				 ******************************/
 			} else {
-				gender = "?";
+				String userID = Server.newUser(name, city, state,
+				    gender, age, interests, aboutme, password,
+				    username);
+				if (Integer.parseInt(userID) != -1) {
+
+					getSharedPreferences("profile", 0).edit()
+					    .putString(LoginActivity.PLAYER_ID, userID)
+					    .commit();
+					worked = true;
+				}
 			}
 
-			String name = fixSpaces(this.name.getText().toString());
-			String username = fixSpaces(this.username.getText()
-			    .toString());
-			String password = fixSpaces(this.password.getText()
-			    .toString());
-			String city = fixSpaces(this.city.getText().toString());
-			String state = fixSpaces(this.state.getText().toString());
-			String age = fixSpaces(this.age.getText().toString());
-			String interests = fixSpaces(this.interests.getText()
-			    .toString());
-			String aboutme = fixSpaces(this.aboutme.getText()
-			    .toString());
+			/****************************************
+			 * Leaves activity if everything's done
+			 ***************************************/
+			if (worked) {
+				Intent i = new Intent(getApplicationContext(),
+				    ProfileActivity.class);
+				startActivity(i);
+				finish();
+			} else {
 
-			String userID = Server.newUser(name, city, state, gender,
-			    age, interests, aboutme, password, username);
-
-			PreferenceManager
-			    .getDefaultSharedPreferences(getApplicationContext())
-			    .edit().putString(LoginActivity.PLAYER_ID, userID)
-			    .commit();
-			Intent i = new Intent(getApplicationContext(),
-			    ProfileActivity.class);
-			startActivity(i);
-			finish();
+			}
 			break;
 		case R.id.button_cancel:
+			finish();
 			break;
+		case R.id.btn_login:
+			EditText pass = (EditText) findViewById(R.id.password_edit);
+			String strPass = pass.getText().toString();
+			if (!strPass.equals("")) {
+
+				String strUserId = getSharedPreferences("profile", 0)
+				    .getString(LoginActivity.PLAYER_ID, "");
+
+				Log.d("debug", "id: " + strUserId + " ps: " + strPass);
+				String auth = Server.authenticate(strUserId, strPass);
+				Log.d("debug", "auth: " + auth);
+				if (!auth.equals("0")) {
+					Log.d("debug", "auth worked");
+					SharedPreferences prefs = getSharedPreferences(
+					    "profile", 0);
+					String id = prefs.getString("player_id", "-1");
+					String strWorked = Server.editUser(id, name,
+					    city, state, gender, age, interests, aboutme,
+					    strPass, getSharedPreferences("profile", 0)
+					        .getString("username", ""));
+
+					finish();
+					// worked = strWorked.equals("1") ? true : false;
+					// if (strWorked.equals("1")) {
+					// finish();
+					// } else {
+					//
+					// }
+				} else {
+					Log.d("debug", "auth didn't work");
+					((TextView) findViewById(R.id.password_view))
+					    .setText("Please Try Again");
+				}
+			} else {
+				Log.d("debug", "auth didn't work");
+				((TextView) findViewById(R.id.password_view))
+				    .setText("Please Try Again");
+			}
 		}
 	}
 
@@ -122,12 +217,107 @@ public class NewUserActivity extends Activity implements
 		return result;
 	}
 
+	private void makeUserLogin() {
+		((LinearLayout) findViewById(R.id.text_fields))
+		    .setVisibility(LinearLayout.GONE);
+		((LinearLayout) findViewById(R.id.login_fields))
+		    .setVisibility(LinearLayout.VISIBLE);
+		((Button) findViewById(R.id.btn_login))
+		    .setOnClickListener(this);
+	}
+
+	// protected Dialog onCreateDialog(int id) {
+	// // This example shows how to add a custom layout to an
+	// // AlertDialog
+	// LayoutInflater factory = LayoutInflater.from(this);
+	// final View textEntryView = factory.inflate(
+	// R.layout.alert_dialog_text_entry, null);
+	// return new AlertDialog.Builder(NewUserActivity.this)
+	// // .setIconAttribute(android.R.attr.alertDialogIcon)
+	// .setTitle("Please authenticate to change your info")
+	// .setView(textEntryView)
+	// .setPositiveButton("Ok",
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	//
+	// EditText pass = (EditText) findViewById(R.id.password_edit);
+	// String strPass = pass.getText().toString();
+	//
+	// String strUsername = getSharedPreferences(
+	// "profile", 0).getString("username", "");
+	// if (!Server.authenticate(strUsername, strPass)
+	// .equals("0")) {
+	// authenticated = true;
+	// } else {
+	// ((TextView
+	// )findViewById(R.id.password_view)).setText("Password    please try again");
+	// }
+	// }
+	// })
+	// .setNegativeButton("Cancel",
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	//
+	// /* User clicked cancel so do some stuff */
+	// }
+	// }).create();
+	// }
+
+	// /****************************************************************
+	// * @param title
+	// * @param info void
+	// ***************************************************************/
+	// private void showLoginDialog() {
+	//
+	// AlertDialog.Builder builder;
+	// final AlertDialog alertDialog;
+	//
+	// LayoutInflater inflater = (LayoutInflater) this
+	// .getSystemService(LAYOUT_INFLATER_SERVICE);
+	// final View layout = inflater.inflate(
+	// R.layout.alert_dialog_text_entry,
+	// (ViewGroup) findViewById(R.id.layout_root));
+	//
+	// builder = new AlertDialog.Builder(this);
+	// builder.setView(layout);
+	// alertDialog = builder.create();
+	// alertDialog.setTitle("What is your password?");
+	// alertDialog.show();
+	//
+	// Button login = (Button) layout.findViewById(R.id.btn_login);
+	// login.setOnClickListener(new OnClickListener() {
+	//
+	// public void onClick(View v) {
+	// EditText pass = (EditText) layout
+	// .findViewById(R.id.password_edit);
+	// String strPass = pass.getText().toString();
+	//
+	// String strUserId = getSharedPreferences("profile", 0)
+	// .getString(LoginActivity.PLAYER_ID, "");
+	//
+	// Log.d("debug", "id: " + strUserId + " ps: " + strPass);
+	// String auth = Server.authenticate(strUserId, strPass);
+	// Log.d("debug", "auth: " + auth);
+	// if (!auth.equals("0")) {
+	// authenticated = true;
+	// alertDialog.dismiss();
+	// } else {
+	// ((TextView) layout
+	// .findViewById(R.id.password_view))
+	// .setVisibility(TextView.VISIBLE);
+	// }
+	//
+	// }
+	// });
+	// }
+
 	/****************************************************************
 	 * @see android.app.Activity#onRestart()
 	 ***************************************************************/
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		super.onRestart();
 	}
 
@@ -136,7 +326,6 @@ public class NewUserActivity extends Activity implements
 	 ***************************************************************/
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
@@ -145,7 +334,6 @@ public class NewUserActivity extends Activity implements
 	 ***************************************************************/
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 	}
 
@@ -154,7 +342,6 @@ public class NewUserActivity extends Activity implements
 	 ***************************************************************/
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 	}
 

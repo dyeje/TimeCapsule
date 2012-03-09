@@ -12,6 +12,12 @@
             android:key="player_id"
             android:summary="Player ID to Test"
             android:title="Player ID" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="logout"
+            android:summary="Log me out!"
+            android:title="Logout" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="capsule"

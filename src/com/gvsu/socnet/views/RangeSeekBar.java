@@ -301,7 +301,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 if (pointerId == mActivePointerId) {
                         // This was our active pointer going up. Choose
                         // a new active pointer and adjust accordingly.
-                        // TODO: Make this decision more intelligent.
+                        // Make this decision more intelligent.
                         final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
                         mDownMotionX = ev.getX(newPointerIndex);
                         mActivePointerId = ev.getPointerId(newPointerIndex);

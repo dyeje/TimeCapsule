@@ -89,7 +89,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		Intent intent = this.getIntent();
 		final String cId = intent.getStringExtra("cID");
 		setTitleAndDescription(cId);
-		addComments(cId);
+		setComments(cId);
 	}
 
 	/****************************************************************
@@ -112,28 +112,6 @@ public class CapsuleActivity extends NavigationMenu implements
 
 	}
 
-	/****************************************************************
-	 * @param id
-	 * @return String
-	 ***************************************************************/
-	// public String getCapsule(String id) {
-	// String s = Server.getCapsule(id);
-	// String[] treasureInfo = s.split("\t");
-	//
-	// /*********LOG**********LOG*************/
-	// Log.println(3, "debug", s);
-	// /*********LOG**********LOG*************/
-	//
-	// String str =
-	// // "Lat: " + treasureInfo[0] + "\tLong: " + treasureInfo[1] +
-	// "\n\nQuestion: " + treasureInfo[2] + "\nAnswer: "
-	// + treasureInfo[3] + "\n\nPoints: " + treasureInfo[4];
-	// // + "\n\nCreated: " + treasureInfo[5] + "\nExpires: "
-	// // + treasureInfo[6];
-	//
-	// return str;
-	// }
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return true;
@@ -148,7 +126,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		description.setText(treasureInfo[3]);
 	}
 
-	private void addComments(String capsuleId) {
+	private void setComments(String capsuleId) {
 		LinearLayout commentList = (LinearLayout) findViewById(R.id.comment_layout);
 		String commentsFromServer = Server.getComments(capsuleId);
 
@@ -170,9 +148,12 @@ public class CapsuleActivity extends NavigationMenu implements
 			}
 		}
 	}
+	
+	private void addComment() {
+		//TODO Create comment functionality
+	}
 
 	protected boolean gotoMenu() {
-		//TODO
 		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 		startActivity(i);
 		return true;
