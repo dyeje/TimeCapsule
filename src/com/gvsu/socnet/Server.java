@@ -26,7 +26,7 @@ import android.util.Log;
 public class Server {
 
 	// Get Capsule
-	private static final String GETCAPS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
+	private static final String GETCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
 	// Create Capsule
 	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
 	// Get User
@@ -86,12 +86,12 @@ public class Server {
 	}
 
 	public static String getCapsule(String id) {
-		String command = GETCAPS + "id=" + id;
+		String command = GETCAPSULE + "id=" + id;
 		return get(command);
 	}
 
 	public static String getTreasure(String lat, String lng) {
-		String command = GETCAPS + "lat=" + lat + "&long=" + lng
+		String command = GETCAPSULE + "lat=" + lat + "&long=" + lng
 		    + "&radius=4";
 		return get(command);
 	}
@@ -145,7 +145,33 @@ public class Server {
 		;
 		return get(command);
 	}
+	
+	/****************************************************************
+	 * @param latitude float value of latitude (not E6)
+	 * @param longitude float value of longitude (not E6)
+	 * @param radiusCode 1 for inner radius, 2 for outer radius
+	 * @param startDate yyyy/mm/dd date to start filtering by
+	 * @param endDate yyyy/mm/dd date to end filtering by
+	 * @param minRating minimum rating to return, integers 1 to 5
+	 * @return String the capsules returned by the query
+	 ***************************************************************/
+	public static String getCapsule(String latitude,
+	    String longitude, String radiusCode, String startDate,
+	    String endDate, String minRating) {
+		String request = GETCAPSULE;
+		String result;
+		request += "lat=" + latitude + "&long=" + longitude
+		    + "&radiusCode=" + radiusCode + "&dateStart=" + startDate
+		    + "&dateEnd=" + endDate + "&minRate=" + minRating;
+		result = get(request);
+		return result;
+	}
 
+	/****************************************************************
+	 * Basic server post code
+	 * @param command
+	 * @return String
+	 ***************************************************************/
 	private static String get(String command) {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(command);

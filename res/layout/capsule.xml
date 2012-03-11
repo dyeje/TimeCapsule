@@ -103,14 +103,6 @@
                     android:layout_height="wrap_content"
                     android:minWidth="200dip"
                     android:text="Submit" />
-
-                <!--
-                     <RatingBar
-                    android:id="@+id/capsule_my_rating_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5" />
-                -->
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

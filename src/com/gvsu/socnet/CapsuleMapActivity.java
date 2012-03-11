@@ -221,7 +221,9 @@ public class CapsuleMapActivity extends MapActivity implements
 	protected void retrieveCapsules(GeoPoint userLoc) {
 		String lat = Double.toString(userLoc.getLatitudeE6() / 1e6);
 		String lng = Double.toString(userLoc.getLongitudeE6() / 1e6);
-		String retrieve = Server.getTreasure(lat, lng);
+		// String retrieve = Server.getTreasure(lat, lng);
+		String retrieve = Server
+		    .getCapsule(lat, lng, "1", "", "", "");
 		if (lastRetrieve != retrieve || lastRetrieve == null) {
 			lastRetrieve = retrieve;
 			parseAndDrawCapsules(retrieve);
@@ -323,23 +325,23 @@ public class CapsuleMapActivity extends MapActivity implements
 		} else if (location != null && location.hasAccuracy()) {
 			// if accuracy is bad, will let user know it is still
 			// looking
-			switch (numNotifiedAboutPoorLocation) {
-			case 0:
-				Toast.makeText(CapsuleMapActivity.this,
-				    "Waiting for a better GPS position...",
-				    Toast.LENGTH_LONG).show();
-				break;
-			case 1:
-				Toast.makeText(CapsuleMapActivity.this,
-				    "Still waiting for a better GPS position...",
-				    Toast.LENGTH_LONG).show();
-				break;
-			default:
-				if (numNotifiedAboutPoorLocation % 10 == 0)
-					Toast.makeText(CapsuleMapActivity.this,
-					    "Still waiting...", Toast.LENGTH_LONG).show();
-				break;
-			}
+			// switch (numNotifiedAboutPoorLocation) {
+			// case 0:
+			// Toast.makeText(CapsuleMapActivity.this,
+			// "Waiting for a better GPS position...",
+			// Toast.LENGTH_LONG).show();
+			// break;
+			// case 1:
+			// Toast.makeText(CapsuleMapActivity.this,
+			// "Still waiting for a better GPS position...",
+			// Toast.LENGTH_LONG).show();
+			// break;
+			// default:
+			// if (numNotifiedAboutPoorLocation % 10 == 0)
+			// Toast.makeText(CapsuleMapActivity.this,
+			// "Still waiting...", Toast.LENGTH_LONG).show();
+			// break;
+			// }
 			numNotifiedAboutPoorLocation++;
 		} else {
 			// if gps has no accuracy, will resposition on last known
@@ -411,7 +413,9 @@ public class CapsuleMapActivity extends MapActivity implements
 			mapController.animateTo(userLocation);
 			PreferenceManager
 			    .getDefaultSharedPreferences(getApplicationContext())
-			    .edit().putBoolean("follow_user", true);
+			    .edit().putBoolean("follow_user", true).commit();
+			Log.d("debug", userLocation.getLatitudeE6() + " "
+			    + userLocation.getLongitudeE6());
 			// mapController.setZoom(20);
 		}
 	}

@@ -97,7 +97,7 @@ public class CapsuleActivity extends NavigationMenu implements
 		    TAB);
 		title.setText(treasureInfo[0]);
 		description.setText(treasureInfo[3]);
-		leftOn.setText("Left on " + treasureInfo[4]);
+		leftOn.setText("Left on " + treasureInfo[4].split(" ")[0]);
 		rating
 		    .setRating(Float.parseFloat(Server.getRating(capsuleId)));
 	}
@@ -175,13 +175,13 @@ public class CapsuleActivity extends NavigationMenu implements
 
 			@Override
 			public void onClick(View v) {
+				submitLayout.setVisibility(View.GONE);
 				Server.addRating(getSharedPreferences("profile", 0)
 				    .getString("player_id", "0"), capsuleId, Float
 				    .toString(ratingBar.getRating()));
 				refresh();
 				Toast.makeText(getApplicationContext(),
-				    "Rating Submitted", Toast.LENGTH_SHORT).show();
-				submitLayout.setVisibility(View.GONE);
+					"Rating Submitted", Toast.LENGTH_SHORT).show();
 			}
 		});
 		cancelButton.setOnClickListener(new OnClickListener() {
