@@ -67,6 +67,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.gvsu.socnet.map.FilterActivity;
 
@@ -85,8 +86,8 @@ public class CapsuleMapActivity extends MapActivity implements
 	List<Overlay> mapOverlays;
 	Drawable capsuleDrawable;
 	Drawable userDrawable;
-	DefaultOverlays itemizedoverlays;
-	DefaultOverlays itemizeduseroverlay;
+	CapsuleOverlays itemizedoverlays;
+	UserOverlay user;
 	GeoPoint userLocation;
 	MapController mapController;
 	MapView mapView;
@@ -98,6 +99,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	long lastTimeMapCentered;
 	int numNotifiedAboutPoorLocation;
 	boolean warnedAboutDriving;
+	MyLocationOverlay myLocationOverlay;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,34 +126,34 @@ public class CapsuleMapActivity extends MapActivity implements
 
 		capsuleDrawable = this.getResources().getDrawable(
 		    R.drawable.ic_capsule);
-		itemizedoverlays = new DefaultOverlays(capsuleDrawable, this);
+		itemizedoverlays = new CapsuleOverlays(capsuleDrawable, this);
 
 		userDrawable = this.getResources().getDrawable(
 		    R.drawable.marker);
-		itemizeduseroverlay = new DefaultOverlays(userDrawable, this);
+		//itemizeduseroverlay = new DefaultOverlays(userDrawable, this);
 
 		lastRetrieve = null;
 
 		lastTimeMapCentered = 0L;
 
-		// crit = new Criteria();
-		// crit.setAccuracy(Criteria.ACCURACY_FINE);
-		//
-		// String provider = locationManager.getBestProvider(crit,
-		// true);
-		// Location lastLocation =
-		// locationManager.getLastKnownLocation(provider);
-		//
-		// double lat = lastLocation.getLatitude() * 1000000.0;
-		// double lng = lastLocation.getLongitude() * 1000000.0;
-		//
-		// userLocation = new GeoPoint((int) lat, (int) lng);
-		//
-		// retrieveCapsules(userLocation);
+		crit = new Criteria();
+		crit.setAccuracy(Criteria.ACCURACY_FINE);
+
+		String provider = locationManager.getBestProvider(crit,
+				true);
+		Location lastLocation =
+				locationManager.getLastKnownLocation(provider);
+
+		double lat = lastLocation.getLatitude() * 1000000.0;
+		double lng = lastLocation.getLongitude() * 1000000.0;
+
+		userLocation = new GeoPoint((int) lat, (int) lng);
+		user = new UserOverlay(userLocation);
+		mapOverlays.add(user);
 
 		/** Register header-footer buttons for clicks*/
 		((Button) findViewById(R.id.map_settings_button))
-		    .setOnClickListener(this);
+		.setOnClickListener(this);
 		((Button) findViewById(R.id.map_filter_button))
 		    .setOnClickListener(this);
 		((Button) findViewById(R.id.map_capture_button))
@@ -256,14 +258,16 @@ public class CapsuleMapActivity extends MapActivity implements
 		
 		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
-//		String retrieve = Server
-//			.getCapsule(lat, lng, "1", from, to, minRating);
-
-		String retrieve = Server
+		String retrieveInner = Server
 			.getCapsules(lat, lng, "1", "", "", minRating);
+		String retrieveOuter = Server
+			.getCapsules(lat, lng, "2", "", "", minRating);
+		String retrieve = retrieveInner + retrieveOuter;
+		
 		if (lastRetrieve != retrieve || lastRetrieve == null) {
 			lastRetrieve = retrieve;
-			parseAndDrawCapsules(retrieve);
+			parseAndDrawCapsules(retrieveInner, true);	
+			parseAndDrawCapsules(retrieveOuter, false);
 		}
 	}
 
@@ -276,9 +280,9 @@ public class CapsuleMapActivity extends MapActivity implements
 	 * then the method stops.
 	 * @param capsules
 	 */
-	protected void parseAndDrawCapsules(String capsules) {
+	protected void parseAndDrawCapsules(String capsules, boolean inner) {
 		if (capsules != "") {
-			itemizedoverlays.clear();
+			if(inner) itemizedoverlays.clear();
 
 			String[] splitCapsules = capsules.split("\\n");
 
@@ -288,7 +292,11 @@ public class CapsuleMapActivity extends MapActivity implements
 				if (splitCapsules[i] != "") {
 
 					try {
-						int cID = Integer.parseInt(capsuleData[0]);
+						int cID;
+						if(inner)
+							cID = Integer.parseInt(capsuleData[0]);
+						else
+							cID = -1;
 						double latitude = Double
 						    .parseDouble(capsuleData[2]) * 1e6;
 						double longitude = Double
@@ -338,7 +346,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		if (location != null) {
 			Log.d("debug", location.getAccuracy()
 			    + " good enough accuracy");
-			itemizeduseroverlay.clear();
+//			itemizeduseroverlay.clear();
 
 			double lat = location.getLatitude() * 1e6;
 			double lng = location.getLongitude() * 1e6;
@@ -346,11 +354,19 @@ public class CapsuleMapActivity extends MapActivity implements
 			userLocation = new GeoPoint((int) lat, (int) lng);
 			userOverlay = new CapsuleOverlayItem(userLocation,
 			    "User", "User", 0);
-			itemizeduseroverlay.addOverlay(userOverlay);
-			mapOverlays.add(itemizeduseroverlay);
+//			itemizeduseroverlay.addOverlay(userOverlay);
+//			mapOverlays.add(itemizeduseroverlay);
+			mapOverlays.remove(mapOverlays.indexOf(user));
+			user = new UserOverlay(userLocation);
+			mapOverlays.add(user);
+//			mapOverlays.add(user);
+			
+			
+			
+			
 
 			retrieveCapsules(userLocation);
-			mapOverlays.add(itemizeduseroverlay);
+//			mapOverlays.add(itemizeduseroverlay);
 
 			// updates user's location as they move if they checked
 			// the optional box in preferences
@@ -391,7 +407,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			    true);
 			Location lastLocation = locationManager
 			    .getLastKnownLocation(provider);
-			itemizeduseroverlay.clear();
+//			itemizeduseroverlay.clear();
 
 			double lat = lastLocation.getLatitude() * 1e6;
 			double lng = lastLocation.getLongitude() * 1e6;
@@ -399,7 +415,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			userLocation = new GeoPoint((int) lat, (int) lng);
 			userOverlay = new CapsuleOverlayItem(userLocation,
 			    "User", "User", 0);
-			itemizeduseroverlay.addOverlay(userOverlay);
+//			itemizeduseroverlay.addOverlay(userOverlay);
 
 			retrieveCapsules(userLocation);
 		}

@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class DefaultOverlays extends ItemizedOverlay {
+public class CapsuleOverlays extends ItemizedOverlay {
 
 	private ArrayList<CapsuleOverlayItem> mOverlays = new ArrayList<CapsuleOverlayItem>();
 	private Context mContext;
 
-	public DefaultOverlays(Drawable defaultMarker, Context context) {
+	public CapsuleOverlays(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;
 	}
@@ -34,6 +35,13 @@ public class DefaultOverlays extends ItemizedOverlay {
 		CapsuleOverlayItem item = mOverlays.get(index);
 		if (item.getTitle() == "User")
 			return true;
+		if (item.getCID() == -1) {
+			CharSequence text = "You don't appear to be in range to open this capsule.";
+			int duration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(mContext, text, duration);
+			toast.show();
+			return true;
+		}
 		Intent intent = new Intent(mContext, CapsuleActivity.class);
 		intent.putExtra("cID", Integer.toString(item.getCID()));
 		mContext.startActivity(intent);
