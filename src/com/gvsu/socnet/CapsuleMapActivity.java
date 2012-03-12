@@ -37,7 +37,9 @@ package com.gvsu.socnet;
  */
 
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import soc.net.R;
@@ -76,6 +78,9 @@ import com.gvsu.socnet.map.FilterActivity;
  */
 public class CapsuleMapActivity extends MapActivity implements
     LocationListener, OnClickListener {
+	
+	private SimpleDateFormat dateFormat = new SimpleDateFormat(
+	    "yyyy/MM/dd");
 
 	List<Overlay> mapOverlays;
 	Drawable capsuleDrawable;
@@ -166,7 +171,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public void onStop() {
 		super.onStop();
-		locationManager.removeUpdates(this);
+		// locationManager.removeUpdates(this);
 	}
 
 	@Override
@@ -222,8 +227,40 @@ public class CapsuleMapActivity extends MapActivity implements
 		String lat = Double.toString(userLoc.getLatitudeE6() / 1e6);
 		String lng = Double.toString(userLoc.getLongitudeE6() / 1e6);
 		// String retrieve = Server.getTreasure(lat, lng);
+
+		// String info = "";
+		SharedPreferences prefs = PreferenceManager
+		    .getDefaultSharedPreferences(getApplicationContext());
+		// info += "startDate: "
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(prefs.getLong(FilterActivity.START_RANGE,
+		    0L));
+		String from;
+		if (c.getTimeInMillis() != 0L) {
+//			from = c.get(Calendar.YEAR) + "/" + c.get(Calendar.MONTH)
+//			    + "/" + c.get(Calendar.DAY_OF_MONTH);
+			from = dateFormat.format(new Date(c.getTimeInMillis()));
+		} else {
+			from = "";
+		}
+		c.setTimeInMillis(prefs.getLong(FilterActivity.END_RANGE,
+			0L));
+		String to;
+		if (c.getTimeInMillis() != 0L) {
+//			to = c.get(Calendar.YEAR) + "/" + c.get(Calendar.MONTH)
+//				+ "/" + c.get(Calendar.DAY_OF_MONTH);
+			to = dateFormat.format(new Date(c.getTimeInMillis()));
+		} else {
+			to = "";
+		}
+		
+		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
+
+//		String retrieve = Server
+//			.getCapsule(lat, lng, "1", from, to, minRating);
+
 		String retrieve = Server
-		    .getCapsule(lat, lng, "1", "", "", "");
+			.getCapsules(lat, lng, "1", "", "", minRating);
 		if (lastRetrieve != retrieve || lastRetrieve == null) {
 			lastRetrieve = retrieve;
 			parseAndDrawCapsules(retrieve);
@@ -297,7 +334,8 @@ public class CapsuleMapActivity extends MapActivity implements
 			        Toast.LENGTH_LONG).show();
 		}
 		// will not accept location without a good accuracy
-		if (location != null && location.getAccuracy() <= 500) {
+//		if (location != null && location.getAccuracy() <= 500) {
+		if (location != null) {
 			Log.d("debug", location.getAccuracy()
 			    + " good enough accuracy");
 			itemizeduseroverlay.clear();
@@ -322,27 +360,27 @@ public class CapsuleMapActivity extends MapActivity implements
 				centerMap(false);
 			}
 			// numNotifiedAboutPoorLocation = 0;
-		} else if (location != null && location.hasAccuracy()) {
-			// if accuracy is bad, will let user know it is still
-			// looking
-			// switch (numNotifiedAboutPoorLocation) {
-			// case 0:
-			// Toast.makeText(CapsuleMapActivity.this,
-			// "Waiting for a better GPS position...",
-			// Toast.LENGTH_LONG).show();
-			// break;
-			// case 1:
-			// Toast.makeText(CapsuleMapActivity.this,
-			// "Still waiting for a better GPS position...",
-			// Toast.LENGTH_LONG).show();
-			// break;
-			// default:
-			// if (numNotifiedAboutPoorLocation % 10 == 0)
-			// Toast.makeText(CapsuleMapActivity.this,
-			// "Still waiting...", Toast.LENGTH_LONG).show();
-			// break;
-			// }
-			numNotifiedAboutPoorLocation++;
+//		} else if (location != null && location.hasAccuracy()) {
+//			// if accuracy is bad, will let user know it is still
+//			// looking
+//			// switch (numNotifiedAboutPoorLocation) {
+//			// case 0:
+//			// Toast.makeText(CapsuleMapActivity.this,
+//			// "Waiting for a better GPS position...",
+//			// Toast.LENGTH_LONG).show();
+//			// break;
+//			// case 1:
+//			// Toast.makeText(CapsuleMapActivity.this,
+//			// "Still waiting for a better GPS position...",
+//			// Toast.LENGTH_LONG).show();
+//			// break;
+//			// default:
+//			// if (numNotifiedAboutPoorLocation % 10 == 0)
+//			// Toast.makeText(CapsuleMapActivity.this,
+//			// "Still waiting...", Toast.LENGTH_LONG).show();
+//			// break;
+//			// }
+//			numNotifiedAboutPoorLocation++;
 		} else {
 			// if gps has no accuracy, will resposition on last known
 			// location
@@ -417,6 +455,14 @@ public class CapsuleMapActivity extends MapActivity implements
 			Log.d("debug", userLocation.getLatitudeE6() + " "
 			    + userLocation.getLongitudeE6());
 			// mapController.setZoom(20);
+
+			// I was just trying something fun with the foursquare
+			// api...didn't work
+			// Log.d(
+			// "debug",Server.getVenuesFromFoursquare(
+			// userLocation.getLatitudeE6() / 1e6 + "",
+			// userLocation.getLongitudeE6() / 1e6 + ""));
+
 		}
 	}
 

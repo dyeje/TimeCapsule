@@ -88,18 +88,29 @@ public class CapsuleActivity extends NavigationMenu implements
 	}
 
 	private void setCapsuleInfo(String capsuleId) {
+		Log.d("debug", "capsuleinfo\n" + Server.getCapsule(capsuleId));
+		
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
 		TextView leftOn = (TextView) findViewById(R.id.left_on);
 		RatingBar rating = (RatingBar) findViewById(R.id.capsule_rating_bar);
 
-		String[] treasureInfo = Server.getCapsule(capsuleId).split(
-		    TAB);
-		title.setText(treasureInfo[0]);
-		description.setText(treasureInfo[3]);
-		leftOn.setText("Left on " + treasureInfo[4].split(" ")[0]);
-		rating
-		    .setRating(Float.parseFloat(Server.getRating(capsuleId)));
+		String[] capsuleInfo = Server.getCapsule(capsuleId)
+		    .split(TAB);
+		title.setText(capsuleInfo[0]);
+		description.setText(capsuleInfo[3]);
+		
+		// gets the date capsule was left
+		leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0]
+		    + " at " + capsuleInfo[4].split(" ")[1]);
+		
+		String strRating = Server.getRating(capsuleId);
+		if (!strRating.equals("")) {
+			Log.d("debug", "rating: |" + strRating + "|");
+			rating.setRating(Float.parseFloat(strRating));
+		} else {
+			rating.setRating(0);
+		}
 	}
 
 	private void setComments(final String capsuleId) {
@@ -181,7 +192,7 @@ public class CapsuleActivity extends NavigationMenu implements
 				    .toString(ratingBar.getRating()));
 				refresh();
 				Toast.makeText(getApplicationContext(),
-					"Rating Submitted", Toast.LENGTH_SHORT).show();
+				    "Rating Submitted", Toast.LENGTH_SHORT).show();
 			}
 		});
 		cancelButton.setOnClickListener(new OnClickListener() {

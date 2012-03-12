@@ -38,7 +38,7 @@ public class Server {
 	// Add Comment
 	private static final String ADDCOMMENT = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setVisit.php?";
 	// Get Rating
-	private static final String GETRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getRate.php?";
+	private static final String GETRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getRate.php?capsuleId=";
 	// Set Rating
 	private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
 
@@ -108,7 +108,7 @@ public class Server {
 	}
 
 	public static String getRating(String capsuleId) {
-		String command = GETRATING + "capsuleId=" + capsuleId;
+		String command = GETRATING + capsuleId;
 		return get(command);
 	}
 
@@ -145,7 +145,7 @@ public class Server {
 		;
 		return get(command);
 	}
-	
+
 	/****************************************************************
 	 * @param latitude float value of latitude (not E6)
 	 * @param longitude float value of longitude (not E6)
@@ -155,7 +155,7 @@ public class Server {
 	 * @param minRating minimum rating to return, integers 1 to 5
 	 * @return String the capsules returned by the query
 	 ***************************************************************/
-	public static String getCapsule(String latitude,
+	public static String getCapsules(String latitude,
 	    String longitude, String radiusCode, String startDate,
 	    String endDate, String minRating) {
 		String request = GETCAPSULE;
@@ -164,9 +164,34 @@ public class Server {
 		    + "&radiusCode=" + radiusCode + "&dateStart=" + startDate
 		    + "&dateEnd=" + endDate + "&minRate=" + minRating;
 		result = get(request);
+
+		Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:"
+		    + result);
 		return result;
 	}
 
+	public static String getVenuesFromFoursquare(String lat,
+	    String lng) {
+		// String request =
+		// "https://api.foursquare.com/v2/venues/search?ll="+lat+","+lng+"&oauth_token=4LYDLPUKK0XU1PPAESDJYQYJTPI0TLKYWINVGQ4IHJJKPY3F&v=20120311";
+		// String request =
+		// "https://api.foursquare.com/v2/venues/search?ll=42.966881,-85.887036&oauth_token=4LYDLPUKK0XU1PPAESDJYQYJTPI0TLKYWINVGQ4IHJJKPY3F&v=20120311";
+		// Log.d("debug", request);
+		// String response = get(request);
+		// return response;
+		return "not finished yet...";
+	}
+
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
+	/****************************************************************
 	/****************************************************************
 	 * Basic server post code
 	 * @param command
