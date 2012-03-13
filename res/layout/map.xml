@@ -83,7 +83,7 @@
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0DYjEaTwZugbC39-tQds60JYG2iS2KpI-9zEQrQ"
+            android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
             android:clickable="true" />
         <!-- calebs api key is in use -->
         <!--

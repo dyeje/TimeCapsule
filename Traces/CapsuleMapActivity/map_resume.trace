@@ -1,0 +1,1579 @@
+*version
+1
+data-file-overflow=false
+clock=thread-cpu
+elapsed-time-usec=58816
+num-method-calls=4909
+clock-call-overhead-nsec=2239
+vm=dalvik
+*threads
+1	main
+9	TrafficService
+8	MapService
+7	Binder Thread #2
+6	Binder Thread #1
+5	Compiler
+4	JDWP
+3	Signal Catcher
+2	HeapWorker
+*methods
+0x4209f9c8	java/lang/Long	longValue	()J	Long.java	305
+0x4209f274	java/lang/Long	<init>	(J)V	Long.java	87
+0x4209f414	java/lang/Long	intIntoCharArray	([CII)I	Long.java	553
+0x4209f4e4	java/lang/Long	parse	(Ljava/lang/String;IIZ)J	Long.java	359
+0x4209f518	java/lang/Long	parseLong	(Ljava/lang/String;)J	Long.java	320
+0x4209f54c	java/lang/Long	parseLong	(Ljava/lang/String;I)J	Long.java	341
+0x4209f720	java/lang/Long	toString	(J)Ljava/lang/String;	Long.java	479
+0x4209f788	java/lang/Long	valueOf	(J)Ljava/lang/Long;	Long.java	917
+0x4209f7bc	java/lang/Long	valueOf	(Ljava/lang/String;)Ljava/lang/Long;	Long.java	660
+0x422bb3b4	com/google/googlenav/datarequest/DataRequestDispatcher$DispatcherServer	activateIfNeeded	()V	(null)	-1
+0x422bb4ec	com/google/googlenav/datarequest/DataRequestDispatcher$DispatcherServer	start	()V	(null)	-1
+0x422bb314	com/google/googlenav/datarequest/DataRequestDispatcher$DispatcherServer	checkNeedToActivate	()Z	(null)	-1
+0x422a6c8c	android/app/ActivityThread$PackageInfo	getApplication	()Landroid/app/Application;	ActivityThread.java	283
+0x422a6d90	android/app/ActivityThread$PackageInfo	getDataDirFile	()Ljava/io/File;	ActivityThread.java	613
+0x422a6dc4	android/app/ActivityThread$PackageInfo	getPackageName	()Ljava/lang/String;	ActivityThread.java	339
+0x422a6df8	android/app/ActivityThread$PackageInfo	getReceiverDispatcher	(Landroid/content/BroadcastReceiver;Landroid/content/Context;Landroid/os/Handler;Landroid/app/Instrumentation;Z)Landroid/content/IIntentReceiver;	ActivityThread.java	724
+0x42120da8	java/nio/charset/CharsetEncoder	encode	(Ljava/nio/CharBuffer;)Ljava/nio/ByteBuffer;	CharsetEncoder.java	-1
+0x42120ddc	java/nio/charset/CharsetEncoder	encode	(Ljava/nio/CharBuffer;Ljava/nio/ByteBuffer;Z)Ljava/nio/charset/CoderResult;	CharsetEncoder.java	-1
+0x42120e44	java/nio/charset/CharsetEncoder	flush	(Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;	CharsetEncoder.java	556
+0x42120f7c	java/nio/charset/CharsetEncoder	isLegalReplacement	([B)Z	CharsetEncoder.java	-1
+0x42121018	java/nio/charset/CharsetEncoder	onMalformedInput	(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetEncoder;	CharsetEncoder.java	691
+0x4212104c	java/nio/charset/CharsetEncoder	onUnmappableCharacter	(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetEncoder;	CharsetEncoder.java	715
+0x42121080	java/nio/charset/CharsetEncoder	replaceWith	([B)Ljava/nio/charset/CharsetEncoder;	CharsetEncoder.java	752
+0x421210b4	java/nio/charset/CharsetEncoder	replacement	()[B	CharsetEncoder.java	730
+0x421210e8	java/nio/charset/CharsetEncoder	reset	()Ljava/nio/charset/CharsetEncoder;	CharsetEncoder.java	771
+0x42120c04	java/nio/charset/CharsetEncoder	<init>	(Ljava/nio/charset/Charset;FF[B)V	CharsetEncoder.java	-1
+0x42120c6c	java/nio/charset/CharsetEncoder	checkCoderResult	(Ljava/nio/charset/CoderResult;)V	CharsetEncoder.java	359
+0x420fa90c	android/os/FileUtils	getFileStatus	(Ljava/lang/String;Landroid/os/FileUtils$FileStatus;)Z	FileUtils.java	-2
+0x421202b0	java/nio/CharArrayBuffer	<init>	(I)V	CharArrayBuffer.java	43
+0x421202e4	java/nio/CharArrayBuffer	<init>	(I[CI)V	CharArrayBuffer.java	47
+0x420b97d8	java/util/WeakHashMap	<init>	()V	WeakHashMap.java	188
+0x420b980c	java/util/WeakHashMap	<init>	(I)V	WeakHashMap.java	200
+0x420b98a8	java/util/WeakHashMap	computeMaxSize	()V	WeakHashMap.java	267
+0x420b98dc	java/util/WeakHashMap	newEntryArray	(I)[Ljava/util/WeakHashMap$Entry;	WeakHashMap.java	53
+0x422d0130	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	<init>	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher;)V	ActivityThread.java	846
+0x422d0164	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	access$302	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args;Landroid/content/Intent;)Landroid/content/Intent;	ActivityThread.java	846
+0x422d01cc	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	access$402	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args;I)I	ActivityThread.java	846
+0x422d0234	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	access$502	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args;Ljava/lang/String;)Ljava/lang/String;	ActivityThread.java	846
+0x422d029c	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	access$602	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args;Landroid/os/Bundle;)Landroid/os/Bundle;	ActivityThread.java	846
+0x422d02d0	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	access$702	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args;Z)Z	ActivityThread.java	846
+0x422d0304	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args	access$802	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher$Args;Z)Z	ActivityThread.java	846
+0x422b2148	com/google/android/maps/NetworkConnectivityListener	startListening	(Landroid/content/Context;)V	MapActivity.java	158
+0x420bd968	java/util/AbstractCollection	<init>	()V	AbstractCollection.java	37
+0x420a5484	java/lang/Math	max	(II)I	Math.java	555
+0x422c3fe8	com/google/googlenav/map/TrafficService	start	()V	(null)	-1
+0x42096d90	java/nio/ByteBuffer	array	()[B	ByteBuffer.java	144
+0x42096dc4	java/nio/ByteBuffer	arrayOffset	()I	ByteBuffer.java	161
+0x420973a8	java/nio/ByteBuffer	hasArray	()Z	ByteBuffer.java	642
+0x42096c20	java/nio/ByteBuffer	<init>	(I)V	ByteBuffer.java	128
+0x42096c54	java/nio/ByteBuffer	allocate	(I)Ljava/nio/ByteBuffer;	ByteBuffer.java	49
+0x42096cbc	java/nio/ByteBuffer	wrap	([B)Ljava/nio/ByteBuffer;	ByteBuffer.java	82
+0x4216c8a0	android/content/Intent$1	createFromParcel	(Landroid/os/Parcel;)Landroid/content/Intent;	Intent.java	5462
+0x4216c8d4	android/content/Intent$1	createFromParcel	(Landroid/os/Parcel;)Ljava/lang/Object;	Intent.java	5464
+0x421209b8	com/ibm/icu4jni/charset/CharsetEncoderICU	encodeLoop	(Ljava/nio/CharBuffer;Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;	CharsetEncoderICU.java	-1
+0x42120a20	com/ibm/icu4jni/charset/CharsetEncoderICU	implFlush	(Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;	CharsetEncoderICU.java	168
+0x42120a54	com/ibm/icu4jni/charset/CharsetEncoderICU	implOnMalformedInput	(Ljava/nio/charset/CodingErrorAction;)V	CharsetEncoderICU.java	122
+0x42120a88	com/ibm/icu4jni/charset/CharsetEncoderICU	implOnUnmappableCharacter	(Ljava/nio/charset/CodingErrorAction;)V	CharsetEncoderICU.java	144
+0x42120abc	com/ibm/icu4jni/charset/CharsetEncoderICU	implReplaceWith	([B)V	CharsetEncoderICU.java	101
+0x42120af0	com/ibm/icu4jni/charset/CharsetEncoderICU	implReset	()V	CharsetEncoderICU.java	-1
+0x42120848	com/ibm/icu4jni/charset/CharsetEncoderICU	<init>	(Ljava/nio/charset/Charset;J[B)V	CharsetEncoderICU.java	-1
+0x4212087c	com/ibm/icu4jni/charset/CharsetEncoderICU	getArray	(Ljava/nio/ByteBuffer;)I	CharsetEncoderICU.java	330
+0x421208b0	com/ibm/icu4jni/charset/CharsetEncoderICU	getArray	(Ljava/nio/CharBuffer;)I	CharsetEncoderICU.java	352
+0x421208e4	com/ibm/icu4jni/charset/CharsetEncoderICU	setPosition	(Ljava/nio/ByteBuffer;)V	CharsetEncoderICU.java	-1
+0x42120918	com/ibm/icu4jni/charset/CharsetEncoderICU	setPosition	(Ljava/nio/CharBuffer;)V	CharsetEncoderICU.java	418
+0x4219a388	android/location/LocationManager	requestLocationUpdates	(Ljava/lang/String;JFLandroid/location/LocationListener;)V	LocationManager.java	624
+0x42199da0	android/location/LocationManager	_requestLocationUpdates	(Ljava/lang/String;JFLandroid/location/LocationListener;Landroid/os/Looper;)V	LocationManager.java	697
+0x420b0cac	org/apache/harmony/luni/util/NumberConverter	convertF	(F)Ljava/lang/String;	NumberConverter.java	110
+0x420b0ad4	org/apache/harmony/luni/util/NumberConverter	<init>	()V	NumberConverter.java	21
+0x420b0b70	org/apache/harmony/luni/util/NumberConverter	convert	(F)Ljava/lang/String;	NumberConverter.java	53
+0x420b0c0c	org/apache/harmony/luni/util/NumberConverter	getConverter	()Lorg/apache/harmony/luni/util/NumberConverter;	NumberConverter.java	45
+0x422cfa78	android/app/ActivityThread$PackageInfo$ReceiverDispatcher	getIIntentReceiver	()Landroid/content/IIntentReceiver;	ActivityThread.java	966
+0x422cfb48	android/app/ActivityThread$PackageInfo$ReceiverDispatcher	performReceive	(Landroid/content/Intent;ILjava/lang/String;Landroid/os/Bundle;ZZ)V	ActivityThread.java	984
+0x422cfa40	android/app/ActivityThread$PackageInfo$ReceiverDispatcher	<init>	(Landroid/content/BroadcastReceiver;Landroid/content/Context;Landroid/os/Handler;Landroid/app/Instrumentation;Z)V	ActivityThread.java	927
+0x42190914	java/util/Locale	getLanguage	()Ljava/lang/String;	Locale.java	606
+0x421904fc	java/util/Locale	getDefault	()Ljava/util/Locale;	Locale.java	392
+0x420fab50	android/os/FileUtils$FileStatus	<init>	()V	FileUtils.java	55
+0x4228d91c	org/apache/harmony/xml/ExpatPullParser	getAttributeValue	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;	ExpatPullParser.java	295
+0x4228d9b8	org/apache/harmony/xml/ExpatPullParser	getEventType	()I	ExpatPullParser.java	299
+0x4228da88	org/apache/harmony/xml/ExpatPullParser	getName	()Ljava/lang/String;	ExpatPullParser.java	245
+0x4228dc5c	org/apache/harmony/xml/ExpatPullParser	getText	()Ljava/lang/String;	ExpatPullParser.java	223
+0x4228dd94	org/apache/harmony/xml/ExpatPullParser	next	()I	ExpatPullParser.java	303
+0x4228decc	org/apache/harmony/xml/ExpatPullParser	setInput	(Ljava/io/InputStream;Ljava/lang/String;)V	ExpatPullParser.java	131
+0x4228df34	org/apache/harmony/xml/ExpatPullParser	setNamespaceProcessingEnabled	(Z)V	ExpatPullParser.java	107
+0x4228d740	org/apache/harmony/xml/ExpatPullParser	<init>	()V	ExpatPullParser.java	-1
+0x42140d08	android/app/ContextImpl	getApplicationContext	()Landroid/content/Context;	ContextImpl.java	266
+0x42140fac	android/app/ContextImpl	getOuterContext	()Landroid/content/Context;	ContextImpl.java	1550
+0x42141048	android/app/ContextImpl	getPackageName	()Ljava/lang/String;	ContextImpl.java	295
+0x42141118	android/app/ContextImpl	getSharedPreferences	(Ljava/lang/String;I)Landroid/content/SharedPreferences;	ContextImpl.java	-1
+0x4214114c	android/app/ContextImpl	getSharedPrefsFile	(Ljava/lang/String;)Ljava/io/File;	ContextImpl.java	330
+0x4214148c	android/app/ContextImpl	registerReceiver	(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;	ContextImpl.java	-1
+0x421414c0	android/app/ContextImpl	registerReceiver	(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;Ljava/lang/String;Landroid/os/Handler;)Landroid/content/Intent;	ContextImpl.java	778
+0x4214016c	android/app/ContextImpl	access$000	(Ljava/io/File;)Ljava/io/File;	ContextImpl.java	160
+0x421403a8	android/app/ContextImpl	getDataDirFile	()Ljava/io/File;	ContextImpl.java	1446
+0x42140548	android/app/ContextImpl	getPreferencesDir	()Ljava/io/File;	ContextImpl.java	388
+0x42140750	android/app/ContextImpl	makeBackupFile	(Ljava/io/File;)Ljava/io/File;	ContextImpl.java	326
+0x42140784	android/app/ContextImpl	makeFilename	(Ljava/io/File;Ljava/lang/String;)Ljava/io/File;	ContextImpl.java	1599
+0x421407b8	android/app/ContextImpl	registerReceiverInternal	(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;Ljava/lang/String;Landroid/os/Handler;Landroid/content/Context;)Landroid/content/Intent;	ContextImpl.java	-1
+0x422d1690	org/apache/harmony/xml/ExpatPullParser$Document$SaxHandler	characters	([CII)V	ExpatPullParser.java	884
+0x422d16f8	org/apache/harmony/xml/ExpatPullParser$Document$SaxHandler	endElement	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V	ExpatPullParser.java	874
+0x422d1864	org/apache/harmony/xml/ExpatPullParser$Document$SaxHandler	startElement	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/xml/sax/Attributes;)V	ExpatPullParser.java	867
+0x422d1620	org/apache/harmony/xml/ExpatPullParser$Document$SaxHandler	<init>	(Lorg/apache/harmony/xml/ExpatPullParser$Document;)V	ExpatPullParser.java	855
+0x422d1654	org/apache/harmony/xml/ExpatPullParser$Document$SaxHandler	<init>	(Lorg/apache/harmony/xml/ExpatPullParser$Document;Lorg/apache/harmony/xml/ExpatPullParser$1;)V	ExpatPullParser.java	855
+0x420b049c	dalvik/system/VMStack	getCallingClassLoader	()Ljava/lang/ClassLoader;	VMStack.java	-2
+0x422d0988	org/apache/harmony/xml/ExpatPullParser$NamespaceStack	<clinit>	()V	ExpatPullParser.java	359
+0x422d09bc	org/apache/harmony/xml/ExpatPullParser$NamespaceStack	<init>	()V	ExpatPullParser.java	-1
+0x422d0a58	org/apache/harmony/xml/ExpatPullParser$NamespaceStack	access$100	(Lorg/apache/harmony/xml/ExpatPullParser$NamespaceStack;)I	ExpatPullParser.java	356
+0x420acd20	java/util/HashMap	addNewEntry	(Ljava/lang/Object;Ljava/lang/Object;II)V	HashMap.java	479
+0x420acef4	java/util/HashMap	get	(Ljava/lang/Object;)Ljava/lang/Object;	HashMap.java	-1
+0x420ad094	java/util/HashMap	preModify	(Ljava/util/HashMap$HashMapEntry;)V	HashMap.java	436
+0x420ad0c8	java/util/HashMap	put	(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;	HashMap.java	-1
+0x420ac8d4	java/util/HashMap	<init>	()V	HashMap.java	128
+0x420acadc	java/util/HashMap	doubleCapacity	()[Ljava/util/HashMap$HashMapEntry;	HashMap.java	572
+0x420acb78	java/util/HashMap	makeTable	(I)[Ljava/util/HashMap$HashMapEntry;	HashMap.java	558
+0x420accb0	java/util/HashMap	secondaryHash	(I)I	HashMap.java	980
+0x421b4678	java/lang/CaseMapper	toLowerCase	(Ljava/util/Locale;Ljava/lang/String;[CII)Ljava/lang/String;	CaseMapper.java	48
+0x422d2c0c	android/location/LocationManager$ListenerTransport	onProviderDisabled	(Ljava/lang/String;)V	LocationManager.java	181
+0x422d2b38	android/location/LocationManager$ListenerTransport	<init>	(Landroid/location/LocationManager;Landroid/location/LocationListener;Landroid/os/Looper;)V	LocationManager.java	133
+0x420c1474	java/io/FileInputStream	close	()V	FileInputStream.java	178
+0x420c1578	java/io/FileInputStream	read	([B)I	FileInputStream.java	267
+0x420c15ac	java/io/FileInputStream	read	([BII)I	FileInputStream.java	298
+0x420c1368	java/io/FileInputStream	<init>	(Ljava/io/File;)V	FileInputStream.java	-1
+0x420c1404	java/io/FileInputStream	openCheck	()V	FileInputStream.java	356
+0x4209342c	java/lang/VMThread	currentThread	()Ljava/lang/Thread;	VMThread.java	-2
+0x420bc600	java/lang/AbstractStringBuilder	append0	(C)V	AbstractStringBuilder.java	143
+0x420bc668	java/lang/AbstractStringBuilder	append0	(Ljava/lang/String;)V	AbstractStringBuilder.java	150
+0x420bc6d0	java/lang/AbstractStringBuilder	append0	([CII)V	AbstractStringBuilder.java	125
+0x420bcd50	java/lang/AbstractStringBuilder	toString	()Ljava/lang/String;	AbstractStringBuilder.java	-1
+0x420bc4f8	java/lang/AbstractStringBuilder	<init>	()V	AbstractStringBuilder.java	75
+0x420bc52c	java/lang/AbstractStringBuilder	<init>	(I)V	AbstractStringBuilder.java	79
+0x420bc560	java/lang/AbstractStringBuilder	<init>	(Ljava/lang/String;)V	AbstractStringBuilder.java	-1
+0x420bc594	java/lang/AbstractStringBuilder	enlargeBuffer	(I)V	AbstractStringBuilder.java	-1
+0x42121ea8	com/ibm/icu4jni/common/ErrorCode	isFailure	(I)Z	ErrorCode.java	202
+0x422aa554	com/google/android/maps/MapActivity	onResume	()V	MapActivity.java	427
+0x4211cc3c	com/ibm/icu4jni/charset/CharsetICU	newDecoder	()Ljava/nio/charset/CharsetDecoder;	CharsetICU.java	47
+0x4211cc70	com/ibm/icu4jni/charset/CharsetICU	newEncoder	()Ljava/nio/charset/CharsetEncoder;	CharsetICU.java	68
+0x42094764	java/lang/Exception	<init>	(Ljava/lang/String;)V	Exception.java	48
+0x4226461c	com/android/internal/util/XmlUtils	readMapXml	(Ljava/io/InputStream;)Ljava/util/HashMap;	XmlUtils.java	468
+0x422646b8	com/android/internal/util/XmlUtils	readThisMapXml	(Lorg/xmlpull/v1/XmlPullParser;Ljava/lang/String;[Ljava/lang/String;)Ljava/util/HashMap;	XmlUtils.java	-1
+0x422646ec	com/android/internal/util/XmlUtils	readThisValueXml	(Lorg/xmlpull/v1/XmlPullParser;[Ljava/lang/String;)Ljava/lang/Object;	XmlUtils.java	-1
+0x42264720	com/android/internal/util/XmlUtils	readValueXml	(Lorg/xmlpull/v1/XmlPullParser;[Ljava/lang/String;)Ljava/lang/Object;	XmlUtils.java	664
+0x420d323c	android/os/BinderProxy	transact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	Binder.java	-2
+0x4209c1ec	java/lang/Character	digit	(CI)I	Character.java	2263
+0x4209c220	java/lang/Character	digit	(II)I	Character.java	-1
+0x4209cd18	java/lang/Character	toLowerCase	(C)C	Character.java	3087
+0x4209cd4c	java/lang/Character	toLowerCase	(I)I	Character.java	3104
+0x4211b278	java/nio/charset/Charset	encode	(Ljava/lang/String;)Ljava/nio/ByteBuffer;	Charset.java	713
+0x4211b2ac	java/nio/charset/Charset	encode	(Ljava/nio/CharBuffer;)Ljava/nio/ByteBuffer;	Charset.java	692
+0x421d3a08	android/net/Uri$1	createFromParcel	(Landroid/os/Parcel;)Landroid/net/Uri;	Uri.java	1620
+0x421d3a3c	android/net/Uri$1	createFromParcel	(Landroid/os/Parcel;)Ljava/lang/Object;	Uri.java	1632
+0x420caffc	java/lang/VMClassLoader	findLoadedClass	(Ljava/lang/ClassLoader;Ljava/lang/String;)Ljava/lang/Class;	VMClassLoader.java	-2
+0x42121588	com/ibm/icu4jni/charset/CharsetDecoderICU	decodeLoop	(Ljava/nio/ByteBuffer;Ljava/nio/CharBuffer;)Ljava/nio/charset/CoderResult;	CharsetDecoderICU.java	-1
+0x42121624	com/ibm/icu4jni/charset/CharsetDecoderICU	implOnMalformedInput	(Ljava/nio/charset/CodingErrorAction;)V	CharsetDecoderICU.java	125
+0x42121658	com/ibm/icu4jni/charset/CharsetDecoderICU	implOnUnmappableCharacter	(Ljava/nio/charset/CodingErrorAction;)V	CharsetDecoderICU.java	147
+0x42121480	com/ibm/icu4jni/charset/CharsetDecoderICU	<init>	(Ljava/nio/charset/Charset;J)V	CharsetDecoderICU.java	-1
+0x421214b4	com/ibm/icu4jni/charset/CharsetDecoderICU	getArray	(Ljava/nio/ByteBuffer;)I	CharsetDecoderICU.java	310
+0x421214e8	com/ibm/icu4jni/charset/CharsetDecoderICU	getArray	(Ljava/nio/CharBuffer;)I	CharsetDecoderICU.java	288
+0x4212151c	com/ibm/icu4jni/charset/CharsetDecoderICU	setPosition	(Ljava/nio/ByteBuffer;)V	CharsetDecoderICU.java	-1
+0x42121550	com/ibm/icu4jni/charset/CharsetDecoderICU	setPosition	(Ljava/nio/CharBuffer;)V	CharsetDecoderICU.java	-1
+0x420c18f8	java/lang/BootClassLoader	loadClass	(Ljava/lang/String;Z)Ljava/lang/Class;	ClassLoader.java	1121
+0x420c1784	java/lang/BootClassLoader	getInstance	()Ljava/lang/BootClassLoader;	ClassLoader.java	1044
+0x420a0ddc	java/io/FileDescriptor	<init>	()V	FileDescriptor.java	81
+0x421e864c	android/preference/PreferenceManager	getDefaultSharedPreferences	(Landroid/content/Context;)Landroid/content/SharedPreferences;	PreferenceManager.java	348
+0x421e8680	android/preference/PreferenceManager	getDefaultSharedPreferencesMode	()I	PreferenceManager.java	357
+0x421e86b4	android/preference/PreferenceManager	getDefaultSharedPreferencesName	(Landroid/content/Context;)Ljava/lang/String;	PreferenceManager.java	353
+0x4209468c	java/lang/RuntimeException	<init>	(Ljava/lang/String;)V	RuntimeException.java	47
+0x422ba5ac	com/google/googlenav/datarequest/DataRequestDispatcher	isSuspended	()Z	(null)	-1
+0x422ba920	com/google/googlenav/datarequest/DataRequestDispatcher	start	()V	(null)	-1
+0x422d1990	org/apache/harmony/xml/ExpatParser$ExpatLocator	<init>	(Lorg/apache/harmony/xml/ExpatParser;)V	ExpatParser.java	673
+0x422d19c4	org/apache/harmony/xml/ExpatParser$ExpatLocator	<init>	(Lorg/apache/harmony/xml/ExpatParser;Lorg/apache/harmony/xml/ExpatParser$1;)V	ExpatParser.java	673
+0x421303ec	android/app/Activity	onResume	()V	Activity.java	982
+0x421318c0	android/content/ContextWrapper	getApplicationContext	()Landroid/content/Context;	ContextWrapper.java	100
+0x42131c00	android/content/ContextWrapper	getPackageName	()Ljava/lang/String;	ContextWrapper.java	120
+0x42131c9c	android/content/ContextWrapper	getSharedPreferences	(Ljava/lang/String;I)Landroid/content/SharedPreferences;	ContextWrapper.java	146
+0x42131f40	android/content/ContextWrapper	registerReceiver	(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;	ContextWrapper.java	318
+0x422d1378	org/apache/harmony/xml/ExpatReader	setContentHandler	(Lorg/xml/sax/ContentHandler;)V	ExpatReader.java	179
+0x422d10d0	org/apache/harmony/xml/ExpatReader	<init>	()V	ExpatReader.java	39
+0x422cfff8	android/app/IntentReceiverLeaked	<init>	(Ljava/lang/String;)V	ActivityThread.java	101
+0x4213c918	android/app/ActivityThread$ApplicationThread	scheduleRegisteredReceiver	(Landroid/content/IIntentReceiver;Landroid/content/Intent;ILjava/lang/String;Landroid/os/Bundle;ZZ)V	ActivityThread.java	1714
+0x4212adfc	java/lang/ThreadLocal$Values	access$000	(Ljava/lang/ThreadLocal$Values;)[Ljava/lang/Object;	ThreadLocal.java	150
+0x4212ae30	java/lang/ThreadLocal$Values	access$100	(Ljava/lang/ThreadLocal$Values;)I	ThreadLocal.java	150
+0x4216cd34	android/content/IntentFilter	addAction	(Ljava/lang/String;)V	IntentFilter.java	436
+0x4216d588	android/content/IntentFilter	writeToParcel	(Landroid/os/Parcel;I)V	IntentFilter.java	-1
+0x4216cabc	android/content/IntentFilter	<init>	()V	IntentFilter.java	-1
+0x421225d8	java/nio/HeapByteBuffer	get	([BII)Ljava/nio/ByteBuffer;	HeapByteBuffer.java	67
+0x421224d0	java/nio/HeapByteBuffer	<init>	(I)V	HeapByteBuffer.java	45
+0x42122504	java/nio/HeapByteBuffer	<init>	([B)V	HeapByteBuffer.java	41
+0x42122538	java/nio/HeapByteBuffer	<init>	([BII)V	HeapByteBuffer.java	49
+0x42122128	java/nio/ReadWriteHeapByteBuffer	protectedArray	()[B	ReadWriteHeapByteBuffer.java	81
+0x4212215c	java/nio/ReadWriteHeapByteBuffer	protectedArrayOffset	()I	ReadWriteHeapByteBuffer.java	86
+0x42122190	java/nio/ReadWriteHeapByteBuffer	protectedHasArray	()Z	ReadWriteHeapByteBuffer.java	91
+0x42121f80	java/nio/ReadWriteHeapByteBuffer	<init>	(I)V	ReadWriteHeapByteBuffer.java	47
+0x42121fb4	java/nio/ReadWriteHeapByteBuffer	<init>	([B)V	ReadWriteHeapByteBuffer.java	43
+0x4212ab08	java/lang/ThreadLocal	get	()Ljava/lang/Object;	ThreadLocal.java	59
+0x4212ac0c	java/lang/ThreadLocal	values	(Ljava/lang/Thread;)Ljava/lang/ThreadLocal$Values;	ThreadLocal.java	127
+0x421e1344	android/os/Message	<init>	()V	Message.java	365
+0x421e13ac	android/os/Message	obtain	()Landroid/os/Message;	Message.java	98
+0x420b08a4	org/apache/harmony/luni/util/FloatingPointParser	initialParse	(Ljava/lang/String;I)Lorg/apache/harmony/luni/util/FloatingPointParser$StringExponentPair;	FloatingPointParser.java	95
+0x420b0974	org/apache/harmony/luni/util/FloatingPointParser	parseFloat	(Ljava/lang/String;)F	FloatingPointParser.java	301
+0x420b09a8	org/apache/harmony/luni/util/FloatingPointParser	parseFltImpl	(Ljava/lang/String;I)F	FloatingPointParser.java	-2
+0x422d22a8	org/apache/harmony/xml/ExpatPullParser$TextEvent	append	([CII)V	ExpatPullParser.java	685
+0x422d22dc	org/apache/harmony/xml/ExpatPullParser$TextEvent	getText	()Ljava/lang/StringBuilder;	ExpatPullParser.java	681
+0x422d2310	org/apache/harmony/xml/ExpatPullParser$TextEvent	getType	()I	ExpatPullParser.java	676
+0x422d2270	org/apache/harmony/xml/ExpatPullParser$TextEvent	<init>	(IILorg/apache/harmony/xml/ExpatPullParser$NamespaceStack;)V	ExpatPullParser.java	670
+0x4211b7fc	java/util/ArrayList	add	(Ljava/lang/Object;)Z	ArrayList.java	-1
+0x4211b900	java/util/ArrayList	contains	(Ljava/lang/Object;)Z	ArrayList.java	-1
+0x4211b99c	java/util/ArrayList	get	(I)Ljava/lang/Object;	ArrayList.java	310
+0x4211bba4	java/util/ArrayList	size	()I	ArrayList.java	322
+0x4211b654	java/util/ArrayList	<init>	()V	ArrayList.java	90
+0x422d1e88	org/apache/harmony/xml/ExpatPullParser$StartTagEvent	getAttributeValue	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;	ExpatPullParser.java	623
+0x422d1ebc	org/apache/harmony/xml/ExpatPullParser$StartTagEvent	getName	()Ljava/lang/String;	ExpatPullParser.java	597
+0x422d1f24	org/apache/harmony/xml/ExpatPullParser$StartTagEvent	getType	()I	ExpatPullParser.java	632
+0x422d1d80	org/apache/harmony/xml/ExpatPullParser$StartTagEvent	<init>	(Ljava/lang/String;Ljava/lang/String;Lorg/apache/harmony/xml/ExpatParser;ILorg/apache/harmony/xml/ExpatPullParser$NamespaceStack;Z)V	ExpatPullParser.java	583
+0x420c16b0	java/io/FileInputStream$RepositioningLock	<init>	()V	FileInputStream.java	52
+0x420c16e4	java/io/FileInputStream$RepositioningLock	<init>	(Ljava/io/FileInputStream$1;)V	FileInputStream.java	52
+0x4209b5a4	dalvik/system/VMDebug	startClassPrep	()V	VMDebug.java	381
+0x4209b6a8	dalvik/system/VMDebug	startMethodTracing	(Ljava/lang/String;II)V	VMDebug.java	174
+0x4209b814	dalvik/system/VMDebug	stopMethodTracing	()V	VMDebug.java	-2
+0x422d05a0	org/apache/harmony/xml/ExpatPullParser$Document	add	(Lorg/apache/harmony/xml/ExpatPullParser$Event;)V	ExpatPullParser.java	795
+0x422d0608	org/apache/harmony/xml/ExpatPullParser$Document	dequeue	()I	ExpatPullParser.java	813
+0x422d070c	org/apache/harmony/xml/ExpatPullParser$Document	pump	()V	ExpatPullParser.java	745
+0x422d0568	org/apache/harmony/xml/ExpatPullParser$Document	<init>	(Lorg/apache/harmony/xml/ExpatPullParser;Ljava/lang/String;Z)V	ExpatPullParser.java	-1
+0x420bec78	java/lang/ClassLoader	findLoadedClass	(Ljava/lang/String;)Ljava/lang/Class;	ClassLoader.java	400
+0x420befb8	java/lang/ClassLoader	loadClass	(Ljava/lang/String;)Ljava/lang/Class;	ClassLoader.java	532
+0x420befec	java/lang/ClassLoader	loadClass	(Ljava/lang/String;Z)Ljava/lang/Class;	ClassLoader.java	563
+0x420adbf8	java/util/HashMap$HashMapEntry	<init>	(Ljava/lang/Object;Ljava/lang/Object;ILjava/util/HashMap$HashMapEntry;)V	HashMap.java	732
+0x420df268	android/os/Handler	post	(Ljava/lang/Runnable;)Z	Handler.java	248
+0x420df50c	android/os/Handler	sendMessage	(Landroid/os/Message;)Z	Handler.java	367
+0x420df574	android/os/Handler	sendMessageAtTime	(Landroid/os/Message;J)Z	Handler.java	453
+0x420df5a8	android/os/Handler	sendMessageDelayed	(Landroid/os/Message;J)Z	Handler.java	427
+0x420dee88	android/os/Handler	<init>	()V	Handler.java	109
+0x420def58	android/os/Handler	getPostMessage	(Ljava/lang/Runnable;)Landroid/os/Message;	Handler.java	574
+0x42201398	android/util/Xml	newPullParser	()Lorg/xmlpull/v1/XmlPullParser;	Xml.java	101
+0x4209d648	java/lang/Number	<init>	()V	Number.java	33
+0x422d2f50	android/location/ILocationListener$Stub	asBinder	()Landroid/os/IBinder;	ILocationListener.java	37
+0x422d2f84	android/location/ILocationListener$Stub	onTransact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	ILocationListener.java	-1
+0x422d2cb8	android/location/ILocationListener$Stub	<init>	()V	ILocationListener.java	17
+0x420943a8	java/lang/Throwable	fillInStackTrace	()Ljava/lang/Throwable;	Throwable.java	138
+0x420941d0	java/lang/Throwable	<init>	()V	Throwable.java	79
+0x42094204	java/lang/Throwable	<init>	(Ljava/lang/String;)V	Throwable.java	92
+0x42094308	java/lang/Throwable	nativeFillInStackTrace	()Ljava/lang/Object;	Throwable.java	-2
+0x4216c090	android/content/Intent	readFromParcel	(Landroid/os/Parcel;)V	Intent.java	5475
+0x4216ada4	android/content/Intent	<init>	(Landroid/os/Parcel;)V	Intent.java	5470
+0x4211bc98	java/util/AbstractList	<init>	()V	AbstractList.java	383
+0x420bbe64	java/lang/StringBuilder	append	(C)Ljava/lang/StringBuilder;	StringBuilder.java	125
+0x420bbecc	java/lang/StringBuilder	append	(F)Ljava/lang/StringBuilder;	StringBuilder.java	170
+0x420bbf34	java/lang/StringBuilder	append	(J)Ljava/lang/StringBuilder;	StringBuilder.java	155
+0x420bc004	java/lang/StringBuilder	append	(Ljava/lang/String;)Ljava/lang/StringBuilder;	StringBuilder.java	217
+0x420bc0d4	java/lang/StringBuilder	append	([CII)Ljava/lang/StringBuilder;	StringBuilder.java	272
+0x420bc47c	java/lang/StringBuilder	toString	()Ljava/lang/String;	StringBuilder.java	664
+0x420bbc88	java/lang/StringBuilder	<init>	()V	StringBuilder.java	55
+0x420bbcbc	java/lang/StringBuilder	<init>	(I)V	StringBuilder.java	68
+0x420bbd24	java/lang/StringBuilder	<init>	(Ljava/lang/String;)V	StringBuilder.java	96
+0x422c4240	com/google/googlenav/datarequest/SimpleDataRequest	isImmediate	()Z	(null)	-1
+0x420ca4cc	org/apache/harmony/xml/ExpatAttributes	getValue	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;	ExpatAttributes.java	117
+0x420ca018	org/apache/harmony/xml/ExpatAttributes	<init>	()V	ExpatAttributes.java	24
+0x420ca1ec	org/apache/harmony/xml/ExpatAttributes	getValue	(ILjava/lang/String;Ljava/lang/String;)Ljava/lang/String;	ExpatAttributes.java	-2
+0x420d2890	android/os/Binder	attachInterface	(Landroid/os/IInterface;Ljava/lang/String;)V	Binder.java	144
+0x420d2a64	android/os/Binder	queryLocalInterface	(Ljava/lang/String;)Landroid/os/IInterface;	Binder.java	179
+0x420d2680	android/os/Binder	<init>	()V	Binder.java	124
+0x420d271c	android/os/Binder	execTransact	(IIII)Z	Binder.java	281
+0x420d27ec	android/os/Binder	init	()V	Binder.java	-2
+0x422d0e98	org/apache/harmony/xml/ExpatPullParser$Event	getNext	()Lorg/apache/harmony/xml/ExpatPullParser$Event;	ExpatPullParser.java	516
+0x422d0f34	org/apache/harmony/xml/ExpatPullParser$Event	setNext	(Lorg/apache/harmony/xml/ExpatPullParser$Event;)V	ExpatPullParser.java	512
+0x422d0cc0	org/apache/harmony/xml/ExpatPullParser$Event	<init>	(ILorg/apache/harmony/xml/ExpatPullParser$NamespaceStack;)V	ExpatPullParser.java	506
+0x421df124	android/os/Bundle	readFromParcelInner	(Landroid/os/Parcel;I)V	Bundle.java	-1
+0x421de00c	android/os/Bundle	<init>	(Landroid/os/Parcel;I)V	Bundle.java	-1
+0x421e0fe0	android/os/Looper	myLooper	()Landroid/os/Looper;	Looper.java	137
+0x420ad208	java/util/AbstractMap	<init>	()V	AbstractMap.java	38
+0x420fa284	android/os/Debug	startMethodTracing	(Ljava/lang/String;)V	Debug.java	-1
+0x420fa2ec	android/os/Debug	startMethodTracing	(Ljava/lang/String;II)V	Debug.java	-1
+0x420fa3f0	android/os/Debug	stopMethodTracing	()V	Debug.java	496
+0x422d1b90	org/apache/harmony/xml/ExpatParser$CurrentAttributes	<init>	(Lorg/apache/harmony/xml/ExpatParser;)V	ExpatParser.java	702
+0x422d1bc4	org/apache/harmony/xml/ExpatParser$CurrentAttributes	<init>	(Lorg/apache/harmony/xml/ExpatParser;Lorg/apache/harmony/xml/ExpatParser$1;)V	ExpatParser.java	702
+0x422d2420	org/apache/harmony/xml/ExpatPullParser$EndTagEvent	getName	()Ljava/lang/String;	ExpatPullParser.java	650
+0x422d2488	org/apache/harmony/xml/ExpatPullParser$EndTagEvent	getType	()I	ExpatPullParser.java	660
+0x422d23e8	org/apache/harmony/xml/ExpatPullParser$EndTagEvent	<init>	(Ljava/lang/String;Ljava/lang/String;ILorg/apache/harmony/xml/ExpatPullParser$NamespaceStack;)V	ExpatPullParser.java	643
+0x4211fbf4	java/nio/BufferFactory	newByteBuffer	(I)Ljava/nio/ByteBuffer;	BufferFactory.java	49
+0x4211fc28	java/nio/BufferFactory	newByteBuffer	([B)Ljava/nio/ByteBuffer;	BufferFactory.java	38
+0x4211fc5c	java/nio/BufferFactory	newCharBuffer	(I)Ljava/nio/CharBuffer;	BufferFactory.java	82
+0x4211fc90	java/nio/BufferFactory	newCharBuffer	(Ljava/lang/CharSequence;)Ljava/nio/CharBuffer;	BufferFactory.java	71
+0x42139c60	android/app/ActivityManagerProxy	registerReceiver	(Landroid/app/IApplicationThread;Landroid/content/IIntentReceiver;Landroid/content/IntentFilter;Ljava/lang/String;)Landroid/content/Intent;	ActivityManagerNative.java	-1
+0x420c5148	com/ibm/icu4jni/charset/NativeConverter	decode	(J[BI[CI[IZ)I	NativeConverter.java	-2
+0x420c517c	com/ibm/icu4jni/charset/NativeConverter	encode	(J[CI[BI[IZ)I	NativeConverter.java	-2
+0x420c51e4	com/ibm/icu4jni/charset/NativeConverter	flushCharToByte	(J[BI[I)I	NativeConverter.java	-2
+0x420c5280	com/ibm/icu4jni/charset/NativeConverter	getAveBytesPerChar	(J)F	NativeConverter.java	-2
+0x420c52b4	com/ibm/icu4jni/charset/NativeConverter	getAveCharsPerByte	(J)F	NativeConverter.java	-2
+0x420c5384	com/ibm/icu4jni/charset/NativeConverter	getMaxBytesPerChar	(J)I	NativeConverter.java	-2
+0x420c53b8	com/ibm/icu4jni/charset/NativeConverter	getMaxCharsPerByte	(J)I	NativeConverter.java	-2
+0x420c5420	com/ibm/icu4jni/charset/NativeConverter	getSubstitutionBytes	(J)[B	NativeConverter.java	-2
+0x420c5454	com/ibm/icu4jni/charset/NativeConverter	openConverter	(Ljava/lang/String;)J	NativeConverter.java	-2
+0x420c54bc	com/ibm/icu4jni/charset/NativeConverter	resetCharToByte	(J)V	NativeConverter.java	-2
+0x420c5524	com/ibm/icu4jni/charset/NativeConverter	setCallbackDecode	(JII[CI)I	NativeConverter.java	-2
+0x420c5558	com/ibm/icu4jni/charset/NativeConverter	setCallbackEncode	(JII[BI)I	NativeConverter.java	-2
+0x420a0508	java/io/File	canRead	()Z	File.java	322
+0x420a06a8	java/io/File	exists	()Z	File.java	438
+0x420a0848	java/io/File	getPath	()Ljava/lang/String;	File.java	740
+0x420a087c	java/io/File	hashCode	()I	File.java	752
+0x4209fde4	java/io/File	<init>	(Ljava/io/File;Ljava/lang/String;)V	File.java	142
+0x4209fe18	java/io/File	<init>	(Ljava/lang/String;)V	File.java	151
+0x4209fe4c	java/io/File	<init>	(Ljava/lang/String;Ljava/lang/String;)V	File.java	166
+0x4209ffb8	java/io/File	existsImpl	([B)Z	File.java	-2
+0x420a0020	java/io/File	fixSlashes	(Ljava/lang/String;)Ljava/lang/String;	File.java	233
+0x420a0124	java/io/File	init	(Ljava/lang/String;)V	File.java	201
+0x420a01c0	java/io/File	isReadableImpl	([B)Z	File.java	-2
+0x420a0228	java/io/File	join	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;	File.java	-1
+0x420a0360	java/io/File	newCString	(Ljava/lang/String;)[B	File.java	214
+0x4209d49c	java/lang/Float	floatValue	()F	Float.java	202
+0x4209d0f0	java/lang/Float	<init>	(F)V	Float.java	87
+0x4209d124	java/lang/Float	<init>	(Ljava/lang/String;)V	Float.java	111
+0x4209d18c	java/lang/Float	floatToIntBits	(F)I	Float.java	-2
+0x4209d290	java/lang/Float	parseFloat	(Ljava/lang/String;)F	Float.java	291
+0x4209d2f8	java/lang/Float	toString	(F)Ljava/lang/String;	Float.java	314
+0x420cbc9c	android/util/Log	d	(Ljava/lang/String;Ljava/lang/String;)I	Log.java	122
+0x420cbe70	android/util/Log	println_native	(IILjava/lang/String;Ljava/lang/String;)I	Log.java	-2
+0x420cb794	android/os/SystemClock	uptimeMillis	()J	SystemClock.java	-2
+0x4211f3a0	java/nio/CharBuffer	array	()[C	CharBuffer.java	171
+0x4211f3d4	java/nio/CharBuffer	arrayOffset	()I	CharBuffer.java	188
+0x4211f644	java/nio/CharBuffer	hasArray	()Z	CharBuffer.java	414
+0x4211f0c0	java/nio/CharBuffer	<init>	(I)V	CharBuffer.java	155
+0x4211f0f4	java/nio/CharBuffer	allocate	(I)Ljava/nio/CharBuffer;	CharBuffer.java	50
+0x4211f128	java/nio/CharBuffer	wrap	(Ljava/lang/CharSequence;)Ljava/nio/CharBuffer;	CharBuffer.java	112
+0x420d3ba0	android/os/Parcel	appendFrom	(Landroid/os/Parcel;II)V	Parcel.java	-2
+0x420d3ee0	android/os/Parcel	dataPosition	()I	Parcel.java	-2
+0x420d3f48	android/os/Parcel	enforceInterface	(Ljava/lang/String;)V	Parcel.java	-2
+0x420d3fb0	android/os/Parcel	hasFileDescriptors	()Z	Parcel.java	-2
+0x420d411c	android/os/Parcel	readBundle	()Landroid/os/Bundle;	Parcel.java	1366
+0x420d4150	android/os/Parcel	readBundle	(Ljava/lang/ClassLoader;)Landroid/os/Bundle;	Parcel.java	1376
+0x420d42f0	android/os/Parcel	readException	()V	Parcel.java	1232
+0x420d4428	android/os/Parcel	readInt	()I	Parcel.java	-2
+0x420d4698	android/os/Parcel	readString	()Ljava/lang/String;	Parcel.java	-2
+0x420d4768	android/os/Parcel	readStrongBinder	()Landroid/os/IBinder;	Parcel.java	-2
+0x420d486c	android/os/Parcel	recycle	()V	Parcel.java	260
+0x420d48d4	android/os/Parcel	setDataPosition	(I)V	Parcel.java	-2
+0x420d4c7c	android/os/Parcel	writeFloat	(F)V	Parcel.java	-2
+0x420d4ce4	android/os/Parcel	writeInt	(I)V	Parcel.java	-2
+0x420d4d4c	android/os/Parcel	writeInterfaceToken	(Ljava/lang/String;)V	Parcel.java	-2
+0x420d4db4	android/os/Parcel	writeLong	(J)V	Parcel.java	-2
+0x420d4fbc	android/os/Parcel	writeString	(Ljava/lang/String;)V	Parcel.java	-2
+0x420d5024	android/os/Parcel	writeStringList	(Ljava/util/List;)V	Parcel.java	925
+0x420d5058	android/os/Parcel	writeStrongBinder	(Landroid/os/IBinder;)V	Parcel.java	-2
+0x420d38c4	android/os/Parcel	<init>	(I)V	Parcel.java	1982
+0x420d3960	android/os/Parcel	freeBuffer	()V	Parcel.java	-2
+0x420d3994	android/os/Parcel	init	(I)V	Parcel.java	-2
+0x420d39fc	android/os/Parcel	obtain	()Landroid/os/Parcel;	Parcel.java	237
+0x420d3a30	android/os/Parcel	obtain	(I)Landroid/os/Parcel;	Parcel.java	1964
+0x42166ab8	android/content/ComponentName	readFromParcel	(Landroid/os/Parcel;)Landroid/content/ComponentName;	ComponentName.java	252
+0x422d0c48	org/apache/harmony/xml/ExpatPullParser$StartDocumentEvent	getType	()I	ExpatPullParser.java	566
+0x422d0c10	org/apache/harmony/xml/ExpatPullParser$StartDocumentEvent	<init>	()V	ExpatPullParser.java	561
+0x42095068	java/lang/ref/Reference	get	()Ljava/lang/Object;	Reference.java	147
+0x42094f90	java/lang/ref/Reference	<init>	()V	Reference.java	83
+0x42122e00	java/nio/charset/CoderResult	isError	()Z	CoderResult.java	179
+0x42122e9c	java/nio/charset/CoderResult	isUnderflow	()Z	CoderResult.java	-1
+0x420ae3f8	java/lang/ref/WeakReference	<init>	(Ljava/lang/Object;)V	WeakReference.java	99
+0x421b630c	java/util/Vector	elementAt	(I)Ljava/lang/Object;	Vector.java	326
+0x421b6820	java/util/Vector	size	()I	Vector.java	934
+0x422d28b0	android/app/ContextImpl$SharedPreferencesImpl	getFloat	(Ljava/lang/String;F)F	ContextImpl.java	2717
+0x422d2918	android/app/ContextImpl$SharedPreferencesImpl	getLong	(Ljava/lang/String;J)J	ContextImpl.java	2711
+0x422d2670	android/app/ContextImpl$SharedPreferencesImpl	<clinit>	()V	ContextImpl.java	2646
+0x422d26a4	android/app/ContextImpl$SharedPreferencesImpl	<init>	(Ljava/io/File;ILjava/util/Map;)V	ContextImpl.java	2650
+0x420969b8	java/nio/BaseByteBuffer	<init>	(I)V	BaseByteBuffer.java	26
+0x42135330	android/app/ActivityManagerNative	getDefault	()Landroid/app/IActivityManager;	ActivityManagerNative.java	73
+0x422d2194	org/apache/harmony/xml/ExpatParser$ClonedAttributes	getPointer	()I	ExpatParser.java	655
+0x422d2020	org/apache/harmony/xml/ExpatParser$ClonedAttributes	<clinit>	()V	ExpatParser.java	-1
+0x422d2054	org/apache/harmony/xml/ExpatParser$ClonedAttributes	<init>	(III)V	ExpatParser.java	642
+0x422d2088	org/apache/harmony/xml/ExpatParser$ClonedAttributes	<init>	(IIILorg/apache/harmony/xml/ExpatParser$1;)V	ExpatParser.java	626
+0x422d20bc	org/apache/harmony/xml/ExpatParser$ClonedAttributes	access$400	()Lorg/xml/sax/Attributes;	ExpatParser.java	626
+0x420ab2f8	java/lang/String	_getChars	(II[CI)V	String.java	1017
+0x420ab32c	java/lang/String	charAt	(I)C	String.java	640
+0x420ab59c	java/lang/String	equals	(Ljava/lang/Object;)Z	String.java	-1
+0x420ab5d0	java/lang/String	equalsIgnoreCase	(Ljava/lang/String;)Z	String.java	-1
+0x420ab6a0	java/lang/String	getChars	(II[CI)V	String.java	1002
+0x420ab6d4	java/lang/String	hashCode	()I	String.java	1024
+0x420ab708	java/lang/String	indexOf	(I)I	String.java	1053
+0x420ab73c	java/lang/String	indexOf	(II)I	String.java	1082
+0x420ab770	java/lang/String	indexOf	(Ljava/lang/String;)I	String.java	-1
+0x420ab7d8	java/lang/String	intern	()Ljava/lang/String;	String.java	-2
+0x420ab8dc	java/lang/String	length	()I	String.java	1328
+0x420abbe8	java/lang/String	substring	(II)Ljava/lang/String;	String.java	1571
+0x420abc1c	java/lang/String	toCharArray	()[C	String.java	1588
+0x420abc50	java/lang/String	toLowerCase	()Ljava/lang/String;	String.java	1599
+0x420abcb8	java/lang/String	toString	()Ljava/lang/String;	String.java	1628
+0x420abd54	java/lang/String	trim	()Ljava/lang/String;	String.java	-1
+0x420aabd8	java/lang/String	<init>	(II[C)V	String.java	480
+0x420ab224	java/lang/String	valueOf	(Ljava/lang/Object;)Ljava/lang/String;	String.java	1904
+0x42097ae8	java/nio/Buffer	flip	()Ljava/nio/Buffer;	Buffer.java	172
+0x42097b1c	java/nio/Buffer	hasRemaining	()Z	Buffer.java	186
+0x42097b84	java/nio/Buffer	limit	()I	Buffer.java	203
+0x42097c20	java/nio/Buffer	position	()I	Buffer.java	253
+0x42097c54	java/nio/Buffer	position	(I)Ljava/nio/Buffer;	Buffer.java	-1
+0x42097c88	java/nio/Buffer	remaining	()I	Buffer.java	288
+0x420979e0	java/nio/Buffer	<init>	(I)V	Buffer.java	-1
+0x4213d668	android/app/ApplicationThreadNative	asBinder	()Landroid/os/IBinder;	ApplicationThreadNative.java	412
+0x4213d69c	android/app/ApplicationThreadNative	onTransact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	ApplicationThreadNative.java	69
+0x42125804	java/nio/CharSequenceAdapter	get	([CII)Ljava/nio/CharBuffer;	CharSequenceAdapter.java	80
+0x4212593c	java/nio/CharSequenceAdapter	protectedHasArray	()Z	CharSequenceAdapter.java	120
+0x42125690	java/nio/CharSequenceAdapter	<init>	(Ljava/lang/CharSequence;)V	CharSequenceAdapter.java	43
+0x4215ea38	android/util/AndroidRuntimeException	<init>	(Ljava/lang/String;)V	AndroidRuntimeException.java	27
+0x422d0440	org/apache/harmony/xml/ExpatPullParser$ByteDocument	buffer	()I	ExpatPullParser.java	950
+0x422d0474	org/apache/harmony/xml/ExpatPullParser$ByteDocument	flush	(Lorg/apache/harmony/xml/ExpatParser;I)V	ExpatPullParser.java	957
+0x422d0408	org/apache/harmony/xml/ExpatPullParser$ByteDocument	<init>	(Lorg/apache/harmony/xml/ExpatPullParser;Ljava/io/InputStream;Ljava/lang/String;Z)V	ExpatPullParser.java	943
+0x420913b0	java/lang/Thread	currentThread	()Ljava/lang/Thread;	Thread.java	588
+0x420c9b38	org/apache/harmony/xml/ExpatParser	append	([BII)V	ExpatParser.java	467
+0x420c9ba0	org/apache/harmony/xml/ExpatParser	cloneAttributes	()Lorg/xml/sax/Attributes;	ExpatParser.java	608
+0x420c9c70	org/apache/harmony/xml/ExpatParser	endElement	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V	ExpatParser.java	158
+0x420c9eac	org/apache/harmony/xml/ExpatParser	startElement	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V	ExpatParser.java	-1
+0x420c9f14	org/apache/harmony/xml/ExpatParser	text	([CI)V	ExpatParser.java	165
+0x420c94e4	org/apache/harmony/xml/ExpatParser	<init>	(Ljava/lang/String;Lorg/apache/harmony/xml/ExpatReader;ZLjava/lang/String;Ljava/lang/String;)V	ExpatParser.java	-1
+0x420c96ec	org/apache/harmony/xml/ExpatParser	append	(I[BII)V	ExpatParser.java	-2
+0x420c9754	org/apache/harmony/xml/ExpatParser	cloneAttributes	(II)I	ExpatParser.java	-2
+0x420c9858	org/apache/harmony/xml/ExpatParser	initialize	(Ljava/lang/String;Z)I	ExpatParser.java	-2
+0x421218c4	java/nio/charset/CharsetDecoder	decode	(Ljava/nio/ByteBuffer;Ljava/nio/CharBuffer;Z)Ljava/nio/charset/CoderResult;	CharsetDecoder.java	-1
+0x42121b00	java/nio/charset/CharsetDecoder	malformedInputAction	()Ljava/nio/charset/CodingErrorAction;	CharsetDecoder.java	610
+0x42121b34	java/nio/charset/CharsetDecoder	maxCharsPerByte	()F	CharsetDecoder.java	621
+0x42121b68	java/nio/charset/CharsetDecoder	onMalformedInput	(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetDecoder;	CharsetDecoder.java	638
+0x42121b9c	java/nio/charset/CharsetDecoder	onUnmappableCharacter	(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetDecoder;	CharsetDecoder.java	661
+0x42121c04	java/nio/charset/CharsetDecoder	replacement	()Ljava/lang/String;	CharsetDecoder.java	675
+0x42121c6c	java/nio/charset/CharsetDecoder	unmappableCharacterAction	()Ljava/nio/charset/CodingErrorAction;	CharsetDecoder.java	730
+0x42121788	java/nio/charset/CharsetDecoder	<init>	(Ljava/nio/charset/Charset;FF)V	CharsetDecoder.java	-1
+0x42120110	java/nio/ReadWriteCharArrayBuffer	protectedArray	()[C	ReadWriteCharArrayBuffer.java	81
+0x42120144	java/nio/ReadWriteCharArrayBuffer	protectedArrayOffset	()I	ReadWriteCharArrayBuffer.java	86
+0x42120178	java/nio/ReadWriteCharArrayBuffer	protectedHasArray	()Z	ReadWriteCharArrayBuffer.java	91
+0x4211ff68	java/nio/ReadWriteCharArrayBuffer	<init>	(I)V	ReadWriteCharArrayBuffer.java	47
+0x422a7434	android/os/MessageQueue	enqueueMessage	(Landroid/os/Message;J)Z	MessageQueue.java	-1
+0x4213ba94	android/app/ActivityThread	getApplicationThread	()Landroid/app/ActivityThread$ApplicationThread;	ActivityThread.java	2378
+0x4213bb30	android/app/ActivityThread	getHandler	()Landroid/os/Handler;	ActivityThread.java	250
+0x4213bb64	android/app/ActivityThread	getInstrumentation	()Landroid/app/Instrumentation;	ActivityThread.java	2383
+0x420a66e0	java/lang/System	arraycopy	(Ljava/lang/Object;ILjava/lang/Object;II)V	System.java	-2
+0x420a68e8	java/lang/System	getSecurityManager	()Ljava/lang/SecurityManager;	System.java	505
+0x422d31d0	android/location/LocationManager$ListenerTransport$1	<init>	(Landroid/location/LocationManager$ListenerTransport;Landroid/location/LocationManager;)V	LocationManager.java	139
+0x420a6ed8	org/apache/harmony/luni/platform/OSFileSystem	close	(I)V	OSFileSystem.java	-2
+0x420a6fdc	org/apache/harmony/luni/platform/OSFileSystem	open	([BI)I	OSFileSystem.java	149
+0x420a7010	org/apache/harmony/luni/platform/OSFileSystem	read	(I[BII)J	OSFileSystem.java	115
+0x420a6dd0	org/apache/harmony/luni/platform/OSFileSystem	openImpl	([BI)I	OSFileSystem.java	-2
+0x420a6e04	org/apache/harmony/luni/platform/OSFileSystem	readImpl	(I[BII)J	OSFileSystem.java	-2
+0x4209bd08	java/lang/Boolean	parseBoolean	(Ljava/lang/String;)Z	Boolean.java	179
+0x4209bd70	java/lang/Boolean	valueOf	(Ljava/lang/String;)Ljava/lang/Boolean;	Boolean.java	203
+0x420a3950	java/io/InputStream	<init>	()V	InputStream.java	46
+0x422cfca0	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$InnerReceiver	performReceive	(Landroid/content/Intent;ILjava/lang/String;Landroid/os/Bundle;ZZ)V	ActivityThread.java	811
+0x422cfc68	android/app/ActivityThread$PackageInfo$ReceiverDispatcher$InnerReceiver	<init>	(Landroid/app/ActivityThread$PackageInfo$ReceiverDispatcher;Z)V	ActivityThread.java	805
+0x422aa144	com/gvsu/socnet/CapsuleMapActivity	requestLocationUpdates	()V	CapsuleMapActivity.java	-1
+0x42092db4	java/lang/Object	equals	(Ljava/lang/Object;)Z	Object.java	117
+0x42092e50	java/lang/Object	hashCode	()I	Object.java	-2
+0x42092e84	java/lang/Object	notify	()V	Object.java	-2
+0x422c096c	com/google/googlenav/map/Map	resume	()V	(null)	-1
+0x422d0840	org/apache/harmony/xml/ExpatPullParser$NamespaceStack$Builder	build	()Lorg/apache/harmony/xml/ExpatPullParser$NamespaceStack;	ExpatPullParser.java	486
+0x422d0874	org/apache/harmony/xml/ExpatPullParser$NamespaceStack$Builder	pop	(I)V	ExpatPullParser.java	479
+0x422d0808	org/apache/harmony/xml/ExpatPullParser$NamespaceStack$Builder	<init>	()V	ExpatPullParser.java	460
+0x422cfed0	android/content/IIntentReceiver$Stub	asBinder	()Landroid/os/IBinder;	IIntentReceiver.java	41
+0x422cfce0	android/content/IIntentReceiver$Stub	<init>	()V	IIntentReceiver.java	21
+0x422cfd14	android/content/IIntentReceiver$Stub	asInterface	(Landroid/os/IBinder;)Landroid/content/IIntentReceiver;	IIntentReceiver.java	30
+0x422d2570	org/apache/harmony/luni/util/FloatingPointParser$StringExponentPair	<init>	(Ljava/lang/String;IZ)V	FloatingPointParser.java	34
+0x42198b64	android/location/ILocationManager$Stub$Proxy	requestLocationUpdates	(Ljava/lang/String;JFLandroid/location/ILocationListener;)V	ILocationManager.java	516
+0x420ae600	org/apache/harmony/luni/platform/Platform	accessCheck	()V	Platform.java	53
+0x420ae634	org/apache/harmony/luni/platform/Platform	getFileSystem	()Lorg/apache/harmony/luni/platform/IFileSystem;	Platform.java	65
+0x420ba020	java/lang/ref/ReferenceQueue	<init>	()V	ReferenceQueue.java	39
+*end
+SLOW   ≥aHqª                 ©∂	B   Ì¢B   Ö¢B   T•*B   ÏB#   ÌB*   Ë?,B0   È?,B:    ©+BA    hBI   !hBN   Ï¥+BW   ¥≥+BZ   ≥+Bk   ¨•+Bp   ≠•+Bz    hBÄ   !hBÖ   cBå   cBî   @B,B†   AB,B£    hB™   !hBØ   ≥+B∂   µ≥+Bπ   Ì¥+Bº   !©+B¿   H!+B∆   §µ	B  ∏ÔB  ÏÔB%  xÏB)  ÑB/  ÖB6  ¸ØB=  ˝ØBO  yÏBT  ¯B[  xÏB^  ÑBa  ÖBf  ¸ØBk  ˝ØBw  yÏB|  ˘B  ÌÔBÑ  πÔBà  •µ	Bç  º B¢  T∂B±  òºB∂  hŸBª  iŸBø  ôºB¬  U∂B«  Ω B   4ÕBÍ   πBÔ  πBˆ  ÿ∑
+B¸  Ÿ∑
+B  ¸∑B  ‡f
+B  ·f
+B  ˝∑B&  5ÕB)  @B0  åB5  ¿B:  ¨B=  ≠BB  ∏B]  0ªBg  1ªBj  dªBq  eªBt  ¯m*B{  ÙŒ
+BÉ  P.	Bà  Q.	Bç  ıŒ
+Bõ  §µ	B®  •µ	B  @˙,B2  §µ	B<  §µ	Ba  §µ	B™  •µ	B“  •µ	B˘  •µ	B	  h¸,B:  ‡¸,B@  Ä&BE  Ï'BJ  Ì'B]  Å&B`  ê(Bg  ë(Bj  ·¸,Bm  ¯„
+Bw  êO	B|  ëO	BÄ  ˘„
+BÖ  i¸,Bä  §µ	Bï  •µ	B#  ¯ˇ,B:  8ÍBP  åF	B_  dG	Bd  B	Bi  –A	Bn  ®C	Bu  C	Bx  	C	Bò  ©C	Bû  —A	B¢  B	Bß  eG	B™  çF	B≠  9ÍB±  ˘ˇ,B¥  ®C	Bª  C	Bæ  	C	BÀ  ©C	B“  A˙,B’  ‘»
+Bﬂ  “
+B‰  	“
+BÈ  ’»
+B  »–
+Bı  P.	B˙  Q.	B˝  ∞Ã
+B  ±Ã
+B	  ‹ 
+B  xÀ
+B  yÀ
+B*  › 
+B6   Õ
+B;  ¯€
+BE  ˘€
+BL  !Õ
+BQ  …–
+BV  »–
+B[  P.	B^  Q.	Ba  ∞Ã
+Bf  ±Ã
+Bk  ‹ 
+Bw  xÀ
+B|  yÀ
+BÑ  › 
+Bê   Õ
+Bï  ¯€
+Bù  ˘€
+B¢  !Õ
+Bß  …–
+B¨  x˙,B∞  y˙,Bµ  ˘m*B∫  0SBø  1SBƒ  î∫B   ï∫BŒ  `úB  ¸9B  ˝9B  ¸9B  ˝9B(  LMB-  MMBU  h÷B[  i÷B_  XPBd  YPBÄ  –˛,Bä  —˛,Bç  XPBí  YPB≠  à’Bº  $PBƒ  §ªBÀ  •ªBŒ  ‰LB”  ÂLB›  úπB‚  ùπBÈ  ºOBÓ  ΩOB˚  %PB   ‰LB  ÂLB
+  ‰LB  ÂLB  ‰LB  ÂLB   ‰LB%  ÂLB*  ‰LB/  ÂLB4  ‰LB7  ÂLB<  ‰LBC  ÂLBH  â’BK  ºOBO  ΩOBT  <2BY  'B   0:B   î9B   ï9B#   1:B*   0:B/   î9B9   ï9B>   1:BC   ú÷BH   H?BP   I?Bi   hGBn   iGBv   ˝,BÑ   d*Bå   úµ
+Bî   ùµ
+Bò   e*Bù   ˝,Bß   ‘»BØ   †»B≤   §≠B¿   ê¿B≈   òFB»   ôFBﬂ   <:BÈ   :BÌ   (DB   )DBı   	:B˙   =:BH  òFBO  ôFBT  (DBY  )DB^  òFBa  ôFBf  ∏jBk  òFBo  ôFBt  πjBy  (DB|  )DBÅ  (DBÑ  )DBâ  ABê  PABì  (DBó  )DBú  ‡Bß  $ÒB∞  (DBµ  )DB∫  ‡>Bø  ·>Bƒ  ‘HB…  ’HBŒ  ¸9B—  ƒ8BÌ  î9BÒ  ï9B˘  ≈8B¸  ˝9B   ‘HB  ’HB  †;B  °;B  ‘HB  ’HB#  ∞?B(  ±?B+  %ÒB0  ‡B3  QAB8  AB<  ë¿B?  •≠BB  °»BF  ’»BI  (DBN  )DBS  òFBV  ôFBZ  AB_  PABb  (DBe  )DBi  QABn  ABq  (DBt  )DBy  (DB~  )DBÇ  …Bä  †¸,Bñ  hP	Bú  iP	B†  H˚,B¶  §µ	B≤  •µ	B  0-B4  1-B9  d-B@  e-BC  Ã-BJ  Õ-BM  4-BT  5-BW  ú-B^  ù-Bc  –-Bi  —-Bn  -Bu  -Bx  hÚB  XÔBá  ¨Bã  DBò  EBõ  ≠B†  YÔB§  ®ıB™  î∑BØ  ï∑Bª  tıB√  4t*B»  Ñ.	B„  Ö.	BÊ  5t*BÎ  uıBÔ  ©ıBÚ  iÚB˜  I˚,B˙  °¸,B˛  …B  ù÷B  lHB  `9B  a9B  mHB  lHB!  `9B$  a9B)  mHB5  'B8  =2Br	  BB|	  (DBÅ	  )DBà	  ÒBBç	  (DBí	  )DBó	  ‘»Bü	  †»B£	  §≠BÆ	  ê¿Bµ	  òFB∏	  ôFBÃ	  <:B’	  :Bÿ	  (DB›	  )DB‚	  	:BÁ	  =:BÏ	  òFBÒ	  ôFBˆ	  (DB˚	  )DB˛	  òFB
+  ôFB
+  ∏jB
+  òFB
+  ôFB
+  πjB
+  (DB 
+  )DB%
+  (DB*
+  )DB/
+  AB4
+  PAB9
+  (DB<
+  )DBA
+  ‡BI
+  $ÒBP
+  (DBU
+  )DB\
+  ‡>Ba
+  ·>Bf
+  ‘HBk
+  ’HBn
+  ¸9Bs
+  ƒ8Bé
+  î9Bì
+  ï9Bõ
+  ≈8B†
+  ˝9B£
+  ‘HB®
+  ’HB¨
+  †;B±
+  °;Bª
+  ‘HB¿
+  ’HB≈
+  ∞?B»
+  ±?BÕ
+  %ÒB“
+  ‡B’
+  QAB⁄
+  ABﬂ
+  ë¿B„
+  •≠BÊ
+  °»BÈ
+  ’»BÓ
+  lHBÛ
+  `9B˜
+  a9B˝
+  mHB	  lHB  `9B  a9B  mHB*  aúB.  πB3  ¡B6  çB;  AB>  I!+BE  l	,BL  m	,BO  U•*BR  ¿Bk  Br  ål*Bw  çl*B|  	B  ¡BÉ  LÜB¨  ¥ÜB  àºB  ¯ƒB  ˘ƒB#  âºB&   B-  HB2  ƒm*B8  ≈m*B<  IB?  BB  ¿BI  h∆BL  ‹∏
+BQ  ›∏
+BV  ¯≤
+B`  ‡f
+Bi  ·f
+Bo  ˘≤
+Bs  i∆Bx  ¿B{  ¿Bç  h∆Bí  ‹∏
+Bñ  ›∏
+Bô  î≈B†  ‡f
+B≠  ·f
+B≤  ï≈B∑  ¯≤
+Bº  ‡f
+B¡  ·f
+B∆  ˘≤
+B…  i∆BÕ  ¿B“  |ƒB’  PÕB⁄  ÿ´
+BÏ  Ÿ´
+BÒ  QÕBˆ  }ƒB˙  µÜB˝  ÄÜB  ÅÜB
+  úB  B  LB>  HBR  ®B_  êm*Bf  ëm*Bk  ©Bn  ‰˝	BÅ  H
+BÜ  I
+Bã  L˛	Bê  ‹∏
+Bï  ›∏
+Bò  ‹∏
+Bù  ›∏
+B†  (
+B•  ‹∏
+B™  ›∏
+B¨  ,≥
+B±  -≥
+B∂  ‹∏
+BΩ  ›∏
+B¿  ,≥
+B≈  -≥
+B«  àºB“  ¯ƒB÷  ˘ƒBﬁ  âºB·  ¿BÊ  h∆BÍ  ‹∏
+BÔ  ›∏
+BÚ  î≈B˘  ‡f
+B  ·f
+B  ï≈B  ¯≤
+B  ‡f
+B  ·f
+B  ˘≤
+B"  i∆B'  ¿B+  dæB0   ∆B5  ∆B=  eæB@  ¿BD  h∆BI  ‹∏
+BL  ›∏
+BO  î≈BT  ‡f
+Bc  ·f
+Bh  ï≈Bl  ¯≤
+Bq  ‡f
+Bw  ·f
+B{  ˘≤
+B~  i∆BÉ  ¿BÜ  |ƒBã  PÕBè  ÿ´
+Bú  Ÿ´
+B£  QÕB¶  }ƒB©  )
+BÆ  $
+B≥    
+B∑  º
+Bº  ‡f
+B∆  ·f
+BÀ  º
+BŒ  ! 
+BZ  ‹∏
+B_  ›∏
+Bb  ,≥
+Bg  -≥
+Bk  `
+Bq  x≤Bv  (ÒB}  ê¸BÄ  êVBâ  ‹∏
+Bè  ›∏
+Bì  ¿Bò  ‡y	Bù  ·y	B£  ¡B®  ëVB¨  ë¸BØ  )ÒB≤  ¨≤B∑  pÃBª  TTB¿  UTBﬁ   TB‰  !TB  HB˙  ÄRBˇ  ÅRB	  ÑSB  ÖSB  B  ÄB)  |B1  <ÃB6  TTB;  UTBH  ÄBT  ¥RBY  µRB`  ∏SBe  πSBh  àBm  âB|  Bã  Bé  º
+Bì  ‡f
+Bù  ·f
+B¢  º
+B¶  $UBÆ  %UBΩ  ®Bƒ  ©B«  ÅBŒ  =ÃB—   B÷  B€  lB‡  mB„  hBÍ  $BÔ  ¥-	BÙ  µ-	B˘  ¥-	B˛  µ-	B  ¥-	B  µ-	B  B  B  º
+B  ‡f
+B$  ·f
+B(  º
+B+  $UB3  %UB:  ®B?  ©BD  %BG  iBK  úBP  XBU  ¥-	BZ  µ-	B_  ¥-	Bd  µ-	Bg  ¥-	Bl  µ-	Bq  Bv  B{  º
+B~  ‡f
+Bà  ·f
+Bç  º
+Bë  $UBó  %UBû  ®B•  ©B®  YB≠  ùB∞  ºl	Bµ  (¸B∫  ¥B√  %B»  8%BÕ  ∏i	B“   l	B◊  ‡y	B⁄  ·y	B‚  !l	BÁ  πi	BÎ  9%BÒ  %Bı  µB¯  )¸B˚  Ωl	B   4B  5B
+  ÙB  \¸B  hˇB   ∞B%  ‰B-  ¿B1  ‡y	B6  ·y	B<  ¡BA  ÂBE  ±BH  iˇBK  ]¸BO  ıBR  ƒBY  àB_  {	Bd  {	Bi  ¥Bp  ®s	Bs  ê!Bx  ë!B|  ©s	B  êm	BÜ  (!Bâ  )!Bé  ëm	Bë  ƒm	Bñ  \!Bõ  ]!Bü  ≈m	B¢  Ñ{	Bß  Ö{	B¨  ƒm	B±  \!B¥  ]!B∏  ≈m	BΩ   |	B¬  !|	B≈  µB   ËB—  DˆB÷  xBŸ  yBﬁ  EˆB·  †ÛBÊ  BÍ  BÔ  °ÛBÚ  ‘ÛB˜  DB˙  EBˇ  ’ÛB  Ñ{	B  Ö{	B  ‘ÛB  DB  EB  ’ÛB   |	B  !|	B"  ÈB'  HQB1  IQBJ  BT   |	BY  !|	B]  T|	Bh  U|	Bo  Bv  PBy  DˆB~  xBÅ  yBÖ  EˆBà   |	Bç  !|	Bê  ‘ÛBó  DBö  EBû  ’ÛB°  T|	B¶  U|	B≠  QB∞  âBµ  ú.B∫  ù.Bø  à|	Bƒ  â|	B…  ≈B–  hB’  $B⁄  ¥-	B›  µ-	B‚  ¥-	BÁ  µ-	BÏ  ¥-	BÒ  µ-	BÙ  B˘  B˛  º
+B  ‡f
+B  ·f
+B  º
+B  $UB  %UB#  ®B(  ©B-  %B0  iB4  úB9  XB>  ¥-	BC  µ-	BF  ¥-	BK  µ-	BP  ¥-	BU  µ-	BX  B_  Bb  º
+Bf  ‡f
+Bp  ·f
+Bu  º
+Bx  $UB  %UBÖ  ®Bä  ©Bè  YBî  ùBò   .Bõ  .B¢  }Bß  º
+B¨  Ω
+B≤  ÅB∂  Bπ  ¥B∆  µB   XUB–  YUB‹  ®B„  ©BÊ  IBÎ  qÃBÓ  Bı  T
+B˙  ¥-	Bˇ  µ-	B  ¥-	B	  µ-	B  ¥B  µB  XUB  YUB$  ®B)  ©B.  U
+B1  B4  LB9  à
+B>  ¥-	BC  µ-	BH  ¥-	BM  µ-	BR  ¥BW  µB[  XUBa  YUBh  ®Bm  ©Br  â
+Bu  MBy  ®B~  à|	BÉ  â|	Bà  ËBç  
+Bí  ºTBó  ΩTBù  Ò
+B¶  ÈB©  à|	BÆ  â|	B±  Tl	B∫  Ù˚Bø  ÄB…  –$BÃ  8%B‘  ∏i	BŸ   l	B›  ‡y	B‚  ·y	BË  !l	BÌ  πi	BÒ  9%B˜  —$B˚  ÅB˛  ı˚B  Ul	B  ‹B
+  ∏	B  {	B  {	B  ∞B!  DˆB$  <YB)  =YB-  EˆB0  à|	B5  â|	B:   |	BF  !|	BI  XBN  à|	BX  â|	B]  ∏º
+Bb  πº
+Be  †∂
+Bl  ‡f
+Bs  ·f
+Bx  °∂
+B{  XB~  T|	BÉ  U|	Bà  ±Bç  |Bí  ®s	Bó  ê!Bõ  ë!Bû  ©s	B°  êm	B¶  (!B´  )!BØ  ëm	B≤  ƒm	B∑  \!Bº  ]!Bø  ≈m	B√  Ñ{	B»  Ö{	BÀ  ƒm	B–  \!B”  ]!B◊  ≈m	B‹   |	Bﬂ  !|	B‰  }BÁ  |QBÒ  }QB	  ®B  ©B  	B   |	B  !|	B   T|	B*  U|	B/   |	B7  !|	B<  T|	BA  U|	BF  	BK  ‰BO  ®s	BT  ê!BW  ë!BZ  ©s	B^   |	Bc  !|	Bh  ƒm	Bm  \!Bp  ]!Bs  ≈m	Bx  T|	B}  U|	BÇ  ÂBá  π	Bã  ›Bì  ‹Bò  ∏	Bü  {	B¢  {	Bß  π	B¨  à|	B≥  â|	B∏  ›BΩ  lB¬  mB»  DBÃ   
+B—  |B÷  ®s	B€  ê!Bﬁ  ë!B·  ©s	BÂ  êm	BÍ  (!BÌ  )!BÚ  ëm	Bı  ƒm	B˙  \!B˛  ]!B  ≈m	B  Ñ{	B	  Ö{	B  ƒm	B  \!B  ]!B  ≈m	B   |	B"  !|	B&  }B)  ‰QB0  ÂQB;  ®B@  ©BE  ‰BJ  ®s	BO  ê!BS  ë!BV  ©s	BY   |	B^  !|	Bb  ƒm	Bh  \!Bl  ]!Bo  ≈m	Bt  T|	Bw  U|	B~  ÂBÉ  
+BÜ  ºTBã  ΩTBè  Ò
+Bó  !
+Bú  EB°  Ëz	B¶  Èz	B≠  ©B≤  ≠≤B∑  y≤B∫  Ñ{	BΩ  Ö{	B¬  ÿ%BÃ  à|	B’  â|	B⁄  ‡f
+B‡  ·f
+BÂ  Ÿ%BÈ  a
+BD  %
+BH  M˛	BM  Â˝	BP  IBU  àºB_  ¯ƒBb  ˘ƒBk  âºBn  ¿Bs  h∆Bv  ‹∏
+B{  ›∏
+B  î≈BÖ  ‡f
+Bì  ·f
+Bò  ï≈Bõ  ¯≤
+B†  ‡f
+Bß  ·f
+B¨  ˘≤
+BØ  i∆B≤  ¿B∂  ¿Bª  h∆B¿  ‹∏
+B√  ›∏
+B∆  ¯≤
+Bœ  ‡f
+B‘  ·f
+BŸ  ˘≤
+B‹  i∆B·  ¿B‰  |ƒBÈ  PÕBÌ  ÿ´
+B˙  Ÿ´
+B  QÕB  }ƒB	  ÑB  ∑
+B  	∑
+B  ‰˝	B   H
+B%  I
+B*  L˛	B.  ‹∏
+B3  ›∏
+B6  ‹∏
+B;  ›∏
+B>  (
+BB  ‹∏
+BG  ›∏
+BJ  ,≥
+BO  -≥
+BQ  ‹∏
+BW  ›∏
+B[  ,≥
+B`  -≥
+Bc  àºBm  ¯ƒBp  ˘ƒBy  âºB|  ¿B  h∆BÑ  ‹∏
+Bà  ›∏
+Bã  î≈Bí  ‡f
+Bù  ·f
+B¢  ï≈B¶  ¯≤
+B¨  ‡f
+B±  ·f
+B∂  ˘≤
+B∏  i∆BΩ  ¿B¿  dæB≈   ∆B   î≈B—  ‡f
+B›  ·f
+B‚  ï≈BÁ  ∆BÏ  eæBÒ  ¿BÙ  h∆B˜  ‹∏
+B¸  ›∏
+B   î≈B  ‡f
+B  ·f
+B  ï≈B  ¯≤
+B#  ‡f
+B(  ·f
+B-  ˘≤
+B0  i∆B3  ¿B7  |ƒB<  PÕB?  ÿ´
+BN  Ÿ´
+BU  QÕBX  }ƒB[  )
+B`  $
+Bd    
+Bi  º
+Bl  ‡f
+Bv  ·f
+B{  º
+B~  ! 
+Bm  ‹∏
+Br  ›∏
+Bu  ,≥
+Bz  -≥
+B}  `
+BÑ  x≤Bâ  (ÒBå  ê¸Bë  êVBò  ‹∏
+Bù  ›∏
+B¢  ¿B•  ‡y	B©  ·y	B±  ¡B¥  ëVBπ  ë¸BΩ  )ÒB¿  ¨≤B≈  pÃB»  TTBÕ  UTB‹   TB·  !TBÎ  HBı  ÄRB˙  ÅRBˇ  ÑSB  ÖSB  B  ÄB  |B!  <ÃB&  TTB+  UTB6  ÄBB  ¥RBE  µRBJ  ∏SBO  πSBS  àBX  âBc  Bq  Bv  º
+By  ‡f
+BÉ  ·f
+Bà  º
+Bã  $UBí  %UBú  ®B°  ©B¶  ÅB´  =ÃB∞   Bµ  B∏  lBΩ  mB¡  hB∆  $BÀ  ¥-	B–  µ-	B’  ¥-	B⁄  µ-	B›  ¥-	B‰  µ-	BÁ  BÓ  BÒ  º
+BÙ  ‡f
+B   ·f
+B  º
+B  $UB  %UB  ®B  ©B  %B#  iB&  úB+  XB0  ¥-	B4  µ-	B9  ¥-	B>  µ-	BC  ¥-	BH  µ-	BK  BP  BU  º
+BX  ‡f
+Bb  ·f
+Bg  º
+Bk  $UBq  %UBx  ®B}  ©BÇ  YBÖ  ùBâ  ºl	Bé  (¸Bë  ¥Bô  %Bû  8%B£  ∏i	Bß   l	B™  ‡y	BØ  ·y	B∂  !l	Bª  πi	Bæ  9%B≈  %B»  µBÀ  )¸Bœ  Ωl	B‘  4BŸ  5Bﬁ  ÙB„  \¸BË  hˇBÓ  ∞BÛ  ‰B¸  ¿Bˇ  ‡y	B  ·y	B  ¡B  ÂB  ±B  iˇB  ]¸B  ıB   ƒB%  àB,  {	B/  {	B4  ¥B9  ®s	B>  ê!BB  ë!BE  ©s	BJ  êm	BO  (!BR  )!BV  ëm	B[  ƒm	B`  \!Bc  ]!Bf  ≈m	Bj  Ñ{	Bo  Ö{	Br  ƒm	By  \!B|  ]!B  ≈m	BÉ   |	Bà  !|	Bã  µBê  ËBó  DˆBö  xBù  yB°  EˆB§  †ÛB©  B¨  B∞  °ÛBµ  ‘ÛB∏  DBΩ  EB¿  ’ÛBƒ  Ñ{	B«  Ö{	BÃ  ‘ÛB—  DB‘  EBÿ  ’ÛB€   |	B‡  !|	B„  ÈBË  HQBÒ  IQB    B
+    |	B   !|	B   T|	B   U|	B   B&   PB)   DˆB-   xB2   yB5   EˆB8    |	B=   !|	BA   ‘ÛBF   DBI   EBL   ’ÛBQ   T|	BU   U|	B[   QB`   âBd   ú.Bi   ù.Bn   à|	Bs   â|	Bx   ≈B~   hBÇ   $Bá   ¥-	Bå   µ-	Bè   ¥-	Bñ   µ-	Bô   ¥-	Bû   µ-	B£   B®   B´   º
+B∞   ‡f
+B∫   ·f
+Bø   º
+B√   $UB…   %UB–   ®B’   ©B⁄   %B›   iB·   úBÊ   XBÎ   ¥-	BÓ   µ-	BÛ   ¥-	B¯   µ-	B˝   ¥-	B!  µ-	B!  B!  B!  º
+B!  ‡f
+B!  ·f
+B"!  º
+B%!  $UB*!  %UB2!  ®B7!  ©B<!  YB@!  ùBC!   .BF!  .BM!  }BR!  º
+BW!  Ω
+B^!  ÅBa!  Bd!  ¥Br!  µBw!  XUB}!  YUBÜ!  ®Bå!  ©Bë!  IBï!  qÃBö!  Bü!  T
+B¢!  ¥-	Bß!  µ-	B¨!  ¥-	B±!  µ-	B∂!  ¥Bª!  µBæ!  XUB≈!  YUBÕ!  ®B“!  ©B÷!  U
+B€!  Bﬁ!  LB„!  à
+BË!  ¥-	BÌ!  µ-	B!  ¥-	Bı!  µ-	B˙!  ¥Bˇ!  µB"  XUB	"  YUB"  ®B"  ©B"  â
+B"  MB""  ®B'"  à|	B,"  â|	B0"  ËB5"  
+B:"  ºTB?"  ΩTBB"  Ò
+BL"  ÈBO"  à|	BS"  â|	BX"  Tl	B^"  Ù˚Bc"  ÄBj"  –$Bo"  8%Bw"  ∏i	B{"   l	B~"  ‡y	BÉ"  ·y	Bä"  !l	Bè"  πi	Bí"  9%Bó"  —$Bö"  ÅBü"  ı˚B£"  Ul	B¶"  ‹B´"  ∏	B≤"  {	B∑"  {	Bº"  ∞B¡"  DˆBƒ"  <YB«"  =YBÀ"  EˆB–"  à|	B”"  â|	Bÿ"   |	B‰"  !|	BÈ"  XBÓ"  à|	Bˆ"  â|	B˚"  ∏º
+B#  πº
+B#  †∂
+B
+#  ‡f
+B#  ·f
+B#  °∂
+B#  XB#  T|	B!#  U|	B(#  ±B+#  |B2#  ®s	B5#  ê!B9#  ë!B<#  ©s	BA#  êm	BD#  (!BI#  )!BM#  ëm	BP#  ƒm	BU#  \!BX#  ]!B]#  ≈m	Ba#  Ñ{	Bd#  Ö{	Bi#  ƒm	Bn#  \!Bq#  ]!Bu#  ≈m	Bx#   |	B}#  !|	BÄ#  }BÑ#  |QBè#  }QBû#  ®B•#  ©B™#  	BØ#   |	B≤#  !|	B∂#  T|	Bæ#  U|	B≈#   |	BÕ#  !|	B–#  T|	B’#  U|	B‹#  	B·#  ‰B‰#  ®s	BË#  ê!BÌ#  ë!B#  ©s	BÛ#   |	B¯#  !|	B¸#  ƒm	B$  \!B$  ]!B	$  ≈m	B$  T|	B$  U|	B$  ÂB$  π	B$  ›B'$  ‹B,$  ∏	B1$  {	B6$  {	B;$  π	B@$  à|	BG$  â|	BL$  ›BQ$  lBT$  mB[$  DB^$   
+Bc$  |Bh$  ®s	Bk$  ê!Bo$  ë!Bt$  ©s	Bw$  êm	B|$  (!B$  )!BÉ$  ëm	BÜ$  ƒm	Bã$  \!Bé$  ]!Bì$  ≈m	Bó$  Ñ{	Bö$  Ö{	Bü$  ƒm	B§$  \!Bß$  ]!B´$  ≈m	BÆ$   |	B≥$  !|	B∂$  }Bª$  ‰QB¬$  ÂQBÃ$  ®B—$  ©B÷$  ‰B€$  ®s	Bﬁ$  ê!B„$  ë!BÁ$  ©s	BÍ$   |	BÔ$  !|	BÚ$  ƒm	B˜$  \!B˚$  ]!B %  ≈m	B%  T|	B%  U|	B%  ÂB%  
+B%  ºTB%  ΩTB%  Ò
+B(%  !
+B+%  EB2%  Ëz	B7%  Èz	B<%  ©BA%  ≠≤BF%  y≤BI%  Ñ{	BN%  Ö{	BQ%  ÿ%B]%  à|	Be%  â|	Bj%  ‡f
+Bq%  ·f
+Bt%  Ÿ%By%  a
+B#&  %
+B(&  M˛	B-&  Â˝	B1&  ÖB4&  MB7&  ÙŒ
+B@&  |
+BE&  H
+BH&  I
+BK&  ‘∂
+BP&  ’∂
+BÚ&  }
+B˜&  ıŒ
+B'  PB'  àºB&'  ¯ƒB+'  ˘ƒB3'  âºB6'  H
+B;'  I
+B?'  ¿BD'  h∆BG'  ‹∏
+BL'  ›∏
+BN'  î≈BV'  ‡f
+Bc'  ·f
+Bh'  ï≈Bl'  ¯≤
+Bq'  ‡f
+Bw'  ·f
+B{'  ˘≤
+B~'  i∆BÉ'  ¿BÜ'  ¿Bó'  h∆Bú'  ‹∏
+Bü'  ›∏
+B£'  î≈B©'  ‡f
+B∏'  ·f
+BΩ'  ï≈B¬'  ¯≤
+B«'  ‡f
+BŒ'  ·f
+B—'  ˘≤
+B’'  i∆B⁄'  ¿B›'  |ƒB‚'  PÕBÂ'  ÿ´
+Bˆ'  Ÿ´
+B˚'  QÕB˛'  }ƒB(  ˛	B(  $
+B(    
+B(  º
+B(  ‡f
+B(  ·f
+B#(  º
+B&(  ! 
+B$)  ‹∏
+B))  ›∏
+B,)  ,≥
+B1)  -≥
+B4)  `
+B;)  x≤B>)  (ÒBC)  ê¸BG)  êVBO)  ‹∏
+BR)  ›∏
+BW)  ¿B[)  ‡y	B`)  ·y	Bf)  ¡Bj)  ëVBo)  ë¸Br)  )ÒBu)  ¨≤By)  pÃB|)  TTBÅ)  UTBê)   TBï)  !TB°)  HB´)  ÄRB∞)  ÅRBµ)  ÑSB∏)  ÖSBΩ)  B¬)  ÄBŒ)  |B÷)  <ÃB€)  TTBﬁ)  UTBÏ)  ÄBÙ)  ¥RB˘)  µRB˛)  ∏SB*  πSB*  àB
+*  âB*  B#*  B(*  º
+B+*  ‡f
+B5*  ·f
+B:*  º
+B=*  $UBD*  %UBL*  ®BQ*  ©BV*  ÅB[*  =ÃB_*   Bd*  Bg*  lBl*  mBo*  hBv*  $By*  ¥-	B~*  µ-	BÉ*  ¥-	Bà*  µ-	Bå*  ¥-	Bë*  µ-	Bñ*  Bõ*  Bû*  º
+B£*  ‡f
+B≠*  ·f
+B≤*  º
+Bµ*  $UB∫*  %UB¡*  ®B»*  ©BÀ*  %B–*  iB”*  úBÿ*  XB›*  ¥-	B·*  µ-	BÊ*  ¥-	BÎ*  µ-	BÓ*  ¥-	BÛ*  µ-	B¯*  B˝*  B +  º
+B+  ‡f
+B+  ·f
+B+  º
+B+  $UB+  %UB#+  ®B(+  ©B-+  YB2+  ùB6+  ºl	B9+  (¸B>+  ¥BE+  %BH+  8%BM+  ∏i	BR+   l	BU+  ‡y	BY+  ·y	B_+  !l	Bf+  πi	Bi+  9%Bn+  %Bs+  µBw+  )¸Bz+  Ωl	B}+  4BÇ+  5Bá+  ÙBå+  \¸Bë+  hˇBﬁ+  ∞B„+  ‰BÔ+  ¿BÚ+  ‡y	B˜+  ·y	B˛+  ¡B,  ÂB,  ±B	,  iˇB,  ]¸B,  ıB,  ƒB,  àB!,  {	B$,  {	B),  ¥B.,  ®s	B3,  ê!B6,  ë!B:,  ©s	B=,  êm	BB,  (!BG,  )!BJ,  ëm	BN,  ƒm	BS,  \!BX,  ]!B[,  ≈m	B^,  Ñ{	Bc,  Ö{	Bg,  ƒm	Bm,  \!Bq,  ]!Bt,  ≈m	By,   |	B|,  !|	BÅ,  µBÜ,  ËBã,  DˆBè,  xBî,  yBó,  EˆBö,  †ÛBü,  B£,  B®,  °ÛB´,  ‘ÛB∞,  DB≥,  EB∑,  ’ÛBº,  Ñ{	Bø,  Ö{	B¬,  ‘ÛB«,  DBÃ,  EB–,  ’ÛB”,   |	Bÿ,  !|	B€,  ÈB‡,  HQBÈ,  IQB˝,  B-   |	B-  !|	B-  T|	B-  U|	B-  B%-  PB(-  DˆB--  xB0-  yB4-  EˆB7-   |	B<-  !|	B?-  ‘ÛBF-  DBI-  EBM-  ’ÛBR-  T|	BU-  U|	B\-  QBa-  âBd-  ú.Bi-  ù.Bn-  à|	Bs-  â|	Bx-  ≈B-  hBÑ-  $Bá-  ¥-	Bå-  µ-	Bë-  ¥-	Bñ-  µ-	Bõ-  ¥-	B†-  µ-	B•-  B™-  B≠-  º
+B≤-  ‡f
+Bæ-  ·f
+B√-  º
+B∆-  $UBÕ-  %UB’-  ®B⁄-  ©Bﬂ-  %B‰-  iBË-  úBÌ-  XB-  ¥-	Bı-  µ-	B˙-  ¥-	Bˇ-  µ-	B.  ¥-	B	.  µ-	B.  B.  B.  º
+B.  ‡f
+B%.  ·f
+B*.  º
+B..  $UB3.  %UB;.  ®B@.  ©BE.  YBH.  ùBM.   .BQ.  .BW.  }B\.  º
+Ba.  Ω
+Bh.  ÅBk.  Bo.  ¥B~.  µBÅ.  XUBà.  YUBí.  ®Bò.  ©Bù.  IB°.  qÃB¶.  B´.  T
+B∞.  ¥-	Bµ.  µ-	B∫.  ¥-	Bø.  µ-	B¬.  ¥B….  µBÃ.  XUB”.  YUBŸ.  ®B‡.  ©BÂ.  U
+BË.  BÏ.  LBÒ.  à
+Bˆ.  ¥-	B˚.  µ-	B /  ¥-	B/  µ-	B
+/  ¥B/  µB/  XUB/  YUB!/  ®B&/  ©B+/  â
+B./  MB2/  ®B7/  à|	B</  â|	BA/  ËBD/  
+BI/  ºTBN/  ΩTBS/  Ò
+B[/  ÈB`/  à|	Bd/  â|	Bi/  Tl	Bo/  Ù˚Bt/  ÄB}/  –$BÇ/  8%Bä/  ∏i	Bç/   l	Bí/  ‡y	Bñ/  ·y	Bû/  !l	B£/  πi	B¶/  9%B≠/  —$B∞/  ÅB¥/  ı˚B∑/  Ul	Bº/  ‹Bø/  ∏	B»/  {	BÀ/  {	B“/  ∞B◊/  DˆB⁄/  <YB›/  =YB·/  EˆBÊ/  à|	BÎ/  â|	BÓ/   |	B˙/  !|	Bˇ/  XB0  à|	B0  â|	B0  ∏º
+B0  πº
+B0  †∂
+B 0  ‡f
+B'0  ·f
+B,0  °∂
+B/0  XB20  T|	B70  U|	B<0  ±BA0  |BF0  ®s	BK0  ê!BO0  ë!BR0  ©s	BW0  êm	B\0  (!B_0  )!Bc0  ëm	Bh0  ƒm	Bm0  \!Bp0  ]!Bs0  ≈m	Bx0  Ñ{	B|0  Ö{	BÅ0  ƒm	BÜ0  \!Bâ0  ]!Bå0  ≈m	Bê0   |	Bï0  !|	Bò0  }Bù0  |QBß0  }QBπ0  ®Bæ0  ©B√0  	B 0   |	BÕ0  !|	B—0  T|	BŸ0  U|	B‡0   |	BË0  !|	BÎ0  T|	B0  U|	B˜0  	B˙0  ‰B˛0  ®s	B1  ê!B1  ë!B1  ©s	B1   |	B1  !|	B1  ƒm	B1  \!B!1  ]!B$1  ≈m	B'1  T|	B,1  U|	B31  ÂB61  π	B;1  ›BB1  ‹BI1  ∏	BN1  {	BS1  {	BX1  π	B]1  à|	Bc1  â|	Bh1  ›Bm1  lBq1  mBw1  DB{1   
+BÄ1  |BÖ1  ®s	Bà1  ê!Bç1  ë!Bê1  ©s	Bî1  êm	Bô1  (!Bú1  )!B°1  ëm	B§1  ƒm	B©1  \!B≠1  ]!B≤1  ≈m	Bµ1  Ñ{	B∏1  Ö{	BΩ1  ƒm	B¬1  \!B∆1  ]!B…1  ≈m	BŒ1   |	B—1  !|	B÷1  }B⁄1  ‰QB‡1  ÂQBÍ1  ®BÒ1  ©Bˆ1  ‰B˚1  ®s	B˛1  ê!B2  ë!B2  ©s	B
+2   |	B2  !|	B2  ƒm	B2  \!B2  ]!B 2  ≈m	B%2  T|	B*2  U|	B/2  ÂB42  
+B72  ºTB<2  ΩTBA2  Ò
+BI2  !
+BM2  EBS2  Ëz	BX2  Èz	B]2  ©Bd2  ≠≤Bg2  y≤Bk2  Ñ{	Bp2  Ö{	Bs2  ÿ%B2  à|	Bâ2  â|	Bé2  ‡f
+Bî2  ·f
+Bò2  Ÿ%Bù2  a
+BB3  %
+BG3  ˛	BJ3  QBM3  ®
+BR3  ‹∏
+BW3  ›∏
+B[3  Ëh
+B`3  Èh
+Be3  ∏ˇ	Bk3  πˇ	B´3  ©
+B∞3  ®
+B∂3  ‹∏
+B∫3  ›∏
+BΩ3  Ëh
+B¬3  Èh
+B«3  ∏ˇ	BÃ3  πˇ	B„3  ©
+BË3  
+BÌ3  ‹∏
+BÚ3  ›∏
+Bˆ3  Ëh
+B˚3  Èh
+B˛3  ¿
+B4  ¡
+B4  	
+B4  ®
+B#4  ‹∏
+B&4  ›∏
+B)4  Ëh
+B.4  Èh
+B24  ∏ˇ	B84  πˇ	BK4  ©
+BP4  
+BU4  ‹∏
+BZ4  ›∏
+B[4  Ëh
+B`4  Èh
+Be4  ¿
+Bj4  ¡
+B~4  	
+BÇ4  hBç4  P9
+Bî4  Q9
+Bó4  4Ê
+Bú4   Ê
+B°4  úB•4  ùB´4  Ê
+BØ4  5Ê
+B¥4  ‰Bæ4  ∞B√4  ±B»4  ÂBÀ4  Ëh
+BŒ4  Èh
+B”4  ‹
+B›4  ›
+B‚4  ‹o
+BÓ4  –m
+BÛ4  —m
+B 5  ›o
+B%5  iB*5  F&Bã5  ò Bö5  @◊(B«5  A◊(Bœ5  4ﬂ(B‘5  5ﬂ(BŸ5  ô B‹5  Ãﬁ(B,6  §µ	BB6  §µ	B©6  •µ	B7  •µ	B%7  -Bk7  h-Bv7  §µ	BÇ7  •µ	B∂7  -B≈7  §µ	B‘7  •µ	B'8  à	-BC8  º	-BT8  Ω	-B\8  â	-Bç8  	-Bï8  §µ	B°8  §µ	BΩ8  •µ	B9  •µ	Bg9  -B•9  ¿-BØ9  ¡-Bµ9  -B∫9  §µ	B∆9  •µ	Bù:  –-Bˇ:  —-B;  §µ	B;  •µ	Bä;  T-Bö;   -B°;  !-B¶;  U-B©;  x-BÆ;  y-B≤;  ‰îB—;  §µ	B‡;  •µ	B*<  ƒ-B><  ê-BC<  ë-BH<  ≈-BK<  §µ	BS<  •µ	Bù<  ƒ-B≤<  ê-B∑<  †Bæ<  †B√<  ë-B∆<  ≈-B <  XòB„<  YòB[=  ÂîBc=  i-Bf=  	-Bà=  Õﬁ(Bã=   G&B°=  ∏Ÿ(B±=  H-B∏=  I-BΩ=  πŸ(B¿=  î›(B…=  -BŒ=  ò-B”=  ô-B÷=  -B›=  @-B‚=  xBË=  ¨BÌ=  B˜=  B˛=  p
+B>  n
+B>  n
+B.>  p
+B5>  ≠B<>  yBA>  A-BD>  t-BK>  8õBP>  ÏñB]>  ÿ∑
+B?  Ÿ∑
+B?  ÿ∑
+B/?  Ÿ∑
+B4?  ¨ûBF?  d-Bù?  §µ	BÆ?  •µ	B@  @-B)@  A-B0@  Ä-B:@  ¿-B?@  ¡-BE@  †õBL@  §µ	BV@  •µ	BÈ@    -B˛@  T -BA  †BA  †BA  U -BA  ! -B*A  º -B0A  Ω -B5A  °õB9A  Å-B?A  †-BDA  4-BKA  5-BNA  °-BSA  e-BWA  ≠ûB]A  üBÖA  ê-BñA  §µ	B¢A  •µ	BﬂA  @-BA  A-BıA  p"-B˝A  ¿-BB  ¡-B	B  ººBB  ,≈BB  -≈B B  ΩºB$B  q"-B)B  ®"-B/B  ‘¿B4B  –∆B8B  ‡f
+BEB  ·f
+BLB  —∆BOB  ’¿BTB  ©"-BWB  ë-B[B  üB`B  ÿ∑
+BúB  Ÿ∑
+B¢B  ¨ûB∞B  d-BªB  @-B B  A-BœB  Ä-B÷B  ¿-BŸB  ¡-B‡B  †õBÂB  TóBÙB  UóB˛B  à -BC  T -BC  †BC  †BC  U -BC  â -B$C  °õB(C  Å-B-C  †-B2C  4-B8C  5-B<C  4-BDC  5-BGC  °-BLC  e-BPC  ≠ûBVC  púB`C  ¯-BlC  §µ	B{C  •µ	B¥C  @-BƒC  A-B»C  Ë#-B–C  ¿-B’C  ¡-B‹C  È#-B·C  †-B‰C  4-BÎC  5-BÓC  °-BÛC  t-B¯C  X
+-BD  Y
+-BD  u-BD  ˘-BD  qúBD  üB"D  ê-B(D  @-B6D  A-B;D  p"-B@D  ¿-BCD  ¡-BJD  ººBRD  ,≈BUD  -≈B_D  ΩºBcD  q"-BhD  ®"-BmD  ‘¿BrD  –∆BuD  ‡f
+BÅD  ·f
+BÜD  —∆BâD  ’¿BéD  ©"-BëD  ë-BïD  üBöD  ÿ∑
+B¬D  Ÿ∑
+B«D  ¨ûB÷D  d-B·D  @-BÚD  A-BıD  Ä-B¸D  ¿-BE  ¡-BE  †õBE  TóBE  UóBE  à -B&E  T -B)E  †B.E  †B1E  U -B6E  â -B:E  °õB?E  Å-BDE  †-BGE  4-BNE  5-BSE  4-BYE  5-B]E  °-BbE  e-BeE  ≠ûBlE  púBtE  ¯-B{E  @-BäE  A-BèE  Ë#-BîE  ¿-BóE  ¡-BûE  È#-B£E  †-B¶E  4-B≠E  5-B∞E  °-BµE  t-B∫E  X
+-B¡E  Y
+-BƒE  u-B…E  ˘-BÃE  qúB–E  üB€E  ê-B‚E  @-BÒE  A-BÙE  p"-B˘E  ¿-B˛E  ¡-BF  ººBF  ,≈BF  -≈BF  ΩºBF  q"-B!F  ®"-B(F  ‘¿B-F  –∆B0F  ‡f
+B<F  ·f
+BAF  —∆BDF  ’¿BIF  ©"-BMF  ë-BPF  üBSF  ÿ∑
+BxF  Ÿ∑
+B}F  ¨ûBâF  d-BìF  @-B£F  A-B®F  Ä-BØF  ¿-B≤F  ¡-BπF  †õBæF  TóB≈F  UóBÀF  à -B◊F  T -B⁄F  †BﬁF  †B·F  U -BËF  â -BÎF  °õBÓF  Å-BÛF  †-B¯F  4-BˇF  5-BG  4-BG  5-BG  °-BG  e-BG  ≠ûBG  üB*G  ê-B1G  @-B>G  A-BCG  p"-BHG  ¿-BLG  ¡-BRG  ººB[G  ,≈B^G  -≈BfG  ΩºBkG  q"-BoG  ®"-BuG  ‘¿BzG  –∆B~G  ‡f
+BàG  ·f
+BçG  —∆BêG  ’¿BïG  ©"-BòG  ë-BúG  üBüG  púB´G  ¯-B±G  @-B¿G  A-B≈G  Ë#-B G  ¿-BŒG  ¡-B‘G  È#-BŸG  †-BﬁG  4-BÂG  5-BËG  4-BÔG  5-BÙG  °-B˜G  t-B˛G  X
+-BH  Y
+-BH  u-BH  ˘-BH  qúBH  üBH  ê-B&H  @-B5H  A-B8H  p"-B=H  ¿-BBH  ¡-BIH  ººBPH  ,≈BUH  -≈B]H  ΩºB`H  q"-BeH  ®"-BjH  ‘¿BoH  –∆BtH  ‡f
+B~H  ·f
+BÇH  —∆BáH  ’¿BäH  ©"-BçH  ë-BíH  üBñH  ÿ∑
+B∫H  Ÿ∑
+BøH  ¨ûBÕH  d-BÿH  @-BÁH  A-BÏH  Ä-BÛH  ¿-B¯H  ¡-BˇH  †õBI  TóB
+I  UóBI  à -BI  T -B I  †B#I  †B(I  U -B-I  â -B1I  °õB6I  Å-B;I  †-B>I  4-BEI  5-BJI  4-BPI  5-BTI  °-BYI  e-B\I  ≠ûBcI  púBkI  ¯-BrI  @-BÅI  A-BÑI  Ë#-BâI  ¿-BåI  ¡-BìI  È#-BòI  †-BùI  4-B¢I  5-BßI  °-B™I  t-B±I  X
+-B∂I  Y
+-BªI  u-B¿I  ˘-B√I  qúB«I  üB“I  ê-BŸI  @-BÊI  A-BÍI  p"-BÔI  ¿-BÙI  ¡-B˙I  ººBJ  ,≈BJ  -≈BJ  ΩºBJ  q"-BJ  ®"-BJ  ‘¿B!J  –∆B&J  ‡f
+B0J  ·f
+B5J  —∆B8J  ’¿B;J  ©"-B?J  ë-BDJ  üBGJ  ¨ûB^J  d-BhJ  @-ByJ  A-B|J  Ä-BÉJ  ¿-BàJ  ¡-BçJ  †õBíJ  TóBôJ  UóB°J  à -B´J  T -BÆJ  †B≥J  †B∑J  U -BºJ  â -BøJ  °õBƒJ  Å-B…J  †-BÃJ  4-B”J  5-BÿJ  4-BﬂJ  5-B‰J  °-BÁJ  e-BÍJ  ≠ûBÒJ  üB˛J  ê-BK  @-BK  A-BK  p"-BK  ¿-B K  ¡-B%K  ººB-K  ,≈B2K  -≈B<K  ΩºB?K  q"-BDK  ®"-BIK  ‘¿BNK  –∆BSK  ‡f
+B]K  ·f
+BbK  —∆BfK  ’¿BiK  ©"-BlK  ë-BqK  üBuK  púBK  ¯-BÖK  @-BîK  A-BòK  Ë#-BùK  ¿-B¢K  ¡-BßK  È#-B¨K  †-B±K  4-B∑K  5-BªK  4-B√K  5-B∆K  °-BÀK  t-B–K  X
+-B◊K  Y
+-B⁄K  u-BﬂK  ˘-B„K  qúBÊK  üBÚK  ê-B¯K  @-BL  A-B	L  p"-BL  ¿-BL  ¡-BL  ººB L  ,≈B%L  -≈B.L  ΩºB1L  q"-B6L  ®"-B;L  ‘¿B@L  –∆BEL  ‡f
+BOL  ·f
+BTL  —∆BWL  ’¿B[L  ©"-B^L  ë-BcL  üBfL  ¨ûBÅL  d-BãL  @-BúL  A-B°L  Ä-BßL  ¿-B´L  ¡-B±L  †õB∂L  TóBΩL  UóB≈L  à -BœL  T -B‘L  †BÿL  †B€L  U -B‡L  â -BÂL  °õBËL  Å-BÌL  †-BÚL  4-B˘L  5-B¸L  4-BM  5-BM  °-BM  e-BM  ≠ûBM  púBM  ¯-B$M  @-B3M  A-B8M  Ë#-B=M  ¿-BAM  ¡-BGM  È#-BLM  †-BPM  4-BVM  5-B[M  °-B_M  t-BeM  X
+-BjM  Y
+-BoM  u-BtM  ˘-BxM  qúB{M  üBÖM  ê-BçM  @-BõM  A-BûM  p"-B£M  ¿-B®M  ¡-B≠M  ººBµM  ,≈B∫M  -≈B√M  ΩºB∆M  q"-B…M  ®"-B–M  ‘¿B’M  –∆BÿM  ‡f
+B‚M  ·f
+BÁM  —∆BÏM  ’¿BM  ©"-BÛM  ë-B¯M  üB˚M  ¨ûBN  d-B N  @-B/N  A-B4N  Ä-B;N  ¿-B@N  ¡-BEN  †õBJN  TóBPN  UóBYN  à -BcN  T -BhN  †BkN  †BnN  U -BsN  â -BxN  °õB|N  Å-BÅN  †-BÜN  4-BåN  5-BëN  4-BòN  5-BõN  °-B†N  e-B§N  ≠ûB™N  púB≥N  ¯-B∏N  @-B«N  A-BÃN  Ë#-B—N  ¿-B‘N  ¡-B€N  È#-B‡N  †-B„N  4-BÍN  5-BÔN  °-BÚN  t-B˘N  X
+-B˛N  Y
+-BO  u-BO  ˘-BO  qúBO  üBO  ê-B!O  @-B.O  A-B3O  p"-B6O  ¿-B;O  ¡-BBO  ººBLO  ,≈BOO  -≈BXO  ΩºB[O  q"-B`O  ®"-BgO  ‘¿BjO  –∆BoO  ‡f
+ByO  ·f
+B~O  —∆BÅO  ’¿BÜO  ©"-BäO  ë-BçO  üBêO  púBöO  ¯-B°O  @-BÆO  A-B≥O  Ë#-B∏O  ¿-BΩO  ¡-B¬O  È#-B«O  †-BÃO  4-B”O  5-B÷O  4-B›O  5-B‚O  °-BÂO  t-BÍO  X
+-BÒO  Y
+-BˆO  u-B˚O  ˘-B˛O  qúBP  ÌñBP  9õB!P  u-B&P  -B*P  ò-B0P  ô-B4P  $-B:P  %-B?P  	-BCP  ï›(BFP  ÏF&BWP  Ÿ(BzP  à-BÄP  Ã§BëP  î!-BñP  ï!-BôP  Õ§BûP  â-B¢P  Ÿ(B•P  à⁄(B¨P  º-B±P  Ω-B∂P  â⁄(BπP  úµ
+B¯P  ùµ
+B˝P  úµ
+BMQ  ùµ
+BRQ  úµ
+BãQ  ùµ
+BíQ  úµ
+B§Q  ùµ
+BßQ  úµ
+B‡Q  ùµ
+BÂQ  úµ
+BR  ùµ
+B#R  úµ
+B5R  ùµ
+B8R  úµ
+BGR  ùµ
+BKR  úµ
+BZR  ùµ
+B]R  î›(BbR  -BgR  ò-BlR  ô-BqR  #-ByR  #-B}R  	-BÇR  ï›(BÖR  ∏F&BÎR  ‘»
+BˆR  “
+B˝R  	“
+B S  ’»
+B	S  ∏Ÿ(BS  #-BS  #-BS  πŸ(BS  î›(B S  -B%S  ò-B*S  ô-B-S  $-B6S  %-B9S  	-B>S  ï›(BAS  ÏF&BFS  Ÿ(BMS  à-BRS  Ã§BYS  î!-B^S  ï!-BaS  Ï°BrS  Ì°BñS  Õ§BõS  â-BüS  Ÿ(B¢S  à⁄(BßS  º-B¨S  Ω-BØS  â⁄(B¥S  úµ
+BπS  ùµ
+BΩS  úµ
+B¬S  ùµ
+B≈S  úµ
+B S  ùµ
+BÃS  úµ
+B—S  ùµ
+B‘S  Ÿ(BŸS  à-BﬁS  Ã§B„S  î!-BËS  ï!-BÎS  Ï°BS  Ì°BT  Õ§BT  â-BT  Ÿ(BT  º˜	B3T  ı	B8T  Lı	B=T  ‹∏
+BDT  ›∏
+BGT  ,≥
+BLT  -≥
+BOT  ‰Ù	BVT  ‹∏
+BgT  ›∏
+BjT  ,≥
+BtT  -≥
+BvT  Ï¡	BãT   ¬	BíT  !¬	BúT  Ì¡	B°T  ,≥
+B≤T  -≥
+BµT  Ï¡	B∫T   ¬	BΩT  !¬	B∆T  Ì¡	BÀT  ,≥
+BÿT  -≥
+B⁄T  Ï¡	BﬂT   ¬	B‚T  !¬	BÏT  Ì¡	BÔT  ,≥
+B˝T  -≥
+B U  Ï¡	BU   ¬	BU  !¬	BU  Ì¡	BU  ,≥
+B!U  -≥
+B%U  Ï¡	B*U   ¬	B-U  !¬	B5U  Ì¡	B:U  ,≥
+BHU  -≥
+BIU  Ï¡	BNU   ¬	BRU  !¬	B\U  Ì¡	B_U  ,≥
+BlU  -≥
+BpU  Ï¡	BsU   ¬	BxU  !¬	BÄU  Ì¡	BÑU  ,≥
+BëU  -≥
+BîU  Ï¡	BôU   ¬	BùU  !¬	B•U  Ì¡	B™U  ,≥
+B∑U  -≥
+BπU  Ï¡	BæU   ¬	B¡U  !¬	BÀU  Ì¡	BœU  ,≥
+B‹U  -≥
+BﬂU  Ï¡	B„U   ¬	BËU  !¬	BU  Ì¡	BÛU  ,≥
+BV  -≥
+BV  Ï¡	B	V   ¬	BV  !¬	BV  Ì¡	BV  ,≥
+B'V  -≥
+B*V  Ï¡	B.V   ¬	B1V  !¬	B;V  Ì¡	B>V  ,≥
+BLV  -≥
+BOV  Ï¡	BRV   ¬	BWV  !¬	B`V  Ì¡	BcV  ÂÙ	BuV  Mı	BzV  ı	B~V  à˜	BÉV  tÚ	BêV  H÷	BïV  I÷	BòV  uÚ	BùV  â˜	B°V  Ω˜	B§V  î›(B´V  -B∞V  ò-BµV  ô-B∫V  à$-B¬V  â$-B≈V  	-B…V  ï›(BŒV  à⁄(B”V   $-BÿV  !$-B€V  â⁄(B‡V  úµ
+B„V  ùµ
+BÁV  ÌF&BÌV  »–
+BÙV  ‘∂
+B˘V  ’∂
+B˛V  ∞Ã
+BW  ±Ã
+B
+W  ‹ 
+BW  xÀ
+BW  yÀ
+B)W  › 
+B3W   Õ
+B:W  ¯€
+BDW  ˘€
+BIW  !Õ
+BNW  …–
+BSW  î›(BVW  -B[W  ò-B`W  ô-BdW  #-BlW  #-BoW  	-BsW  ï›(BvW  î›(B}W  -BÇW  ò-BáW  ô-BäW  $-BíW  %-BñW  	-BôW  ï›(BúW  ÏF&B£W  Ÿ(B™W  à-BØW  Ã§B¥W  î!-BπW  ï!-BºW  Ï°B¡W  Ì°B›W  Õ§B‚W  â-BÊW  Ÿ(BÈW  à⁄(BÓW  º-BÛW  Ω-BˆW  â⁄(B˙W  úµ
+BˇW  ùµ
+BX  úµ
+BX  ùµ
+B
+X  úµ
+BX  ùµ
+BX  úµ
+BX  ùµ
+BX  úµ
+BX  ùµ
+B"X  Ÿ(B*X  à-B/X  Ã§B6X  î!-B9X  ï!-B>X  Ï°BAX  Ì°BZX  Õ§B^X  â-BcX  Ÿ(BfX  $—	BxX  ê“	BÇX  t	B©X  TΩ
+B±X  UΩ
+BæX  ‹∏
+B√X  ›∏
+B«X  ,≥
+BÃX  -≥
+BœX  Pº
+B÷X  ¸B€X  ˝B‡X  xFBÊX  	BÎX  	BX  úµ
+BıX  ùµ
+B˘X  úµ
+B˛X  ùµ
+BY  Õ	BY  LÕ	BY  MÕ	BY  Õ	BY  Õ	B)Y  LÕ	B,Y  MÕ	B1Y  Õ	B6Y  Õ	BBY  LÕ	BEY  MÕ	BJY  Õ	BOY  yFBYY  Qº
+B]Y  p∑
+B£Y  <∑
+BÆY  =∑
+B≤Y  <∑
+BΩY  =∑
+BøY  q∑
+B∆Y  §B–Y  ,≥
+B’Y  -≥
+BÿY  ∑
+BﬂY  	∑
+B‚Y  ∑
+BÁY  	∑
+BÍY  ÑT
+BÓY  ÖT
+BÒY  ,≥
+B¯Y  -≥
+B˚Y  ∑
+B Z  	∑
+BZ  àºBZ  ¯ƒBZ  ˘ƒB!Z  âºB%Z  Ëª
+B*Z  ÿ´
+B7Z  Ÿ´
+B<Z  Èª
+BAZ  ¿BFZ  h∆BIZ  ‹∏
+BNZ  ›∏
+BRZ  ¯≤
+BXZ  ‡f
+B_Z  ·f
+BdZ  ˘≤
+BgZ  i∆BlZ  ¿BpZ  Ëª
+BuZ  ÿ´
+BÄZ  Ÿ´
+BÖZ  Èª
+BâZ  ¿BéZ  h∆BëZ  ‹∏
+BîZ  ›∏
+BòZ  ¯≤
+BûZ  ‡f
+B•Z  ·f
+B®Z  ˘≤
+B¨Z  i∆B±Z  ¿B¥Z  |ƒBπZ  PÕBæZ  ÿ´
+BÀZ  Ÿ´
+B“Z  QÕB’Z  }ƒBŸZ  ‹∏
+BﬁZ  ›∏
+B·Z  ,≥
+BÊZ  -≥
+BÈZ  Ëª
+BÛZ  ÿ´
+BˇZ  Ÿ´
+B[  Èª
+B[  ‹∏
+B[  ›∏
+B[  §µ	B[  •µ	Bf[  p%-B|[  q%-BÉ[  •BÜ[  ®	Bê[  ©	B±[  u	Bª[  ë“	Bø[  –	B [  H÷	BŒ[  I÷	B”[  Ò–	B÷[  %—	BŸ[  î›(B‡[  -BÂ[  ò-BÍ[  ô-BÌ[  à$-Bˆ[  â$-B˚[  	-B˛[  ï›(B\  à⁄(B\   $-B\  !$-B\  â⁄(B\  úµ
+B\  ùµ
+B\  ÌF&B#\  »–
+B(\  ‘∂
+B-\  ’∂
+B2\  ∞Ã
+B5\  ±Ã
+B<\   Õ
+BG\  ¯€
+BQ\  ˘€
+BX\  !Õ
+B[\  …–
+B`\  î›(Be\  -Bi\  ò-Bn\  ô-Bq\  #-By\  #-B}\  	-BÇ\  ï›(BÖ\  î›(Bå\  -Bë\  ò-Bî\  ô-Bô\  $-B†\  %-B•\  	-B®\  ï›(B´\  ÏF&B≤\  Ÿ(Bπ\  à-Bæ\  Ã§B√\  î!-B»\  ï!-BÀ\  Ï°B–\  Ì°BÎ\  Õ§B\  â-BÛ\  Ÿ(Bˆ\  à⁄(B˚\  º-B ]  Ω-B]  â⁄(B	]  úµ
+B]  ùµ
+B]  úµ
+B]  ùµ
+B]  î›(B]  -B"]  ò-B']  ô-B*]  #-B2]  #-B6]  	-B;]  ï›(B>]  àºBK]  ¯ƒBO]  ˘ƒBW]  âºB\]  ¿B_]  h∆Bc]  ‹∏
+Bh]  ›∏
+Bk]  ¯≤
+Bs]  ‡f
+Bx]  ·f
+B}]  ˘≤
+BÅ]  i∆BÜ]  ¿Bâ]  \‹(B†]  ‹"-B•]  ›"-B©]  |ƒBÆ]  PÕB≥]  ÿ´
+B¬]  Ÿ´
+B«]  QÕB ]  }ƒBÕ]  ]‹(B“]  ¿B◊]  h∆B€]  ‹∏
+Bﬁ]  ›∏
+B·]  ¯≤
+BË]  ‡f
+BÔ]  ·f
+BÚ]  ˘≤
+B˜]  i∆B˙]  ¿B˛]  |ƒB^  PÕB^  ÿ´
+B^  Ÿ´
+B^  QÕB^  }ƒB!^  î›(B&^  -B+^  ò-B.^  ô-B3^  à$-B:^  â$-B=^  	-BB^  ï›(BE^  à⁄(BJ^   $-BO^  !$-BS^  â⁄(BV^  úµ
+B[^  ùµ
+B^^  ÌF&Be^  »–
+Bj^  ‘∂
+Bo^  ’∂
+Br^  ∞Ã
+Bw^  ±Ã
+B~^   Õ
+Bà^  ¯€
+Bí^  ˘€
+Bó^  !Õ
+Bú^  …–
+Bü^  î›(B§^  -B©^  ò-B≠^  ô-B≤^  #-B∏^  #-Bº^  	-B¡^  ï›(Bƒ^  î›(BÀ^  -BŒ^  ò-B”^  ô-B÷^  $-Bﬂ^  %-B‚^  	-BÁ^  ï›(BÍ^  ÏF&BÔ^  Ÿ(Bˆ^  à-B˚^  Ã§B _  î!-B_  ï!-B_  Ï°B_  Ì°B%_  Õ§B*_  â-B-_  Ÿ(B0_  à⁄(B5_  º-B:_  Ω-B>_  â⁄(BA_  úµ
+BF_  ùµ
+BI_  úµ
+BN_  ùµ
+BR_  úµ
+BW_  ùµ
+BZ_  úµ
+B]_  ùµ
+Ba_  úµ
+Bf_  ùµ
+Bi_  úµ
+Bn_  ùµ
+Bq_  úµ
+Bv_  ùµ
+Bx_  Ÿ(B}_  à-BÇ_  Ã§Bá_  î!-Bå_  ï!-Bè_  Ï°Bî_  Ì°B≠_  Õ§B≤_  â-B∂_  Ÿ(Bπ_  pΩ	B»_  Ω	B–_  –µ
+B◊_  —µ
+Bﬁ_  	Ω	B·_  qΩ	BË_  î›(BÌ_  -BÚ_  ò-B˜_  ô-B˙_  à$-B`  â$-B`  	-B`  ï›(B`  à⁄(B`   $-B`  !$-B`  â⁄(B`  úµ
+B$`  ùµ
+B'`  ÌF&B,`  »–
+B1`  ‘∂
+B6`  ’∂
+B9`  ∞Ã
+B>`  ±Ã
+BE`   Õ
+BO`  ¯€
+BY`  ˘€
+B^`  !Õ
+Bc`  …–
+Bh`  î›(Bk`  -Bp`  ò-Bu`  ô-By`  #-B`  #-BÉ`  	-Bà`  ï›(Bã`  î›(Bí`  -Bó`  ò-Bö`  ô-Bü`  $-B¶`  %-B©`  	-BÆ`  ï›(B±`  ÏF&B∂`  Ÿ(BΩ`  à-B¬`  Ã§B«`  î!-BÃ`  ï!-Bœ`  Ï°B‘`  Ì°BÍ`  Õ§BÔ`  â-BÚ`  Ÿ(Bˆ`  à⁄(B˚`  º-B a  Ω-Ba  â⁄(Ba  úµ
+Ba  ùµ
+Ba  úµ
+Ba  ùµ
+Ba  î›(Ba  -Ba  ò-B$a  ô-B)a  #-B0a  #-B3a  	-B7a  ï›(B<a  àºBDa  ¯ƒBIa  ˘ƒBSa  âºBVa  ¿B[a  h∆B_a  ‹∏
+Bda  ›∏
+Bea  ¯≤
+Bna  ‡f
+Bsa  ·f
+Bxa  ˘≤
+B{a  i∆BÄa  ¿BÉa  \‹(Bàa  ‹"-Båa  ›"-Bëa  |ƒBña  PÕBôa  ÿ´
+B¶a  Ÿ´
+B´a  QÕBØa  }ƒB¥a  ]‹(B∑a  ¿Bºa  h∆Bøa  ‹∏
+Bƒa  ›∏
+B∆a  ¯≤
+BŒa  ‡f
+B”a  ·f
+Bÿa  ˘≤
+B‹a  i∆Bﬂa  ¿B‚a  |ƒBÁa  PÕBÎa  ÿ´
+B¯a  Ÿ´
+B˝a  QÕBb  }ƒBb  î›(B
+b  -Bb  ò-Bb  ô-Bb  à$-Bb  â$-B#b  	-B'b  ï›(B*b  à⁄(B/b   $-B4b  !$-B9b  â⁄(B<b  úµ
+BAb  ùµ
+BEb  ÌF&BJb  »–
+BPb  ‘∂
+BTb  ’∂
+BYb  ∞Ã
+B\b  ±Ã
+Bcb  ‹ 
+Bnb  xÀ
+Bub  yÀ
+Bb  › 
+Bùb   Õ
+B¢b  ¯€
+B¨b  ˘€
+B±b  !Õ
+B∂b  …–
+Bπb  î›(Bæb  -B√b  ò-B«b  ô-BÃb  #-B“b  #-B◊b  	-B€b  ï›(Bﬁb  î›(BÂb  -BÍb  ò-BÔb  ô-BÚb  $-B˘b  %-B˛b  	-Bc  ï›(Bc  ÏF&Bc  Ÿ(Bc  à-Bc  Ã§Bc  î!-Bc  ï!-B"c  Ï°B'c  Ì°B?c  Õ§BBc  â-BGc  Ÿ(BJc  à⁄(BOc  º-BTc  Ω-BXc  â⁄(B[c  úµ
+B`c  ùµ
+Bcc  úµ
+Bhc  ùµ
+Blc  úµ
+Bqc  ùµ
+Btc  úµ
+Byc  ùµ
+B{c  Ÿ(BÄc  à-BÖc  Ã§Bãc  î!-Bèc  ï!-Bíc  Ï°Bóc  Ì°B≤c  Õ§Bµc  â-B∫c  Ÿ(BΩc  º˜	B¬c  ı	B∆c  Lı	BÀc  ‹∏
+B–c  ›∏
+B”c  ,≥
+Bÿc  -≥
+B€c  ‰Ù	B‚c  ‹∏
+BÏc  ›∏
+BÔc  ,≥
+B¯c  -≥
+B˘c  Ï¡	B˛c   ¬	Bd  !¬	Bd  Ì¡	Bd  ,≥
+Bd  -≥
+B!d  Ï¡	B&d   ¬	B*d  !¬	B2d  Ì¡	B7d  ,≥
+BDd  -≥
+BFd  Ï¡	BKd   ¬	BNd  !¬	BXd  Ì¡	B\d  ,≥
+Bid  -≥
+Bld  Ï¡	Bpd   ¬	Bud  !¬	B}d  Ì¡	BÄd  ,≥
+Béd  -≥
+Bëd  Ï¡	Bñd   ¬	Bôd  !¬	B¢d  Ì¡	Bßd  ,≥
+B¥d  -≥
+B∂d  Ï¡	Bªd   ¬	Bæd  !¬	B»d  Ì¡	BÀd  ,≥
+BŸd  -≥
+B‹d  Ï¡	Bﬂd   ¬	B‰d  !¬	BÌd  Ì¡	Bd  ,≥
+B˝d  -≥
+Be  Ï¡	Be   ¬	B	e  !¬	Be  Ì¡	Be  ,≥
+B$e  -≥
+B%e  Ï¡	B*e   ¬	B.e  !¬	B8e  Ì¡	B;e  ,≥
+BHe  -≥
+BLe  Ï¡	BOe   ¬	BRe  !¬	B\e  Ì¡	B`e  ,≥
+Bme  -≥
+Bpe  Ï¡	Bue   ¬	Bye  !¬	BÅe  Ì¡	BÜe  ,≥
+Bìe  -≥
+Bïe  Ï¡	Böe   ¬	Bùe  !¬	Bße  Ì¡	B´e  ,≥
+B∏e  -≥
+Bªe  Ï¡	Bøe   ¬	Bƒe  !¬	BÃe  Ì¡	Bœe  ÂÙ	B‡e  Mı	BÂe  ı	BËe  à˜	BÌe  tÚ	B˜e  H÷	B˚e  I÷	B˛e  uÚ	Bf  â˜	Bf  Ω˜	B
+f  î›(Bf  -Bf  ò-Bf  ô-Bf  à$-B$f  â$-B(f  	-B+f  ï›(B0f  à⁄(B5f   $-B:f  !$-B=f  â⁄(BAf  úµ
+BFf  ùµ
+BIf  ÌF&BNf  »–
+BSf  ‘∂
+BXf  ’∂
+B[f  ∞Ã
+B`f  ±Ã
+Bgf   Õ
+Bsf  ¯€
+B}f  ˘€
+BÇf  !Õ
+Báf  …–
+Båf  î›(Bèf  -Bîf  ò-Bôf  ô-Búf  #-B£f  #-B¶f  	-B´f  ï›(BØf  î›(Bµf  -Bπf  ò-Bæf  ô-B√f  $-B…f  %-BÕf  	-B“f  ï›(B’f  ÏF&B⁄f  Ÿ(B·f  à-BÊf  Ã§BÎf  î!-Bf  ï!-BÛf  Ï°B¯f  Ì°Bg  Õ§Bg  â-Bg  Ÿ(Bg  à⁄(B"g  º-B'g  Ω-B*g  â⁄(B-g  úµ
+B2g  ùµ
+B6g  úµ
+B;g  ùµ
+B>g  úµ
+BCg  ùµ
+BEg  úµ
+BJg  ùµ
+BMg  úµ
+BPg  ùµ
+BTg  úµ
+BYg  ùµ
+B\g  úµ
+Bag  ùµ
+Bcg  Ÿ(Bhg  à-Bmg  Ã§Bsg  î!-Bwg  ï!-B|g  Ï°Bg  Ì°Bòg  Õ§Bùg  â-B†g  Ÿ(B•g  pΩ	B©g  Ω	BÆg  –µ
+B±g  —µ
+Bπg  	Ω	BΩg  qΩ	B¬g  î›(B«g  -BÃg  ò-B—g  ô-B‘g  à$-B‹g  â$-B‡g  	-BÂg  ï›(BËg  à⁄(BÌg   $-BÚg  !$-Bıg  â⁄(B˙g  úµ
+B˛g  ùµ
+Bh  ÌF&Bh  »–
+Bh  ‘∂
+Bh  ’∂
+Bh  ∞Ã
+Bh  ±Ã
+Bh   Õ
+B)h  ¯€
+B1h  ˘€
+B8h  !Õ
+B;h  …–
+B@h  î›(BEh  -BIh  ò-BNh  ô-BQh  #-BYh  #-B]h  	-B`h  ï›(Beh  î›(Blh  -Boh  ò-Bth  ô-Bwh  à$-BÄh  â$-BÉh  	-BÜh  ï›(Bãh  à⁄(Bêh   $-Bïh  !$-Böh  â⁄(Bûh  úµ
+B£h  ùµ
+B§h  πF&B©h  ÌF&BÆh  !G&B≤h  F&B∑h  tBΩh  ÿn
+B…h  Ÿn
+B‚h  uBÈh  ÙŒ
+BÒh  |
+Bˆh  H
+B˚h  I
+B˛h  ‘∂
+Bi  ’∂
+Bi  }
+Bi  ıŒ
+Bi  §µ	B#i  •µ	B‹i  p&-Bıi  q&-Bj  §&-Bj  P´B/j  Q´B6j  lB@j  PBEj  àºBQj  ¯ƒBVj  ˘ƒB`j  âºBcj  H
+Bhj  I
+Bkj  ¿Bpj  h∆Btj  ‹∏
+Byj  ›∏
+B|j  î≈BÑj  ‡f
+Bíj  ·f
+Bój  ï≈Búj  ¯≤
+B°j  ‡f
+Bßj  ·f
+B¨j  ˘≤
+B∞j  i∆Bµj  ¿B∏j  ¿BΩj  h∆B¿j  ‹∏
+B≈j  ›∏
+B…j  î≈BŒj  ‡f
+B›j  ·f
+B„j  ï≈BÁj  ¯≤
+BÌj  ‡f
+BÚj  ·f
+B˜j  ˘≤
+B˚j  i∆B˛j  ¿Bk  |ƒBk  PÕBk  ÿ´
+Bk  Ÿ´
+Bk  QÕB$k  }ƒB(k  ˛	B-k  $
+B2k    
+B5k  º
+B:k  ‡f
+BDk  ·f
+BIk  º
+BLk  ! 
+BMl  ‹∏
+BRl  ›∏
+BUl  ,≥
+BZl  -≥
+B^l  `
+Bdl  x≤Bil  (ÒBnl  ê¸Bsl  êVB|l  ‹∏
+BÅl  ›∏
+BÑl  ¿Bâl  ‡y	Bél  ·y	Bïl  ¡Böl  ëVBùl  ë¸B†l  )ÒB§l  ¨≤B©l  pÃB¨l  TTB±l  UTB l   TB—l  !TBﬁl  HBËl  ÄRBÌl  ÅRBıl  ÑSB˙l  ÖSB˛l  Bm  ÄBm  |Bm  <ÃBm  TTB$m  UTB1m  ÄB=m  ¥RBBm  µRBGm  ∏SBLm  πSBOm  àBTm  âBbm  Bom  Btm  º
+Bwm  ‡f
+BÅm  ·f
+BÜm  º
+Bäm  $UBím  %UBûm  ®B§m  ©B©m  ÅBÆm  =ÃB≤m   B∑m  Bºm  lBøm  mBƒm  hB…m  $BŒm  ¥-	B”m  µ-	Bÿm  ¥-	B›m  µ-	B‚m  ¥-	BÁm  µ-	BÍm  BÒm  BÙm  º
+B˘m  ‡f
+Bn  ·f
+Bn  º
+Bn  $UBn  %UBn  ®Bn  ©B#n  %B(n  iB+n  úB0n  XB5n  ¥-	B9n  µ-	B>n  ¥-	BCn  µ-	BFn  ¥-	BKn  µ-	BPn  BUn  BZn  º
+B]n  ‡f
+Bgn  ·f
+Bln  º
+Bpn  $UBun  %UB{n  ®BÄn  ©BÖn  YBän  ùBén  ºl	Bën  (¸Bñn  ¥Bûn  %B£n  8%B®n  ∏i	B≠n   l	B±n  ‡y	B∂n  ·y	Bºn  !l	B√n  πi	B∆n  9%BÀn  %Bœn  µB“n  )¸B’n  Ωl	B⁄n  4Bﬂn  5B„n  ÙBÎn  \¸Bn  hˇB¯n  ∞B˝n  ‰Bo  ¿B	o  ‡y	Bo  ·y	Bo  ¡Bo  ÂBo  ±Bo  iˇB"o  ]¸B%o  ıB*o  ƒB/o  àB6o  {	B9o  {	B>o  ¥BCo  ®s	BHo  ê!BLo  ë!BQo  ©s	BTo  êm	BYo  (!B\o  )!B`o  ëm	Beo  ƒm	Bjo  \!Bmo  ]!Bpo  ≈m	Buo  Ñ{	Byo  Ö{	B~o  ƒm	BÉo  \!BÜo  ]!Bâo  ≈m	Bço   |	Bío  !|	Bïo  µBöo  ËB°o  DˆB¶o  xB©o  yB¨o  EˆB±o  †ÛB∂o  B∫o  BΩo  °ÛB¬o  ‘ÛB≈o  DB o  EBŒo  ’ÛB—o  Ñ{	B÷o  Ö{	BŸo  ‘ÛBﬁo  DB‚o  EBÂo  ’ÛBËo   |	BÌo  !|	BÒo  ÈBÙo  HQB˛o  IQBp  Bp   |	B#p  !|	B&p  T|	B0p  U|	B7p  B<p  PBAp  DˆBDp  xBGp  yBKp  EˆBNp   |	BSp  !|	BVp  ‘ÛB[p  DB`p  EBdp  ’ÛBgp  T|	Blp  U|	Bqp  QBvp  âByp  ú.B~p  ù.BÖp  à|	Bàp  â|	Bçp  ≈Bîp  hBôp  $Bûp  ¥-	B°p  µ-	B¶p  ¥-	B´p  µ-	B∞p  ¥-	Bµp  µ-	Bπp  Bøp  B√p  º
+B»p  ‡f
+B“p  ·f
+B◊p  º
+B⁄p  $UBﬂp  %UBÁp  ®BÏp  ©Bp  %Bıp  iB¯p  úB˝p  XB q  ¥-	Bq  µ-	B	q  ¥-	Bq  µ-	Bq  ¥-	Bq  µ-	Bq  B"q  B'q  º
+B*q  ‡f
+B4q  ·f
+B9q  º
+B<q  $UBAq  %UBHq  ®BOq  ©BRq  YBWq  ùBZq   .B_q  .Bfq  }Biq  º
+Bpq  Ω
+Buq  ÅBxq  B|q  ¥Báq  µBåq  XUBìq  YUBùq  ®B§q  ©B©q  IB¨q  qÃB±q  B∂q  T
+Bªq  ¥-	B¿q  µ-	B≈q  ¥-	B q  µ-	BÕq  ¥B“q  µB◊q  XUBﬁq  YUBÂq  ®BÍq  ©BÔq  U
+BÚq  Bıq  LB˙q  à
+Bˇq  ¥-	Br  µ-	B	r  ¥-	Br  µ-	Br  ¥Br  µBr  XUB"r  YUB)r  ®B.r  ©B3r  â
+B6r  MB:r  ®B?r  à|	BDr  â|	BIr  ËBNr  
+BSr  ºTBXr  ΩTB^r  Ò
+Bgr  ÈBjr  à|	Bmr  â|	Brr  Tl	B{r  Ù˚BÄr  ÄBÜr  –$Bãr  8%Bïr  ∏i	Bör   l	Bûr  ‡y	B°r  ·y	B®r  !l	BÆr  πi	B≤r  9%B∑r  —$B∫r  ÅBør  ı˚B¬r  Ul	B∆r  ‹BÀr  ∏	B—r  {	B÷r  {	B€r  ∞B‡r  DˆBÂr  <YBÈr  =YBÏr  EˆBÔr  à|	BÙr  â|	B˘r   |	Bs  !|	Bs  XBs  à|	Bs  â|	Bs  ∏º
+B%s  πº
+B(s  †∂
+B+s  ‡f
+B4s  ·f
+B7s  °∂
+B:s  XB?s  T|	BCs  U|	BIs  ±BMs  |BSs  ®s	BWs  ê!BZs  ë!B]s  ©s	Bbs  êm	Bfs  (!Bks  )!Bns  ëm	Bqs  ƒm	Bvs  \!Bzs  ]!Bs  ≈m	BÇs  Ñ{	BÖs  Ö{	Bäs  ƒm	Bès  \!Bìs  ]!Bñs  ≈m	Bôs   |	Bûs  !|	B¢s  }B•s  |QB±s  }QB∆s  ®BÀs  ©B–s  	B’s   |	BŸs  !|	Bﬁs  T|	BÊs  U|	BÎs   |	BÛs  !|	B¯s  T|	B˝s  U|	Bt  	Bt  ‰Bt  ®s	Bt  ê!Bt  ë!Bt  ©s	Bt   |	Bt  !|	B"t  ƒm	B't  \!B,t  ]!B/t  ≈m	B3t  T|	B8t  U|	B=t  ÂBBt  π	BEt  ›BMt  ‹BRt  ∏	BYt  {	B\t  {	Bat  π	Bft  à|	Bmt  â|	Brt  ›Bwt  lB|t  mBÉt  DBÜt   
+Bãt  |Bêt  ®s	Bìt  ê!Bót  ë!Bút  ©s	Büt  êm	B§t  (!Bßt  )!B´t  ëm	BÆt  ƒm	B≥t  \!B∂t  ]!B∫t  ≈m	Bøt  Ñ{	B¬t  Ö{	B≈t  ƒm	B t  \!Bœt  ]!B”t  ≈m	B÷t   |	B€t  !|	Bﬁt  }B‚t  ‰QBËt  ÂQBÙt  ®B˘t  ©B˛t  ‰Bu  ®s	Bu  ê!B
+u  ë!Bu  ©s	Bu   |	Bu  !|	Bu  ƒm	Bu  \!B#u  ]!B&u  ≈m	B+u  T|	B.u  U|	B5u  ÂB8u  
+B=u  ºTBAu  ΩTBFu  Ò
+BNu  !
+BQu  EBXu  Ëz	B]u  Èz	Bdu  ©Biu  ≠≤Blu  y≤Bou  Ñ{	Btu  Ö{	Bxu  ÿ%BÇu  à|	Båu  â|	Bëu  ‡f
+Bóu  ·f
+Búu  Ÿ%B†u  a
+BEv  %
+BJv  ˛	BMv  QBPv  mBTv  H
+BZv  I
+B_v  ©Bkv  ©Bßv  ÿóB∂v  òBªv  “
+Bæv  	“
+B√v  ‹òB v  ›òB÷v  ®òB€v  ©òBÍv   †BÚv  !†B˜v  òB˙v  ŸóB˛v  •&-Bw  »–
+Bw  |
+Bw  H
+Bw  I
+Bw  ‘∂
+Bw  ’∂
+Bw  }
+B"w  ∞Ã
+B'w  ±Ã
+B.w  ‹ 
+B:w  xÀ
+B@w  yÀ
+BLw  › 
+BVw   Õ
+B]w  ¯€
+Bew  ˘€
+Blw  !Õ
+Bqw  …–
+Btw  B{w  ùBÄw  MÜBÖw  $≤
+B©w  ∏º
+BÆw  πº
+B≤w  %≤
+Bµw  $ΩB∫w  `≈Bøw  ‹∏
+Bƒw  ›∏
+B«w  ¯≤
+B’w  ‡f
+B⁄w  ·f
+Bﬂw  ˘≤
+B‚w  a≈BÂw  %ΩBÈw  ¿B˝w  h∆B x  ‹∏
+Bx  ›∏
+Bx  ¯≤
+Bx  ‡f
+Bx  ·f
+Bx  ˘≤
+Bx  i∆B!x  ¿B%x  )-B9x  ÙŒ
+BAx  ‘∂
+BFx  ’∂
+BIx  úµ
+BWx  ùµ
+B†x  ıŒ
+B•x  »˘	B¨x  …˘	B±x  )-B∂x  4øBªx   ˜	B¿x  Ù	BŸx  Ù	By  Ù	B y  Ù	B8y  ÿ´
+BBy  Ÿ´
+BGy  !˜	BLy  h∆BQy  ‹∏
+BTy  ›∏
+BWy  î≈B^y  ‡f
+Bmy  ·f
+Bry  ï≈Bwy  ¯≤
+B|y  ‡f
+B—y  ·f
+B÷y  ˘≤
+B€y  i∆B‡y  5øB„y  |ƒBËy  PÕBÏy  ÿ´
+B˛y  Ÿ´
+Bz  QÕBz  }ƒBz  $≤
+Bz  ∏º
+Bz  πº
+Bz  %≤
+B!z  $ΩB&z  `≈B)z  ‹∏
+B.z  ›∏
+B2z  ¯≤
+B=z  ‡f
+BDz  ·f
+BGz  ˘≤
+BKz  a≈BNz  %ΩBSz  ¿Bdz  h∆Biz  ‹∏
+Blz  ›∏
+Boz  ¯≤
+Bxz  ‡f
+B}z  ·f
+BÇz  ˘≤
+BÖz  i∆Bàz  ¿Båz  )-Búz  ÙŒ
+B£z  ‘∂
+B®z  ’∂
+B´z  úµ
+B∑z  ùµ
+B¯z  ıŒ
+B˝z  »˘	B{  …˘	B{  )-B{  4øB{   ˜	B{  Ù	B'{  Ù	BZ{  Ù	Bh{  Ù	B{  ÿ´
+Bâ{  Ÿ´
+Bé{  !˜	Bì{  h∆Bñ{  ‹∏
+Bõ{  ›∏
+Bü{  î≈B§{  ‡f
+B¥{  ·f
+BÃ{  ï≈B—{  ¯≤
+B◊{  ‡f
+B‹{  ·f
+B·{  ˘≤
+BÂ{  i∆BÍ{  5øBÌ{  |ƒBÚ{  PÕBı{  ÿ´
+B|  Ÿ´
+B	|  QÕB|  }ƒB|  $≤
+B|  ∏º
+B|  πº
+B!|  %≤
+B&|  $ΩB)|  `≈B,|  ‹∏
+B1|  ›∏
+B5|  ¯≤
+B@|  ‡f
+BE|  ·f
+BJ|  ˘≤
+BN|  a≈BQ|  %ΩBT|  ¿Be|  h∆Bh|  ‹∏
+Bm|  ›∏
+Bo|  ¯≤
+Bw|  ‡f
+B||  ·f
+BÅ|  ˘≤
+BÖ|  i∆Bà|  ¿Bç|  ∞(-B£|  ÙŒ
+B®|  ‘∂
+B≠|  ’∂
+B≤|  úµ
+BΩ|  ùµ
+B
+}  ıŒ
+B}  ú‘	B}  ù‘	B}  ±(-B}  ÃæB#}  ¯“	B/}  pBK}  BS}  ‘
+B]}  ’
+Bk}  Bn}  ¨Bs}  å—	B}}  ç—	BÇ}  àºBë}  ¯ƒBñ}  ˘ƒBû}  âºB¢}  ¿B•}  h∆B®}  ‹∏
+B≠}  ›∏
+B±}  ¯≤
+Bª}  ‡f
+B¿}  ·f
+B≈}  ˘≤
+B»}  i∆BÕ}  ¿B–}  ¿B‰}  h∆BË}  ‹∏
+BÎ}  ›∏
+BÓ}  ¯≤
+B˜}  ‡f
+B¸}  ·f
+Bˇ}  ˘≤
+B~  i∆B~  ¿B~  |ƒB~  PÕB~  ÿ´
+B ~  Ÿ´
+B%~  QÕB*~  }ƒB.~  ≠B3~  qB6~  ˘“	B9~  h∆B>~  ‹∏
+BB~  ›∏
+BE~  ¯≤
+BL~  ‡f
+BR~  ·f
+BV~  ˘≤
+BY~  i∆B^~  ÕæBa~  |ƒBf~  PÕBj~  ÿ´
+Bw~  Ÿ´
+B|~  QÕBÅ~  }ƒBÑ~  $ΩB°~  `≈B¶~  ‹∏
+B´~  ›∏
+B¨~  ¯≤
+B∏~  ‡f
+BΩ~  ·f
+B¬~  ˘≤
+B≈~  a≈B…~  %ΩBÃ~  ¿Bœ~  h∆B‘~  ‹∏
+Bÿ~  ›∏
+B€~  î≈B‚~  ‡f
+BÔ~  ·f
+BÚ~  ï≈B˜~  ¯≤
+B¸~  ‡f
+B  ·f
+B  ˘≤
+B
+  i∆B  ¿B  |ƒB  PÕB  ÿ´
+B(  Ÿ´
+B-  QÕB2  }ƒB5  úºBL  pæBS  qæBô  ùºBû  D°*B£  à£Bø  †ùB’  ÙŒ
+B·  P.	BÊ  Q.	BÈ  ıŒ
+Bı  §µ	B Ä  §µ	B\Ä  §µ	BëÄ  •µ	BπÄ  •µ	BGÅ  •µ	BrÅ  8+-B≥Å  ∏,-BºÅ  Ä&B¡Å  Ï'BƒÅ  Ì'BÿÅ  Å&B€Å  ê(B‚Å  ë(BÂÅ  π,-BÍÅ  §µ	BÛÅ  •µ	B&Ç  –1-B5Ç  àÓB:Ç  ‡BAÇ  ´BHÇ  ∞	BMÇ  ,4	BPÇ  -4	BUÇ  ±	BXÇ  ¨B]Ç  ¨BbÇ  ¸≠BiÇ  ˝≠BlÇ  0ÆBqÇ  1ÆBuÇ  	´B}Ç  ·BÇÇ  âÓBäÇ  —1-BéÇ  9+-BëÇ  »–
+BñÇ  P.	BõÇ  Q.	BûÇ  ∞Ã
+B£Ç  ±Ã
+B™Ç  ‹ 
+B∂Ç  xÀ
+BºÇ  yÀ
+B»Ç  › 
+B‘Ç   Õ
+BŸÇ  ¯€
+B„Ç  ˘€
+BÈÇ  !Õ
+BÓÇ  …–
+BÛÇ  dãBÉ  ¸9BÉ  ˝9BÉ  ¸9B É  ˝9B*É  LMB1É  MMBQÉ  ºOBVÉ  ΩOB`É  ¥MBcÉ  µMBjÉ  |LBmÉ  }LBtÉ  P/-B~É  Q/-BÅÉ  XPBÜÉ  YPBÆÉ  <2BµÉ  =2B
+Ö  BBÖ  (DB"Ö  )DB(Ö  ÒBB1Ö  lHB6Ö  `9B<Ö  a9BCÖ  mHBWÖ  lHB\Ö  `9B_Ö  a9BnÖ  mHB}Ö  eãBÅÖ  °ùBÜÖ  â£BâÖ  à£BÆÖ  †ùBπÖ  ÙŒ
+B«Ö  P.	BÕÖ  Q.	B—Ö  ıŒ
+B‡Ö  »–
+BËÖ  P.	BÌÖ  Q.	BÖ  ∞Ã
+BıÖ  ±Ã
+B¸Ö  ¥-	BÜ  µ-	BÜ  î–
+BÜ  ï–
+BÜ  …–
+BÜ  dãB"Ü  ¸9B'Ü  ˝9B0Ü  ¸9B3Ü  ˝9B?Ü  LMBDÜ  MMB`Ü  ºOBeÜ  ΩOBoÜ  ¥MBtÜ  µMB{Ü  |LB~Ü  }LBÉÜ  P/-BäÜ  Q/-BçÜ  XPBíÜ  YPB®Ü  <2BÆÜ  'B   0:B   î9B   ï9B    1:B'   0:B,   î9B7   ï9B<   1:B@   Ñ/-BF   H?BO   I?Bf   òFBk   ôFB}   ,-BÇ   ¨Bá   DBñ   EBö   ≠Bù   ıBß   ®ıB¨   î∑B±   ï∑Bª   tıB¬   4t*B»   Ñ.	BÍ   Ö.	BÌ   5t*BÚ   uıB˜   ©ıB˙   ıB˛   ,-B  Ö/-B  lHB	  `9B  a9B  mHB  lHB"  `9B&  a9B)  mHB6  'B:  =2Bá  BBá  (DBá  )DB!á  ÒBB&á  lHB*á  `9B/á  a9B4á  mHB?á  lHBDá  `9BHá  a9BSá  mHBaá  eãBdá  °ùBiá  â£Bná  E°*Bqá  £B{á  ∏	BÄá  
