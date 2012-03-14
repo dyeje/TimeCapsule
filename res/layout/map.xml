@@ -72,7 +72,7 @@
             android:background="@drawable/camera" />
     </RelativeLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/lldata"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -90,6 +90,70 @@
         jeremy's lap top key 
         android:apiKey="052hGP8baB134-07jsNPWSex3ULk3_gzGEADloA"
         -->
-    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom|center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="5px"
+            android:paddingRight="5px"
+            android:paddingTop="10px" >
+
+            <com.gvsu.socnet.views.TranslucentPanel
+                android:id="@+id/transparent_panel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5px"
+                android:paddingLeft="5px"
+                android:paddingRight="5px"
+                android:paddingTop="5px" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/map_center_map_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/center_on_user" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/map_zoom_out_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/zoom_out" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/map_zoom_in_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/zoom_in" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/map_notsurewhattouseitfor_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dont_center" />
+                </LinearLayout>
+            </com.gvsu.socnet.views.TranslucentPanel>
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

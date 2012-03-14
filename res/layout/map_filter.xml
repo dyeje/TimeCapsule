@@ -56,28 +56,103 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <!--
+         <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_filter_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Today" />
+
+        <Button
+            android:id="@+id/btn_filter_anytime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Any Time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_filter_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Past Week" />
+
+        <Button
+            android:id="@+id/btn_filter_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Past Month" />
+
+        <Button
+            android:id="@+id/btn_filter_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Past Year" />
+    </LinearLayout>
+
+    <!-- </HorizontalScrollView> -->
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dip"
         android:text="Minimum Rating"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <RatingBar
         android:id="@+id/rating_bar"
-        style="@style/ratingBar"
-        android:stepSize="0.25"
-        android:numStars="4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
-    
-    <Button
+        android:focusableInTouchMode="false"
+        android:numStars="5"
+        android:stepSize="1" />
+        style="@style/ratingBar"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="setto0"
-        android:id="@+id/button_set_rating_0"/>
-        
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_set_rating_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Horrible" />
+
+        <Button
+            android:id="@+id/button_set_rating_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Mediocre" />
+        <Button
+            android:id="@+id/button_set_rating_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dip"
+            android:text="Amazing" />
+    </LinearLayout>
 
 </LinearLayout>

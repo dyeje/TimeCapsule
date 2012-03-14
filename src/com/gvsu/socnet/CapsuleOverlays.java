@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class CapsuleOverlays extends ItemizedOverlay {
+public class CapsuleOverlays extends ItemizedOverlay<CapsuleOverlayItem> {
 
 	private ArrayList<CapsuleOverlayItem> mOverlays = new ArrayList<CapsuleOverlayItem>();
 	private Context mContext;
@@ -21,7 +21,7 @@ public class CapsuleOverlays extends ItemizedOverlay {
 	}
 
 	@Override
-	protected OverlayItem createItem(int i) {
+	protected CapsuleOverlayItem createItem(int i) {
 		return mOverlays.get(i);
 	}
 

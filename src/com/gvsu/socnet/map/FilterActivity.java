@@ -4,6 +4,7 @@ package com.gvsu.socnet.map;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import soc.net.R;
 import android.app.Activity;
@@ -25,13 +26,12 @@ import com.gvsu.socnet.views.RangeSeekBar;
  * @author Caleb Gomer
  * @version 1.0
  ***************************************************************/
-public class FilterActivity extends Activity implements
-    RangeSeekBar.OnRangeSeekBarChangeListener<Long> {
+public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeekBarChangeListener<Long> {
 
-	private SimpleDateFormat dateFormat = new SimpleDateFormat(
-	    "MM/dd/yyyy");
-	private Long minDate = 0L;
-	private Long maxDate = 0L;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+	private long minDate = 0L;
+	private long maxDate = 0L;
+	private long millisInDay = 86400000L;
 
 	public static final String START_RANGE = "date_range_start";
 	public static final String END_RANGE = "date_range_end";
@@ -45,46 +45,24 @@ public class FilterActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.map_filter);
 
+		GregorianCalendar min = new GregorianCalendar(2012, GregorianCalendar.MARCH, 1);
 		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.MONTH, 2);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		cal.set(Calendar.HOUR, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		Log.d("debug",
-		    cal.getTimeInMillis() + " " + cal.get(Calendar.MONTH));
-//		Date minDate = new Date(1333252800437L); // March 1 2012
-		Date minDate = new Date(cal.getTimeInMillis()); // March 1 2012
-		Log.d("debug",
-		    cal.get(Calendar.YEAR) + "/" + cal.get(Calendar.MONTH)
-		        + "/" + cal.get(Calendar.DAY_OF_MONTH));
-		
+		GregorianCalendar max = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH) + 1);
 
-//		cal.setTimeInMillis(1333252800437L);
-//		Log.d("debug",
-//		    cal.get(Calendar.YEAR) + "/" + cal.get(Calendar.MONTH)
-//		        + "/" + cal.get(Calendar.DAY_OF_MONTH));
-
-		Date maxDate = new Date();
-		
-
-		SharedPreferences prefs = PreferenceManager
-		    .getDefaultSharedPreferences(getApplicationContext());
-		this.minDate = prefs.getLong(START_RANGE, minDate.getTime());
-		this.maxDate = prefs.getLong(END_RANGE, maxDate.getTime());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		this.minDate = prefs.getLong(START_RANGE, min.getTimeInMillis());
+		this.maxDate = prefs.getLong(END_RANGE, max.getTimeInMillis());
 		RatingBar bar = (RatingBar) findViewById(R.id.rating_bar);
 		bar.setRating(prefs.getFloat(MIN_RATING, 1));
 
-		RangeSeekBar<Long> seekBar = new RangeSeekBar<Long>(
-		    minDate.getTime(), maxDate.getTime(), getApplication());
+		final RangeSeekBar<Long> seekBar = new RangeSeekBar<Long>(min.getTimeInMillis(), max.getTimeInMillis(), getApplication());
 		seekBar.setOnRangeSeekBarChangeListener(this);
 		seekBar.setId(123456);
-		//sets up initial seekbar values
+		// sets up initial seekbar values
 		seekBar.setSelectedMinValue(this.minDate);
 		seekBar.setSelectedMaxValue(this.maxDate);
-		//notifies UI of initial values
-		onRangeSeekBarValuesChanged(seekBar, this.minDate,
-			this.maxDate);
+		// notifies UI of initial values
+		onRangeSeekBarValuesChanged(seekBar, this.minDate, this.maxDate);
 
 		// add RangeSeekBar to pre-defined layout
 		LinearLayout layout = (LinearLayout) findViewById(R.id.seek_bar_layout);
@@ -92,16 +70,85 @@ public class FilterActivity extends Activity implements
 
 		seekBar.setNotifyWhileDragging(true);
 
-		
-		
-		((Button)findViewById(R.id.button_set_rating_0)).setOnClickListener(new OnClickListener() {
-			
+		// setup quick date picking buttons
+		((Button) findViewById(R.id.btn_filter_today)).setOnClickListener(new OnClickListener() {
+
 			public void onClick(View v) {
-				((RatingBar)findViewById(R.id.rating_bar)).setRating(0);
-				
+				seekBar.setSelectedMinValue(seekBar.getAbsoluteMaxValue() - millisInDay);
+				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
+				onRangeSeekBarValuesChanged(seekBar, seekBar.getAbsoluteMaxValue() - millisInDay, seekBar.getAbsoluteMaxValue());
+
 			}
 		});
-		
+		((Button) findViewById(R.id.btn_filter_anytime)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				seekBar.setSelectedMinValue(seekBar.getAbsoluteMinValue());
+				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
+				onRangeSeekBarValuesChanged(seekBar, seekBar.getAbsoluteMinValue(), seekBar.getAbsoluteMaxValue());
+
+			}
+		});
+		((Button) findViewById(R.id.btn_filter_week)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7;
+				if (newMin < seekBar.getAbsoluteMinValue())
+					newMin = seekBar.getAbsoluteMinValue();
+				seekBar.setSelectedMinValue(newMin);
+				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
+				onRangeSeekBarValuesChanged(seekBar, newMin, seekBar.getAbsoluteMaxValue());
+
+			}
+		});
+		((Button) findViewById(R.id.btn_filter_month)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7 * 4;
+				if (newMin < seekBar.getAbsoluteMinValue())
+					newMin = seekBar.getAbsoluteMinValue();
+				seekBar.setSelectedMinValue(newMin);
+				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
+				onRangeSeekBarValuesChanged(seekBar, newMin, seekBar.getAbsoluteMaxValue());
+
+			}
+		});
+		((Button) findViewById(R.id.btn_filter_year)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7 * 52;
+				if (newMin < seekBar.getAbsoluteMinValue())
+					newMin = seekBar.getAbsoluteMinValue();
+				seekBar.setSelectedMinValue(newMin);
+				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
+				onRangeSeekBarValuesChanged(seekBar, newMin, seekBar.getAbsoluteMaxValue());
+
+			}
+		});
+
+		// setup quick rating buttons
+		((Button) findViewById(R.id.button_set_rating_0)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				((RatingBar) findViewById(R.id.rating_bar)).setRating(0);
+
+			}
+		});
+		((Button) findViewById(R.id.button_set_rating_3)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				((RatingBar) findViewById(R.id.rating_bar)).setRating(3);
+
+			}
+		});
+		((Button) findViewById(R.id.button_set_rating_5)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				((RatingBar) findViewById(R.id.rating_bar)).setRating(5);
+
+			}
+		});
+
 		super.onCreate(savedInstanceState);
 	}
 
@@ -118,21 +165,36 @@ public class FilterActivity extends Activity implements
 	 ***************************************************************/
 	@Override
 	protected void onPause() {
-		SharedPreferences.Editor edit = PreferenceManager
-		    .getDefaultSharedPreferences(getApplicationContext())
-		    .edit();
+		SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+
+		// fixes special cases
+		if (minDate == maxDate) {
+			// server will return nothing if start and end date are
+			// the same. this will make sure the server returns
+			// capsules occurring on the date asked for
+			GregorianCalendar max = new GregorianCalendar();
+			max.setTimeInMillis(maxDate);
+			max.add(GregorianCalendar.DAY_OF_YEAR, 1);
+			maxDate = max.getTimeInMillis();
+		} else if (Math.abs(minDate - maxDate) == millisInDay) {
+
+		} else if (minDate == GregorianCalendar.getInstance().getTimeInMillis()) {
+			minDate -= millisInDay;
+		} else if (maxDate == GregorianCalendar.getInstance().getTimeInMillis()) {
+			maxDate += millisInDay;
+		}
 		edit.putLong(START_RANGE, minDate);
 		edit.putLong(END_RANGE, maxDate);
 		RatingBar bar = (RatingBar) findViewById(R.id.rating_bar);
 		float rating = bar.getRating();
 		edit.putFloat(MIN_RATING, rating);
 		edit.commit();
-		Calendar cal = Calendar.getInstance();
+		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTimeInMillis(minDate);
 		String minDate = dateFormat.format(new Date(cal.getTimeInMillis()));
+		cal.setTimeInMillis(maxDate);
 		String maxDate = dateFormat.format(new Date(cal.getTimeInMillis()));
-		Log.d("debug", "saved stuff:: startDate: " + minDate
-		    + " endDate: " + maxDate + " minRating: " + rating);
+		Log.d("debug", "saved stuff:: startDate: " + minDate + " endDate: " + maxDate + " minRating: " + rating);
 		super.onPause();
 	}
 
@@ -175,18 +237,15 @@ public class FilterActivity extends Activity implements
 	 * @param maxValue
 	 ***************************************************************/
 	@Override
-	public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar,
-	    Long minValue, Long maxValue) {
-		// handle changed range values
+	public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Long minValue, Long maxValue) {
 		minDate = minValue;
 		maxDate = maxValue;
+		Log.d("one_thing", minDate % millisInDay + " " + maxDate % millisInDay);
 
 		TextView from = (TextView) findViewById(R.id.text_from);
-		from.setText(dateFormat.format(new Date(minValue)));
+		from.setText(dateFormat.format(new Date(minDate)));
 		TextView to = (TextView) findViewById(R.id.text_to);
-		to.setText(dateFormat.format(new Date(maxValue)));
-//		Log.i("debug", "User selected new date range: MIN="
-//		    + new Date(minValue) + ", MAX=" + new Date(maxValue));
+		to.setText(dateFormat.format(new Date(maxDate)));
 
 	}
 }
