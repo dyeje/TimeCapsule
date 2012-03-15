@@ -158,12 +158,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		// Debug.startMethodTracing("map_resume");
 		/**************************/
 		super.onResume();
-		String info = "";
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		info += "startDate: " + prefs.getLong(FilterActivity.START_RANGE, 0L);
-		info += " endDate: " + prefs.getLong(FilterActivity.END_RANGE, 0L);
-		info += " minRating: " + prefs.getFloat(FilterActivity.MIN_RATING, -1);
-		Log.d("debug", "filters: " + info);
+		// retrieveCapsules();
 		requestLocationUpdates();
 		warnedAboutDriving = false;
 		forceRedrawCapsules = true;
@@ -287,6 +282,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			}
 		}
 		mapOverlays.add(itemizedoverlays);
+		mapView.invalidate(); // this works to update mapview!
 	}
 
 	// }
@@ -311,56 +307,37 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		// will not accept location without a good accuracy
 		if (location != null && location.getAccuracy() <= 1000) {
 			Log.d("debug", "has some good accuracy\n********************");
-			// if (location != null) {
-			// Log.d("debug", location.getAccuracy() +
-			// " good enough accuracy");
-			// itemizeduseroverlay.clear();
-
-			// double lat = location.getLatitude() * 1e6;
-			// double lng = location.getLongitude() * 1e6;
-
-			// userLocation = new GeoPoint((int) lat, (int) lng);
-			// long now = Calendar.getInstance().getTimeInMillis();
-			// if (now - lastTimeLocationUpdated >= timeBetweenUpdates
-			// || userLocation == null) {
-			// userLocation = location;
-			// }
 			if (userLocation == null) {
 				userLocation = location;
 			}
-			// Conditions for redrawing capsules and user layer
-			// *onResume() forces redraw* *the user has moved more
-			// than 5 meters, assuming a good level of accuracy*
-			// *haven't redrawn in the last 5 seconds*
+			/**
+			 * Conditions for redrawing capsules and user layer
+			 * 1) onResume() forces redraw
+			 * 2) the user has moved more than 5
+			 * 3) meters, assuming a good level of accuracy haven't redrawn in the last 5 seconds
+			 */
 			if (forceRedrawCapsules || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates)) {
 				forceRedrawCapsules = false;
 				userLocation = location;
-				Toast.makeText(this, "Redrawing", Toast.LENGTH_SHORT).show();
-				// userOverlay = new
-				// CapsuleOverlayItem(toGeoPoint(userLocation),
-				// "User", "User", 0);
 				mapOverlays.remove(mapOverlays.indexOf(user));
 				user = new UserOverlay(toGeoPoint(userLocation));
 				mapOverlays.add(user);
 				retrieveCapsules(toGeoPoint(userLocation));
 			}
-			// itemizeduseroverlay.addOverlay(userOverlay);
-			// mapOverlays.add(itemizeduseroverlay);
-			// mapOverlays.add(user);
 
-			// mapOverlays.add(itemizeduseroverlay);
-
-			// updates user's location as they move if they checked
-			// the optional box in preferences
+			/**
+			 * updates user's location as they move if they checked
+			 * the optional box in preferences
+			 */
 			if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false)) {
 				centerMap(false);
 			}
 		} else {
 			Log.d("debug", "accuracy is bad\n********************");
-			// if gps has no accuracy, will resposition on last known
-			// location
-			// Toast.makeText(this, "Not sure where you are...",
-			// Toast.LENGTH_LONG).show();
+			/**
+			 * if gps has no accuracy, will resposition on last known
+			 * location
+			 */
 			numNotifiedAboutPoorLocation++;
 			String provider = locationManager.getBestProvider(crit, true);
 			userLocation = locationManager.getLastKnownLocation(provider);
@@ -467,20 +444,30 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		case R.id.map_center_map_button:
 			if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false)) {
 				centerMap(true);
+				int zoomLvl = mapView.getZoomLevel(); 
+				if (zoomLvl <= 10) {
+					while (zoomLvl <= 15) {
+						zoomLvl++;
+						mapController.zoomIn();
+					}
+				}
 				Toast.makeText(getApplicationContext(), "Following", Toast.LENGTH_SHORT).show();
 				((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
-				
+
 			} else {
 				PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", false).commit();
-				Toast.makeText(getApplicationContext(), "Not Following", Toast.LENGTH_SHORT).show();				
+				Toast.makeText(getApplicationContext(), "Not Following", Toast.LENGTH_SHORT).show();
 				((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
+			}
+			if (userLocation == null) {
+				Toast.makeText(this, "Waiting for GPS Location...", Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.map_zoom_in_button:
-			mapController.setZoom(mapView.getZoomLevel() + 1);
+			mapController.zoomIn();
 			break;
 		case R.id.map_zoom_out_button:
-			mapController.setZoom(mapView.getZoomLevel() - 1);
+			mapController.zoomOut();
 			break;
 		case R.id.map_notsurewhattouseitfor_button:
 			Toast.makeText(getApplicationContext(), "Make me do something!", Toast.LENGTH_SHORT).show();
@@ -489,6 +476,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 	}
 
+	/****************************************************************
+	 * @param location user's location
+	 * @return GeoPoint the lat/lng GeoPoint of user
+	 * @WhyHaveThisMethod
+	 * This method is just a handy way to quickly convert
+	 * from the userLocation member field to a GeoPoint
+	 * which is helpful when communicating with the server
+	 ***************************************************************/
 	private GeoPoint toGeoPoint(Location location) {
 		return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
 	}
