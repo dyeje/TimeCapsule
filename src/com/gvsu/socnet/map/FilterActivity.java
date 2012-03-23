@@ -45,7 +45,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.map_filter);
 
-		GregorianCalendar min = new GregorianCalendar(2012, GregorianCalendar.MARCH, 1);
+		GregorianCalendar min = new GregorianCalendar(2012, Calendar.MARCH, 1);
 		Calendar cal = Calendar.getInstance();
 		GregorianCalendar max = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH) + 1);
 
@@ -73,7 +73,8 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		// setup quick date picking buttons
 		((Button) findViewById(R.id.btn_filter_today)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				seekBar.setSelectedMinValue(seekBar.getAbsoluteMaxValue() - millisInDay);
 				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
 				onRangeSeekBarValuesChanged(seekBar, seekBar.getAbsoluteMaxValue() - millisInDay, seekBar.getAbsoluteMaxValue());
@@ -82,7 +83,8 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		});
 		((Button) findViewById(R.id.btn_filter_anytime)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				seekBar.setSelectedMinValue(seekBar.getAbsoluteMinValue());
 				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
 				onRangeSeekBarValuesChanged(seekBar, seekBar.getAbsoluteMinValue(), seekBar.getAbsoluteMaxValue());
@@ -91,7 +93,8 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		});
 		((Button) findViewById(R.id.btn_filter_week)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7;
 				if (newMin < seekBar.getAbsoluteMinValue())
 					newMin = seekBar.getAbsoluteMinValue();
@@ -103,7 +106,8 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		});
 		((Button) findViewById(R.id.btn_filter_month)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7 * 4;
 				if (newMin < seekBar.getAbsoluteMinValue())
 					newMin = seekBar.getAbsoluteMinValue();
@@ -115,7 +119,8 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		});
 		((Button) findViewById(R.id.btn_filter_year)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7 * 52;
 				if (newMin < seekBar.getAbsoluteMinValue())
 					newMin = seekBar.getAbsoluteMinValue();
@@ -129,21 +134,24 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		// setup quick rating buttons
 		((Button) findViewById(R.id.button_set_rating_0)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				((RatingBar) findViewById(R.id.rating_bar)).setRating(0);
 
 			}
 		});
 		((Button) findViewById(R.id.button_set_rating_3)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				((RatingBar) findViewById(R.id.rating_bar)).setRating(3);
 
 			}
 		});
 		((Button) findViewById(R.id.button_set_rating_5)).setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				((RatingBar) findViewById(R.id.rating_bar)).setRating(5);
 
 			}
@@ -174,13 +182,13 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 			// capsules occurring on the date asked for
 			GregorianCalendar max = new GregorianCalendar();
 			max.setTimeInMillis(maxDate);
-			max.add(GregorianCalendar.DAY_OF_YEAR, 1);
+			max.add(Calendar.DAY_OF_YEAR, 1);
 			maxDate = max.getTimeInMillis();
 		} else if (Math.abs(minDate - maxDate) == millisInDay) {
 
-		} else if (minDate == GregorianCalendar.getInstance().getTimeInMillis()) {
+		} else if (minDate == Calendar.getInstance().getTimeInMillis()) {
 			minDate -= millisInDay;
-		} else if (maxDate == GregorianCalendar.getInstance().getTimeInMillis()) {
+		} else if (maxDate == Calendar.getInstance().getTimeInMillis()) {
 			maxDate += millisInDay;
 		}
 		edit.putLong(START_RANGE, minDate);

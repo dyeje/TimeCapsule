@@ -75,9 +75,9 @@ public final class R {
         public static final int zoom_out=0x7f020033;
     }
     public static final class id {
-        public static final int btn_add_document=0x7f0a0005;
-        public static final int btn_add_picture=0x7f0a0003;
-        public static final int btn_add_video=0x7f0a0004;
+        public static final int btn_add_document=0x7f0a0007;
+        public static final int btn_add_picture=0x7f0a0005;
+        public static final int btn_add_video=0x7f0a0006;
         public static final int btn_cancel=0x7f0a0009;
         public static final int btn_capture=0x7f0a0008;
         public static final int btn_filter_anytime=0x7f0a0039;
@@ -169,7 +169,7 @@ public final class R {
         public static final int text_level=0x7f0a001d;
         public static final int text_location=0x7f0a0064;
         public static final int text_name=0x7f0a004c;
-        public static final int text_new_capsule_description=0x7f0a0007;
+        public static final int text_new_capsule_description=0x7f0a0003;
         public static final int text_new_capsule_name=0x7f0a0001;
         public static final int text_password=0x7f0a004a;
         public static final int text_state=0x7f0a004f;
@@ -181,8 +181,8 @@ public final class R {
         public static final int titlebar=0x7f0a0069;
         public static final int transparent_panel=0x7f0a002e;
         public static final int username=0x7f0a0020;
-        public static final int view_new_capsule_content=0x7f0a0002;
-        public static final int view_new_capsule_description=0x7f0a0006;
+        public static final int view_new_capsule_content=0x7f0a0004;
+        public static final int view_new_capsule_description=0x7f0a0002;
         public static final int view_new_capsule_name=0x7f0a0000;
     }
     public static final class layout {

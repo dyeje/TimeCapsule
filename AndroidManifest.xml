@@ -24,7 +24,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name="com.gvsu.socnet.CapsuleMapActivity"
+            android:name="com.gvsu.socnet.map.CapsuleMapActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,19 +33,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.gvsu.socnet.LoginActivity"
+            android:name="com.gvsu.socnet.user.LoginActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gvsu.socnet.NewUserActivity"
+            android:name="com.gvsu.socnet.user.NewUserActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gvsu.socnet.ProfileActivity"
+            android:name="com.gvsu.socnet.user.ProfileActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gvsu.socnet.AddCapsuleActivity"
+            android:name="com.gvsu.socnet.user.AddCapsuleActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
         </activity>
@@ -54,29 +54,17 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gvsu.socnet.CapsuleActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <!--
-        <activity
-            android:name="com.gvsu.socnet.JournalActivity"
-            android:label="@string/activ_journal" >
-        </activity>
-        -->
-        <activity
-            android:name="com.gvsu.socnet.NavigationMenu"
+            android:name="com.gvsu.socnet.map.CapsuleActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gvsu.socnet.SettingsActivity"
+            android:name="com.gvsu.socnet.views.NavigationMenu"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.gvsu.socnet.user.SettingsActivity"
             android:label="@string/activ_settings" >
         </activity>
-        <!--
-        <activity
-            android:name="com.gvsu.socnet.TreasureActivity"
-            android:label="@string/app_name" >
-        </activity>
-        -->
     </application>
 
 </manifest>

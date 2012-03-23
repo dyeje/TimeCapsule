@@ -32,7 +32,8 @@ public class TranslucentPanel extends LinearLayout {
 		super(context, attributes);
 	}
 
-	protected void dispatchDraw(Canvas canvas) {
+	@Override
+    protected void dispatchDraw(Canvas canvas) {
 		backgroundPaint = new Paint();
 		backgroundPaint.setARGB(225, 75, 75, 75);
 		borderPaint = new Paint();

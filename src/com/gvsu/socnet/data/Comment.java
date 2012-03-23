@@ -16,9 +16,7 @@ public class Comment {
 	private Calendar leftOn;
 	private String leftTime;
 
-	public Comment(/* ImageView pic, */String user,
-	    String body,
-	    String dateStamp) {
+	public Comment(/* ImageView pic, */String user, String body, String dateStamp) {
 		// this.pic = pic;
 		this.user = user;
 		this.body = body;
