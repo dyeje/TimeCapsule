@@ -31,6 +31,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.gvsu.socnet.data.Server;
 import com.gvsu.socnet.user.AddCapsuleActivity;
+import com.gvsu.socnet.user.LoginActivity;
 import com.gvsu.socnet.user.ProfileActivity;
 import com.gvsu.socnet.user.SettingsActivity;
 
@@ -62,6 +63,13 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		/**************************/
 		// Debug.startMethodTracing("map_create");
 		/**************************/
+
+		// makes sure user is logged in otherwise kicks them to login screen
+		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1")) {
+			finish();
+			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+			startActivity(i);
+		}
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
@@ -126,6 +134,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	public void onPause() {
 		super.onPause();
 		stopLocationUpdates();
+	}
+	
+	public void onBackPressed() {
+		return;
 	}
 
 	/****************************************************************

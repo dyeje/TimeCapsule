@@ -142,6 +142,12 @@ public class Server {
 		return result;
 	}
 
+	public static String login(String username, String password) {
+		String request = GETUSER + "&userName=" + username + "&password=" + password;
+		String result = get(request);
+		return result;
+	}
+
 	public static String getVenuesFromFoursquare(String lat, String lng) {
 		// String request =
 		// "https://api.foursquare.com/v2/venues/search?ll="+lat+","+lng+"&oauth_token=4LYDLPUKK0XU1PPAESDJYQYJTPI0TLKYWINVGQ4IHJJKPY3F&v=20120311";

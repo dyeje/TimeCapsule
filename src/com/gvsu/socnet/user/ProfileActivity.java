@@ -46,7 +46,7 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// makes sure user is logged in, otherwise kicks them out to
 		// the login screen
-		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "").equals("")) {
+		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
 			logout();
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -107,6 +107,9 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	 ***************************************************************/
 	@Override
 	public void onResume() {
+		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
+			logout();
+		}
 		super.onResume();
 	}
 
@@ -211,9 +214,9 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	}
 
 	private void logout() {
+		finish();
 		Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 		startActivity(i);
-		finish();
 	}
 
 	public boolean isOnline() {
@@ -243,8 +246,9 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 
 	@Override
 	protected boolean gotoMap() {
-		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
-		startActivity(myIntent);
+//		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
+//		startActivity(myIntent);
+		finish();
 		return true;
 	}
 

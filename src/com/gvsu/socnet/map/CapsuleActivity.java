@@ -44,6 +44,10 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
+	
+	public void onBackPressed() {
+		return;
+	}
 
 	/****************************************************************
 	 * Get capsule info from the server and display it
@@ -193,6 +197,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	@Override
 	protected boolean gotoProfile() {
 		Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
+		//TODO profile button from a capsule takes you to the user who left that capsule's profile
+//		myIntent.putExtra("player_id", "the player's id who left it");
 		startActivity(myIntent);
 		return false;
 	}
@@ -201,6 +207,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	protected boolean gotoMap() {
 		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
 		startActivity(myIntent);
+		finish();
 		return true;
 	}
 

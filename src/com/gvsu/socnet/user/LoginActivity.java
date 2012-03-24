@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gvsu.socnet.data.Server;
+
 /****************************************************************
  * com.gvsu.socnet.LoginActivity
  * @author Caleb Gomer
@@ -24,7 +27,7 @@ import android.widget.TextView;
  ***************************************************************/
 public class LoginActivity extends Activity implements OnClickListener {
 
-	public static final String PLAYER_ID = "player_id";
+	public static final String PROFILE = "profile", PLAYER_ID = "player_id";
 	public TextView loginResult, username, password, newUser;
 	public Button loginButton = null;
 
@@ -34,9 +37,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		SharedPreferences prefs = getSharedPreferences("profile", 0);
+		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 
-		if (!prefs.getString(PLAYER_ID, "").equals("")) {
+		Log.d("debug", "id: "+prefs.getString(PLAYER_ID, "-1"));
+		if (!prefs.getString(PLAYER_ID, "-1").equals("-1")) {
+			finish();
 			gotoProfile();
 		}
 
@@ -50,10 +55,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 		newUser = (TextView) findViewById(R.id.button_new_user);
 		newUser.setOnClickListener(this);
 
-		// this is very temporary
-		username.setHint("Enter Player ID");
-		password.setHint("Enter ID Above");
-		password.setEnabled(false);
+		username.setHint("Username");
+		password.setHint("Password");
+	}
+	
+	public void onBackPressed() {
+		return;
 	}
 
 	/****************************************************************
@@ -65,17 +72,23 @@ public class LoginActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.button_start:
 
-			// if (username.getText().toString().equals("")
-			// || password.getText().toString().equals("")) {
-			// showDialog("Missing Information",
-			// "Please enter a username and password", this);
-			// return;
-			// }
+			String strUsername = username.getText().toString();
+			String strPassword = password.getText().toString();
 
-			// temporarily sets user ID to the 'username' box for
-			// debugging
-			getSharedPreferences("profile", 0).edit().putString(PLAYER_ID, username.getText().toString()).commit();
-			gotoProfile();
+			if (strUsername.equals("") || strPassword.equals("")) {
+				showDialog("Missing Information", "Please enter a username and password", this);
+				return;
+			}
+
+			String id = Server.login(strUsername, strPassword);
+			if (!id.equals("-1")) {
+				getSharedPreferences(PROFILE, 0).edit().putString(PLAYER_ID, id).commit();
+				finish();
+				gotoProfile();
+			} else {
+				showDialog("Nope...", "Your username or password are incorrect", this);
+			}
+
 			break;
 		case R.id.button_new_user:
 			Intent i = new Intent(getApplicationContext(), NewUserActivity.class);

@@ -2,6 +2,7 @@
 package com.gvsu.socnet.user;
 
 import soc.net.R;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -30,7 +31,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				getSharedPreferences("profile", 0).edit().clear().commit();
+				getSharedPreferences("profile", 0).edit().putString("player_id", "-1").commit();
 				finish();
 				return false;
 			}

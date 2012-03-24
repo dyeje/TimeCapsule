@@ -55,6 +55,10 @@ public abstract class NavigationMenu extends Activity implements OnClickListener
 	public void onResume() {
 		super.onResume();
 	}
+	
+	public void onBackPressed() {
+		return;
+	}
 
 	/****************************************************************
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)

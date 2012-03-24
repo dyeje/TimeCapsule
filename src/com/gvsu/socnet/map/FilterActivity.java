@@ -156,6 +156,52 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 
 			}
 		});
+		((Button) findViewById(R.id.map_filter_filter_button)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+
+				// fixes special cases
+				if (minDate == maxDate) {
+					// server will return nothing if start and end date are
+					// the same. this will make sure the server returns
+					// capsules occurring on the date asked for
+					GregorianCalendar max = new GregorianCalendar();
+					max.setTimeInMillis(maxDate);
+					max.add(Calendar.DAY_OF_YEAR, 1);
+					maxDate = max.getTimeInMillis();
+				} else if (Math.abs(minDate - maxDate) == millisInDay) {
+
+				} else if (minDate == Calendar.getInstance().getTimeInMillis()) {
+					minDate -= millisInDay;
+				} else if (maxDate == Calendar.getInstance().getTimeInMillis()) {
+					maxDate += millisInDay;
+				}
+				edit.putLong(START_RANGE, minDate);
+				edit.putLong(END_RANGE, maxDate);
+				RatingBar bar = (RatingBar) findViewById(R.id.rating_bar);
+				float rating = bar.getRating();
+				edit.putFloat(MIN_RATING, rating);
+				edit.commit();
+				GregorianCalendar cal = new GregorianCalendar();
+				cal.setTimeInMillis(minDate);
+				String minDate = dateFormat.format(new Date(cal.getTimeInMillis()));
+				cal.setTimeInMillis(maxDate);
+				String maxDate = dateFormat.format(new Date(cal.getTimeInMillis()));
+//				Log.d("debug", "saved stuff:: startDate: " + minDate + " endDate: " + maxDate + " minRating: " + rating);
+				finish();
+				
+			}
+		});
+		((Button) findViewById(R.id.map_filter_cancel_button)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 
 		super.onCreate(savedInstanceState);
 	}
@@ -173,37 +219,11 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 	 ***************************************************************/
 	@Override
 	protected void onPause() {
-		SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-
-		// fixes special cases
-		if (minDate == maxDate) {
-			// server will return nothing if start and end date are
-			// the same. this will make sure the server returns
-			// capsules occurring on the date asked for
-			GregorianCalendar max = new GregorianCalendar();
-			max.setTimeInMillis(maxDate);
-			max.add(Calendar.DAY_OF_YEAR, 1);
-			maxDate = max.getTimeInMillis();
-		} else if (Math.abs(minDate - maxDate) == millisInDay) {
-
-		} else if (minDate == Calendar.getInstance().getTimeInMillis()) {
-			minDate -= millisInDay;
-		} else if (maxDate == Calendar.getInstance().getTimeInMillis()) {
-			maxDate += millisInDay;
-		}
-		edit.putLong(START_RANGE, minDate);
-		edit.putLong(END_RANGE, maxDate);
-		RatingBar bar = (RatingBar) findViewById(R.id.rating_bar);
-		float rating = bar.getRating();
-		edit.putFloat(MIN_RATING, rating);
-		edit.commit();
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTimeInMillis(minDate);
-		String minDate = dateFormat.format(new Date(cal.getTimeInMillis()));
-		cal.setTimeInMillis(maxDate);
-		String maxDate = dateFormat.format(new Date(cal.getTimeInMillis()));
-		Log.d("debug", "saved stuff:: startDate: " + minDate + " endDate: " + maxDate + " minRating: " + rating);
 		super.onPause();
+	}
+	
+	public void onBackPressed() {
+		return;
 	}
 
 	/****************************************************************
