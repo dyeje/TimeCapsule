@@ -22,7 +22,8 @@ import android.widget.TextView;
  * @author Caleb Gomer
  * @version 1.0
  ***************************************************************/
-public class NewUserActivity extends Activity implements OnClickListener {
+public class NewUserActivity extends Activity implements OnClickListener
+{
 
 	EditText username, password, name, city, state, age, interests, aboutme;
 	RadioButton male, female, unsure;
@@ -34,7 +35,8 @@ public class NewUserActivity extends Activity implements OnClickListener {
 	 * @param savedInstanceState
 	 ***************************************************************/
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_user);
 
@@ -57,7 +59,9 @@ public class NewUserActivity extends Activity implements OnClickListener {
 		cancel.setOnClickListener(this);
 
 		SharedPreferences prefs = getSharedPreferences("profile", 0);
-		if (!prefs.getString("player_id", "").equals("")) {
+		Log.d("debug", prefs.getString("player_id", ""));
+		if (!prefs.getString("player_id", "").equals("-1"))
+		{
 			editing = true;
 			username.setVisibility(View.GONE);
 			password.setVisibility(View.GONE);
@@ -68,18 +72,22 @@ public class NewUserActivity extends Activity implements OnClickListener {
 			city.setText(prefs.getString("location", ", ").split(", ")[0]);
 			state.setText(prefs.getString("location", ", ").split(", ")[1]);
 			String strGender = prefs.getString("gender", "");
-			if (strGender.equalsIgnoreCase("Male")) {
+			if (strGender.equalsIgnoreCase("Male"))
+			{
 				male.setChecked(true);
-			} else if (strGender.equalsIgnoreCase("Female")) {
+			} else if (strGender.equalsIgnoreCase("Female"))
+			{
 				female.setChecked(true);
-			} else {
+			} else
+			{
 				unsure.setChecked(true);
 			}
 			age.setText(prefs.getString("age", ""));
 			interests.setText(prefs.getString("interests", ""));
 			aboutme.setText(prefs.getString("aboutme", ""));
 			create.setText("Save Changes");
-		} else {
+		} else
+		{
 			editing = false;
 		}
 
@@ -96,16 +104,21 @@ public class NewUserActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v)
+	{
 		String gender;
-		if (male.isChecked()) {
+		if (male.isChecked())
+		{
 			gender = "m";
-		} else if (female.isChecked()) {
+		} else if (female.isChecked())
+		{
 			gender = "f";
 
-		} else if (unsure.isChecked()) {
+		} else if (unsure.isChecked())
+		{
 			gender = "u";
-		} else {
+		} else
+		{
 			gender = "?";
 		}
 
@@ -118,20 +131,24 @@ public class NewUserActivity extends Activity implements OnClickListener {
 		String interests = fixSpaces(this.interests.getText().toString());
 		String aboutme = fixSpaces(this.aboutme.getText().toString());
 
-		switch (v.getId()) {
+		switch (v.getId())
+		{
 		case R.id.button_create_account:
 
 			/*******************************
 			 * Editing an existing profile
 			 ******************************/
-			if (editing) {
+			if (editing)
+			{
 				makeUserLogin();
 				/*******************************
 				 * Creating a new profile
 				 ******************************/
-			} else {
+			} else
+			{
 				String userID = Server.newUser(name, city, state, gender, age, interests, aboutme, password, username);
-				if (Integer.parseInt(userID) != -1) {
+				if (Integer.parseInt(userID) != -1)
+				{
 
 					getSharedPreferences("profile", 0).edit().putString(LoginActivity.PLAYER_ID, userID).commit();
 					worked = true;
@@ -141,11 +158,13 @@ public class NewUserActivity extends Activity implements OnClickListener {
 			/****************************************
 			 * Leaves activity if everything's done
 			 ***************************************/
-			if (worked) {
+			if (worked)
+			{
 				Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
 				startActivity(i);
 				finish();
-			} else {
+			} else
+			{
 
 			}
 			break;
@@ -155,14 +174,16 @@ public class NewUserActivity extends Activity implements OnClickListener {
 		case R.id.btn_login:
 			EditText pass = (EditText) findViewById(R.id.password_edit);
 			String strPass = pass.getText().toString();
-			if (!strPass.equals("")) {
+			if (!strPass.equals(""))
+			{
 
 				String strUserId = getSharedPreferences("profile", 0).getString(LoginActivity.PLAYER_ID, "");
 
 				Log.d("debug", "id: " + strUserId + " ps: " + strPass);
 				String auth = Server.authenticate(strUserId, strPass);
 				Log.d("debug", "auth: " + auth);
-				if (!auth.equals("0")) {
+				if (!auth.equals("0"))
+				{
 					Log.d("debug", "auth worked");
 					SharedPreferences prefs = getSharedPreferences("profile", 0);
 					String id = prefs.getString("player_id", "-1");
@@ -175,21 +196,25 @@ public class NewUserActivity extends Activity implements OnClickListener {
 					// } else {
 					//
 					// }
-				} else {
+				} else
+				{
 					Log.d("debug", "auth didn't work");
 					((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
 				}
-			} else {
+			} else
+			{
 				Log.d("debug", "auth didn't work");
 				((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
 			}
 		}
 	}
 
-	private String fixSpaces(String str) {
+	private String fixSpaces(String str)
+	{
 		String result = "";
 		char[] stra = str.toCharArray();
-		for (int i = 0; i < stra.length; i++) {
+		for (int i = 0; i < stra.length; i++)
+		{
 			if (stra[i] == ' ')
 				result += "+";
 			else
@@ -198,7 +223,8 @@ public class NewUserActivity extends Activity implements OnClickListener {
 		return result;
 	}
 
-	private void makeUserLogin() {
+	private void makeUserLogin()
+	{
 		((LinearLayout) findViewById(R.id.text_fields)).setVisibility(View.GONE);
 		((LinearLayout) findViewById(R.id.login_fields)).setVisibility(View.VISIBLE);
 		((Button) findViewById(R.id.btn_login)).setOnClickListener(this);
@@ -295,7 +321,8 @@ public class NewUserActivity extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onRestart()
 	 ***************************************************************/
 	@Override
-	protected void onRestart() {
+	protected void onRestart()
+	{
 		super.onRestart();
 	}
 
@@ -303,7 +330,8 @@ public class NewUserActivity extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onResume()
 	 ***************************************************************/
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 	}
 
@@ -311,7 +339,8 @@ public class NewUserActivity extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onStart()
 	 ***************************************************************/
 	@Override
-	protected void onStart() {
+	protected void onStart()
+	{
 		super.onStart();
 	}
 
@@ -319,7 +348,8 @@ public class NewUserActivity extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onStop()
 	 ***************************************************************/
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 	}
 
