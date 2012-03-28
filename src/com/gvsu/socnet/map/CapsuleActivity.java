@@ -25,7 +25,8 @@ import com.gvsu.socnet.user.ProfileActivity;
 import com.gvsu.socnet.user.SettingsActivity;
 import com.gvsu.socnet.views.NavigationMenu;
 
-public class CapsuleActivity extends NavigationMenu implements OnClickListener {
+public class CapsuleActivity extends NavigationMenu implements OnClickListener
+{
 
 	/** String YOUTUBE */
 	private final String YOUTUBE = "http://www.youtube.com/watch?v=";
@@ -34,7 +35,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	private final String TAB = "\t";
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
@@ -44,17 +46,14 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
-	
-	public void onBackPressed() {
-		return;
-	}
 
 	/****************************************************************
 	 * Get capsule info from the server and display it
 	 **************************************************************
 	 */
 	@Override
-	protected void refresh() {
+	protected void refresh()
+	{
 		Intent intent = this.getIntent();
 		final String cId = intent.getStringExtra("cID");
 		setCapsuleInfo(cId);
@@ -68,9 +67,11 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	 * @param v
 	 ***************************************************************/
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v)
+	{
 		Log.println(3, "debug", "buttonClicked");
-		switch (v.getId()) {
+		switch (v.getId())
+		{
 		case R.id.play_button:
 			Log.println(3, "debug", "playButtonClicked");
 			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
@@ -82,14 +83,15 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 
 	}
 
-	private void setCapsuleInfo(String capsuleId) {
+	private void setCapsuleInfo(String capsuleId)
+	{
 
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
 		TextView leftOn = (TextView) findViewById(R.id.left_on);
 		RatingBar rating = (RatingBar) findViewById(R.id.capsule_rating_bar);
 
-		//TODO make this increment the number of view on the server
+		// TODO make this increment the number of view on the server
 		String[] capsuleInfo = Server.getCapsule(capsuleId).split(TAB);
 		title.setText(capsuleInfo[0]);
 		description.setText(capsuleInfo[3]);
@@ -98,24 +100,30 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0] + " at " + capsuleInfo[4].split(" ")[1]);
 
 		String strRating = Server.getRating(capsuleId);
-		if (!strRating.equals("")) {
+		if (!strRating.equals(""))
+		{
 			Log.d("debug", "rating: |" + strRating + "|");
 			rating.setRating(Float.parseFloat(strRating));
-		} else {
+		} else
+		{
 			rating.setRating(0);
 		}
 	}
 
-	private void setComments(final String capsuleId) {
+	private void setComments(final String capsuleId)
+	{
 		final LinearLayout commentList = (LinearLayout) findViewById(R.id.comment_layout);
 		commentList.removeAllViews();
 		String commentsFromServer = Server.getComments(capsuleId);
 
 		Log.d("debug", "Comments on capsule number " + capsuleId + "\n" + commentsFromServer);
 		String[] strArrayComments = commentsFromServer.split("\n");
-		if (!strArrayComments[0].equals("")) {
-			for (String s : strArrayComments) {
-				if (!s.equals("")) {
+		if (!strArrayComments[0].equals(""))
+		{
+			for (String s : strArrayComments)
+			{
+				if (!s.equals(""))
+				{
 					String[] strArrayComment = s.split("\t");
 					String[] strArrayUser = Server.getUser(strArrayComment[0]).split("\t");
 					TextView t = new TextView(this);
@@ -126,7 +134,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 					commentList.addView(t);
 				}
 			}
-		} else {
+		} else
+		{
 			TextView noComments = new TextView(this);
 			noComments.setText("Be the first to comment!");
 			commentList.addView(noComments);
@@ -134,11 +143,14 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	}
 
 	//
-	private void setupAddComments(final String capsuleId) {
-		((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener() {
+	private void setupAddComments(final String capsuleId)
+	{
+		((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
 				Server.addComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newComment.getText().toString()));
 				newComment.setText("");
@@ -147,7 +159,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		});
 	}
 
-	private void setupAddRating(final String capsuleId) {
+	private void setupAddRating(final String capsuleId)
+	{
 
 		final RatingBar ratingBar = ((RatingBar) findViewById(R.id.capsule_rating_bar));
 		final LinearLayout submitLayout = ((LinearLayout) findViewById(R.id.submit_rating_layout));
@@ -157,30 +170,36 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		final float ratingBeforeUserMessedWithIt = ratingBar.getRating();
 
 		// listens for ratingbar to be changed
-		ratingBar.setOnTouchListener(new OnTouchListener() {
+		ratingBar.setOnTouchListener(new OnTouchListener()
+		{
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(View v, MotionEvent event)
+			{
 				submitLayout.setVisibility(View.VISIBLE);
 				return false;
 			}
 		});
 
 		// listens for ratingbar submit button
-		submitButton.setOnClickListener(new OnClickListener() {
+		submitButton.setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				submitLayout.setVisibility(View.GONE);
 				Server.addRating(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, Float.toString(ratingBar.getRating()));
 				refresh();
 				Toast.makeText(getApplicationContext(), "Rating Submitted", Toast.LENGTH_SHORT).show();
 			}
 		});
-		cancelButton.setOnClickListener(new OnClickListener() {
+		cancelButton.setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				submitLayout.setVisibility(View.GONE);
 				ratingBar.setRating(ratingBeforeUserMessedWithIt);
 			}
@@ -188,23 +207,28 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	}
 
 	@Override
-	protected boolean gotoMenu() {
+	protected boolean gotoMenu()
+	{
 		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
 
 	@Override
-	protected boolean gotoProfile() {
+	protected boolean gotoProfile()
+	{
 		Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
-		//TODO profile button from a capsule takes you to the user who left that capsule's profile
-//		myIntent.putExtra("player_id", "the player's id who left it");
+		// TODO profile button from a capsule takes you to the user
+		// who left that capsule's profile
+		// myIntent.putExtra("player_id",
+		// "the player's id who left it");
 		startActivity(myIntent);
 		return false;
 	}
 
 	@Override
-	protected boolean gotoMap() {
+	protected boolean gotoMap()
+	{
 		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
 		startActivity(myIntent);
 		finish();
@@ -212,14 +236,26 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	}
 
 	@Override
-	protected boolean newCapsule() {
+	protected boolean newCapsule()
+	{
 		return false;
 	}
 
-	private String fixSpaces(String str) {
+	/****************************************************************
+	 * @see com.gvsu.socnet.views.NavigationMenu#onBackPressed()
+	 ***************************************************************/
+	@Override
+	public void onBackPressed()
+	{
+		finish();
+	}
+
+	private String fixSpaces(String str)
+	{
 		String result = "";
 		char[] stra = str.toCharArray();
-		for (int i = 0; i < stra.length; i++) {
+		for (int i = 0; i < stra.length; i++)
+		{
 			if (stra[i] == ' ')
 				result += "+";
 			else

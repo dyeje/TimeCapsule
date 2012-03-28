@@ -1,6 +1,5 @@
 package com.gvsu.socnet.map;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,7 +40,8 @@ import com.gvsu.socnet.user.SettingsActivity;
  * @author Jeremy Dye
  *
  */
-public class CapsuleMapActivity extends MapActivity implements LocationListener, OnClickListener {
+public class CapsuleMapActivity extends MapActivity implements LocationListener, OnClickListener
+{
 
 	List<Overlay> mapOverlays;
 	Drawable capsuleDrawable;
@@ -55,17 +55,20 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	LocationManager locationManager;
 	Criteria crit;
 	long lastTimeMapCentered, lastTimeRedrawn, timeBetweenUpdates = 5000, distBetweenUpdates = 5;
-	boolean warnedAboutDriving, forceRedrawCapsules;
+	boolean warnedAboutDriving, forceRedraw, forceRecenter;
 	MyLocationOverlay myLocationOverlay;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		/**************************/
 		// Debug.startMethodTracing("map_create");
 		/**************************/
 
-		// makes sure user is logged in otherwise kicks them to login screen
-		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1")) {
+		// makes sure user is logged in otherwise kicks them to login
+		// screen
+		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1"))
+		{
 			finish();
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(i);
@@ -78,8 +81,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(false);
 		mapView.setSatellite(true);
-		mapView.setDrawingCacheEnabled(true);
-		mapView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_AUTO);
 
 		mapController = mapView.getController();
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -111,45 +112,60 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		((ImageView) findViewById(R.id.map_zoom_out_button)).setOnClickListener(this);
 		((ImageView) findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
 
+		/** setup follow user button **/
+		if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+		{
+			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
+		} else
+		{
+			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
+		}
+
 		/**************************/
 		// Debug.stopMethodTracing();
 		/**************************/
 	}
 
 	@Override
-	public void onResume() {
+	public void onResume()
+	{
 		/**************************/
 		// Debug.startMethodTracing("map_resume");
 		/**************************/
 		super.onResume();
 		requestLocationUpdates();
 		warnedAboutDriving = false;
-		forceRedrawCapsules = true;
+		forceRedraw = true;
+		forceRecenter = true;
 		/**************************/
 		// Debug.stopMethodTracing();
 		/**************************/
 	}
 
 	@Override
-	public void onPause() {
+	public void onPause()
+	{
 		super.onPause();
 		stopLocationUpdates();
 	}
-	
-	public void onBackPressed() {
-		return;
-	}
+
+//	public void onBackPressed()
+//	{
+//		return;
+//	}
 
 	/****************************************************************
 	 * You called this a few times so I moved it into one method  
 	 * @return void
 	 ***************************************************************/
-	protected void requestLocationUpdates() {
+	protected void requestLocationUpdates()
+	{
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeBetweenUpdates, distBetweenUpdates, this);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeBetweenUpdates, distBetweenUpdates, this);
 	}
 
-	protected void stopLocationUpdates() {
+	protected void stopLocationUpdates()
+	{
 		locationManager.removeUpdates(this);
 	}
 
@@ -157,7 +173,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 * Retrieve string from the server of all treasures relevant
 	 * to the users current location.
 	 ***************************************************************/
-	protected void retrieveCapsules() {
+	protected void retrieveCapsules()
+	{
 		/**************************/
 		// Debug.startMethodTracing("map_retrieve");
 		/**************************/
@@ -170,27 +187,39 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		c.setTimeInMillis(prefs.getLong(FilterActivity.START_RANGE, 0L));
 		String from = "";
 
-		if (c.getTimeInMillis() != 0L) {
+		if (c.getTimeInMillis() != 0L)
+		{
 			from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
 		}
 
 		c.setTimeInMillis(prefs.getLong(FilterActivity.END_RANGE, 0L));
 		String to = "";
-		if (c.getTimeInMillis() != 0L) {
+		if (c.getTimeInMillis() != 0L)
+		{
 			to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
 		}
 
 		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
 		// TODO MERGE BOTH OF THESE INTO ONE
-		String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
-		String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
+		final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
+		final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
 		String retrieve = retrieveInner + retrieveOuter;
 
-		if (lastRetrieve != retrieve || lastRetrieve == null) {
+		if (lastRetrieve != retrieve || lastRetrieve == null)
+		{
 			lastRetrieve = retrieve;
-			parseAndDrawCapsules(retrieveInner, true);
-			parseAndDrawCapsules(retrieveOuter, false);
+			// parseAndDrawCapsules(retrieveInner, true);
+			// parseAndDrawCapsules(retrieveOuter, false);
+			/** new way to update map **/
+			mapView.post(new Runnable()
+			{
+				public void run()
+				{
+					parseAndDrawCapsules(retrieveInner, true);
+					parseAndDrawCapsules(retrieveOuter, false);
+				}
+			});
 		}
 
 		/**************************/
@@ -207,18 +236,22 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 * then the method stops.
 	 * @param capsules
 	 */
-	protected void parseAndDrawCapsules(String capsules, boolean inner) {
+	protected void parseAndDrawCapsules(String capsules, boolean inner)
+	{
 		if (inner)
 			itemizedoverlays.clear();
 
 		String[] splitCapsules = capsules.split("\\n");
 
-		for (int i = 0; i < splitCapsules.length; i++) {
+		for (int i = 0; i < splitCapsules.length; i++)
+		{
 			String[] capsuleData = splitCapsules[i].split("\\t");
 
-			if (splitCapsules[i] != "") {
+			if (splitCapsules[i] != "")
+			{
 
-				try {
+				try
+				{
 					int cID;
 					if (inner)
 						cID = Integer.parseInt(capsuleData[0]);
@@ -234,9 +267,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 					CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, cID);
 					itemizedoverlays.addOverlay(item);
 
-				} catch (NumberFormatException ex) {
+				} catch (NumberFormatException ex)
+				{
 					System.out.println("Improper treasure format, encountered Number Format Exception.");
-				} catch (ArrayIndexOutOfBoundsException ex) {
+				} catch (ArrayIndexOutOfBoundsException ex)
+				{
 					System.out.println("Array Index out of Bounds, problem traversing array.");
 				}
 			}
@@ -246,48 +281,60 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	}
 
 	@Override
-	protected boolean isRouteDisplayed() {
+	protected boolean isRouteDisplayed()
+	{
 		return false;
 	}
 
 	@Override
-	public void onLocationChanged(Location location) {
+	public void onLocationChanged(Location location)
+	{
 		/**************************/
 		// Debug.startMethodTracing("map_location_changed");
 		/**************************/
 
-		if (location.getSpeed() > 25 && !warnedAboutDriving) {
+		if (location.getSpeed() > 25 && !warnedAboutDriving)
+		{
 			warnedAboutDriving = true;
 			Toast.makeText(this, "Caution: do not use this application while driving", Toast.LENGTH_LONG).show();
 		}
 
 		// will not accept location without a good accuracy
-		if (location != null && location.getAccuracy() <= 1000) {
-
-			// just in case, shouldn't need this anymore
-			// if (userLocation == null) {
-			// userLocation = location;
-			// }
+		if (location != null && location.getAccuracy() <= 500)
+		{
 			/**
 			 * Conditions for redrawing capsules and user layer
 			 * 1) onResume() forces redraw
 			 * 2) the user has moved more than 5
 			 * 3) meters, assuming a good level of accuracy haven't redrawn in the last 5 seconds
 			 */
-			if (forceRedrawCapsules || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates)) {
-				forceRedrawCapsules = false;
+			if (forceRedraw || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates))
+			{
+				forceRedraw = false;
 				userLocation = location;
 				mapOverlays.remove(mapOverlays.indexOf(user));
 				user = new UserOverlay(toGeoPoint(userLocation));
 				mapOverlays.add(user);
-				retrieveCapsules();
+				// retrieveCapsules();
+				/** new way to update map **/
+				new Thread(new Runnable()
+				{
+					public void run()
+					{
+						retrieveCapsules();
+					}
+				}).start();
+
 			}
 
 			/**
 			 * updates user's location as they move if they checked
-			 * the optional box in preferences
+			 * the optional box in preferences of if their location
+			 * was just found and a recenter is forced
 			 */
-			if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false)) {
+			if (forceRecenter || PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+			{
+				forceRecenter = false;
 				centerMap(false);
 			}
 		}
@@ -297,15 +344,18 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) {
+	public void onProviderDisabled(String provider)
+	{
 	}
 
 	@Override
-	public void onProviderEnabled(String provider) {
+	public void onProviderEnabled(String provider)
+	{
 	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
+	public void onStatusChanged(String provider, int status, Bundle extras)
+	{
 	}
 
 	/****************************************************************
@@ -313,12 +363,25 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 * at most every 1 seconds to avoid excessive 'jittering'
 	 * @returns void
 	 ***************************************************************/
-	private void centerMap(boolean forceRefresh) {
+	private void centerMap(boolean forceRefresh)
+	{
 		Log.d("debug", "centering map");
-		if (forceRefresh && userLocation != null) {
+		if (forceRefresh && userLocation != null)
+		{
 			mapController.animateTo(toGeoPoint(userLocation));
 			PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", true).commit();
 		}
+	}
+
+	
+	/****************************************************************
+	 * Centers the map on user location when search button pressed
+	 ***************************************************************/
+	@Override
+	public boolean onSearchRequested()
+	{
+		centerMap(true);
+		return false;
 	}
 
 	/****************************************************************
@@ -326,8 +389,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 * @param v
 	 ***************************************************************/
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
 		case R.id.map_settings_button:
 			Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 			startActivity(i);
@@ -345,20 +410,25 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			startActivity(i3);
 			break;
 		case R.id.map_map_button:
-			if (mapView.isSatellite()) {
+			if (mapView.isSatellite())
+			{
 				mapView.setSatellite(false);
 				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
-			} else {
+			} else
+			{
 				mapView.setSatellite(true);
 				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
 			}
 			break;
 		case R.id.map_center_map_button:
-			if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false)) {
+			if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+			{
 				centerMap(true);
 				int zoomLvl = mapView.getZoomLevel();
-				if (zoomLvl <= 10) {
-					while (zoomLvl <= 15) {
+				if (zoomLvl <= 10)
+				{
+					while (zoomLvl <= 15)
+					{
 						zoomLvl++;
 						mapController.zoomIn();
 					}
@@ -366,12 +436,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				Toast.makeText(getApplicationContext(), "Following", Toast.LENGTH_SHORT).show();
 				((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
 
-			} else {
+			} else
+			{
 				PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", false).commit();
 				Toast.makeText(getApplicationContext(), "Not Following", Toast.LENGTH_SHORT).show();
 				((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
 			}
-			if (userLocation == null) {
+			if (userLocation == null)
+			{
 				Toast.makeText(this, "Waiting for GPS Location...", Toast.LENGTH_LONG).show();
 			}
 			break;
@@ -382,7 +454,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			mapController.zoomOut();
 			break;
 		case R.id.map_notsurewhattouseitfor_button:
-			Toast.makeText(getApplicationContext(), "Make me do something!", Toast.LENGTH_SHORT).show();
+			centerMap(true);
 			break;
 		}
 
@@ -396,10 +468,13 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 * from the userLocation member field to a GeoPoint
 	 * which is helpful when communicating with the server
 	 ***************************************************************/
-	private GeoPoint toGeoPoint(Location location) {
-		if (location != null) {
+	private GeoPoint toGeoPoint(Location location)
+	{
+		if (location != null)
+		{
 			return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
-		} else {
+		} else
+		{
 			return new GeoPoint(0, 0);
 		}
 	}
