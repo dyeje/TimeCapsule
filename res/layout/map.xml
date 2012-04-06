@@ -96,18 +96,18 @@
             android:layout_height="fill_parent"
             android:gravity="bottom|center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="5px"
-            android:paddingRight="5px"
-            android:paddingTop="10px" >
+            android:paddingLeft="50dip"
+            android:paddingRight="50dip"
+            android:paddingTop="10dp" >
 
             <com.gvsu.socnet.views.TranslucentPanel
                 android:id="@+id/transparent_panel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5px"
-                android:paddingLeft="5px"
-                android:paddingRight="5px"
-                android:paddingTop="5px" >
+                android:paddingBottom="5dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:paddingTop="5dip" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/zoom_in" />
 
-                    <ImageView
+                    <!-- <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -150,7 +150,7 @@
                         android:id="@+id/map_notsurewhattouseitfor_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/dont_center" />
+                        android:src="@drawable/dont_center" /> -->
                 </LinearLayout>
             </com.gvsu.socnet.views.TranslucentPanel>
         </LinearLayout>

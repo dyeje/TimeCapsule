@@ -65,15 +65,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		// Debug.startMethodTracing("map_create");
 		/**************************/
 
-		// makes sure user is logged in otherwise kicks them to login
-		// screen
-		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1"))
-		{
-			finish();
-			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-			startActivity(i);
-		}
-
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
@@ -110,15 +101,15 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		((ImageView) findViewById(R.id.map_center_map_button)).setOnClickListener(this);
 		((ImageView) findViewById(R.id.map_zoom_in_button)).setOnClickListener(this);
 		((ImageView) findViewById(R.id.map_zoom_out_button)).setOnClickListener(this);
-		((ImageView) findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
+//		((ImageView) findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
 
-		/** setup follow user button **/
-		if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+		// makes sure user is logged in otherwise kicks them to login
+		// screen
+		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1"))
 		{
-			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
-		} else
-		{
-			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
+			finish();
+			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+			startActivity(i);
 		}
 
 		/**************************/
@@ -137,6 +128,15 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		warnedAboutDriving = false;
 		forceRedraw = true;
 		forceRecenter = true;
+		
+		/** setup follow user button icon **/
+		if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+		{
+			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
+		} else
+		{
+			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
+		}
 		/**************************/
 		// Debug.stopMethodTracing();
 		/**************************/
@@ -149,10 +149,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		stopLocationUpdates();
 	}
 
-//	public void onBackPressed()
-//	{
-//		return;
-//	}
+	// public void onBackPressed()
+	// {
+	// return;
+	// }
 
 	/****************************************************************
 	 * You called this a few times so I moved it into one method  
@@ -373,7 +373,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		}
 	}
 
-	
 	/****************************************************************
 	 * Centers the map on user location when search button pressed
 	 ***************************************************************/
@@ -453,9 +452,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		case R.id.map_zoom_out_button:
 			mapController.zoomOut();
 			break;
-		case R.id.map_notsurewhattouseitfor_button:
-			centerMap(true);
-			break;
+//		case R.id.map_notsurewhattouseitfor_button:
+//			centerMap(true);
+//			break;
 		}
 
 	}

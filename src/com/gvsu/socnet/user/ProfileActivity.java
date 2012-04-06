@@ -1,7 +1,6 @@
 package com.gvsu.socnet.user;
 
 import com.gvsu.socnet.data.Server;
-import com.gvsu.socnet.map.CapsuleMapActivity;
 import com.gvsu.socnet.views.NavigationMenu;
 
 import soc.net.R;
@@ -27,7 +26,8 @@ import android.widget.Toast;
  * com.gvsusocnet.ProfileActivity
  * @version 1.0
  ***************************************************************/
-public class ProfileActivity extends NavigationMenu implements OnClickListener {
+public class ProfileActivity extends NavigationMenu implements OnClickListener
+{
 
 	// private SharedPreferences prefs;
 	public final String PROFILE = "profile", PLAYER_ID = "player_id";
@@ -43,10 +43,12 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	 * @param savedInstanceState
 	 ***************************************************************/
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		// makes sure user is logged in, otherwise kicks them out to
 		// the login screen
-		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
+		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1"))
+		{
 			logout();
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -73,28 +75,38 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 
 		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 		setInfo(prefs);
-		listener = new OnSharedPreferenceChangeListener() {
+		listener = new OnSharedPreferenceChangeListener()
+		{
 
 			@Override
-			public void onSharedPreferenceChanged(SharedPreferences sPrefs, String key) {
+			public void onSharedPreferenceChanged(SharedPreferences sPrefs, String key)
+			{
 
 				Log.d("debug", "prefs updated:key=" + key);
 
-				if (key.equals("username")) {
+				if (key.equals("username"))
+				{
 					username.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("name")) {
+				} else if (key.equals("name"))
+				{
 					name.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("location")) {
+				} else if (key.equals("location"))
+				{
 					location.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("age")) {
+				} else if (key.equals("age"))
+				{
 					age.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("gender")) {
+				} else if (key.equals("gender"))
+				{
 					gender.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("interests")) {
+				} else if (key.equals("interests"))
+				{
 					interests.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("aboutme")) {
+				} else if (key.equals("aboutme"))
+				{
 					aboutme.setText(sPrefs.getString(key, ""));
-				} else {
+				} else
+				{
 					Log.d("debug", "I don't know what was changed, updating all");
 					setInfo(sPrefs);
 				}
@@ -106,33 +118,40 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	 * @see android.app.Activity#onResume()
 	 ***************************************************************/
 	@Override
-	public void onResume() {
-		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
+	public void onResume()
+	{
+		if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1"))
+		{
 			logout();
 		}
 		super.onResume();
 	}
 
 	@Override
-	public void onStart() {
+	public void onStart()
+	{
 		super.onStart();
 		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 		prefs.registerOnSharedPreferenceChangeListener(listener);
 
-		if (isOnline()) {
+		if (isOnline())
+		{
 			refresh();
-		} else {
+		} else
+		{
 			showDialog(NO_CONN, NO_CONN_INFO);
 		}
 	}
 
 	@Override
-	public void onStop() {
+	public void onStop()
+	{
 		super.onStop();
 		getSharedPreferences(PROFILE, 0).unregisterOnSharedPreferenceChangeListener(listener);
 	}
 
-	private void setInfo(SharedPreferences prefs) {
+	private void setInfo(SharedPreferences prefs)
+	{
 		username.setText(prefs.getString("username", "-----"));
 		name.setText(prefs.getString("name", "----"));
 		location.setText(prefs.getString("location", "---, --"));
@@ -147,17 +166,20 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	 * void
 	 ***************************************************************/
 	@Override
-	protected void refresh() {
+	protected void refresh()
+	{
 		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 		boolean online = isOnline();
 
 		// make sure we have internet connection before talking to
 		// server
-		if (online) {
+		if (online)
+		{
 			Log.d("debug", "updating from network");
 			String playerId = prefs.getString("player_id", "");
 			String s = Server.getUser(playerId);
-			if (!s.equals("")) {
+			if (!s.equals(""))
+			{
 				String[] userinfo = s.split(TAB);
 				SharedPreferences.Editor editor = prefs.edit();
 				if (!prefs.getString("username", "").equals(userinfo[8]))
@@ -168,11 +190,14 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 				if (!prefs.getString("location", "").equals(strLocation))
 					editor.putString("location", userinfo[1] + ", " + userinfo[2]);
 				String strGender = userinfo[3];
-				if (strGender.equalsIgnoreCase("m")) {
+				if (strGender.equalsIgnoreCase("m"))
+				{
 					strGender = "Male";
-				} else if (strGender.equalsIgnoreCase("f")) {
+				} else if (strGender.equalsIgnoreCase("f"))
+				{
 					strGender = "Female";
-				} else {
+				} else
+				{
 					strGender = "Other";
 				}
 				if (!prefs.getString("gender", "").equals(strGender))
@@ -185,7 +210,8 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 					editor.putString("aboutme", userinfo[6]);
 				editor.commit();
 			}
-		} else {
+		} else
+		{
 			Log.d("debug", "couldn't update - no network connection");
 			showDialog(NO_CONN, PROFILE_NOT_RETRIEVED);
 		}
@@ -195,7 +221,8 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	 * @param title
 	 * @param info void
 	 ***************************************************************/
-	private void showDialog(String title, String info) {
+	private void showDialog(String title, String info)
+	{
 
 		AlertDialog.Builder builder;
 		AlertDialog alertDialog;
@@ -213,31 +240,37 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		alertDialog.show();
 	}
 
-	private void logout() {
+	private void logout()
+	{
 		finish();
 		Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 		startActivity(i);
 	}
 
-	public boolean isOnline() {
+	public boolean isOnline()
+	{
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cm.getActiveNetworkInfo();
-		if (info != null && info.isConnected()) {
+		if (info != null && info.isConnected())
+		{
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
 	@Override
-	protected boolean gotoMenu() {
+	protected boolean gotoMenu()
+	{
 		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
 
 	@Override
-	protected boolean gotoProfile() {
+	protected boolean gotoProfile()
+	{
 		Toast.makeText(this, "Edit your profile", Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(getApplicationContext(), NewUserActivity.class);
 		startActivity(i);
@@ -245,15 +278,18 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	}
 
 	@Override
-	protected boolean gotoMap() {
-//		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
-//		startActivity(myIntent);
+	protected boolean gotoMap()
+	{
+		// Intent myIntent = new Intent(getBaseContext(),
+		// CapsuleMapActivity.class);
+		// startActivity(myIntent);
 		finish();
 		return true;
 	}
 
 	@Override
-	protected boolean newCapsule() {
+	protected boolean newCapsule()
+	{
 		Intent myIntent = new Intent(this, AddCapsuleActivity.class);
 		startActivity(myIntent);
 		return true;
