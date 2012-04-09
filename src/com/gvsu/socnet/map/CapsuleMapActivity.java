@@ -44,9 +44,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 {
 
 	List<Overlay> mapOverlays;
-	Drawable capsuleDrawable;
+	Drawable capsuleInnerDrawable;
+	Drawable capsuleOuterDrawable;
 	Drawable userDrawable;
-	CapsuleOverlays itemizedoverlays;
+	CapsuleOverlays innerCapsules;
+	CapsuleOverlays outerCapsules;
 	UserOverlay user;
 	public static Location userLocation;
 	MapController mapController;
@@ -56,8 +58,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	Criteria crit;
 	long lastTimeMapCentered, lastTimeRedrawn, timeBetweenUpdates = 5000, distBetweenUpdates = 5;
 	boolean warnedAboutDriving, forceRedraw, forceRecenter;
-	MyLocationOverlay myLocationOverlay;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -76,8 +77,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		mapController = mapView.getController();
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		mapOverlays = mapView.getOverlays();
-		capsuleDrawable = this.getResources().getDrawable(R.drawable.ic_capsule);
-		itemizedoverlays = new CapsuleOverlays(capsuleDrawable, this);
+		capsuleInnerDrawable = this.getResources().getDrawable(R.drawable.ic_capsule_inner);
+		capsuleOuterDrawable = this.getResources().getDrawable(R.drawable.ic_capsule_outer);
+		innerCapsules = new CapsuleOverlays(capsuleInnerDrawable, this);
+		outerCapsules = new CapsuleOverlays(capsuleOuterDrawable, this);
 		lastRetrieve = null;
 		lastTimeMapCentered = 0L;
 
@@ -89,8 +92,12 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		if (userLocation == null)
 			userLocation = new Location(provider);
 
-		user = new UserOverlay(toGeoPoint(userLocation));
+		user = new UserOverlay(toGeoPoint(userLocation), this);
 		mapOverlays.add(user);
+//		userOverlay = new MyLocationOverlay(this, mapView);
+//		mapOverlays.add(userOverlay);
+//		userOverlay.enableCompass();
+//        userOverlay.enableMyLocation();
 
 		/** Register header-footer buttons for clicks*/
 		((Button) findViewById(R.id.map_settings_button)).setOnClickListener(this);
@@ -160,8 +167,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 ***************************************************************/
 	protected void requestLocationUpdates()
 	{
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, timeBetweenUpdates, distBetweenUpdates, this);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeBetweenUpdates, distBetweenUpdates, this);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	protected void stopLocationUpdates()
@@ -238,8 +245,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 */
 	protected void parseAndDrawCapsules(String capsules, boolean inner)
 	{
-		if (inner)
-			itemizedoverlays.clear();
+		//TODO clean this up when we combine the inner/outer calls
+		if (inner) {
+			innerCapsules.clear();
+			outerCapsules.clear();
+		}
 
 		String[] splitCapsules = capsules.split("\\n");
 
@@ -265,7 +275,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 					GeoPoint point = new GeoPoint(lat, lng);
 					CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, cID);
-					itemizedoverlays.addOverlay(item);
+					if(cID == -1) {
+						outerCapsules.addOverlay(item);
+					} else {
+						innerCapsules.addOverlay(item);
+					}
 
 				} catch (NumberFormatException ex)
 				{
@@ -276,7 +290,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				}
 			}
 		}
-		mapOverlays.add(itemizedoverlays);
+		mapOverlays.add(innerCapsules);
+		mapOverlays.add(outerCapsules);
 		mapView.invalidate();
 	}
 
@@ -292,6 +307,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		/**************************/
 		// Debug.startMethodTracing("map_location_changed");
 		/**************************/
+		
+//		mapOverlays.remove(mapOverlays.indexOf(user));
+//		user = new UserOverlay(toGeoPoint(location), location.getBearing(), this);
+//		mapOverlays.add(user);
 
 		if (location.getSpeed() > 25 && !warnedAboutDriving)
 		{
@@ -313,7 +332,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				forceRedraw = false;
 				userLocation = location;
 				mapOverlays.remove(mapOverlays.indexOf(user));
-				user = new UserOverlay(toGeoPoint(userLocation));
+				user = new UserOverlay(toGeoPoint(userLocation), this);
 				mapOverlays.add(user);
 				// retrieveCapsules();
 				/** new way to update map **/

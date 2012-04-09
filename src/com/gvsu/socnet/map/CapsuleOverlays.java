@@ -33,8 +33,6 @@ public class CapsuleOverlays extends ItemizedOverlay<CapsuleOverlayItem> {
 	@Override
 	protected boolean onTap(int index) {
 		CapsuleOverlayItem item = mOverlays.get(index);
-		if (item.getTitle() == "User")
-			return true;
 		if (item.getCID() == -1) {
 			CharSequence text = "You don't appear to be in range to open this capsule.";
 			int duration = Toast.LENGTH_SHORT;

@@ -25,8 +25,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_marginRight="10dip"
             android:layout_height="fill_parent"
+            android:layout_marginRight="10dip"
             android:orientation="vertical" >
 
             <TextView
@@ -51,6 +51,7 @@
                 android:id="@+id/picture1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Capsules Created"
                 android:src="@drawable/capsule"
                 android:text="21" />
 
@@ -75,6 +76,7 @@
                 android:id="@+id/picture2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Capsules Opened"
                 android:src="@drawable/capsule"
                 android:text="246" />
 
@@ -100,6 +102,7 @@
                 android:id="@+id/picture3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Average User&apos;s Capsule Rating"
                 android:src="@drawable/capsule"
                 android:text="4.20" />
         </LinearLayout>

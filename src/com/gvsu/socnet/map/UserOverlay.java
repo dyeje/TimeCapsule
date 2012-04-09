@@ -1,8 +1,11 @@
 package com.gvsu.socnet.map;
 
+import soc.net.R;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Matrix;
 import android.graphics.Point;
 
 import com.google.android.maps.GeoPoint;
@@ -13,34 +16,26 @@ import com.google.android.maps.Projection;
 public class UserOverlay extends Overlay {
 
 	GeoPoint position;
-	int innerRadius;
-	int outerRadius;
+	Context context;
+	//these help the overlay look like it's in the correct position when zoomed out
+	static final int X_OFFSET = 15;
+	static final int Y_OFFSET = 30;
 
-	public UserOverlay(GeoPoint point) {
+	public UserOverlay(GeoPoint point, Context pContext) {
 		position = point;
+		context = pContext;
 	}
 
 	@Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		innerRadius = 100;
-		outerRadius = 100000;
-
 		// Transfrom geoposition to Point on canvas
 		Projection projection = mapView.getProjection();
 		Point point = new Point();
 		projection.toPixels(position, point);
-
-		Paint innerCircle = new Paint();
-		innerCircle.setColor(Color.GREEN);
-		innerCircle.setAlpha(40);
-		int innerCircleRadius = metersToRadius(innerRadius, mapView, (double) position.getLatitudeE6() / 1000000);
-		canvas.drawCircle(point.x, point.y, innerCircleRadius, innerCircle);
-
-		Paint outerCircle = new Paint();
-		outerCircle.setColor(Color.RED);
-		outerCircle.setAlpha(10);
-		int outerCircleRadius = metersToRadius(outerRadius, mapView, (double) position.getLatitudeE6() / 1000000);
-		canvas.drawCircle(point.x, point.y, outerCircleRadius, outerCircle);
+		
+		Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.user);
+		
+		canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
 	}
 
 	public static int metersToRadius(float meters, MapView map, double latitude) {

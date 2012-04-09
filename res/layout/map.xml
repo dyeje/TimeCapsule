@@ -87,8 +87,8 @@
             android:clickable="true" />
         <!-- calebs api key is in use -->
         <!--
-        jeremy's lap top key 
-        android:apiKey="052hGP8baB134-07jsNPWSex3ULk3_gzGEADloA"
+        jeremy's key 
+        android:apiKey="0DYjEaTwZugbC39-tQds60JYG2iS2KpI-9zEQrQ"
         -->
 
         <LinearLayout
