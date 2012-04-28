@@ -1,53 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/login_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time Capsule"
-        android:textSize="15pt" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/loginresult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="7pt" />
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="100dip"
+            android:text="Time Capsule"
+            android:textSize="15pt" />
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="username"
-        android:minWidth="200dp"
-        android:singleLine="True" />
+        <TextView
+            android:id="@+id/loginresult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="7pt" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:minWidth="200dp"
-        android:singleLine="True" >
-    </EditText>
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="username"
+            android:minWidth="200dp"
+            android:singleLine="True" />
 
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="login" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:minWidth="200dp"
+            android:singleLine="True" >
+        </EditText>
 
-    <TextView
-        android:id="@+id/button_new_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
-        android:text="@string/create_user" />
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="login" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/button_new_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:paddingBottom="100dip"
+            android:text="@string/create_user" />
+    </LinearLayout>
+
+</ScrollView>
