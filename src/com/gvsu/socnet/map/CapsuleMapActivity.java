@@ -40,7 +40,8 @@ import com.gvsu.socnet.user.SettingsActivity;
  * @author Jeremy Dye
  *
  */
-public class CapsuleMapActivity extends MapActivity implements LocationListener, OnClickListener
+public class CapsuleMapActivity extends MapActivity implements
+    LocationListener, OnClickListener
 {
 
 	List<Overlay> mapOverlays;
@@ -56,9 +57,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	String lastRetrieve;
 	LocationManager locationManager;
 	Criteria crit;
-	long lastTimeMapCentered, lastTimeRedrawn, timeBetweenUpdates = 5000, distBetweenUpdates = 5;
+	long lastTimeMapCentered, lastTimeRedrawn,
+	    timeBetweenUpdates = 5000, distBetweenUpdates = 5;
 	boolean warnedAboutDriving, forceRedraw, forceRecenter;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -75,12 +77,17 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		mapView.setSatellite(true);
 
 		mapController = mapView.getController();
-		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) this
+		    .getSystemService(Context.LOCATION_SERVICE);
 		mapOverlays = mapView.getOverlays();
-		capsuleInnerDrawable = this.getResources().getDrawable(R.drawable.ic_capsule_inner);
-		capsuleOuterDrawable = this.getResources().getDrawable(R.drawable.ic_capsule_outer);
-		innerCapsules = new CapsuleOverlays(capsuleInnerDrawable, this);
-		outerCapsules = new CapsuleOverlays(capsuleOuterDrawable, this);
+		capsuleInnerDrawable = this.getResources().getDrawable(
+		    R.drawable.ic_capsule_inner);
+		capsuleOuterDrawable = this.getResources().getDrawable(
+		    R.drawable.ic_capsule_outer);
+		innerCapsules = new CapsuleOverlays(capsuleInnerDrawable,
+		    this);
+		outerCapsules = new CapsuleOverlays(capsuleOuterDrawable,
+		    this);
 		lastRetrieve = null;
 		lastTimeMapCentered = 0L;
 
@@ -94,28 +101,39 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 		user = new UserOverlay(toGeoPoint(userLocation), this);
 		mapOverlays.add(user);
-//		userOverlay = new MyLocationOverlay(this, mapView);
-//		mapOverlays.add(userOverlay);
-//		userOverlay.enableCompass();
-//        userOverlay.enableMyLocation();
+		// userOverlay = new MyLocationOverlay(this, mapView);
+		// mapOverlays.add(userOverlay);
+		// userOverlay.enableCompass();
+		// userOverlay.enableMyLocation();
 
 		/** Register header-footer buttons for clicks*/
-		((Button) findViewById(R.id.map_settings_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.map_filter_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.map_capture_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.map_profile_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.map_map_button)).setOnClickListener(this);
-		((ImageView) findViewById(R.id.map_center_map_button)).setOnClickListener(this);
-		((ImageView) findViewById(R.id.map_zoom_in_button)).setOnClickListener(this);
-		((ImageView) findViewById(R.id.map_zoom_out_button)).setOnClickListener(this);
-//		((ImageView) findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
+		((Button) findViewById(R.id.map_settings_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_filter_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_capture_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_profile_button))
+		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_map_button))
+		    .setOnClickListener(this);
+		((ImageView) findViewById(R.id.map_center_map_button))
+		    .setOnClickListener(this);
+		((ImageView) findViewById(R.id.map_zoom_in_button))
+		    .setOnClickListener(this);
+		((ImageView) findViewById(R.id.map_zoom_out_button))
+		    .setOnClickListener(this);
+		// ((ImageView)
+		// findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
 
 		// makes sure user is logged in otherwise kicks them to login
 		// screen
-		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1"))
+		if (getSharedPreferences("profile", 0).getString("player_id",
+		    "-1").equals("-1"))
 		{
 			finish();
-			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+			Intent i = new Intent(getApplicationContext(),
+			    LoginActivity.class);
 			startActivity(i);
 		}
 
@@ -135,14 +153,17 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		warnedAboutDriving = false;
 		forceRedraw = true;
 		forceRecenter = true;
-		
+
 		/** setup follow user button icon **/
-		if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+		if (PreferenceManager.getDefaultSharedPreferences(
+		    getApplicationContext()).getBoolean("follow_user", false))
 		{
-			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
+			((ImageView) findViewById(R.id.map_center_map_button))
+			    .setImageResource(R.drawable.center_on_user);
 		} else
 		{
-			((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
+			((ImageView) findViewById(R.id.map_center_map_button))
+			    .setImageResource(R.drawable.dont_center);
 		}
 		/**************************/
 		// Debug.stopMethodTracing();
@@ -167,8 +188,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 ***************************************************************/
 	protected void requestLocationUpdates()
 	{
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		locationManager.requestLocationUpdates(
+		    LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		locationManager.requestLocationUpdates(
+		    LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	protected void stopLocationUpdates()
@@ -189,28 +212,36 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		String lat = Double.toString(userLocation.getLatitude());
 		String lng = Double.toString(userLocation.getLongitude());
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences prefs = PreferenceManager
+		    .getDefaultSharedPreferences(getApplicationContext());
 		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(prefs.getLong(FilterActivity.START_RANGE, 0L));
+		c.setTimeInMillis(prefs.getLong(FilterActivity.START_RANGE,
+		    0L));
 		String from = "";
 
 		if (c.getTimeInMillis() != 0L)
 		{
-			from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
+			from = c.get(Calendar.YEAR) + "/"
+			    + (c.get(Calendar.MONTH) + 1) + "/"
+			    + c.get(Calendar.DAY_OF_MONTH);
 		}
 
 		c.setTimeInMillis(prefs.getLong(FilterActivity.END_RANGE, 0L));
 		String to = "";
 		if (c.getTimeInMillis() != 0L)
 		{
-			to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
+			to = c.get(Calendar.YEAR) + "/"
+			    + (c.get(Calendar.MONTH) + 1) + "/"
+			    + c.get(Calendar.DAY_OF_MONTH);
 		}
 
-		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
+		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING,
+		    0) + " ").substring(0, 1);
 
-		// TODO MERGE BOTH OF THESE INTO ONE
-		final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
-		final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
+		final String retrieveInner = Server.getCapsules(lat, lng,
+		    "1", from, to, minRating);
+		final String retrieveOuter = Server.getCapsules(lat, lng,
+		    "2", from, to, minRating);
 		String retrieve = retrieveInner + retrieveOuter;
 
 		if (lastRetrieve != retrieve || lastRetrieve == null)
@@ -245,8 +276,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 */
 	protected void parseAndDrawCapsules(String capsules, boolean inner)
 	{
-		//TODO clean this up when we combine the inner/outer calls
-		if (inner) {
+		// TODO clean this up when we combine the inner/outer calls
+		if (inner)
+		{
 			innerCapsules.clear();
 			outerCapsules.clear();
 		}
@@ -267,26 +299,33 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 						cID = Integer.parseInt(capsuleData[0]);
 					else
 						cID = -1;
-					double latitude = Double.parseDouble(capsuleData[2]) * 1e6;
-					double longitude = Double.parseDouble(capsuleData[3]) * 1e6;
+					double latitude = Double
+					    .parseDouble(capsuleData[2]) * 1e6;
+					double longitude = Double
+					    .parseDouble(capsuleData[3]) * 1e6;
 
 					int lat = (int) latitude;
 					int lng = (int) longitude;
 
 					GeoPoint point = new GeoPoint(lat, lng);
-					CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, cID);
-					if(cID == -1) {
+					CapsuleOverlayItem item = new CapsuleOverlayItem(
+					    point, null, null, cID);
+					if (cID == -1)
+					{
 						outerCapsules.addOverlay(item);
-					} else {
+					} else
+					{
 						innerCapsules.addOverlay(item);
 					}
 
 				} catch (NumberFormatException ex)
 				{
-					System.out.println("Improper treasure format, encountered Number Format Exception.");
+					Log.e("debug",
+					    "Improper treasure format, encountered Number Format Exception.");
 				} catch (ArrayIndexOutOfBoundsException ex)
 				{
-					System.out.println("Array Index out of Bounds, problem traversing array.");
+					Log.e("debug",
+					    "Array Index out of Bounds, problem traversing array.");
 				}
 			}
 		}
@@ -307,17 +346,21 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		/**************************/
 		// Debug.startMethodTracing("map_location_changed");
 		/**************************/
-		
-//		mapOverlays.remove(mapOverlays.indexOf(user));
-//		user = new UserOverlay(toGeoPoint(location), location.getBearing(), this);
-//		mapOverlays.add(user);
+
+		// mapOverlays.remove(mapOverlays.indexOf(user));
+		// user = new UserOverlay(toGeoPoint(location),
+		// location.getBearing(), this);
+		// mapOverlays.add(user);
 
 		if (location.getSpeed() > 25 && !warnedAboutDriving)
 		{
 			warnedAboutDriving = true;
-			Toast.makeText(this, "Caution: do not use this application while driving", Toast.LENGTH_LONG).show();
+			Toast.makeText(this,
+			    "Caution: do not use this application while driving",
+			    Toast.LENGTH_LONG).show();
 		}
 
+		Log.d("debug", "accuracy:" + location.getAccuracy());
 		// will not accept location without a good accuracy
 		if (location != null && location.getAccuracy() <= 500)
 		{
@@ -327,7 +370,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			 * 2) the user has moved more than 5
 			 * 3) meters, assuming a good level of accuracy haven't redrawn in the last 5 seconds
 			 */
-			if (forceRedraw || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates))
+			if (forceRedraw
+			    || (userLocation.distanceTo(location) > 5
+			        && location.getAccuracy() <= 500 && Calendar
+			        .getInstance().getTimeInMillis()
+			        - lastTimeRedrawn > timeBetweenUpdates))
 			{
 				forceRedraw = false;
 				userLocation = location;
@@ -351,7 +398,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			 * the optional box in preferences of if their location
 			 * was just found and a recenter is forced
 			 */
-			if (forceRecenter || PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+			if (forceRecenter
+			    || PreferenceManager.getDefaultSharedPreferences(
+			        getApplicationContext()).getBoolean(
+			        "follow_user", false))
 			{
 				forceRecenter = false;
 				centerMap(false);
@@ -373,7 +423,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras)
+	public void onStatusChanged(String provider, int status,
+	    Bundle extras)
 	{
 	}
 
@@ -388,7 +439,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		if (forceRefresh && userLocation != null)
 		{
 			mapController.animateTo(toGeoPoint(userLocation));
-			PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", true).commit();
+			PreferenceManager
+			    .getDefaultSharedPreferences(getApplicationContext())
+			    .edit().putBoolean("follow_user", true).commit();
 		}
 	}
 
@@ -412,34 +465,42 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		switch (v.getId())
 		{
 		case R.id.map_settings_button:
-			Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+			Intent i = new Intent(getApplicationContext(),
+			    SettingsActivity.class);
 			startActivity(i);
 			break;
 		case R.id.map_filter_button:
-			Intent i1 = new Intent(getApplicationContext(), FilterActivity.class);
+			Intent i1 = new Intent(getApplicationContext(),
+			    FilterActivity.class);
 			startActivity(i1);
 			break;
 		case R.id.map_capture_button:
-			Intent i2 = new Intent(getApplicationContext(), AddCapsuleActivity.class);
+			Intent i2 = new Intent(getApplicationContext(),
+			    AddCapsuleActivity.class);
 			startActivity(i2);
 			break;
 		case R.id.map_profile_button:
-			Intent i3 = new Intent(getApplicationContext(), ProfileActivity.class);
+			Intent i3 = new Intent(getApplicationContext(),
+			    ProfileActivity.class);
 			startActivity(i3);
 			break;
 		case R.id.map_map_button:
 			if (mapView.isSatellite())
 			{
 				mapView.setSatellite(false);
-				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
+				((Button) findViewById(R.id.map_map_button))
+				    .setBackgroundResource(R.drawable.ic_tab_map_grey);
 			} else
 			{
 				mapView.setSatellite(true);
-				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
+				((Button) findViewById(R.id.map_map_button))
+				    .setBackgroundResource(R.drawable.ic_tab_map_color);
 			}
 			break;
 		case R.id.map_center_map_button:
-			if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false))
+			if (!PreferenceManager.getDefaultSharedPreferences(
+			    getApplicationContext()).getBoolean("follow_user",
+			    false))
 			{
 				centerMap(true);
 				int zoomLvl = mapView.getZoomLevel();
@@ -451,18 +512,26 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 						mapController.zoomIn();
 					}
 				}
-				Toast.makeText(getApplicationContext(), "Following", Toast.LENGTH_SHORT).show();
-				((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.center_on_user);
+				Toast.makeText(getApplicationContext(), "Following",
+				    Toast.LENGTH_SHORT).show();
+				((ImageView) findViewById(R.id.map_center_map_button))
+				    .setImageResource(R.drawable.center_on_user);
 
 			} else
 			{
-				PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", false).commit();
-				Toast.makeText(getApplicationContext(), "Not Following", Toast.LENGTH_SHORT).show();
-				((ImageView) findViewById(R.id.map_center_map_button)).setImageResource(R.drawable.dont_center);
+				PreferenceManager
+				    .getDefaultSharedPreferences(
+				        getApplicationContext()).edit()
+				    .putBoolean("follow_user", false).commit();
+				Toast.makeText(getApplicationContext(),
+				    "Not Following", Toast.LENGTH_SHORT).show();
+				((ImageView) findViewById(R.id.map_center_map_button))
+				    .setImageResource(R.drawable.dont_center);
 			}
 			if (userLocation == null)
 			{
-				Toast.makeText(this, "Waiting for GPS Location...", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Waiting for GPS Location...",
+				    Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.map_zoom_in_button:
@@ -471,9 +540,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		case R.id.map_zoom_out_button:
 			mapController.zoomOut();
 			break;
-//		case R.id.map_notsurewhattouseitfor_button:
-//			centerMap(true);
-//			break;
+		// case R.id.map_notsurewhattouseitfor_button:
+		// centerMap(true);
+		// break;
 		}
 
 	}
@@ -490,7 +559,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	{
 		if (location != null)
 		{
-			return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
+			return new GeoPoint((int) (location.getLatitude() * 1e6),
+			    (int) (location.getLongitude() * 1e6));
 		} else
 		{
 			return new GeoPoint(0, 0);

@@ -25,7 +25,8 @@ import com.gvsu.socnet.user.ProfileActivity;
 import com.gvsu.socnet.user.SettingsActivity;
 import com.gvsu.socnet.views.NavigationMenu;
 
-public class CapsuleActivity extends NavigationMenu implements OnClickListener
+public class CapsuleActivity extends NavigationMenu implements
+    OnClickListener
 {
 
 	/** String YOUTUBE */
@@ -33,6 +34,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 
 	/** String TAB */
 	private final String TAB = "\t";
+
+	private String creatorID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -44,7 +47,9 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 
 		refresh();
 
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		this.getWindow()
+		    .setSoftInputMode(
+		        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
 	/****************************************************************
@@ -56,6 +61,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 	{
 		Intent intent = this.getIntent();
 		final String cId = intent.getStringExtra("cID");
+		Log.d("debug", "capid=" + cId);
 		setCapsuleInfo(cId);
 		setComments(cId);
 		setupAddComments(cId);
@@ -74,7 +80,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 		{
 		case R.id.play_button:
 			Log.println(3, "debug", "playButtonClicked");
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
+			startActivity(new Intent(Intent.ACTION_VIEW,
+			    Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
 			break;
 		default:
 			super.onClick(v);
@@ -88,16 +95,20 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
+		TextView creator = (TextView) findViewById(R.id.capsule_creator);
 		TextView leftOn = (TextView) findViewById(R.id.left_on);
 		RatingBar rating = (RatingBar) findViewById(R.id.capsule_rating_bar);
 
 		// TODO make this increment the number of view on the server
-		String[] capsuleInfo = Server.getCapsule(capsuleId).split(TAB);
+		String strCapInfo = Server.getCapsule(capsuleId);
+		String[] capsuleInfo = strCapInfo.split(TAB);
+		Log.d("debug", "capsuleinfo: " + strCapInfo);
 		title.setText(capsuleInfo[0]);
 		description.setText(capsuleInfo[3]);
 
 		// gets the date capsule was left
-		leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0] + " at " + capsuleInfo[4].split(" ")[1]);
+		leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0]
+		    + " at " + capsuleInfo[4].split(" ")[1]);
 
 		String strRating = Server.getRating(capsuleId);
 		if (!strRating.equals(""))
@@ -108,6 +119,18 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 		{
 			rating.setRating(0);
 		}
+		creatorID = capsuleInfo[5];
+		creator.setText(capsuleInfo[6]);
+		creator.setOnClickListener(new OnClickListener()
+		{
+
+			public void onClick(View v)
+			{
+				Toast.makeText(getApplicationContext(),
+				    "User Id= " + creatorID, Toast.LENGTH_SHORT)
+				    .show();
+			}
+		});
 	}
 
 	private void setComments(final String capsuleId)
@@ -116,7 +139,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 		commentList.removeAllViews();
 		String commentsFromServer = Server.getComments(capsuleId);
 
-		Log.d("debug", "Comments on capsule number " + capsuleId + "\n" + commentsFromServer);
+		Log.d("debug", "Comments on capsule number " + capsuleId
+		    + "\n" + commentsFromServer);
 		String[] strArrayComments = commentsFromServer.split("\n");
 		if (!strArrayComments[0].equals(""))
 		{
@@ -125,11 +149,13 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 				if (!s.equals(""))
 				{
 					String[] strArrayComment = s.split("\t");
-					String[] strArrayUser = Server.getUser(strArrayComment[0]).split("\t");
+					String[] strArrayUser = Server.getUser(
+					    strArrayComment[0]).split("\t");
 					TextView t = new TextView(this);
 					String user = strArrayUser[8];
 					t.setId(Integer.parseInt(strArrayComment[0]));
-					t.setText(new Comment(user, strArrayComment[2], strArrayComment[1]).toString());
+					t.setText(new Comment(user, strArrayComment[2],
+					    strArrayComment[1]).toString());
 					t.setPadding(0, 10, 0, 0);
 					commentList.addView(t);
 				}
@@ -145,18 +171,22 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 	//
 	private void setupAddComments(final String capsuleId)
 	{
-		((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener()
-		{
+		((Button) findViewById(R.id.button_add_comment))
+		    .setOnClickListener(new OnClickListener()
+		    {
 
-			@Override
-			public void onClick(View v)
-			{
-				EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
-				Server.addComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newComment.getText().toString()));
-				newComment.setText("");
-				refresh();
-			}
-		});
+			    @Override
+			    public void onClick(View v)
+			    {
+				    EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
+				    Server.addComment(
+				        getSharedPreferences("profile", 0).getString(
+				            "player_id", "0"), capsuleId,
+				        fixSpaces(newComment.getText().toString()));
+				    newComment.setText("");
+				    refresh();
+			    }
+		    });
 	}
 
 	private void setupAddRating(final String capsuleId)
@@ -167,7 +197,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 		final Button submitButton = ((Button) findViewById(R.id.capsule_rating_submit));
 		final Button cancelButton = ((Button) findViewById(R.id.capsule_rating_cancel));
 
-		final float ratingBeforeUserMessedWithIt = ratingBar.getRating();
+		final float ratingBeforeUserMessedWithIt = ratingBar
+		    .getRating();
 
 		// listens for ratingbar to be changed
 		ratingBar.setOnTouchListener(new OnTouchListener()
@@ -189,9 +220,12 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 			public void onClick(View v)
 			{
 				submitLayout.setVisibility(View.GONE);
-				Server.addRating(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, Float.toString(ratingBar.getRating()));
+				Server.addRating(getSharedPreferences("profile", 0)
+				    .getString("player_id", "0"), capsuleId, Float
+				    .toString(ratingBar.getRating()));
 				refresh();
-				Toast.makeText(getApplicationContext(), "Rating Submitted", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+				    "Rating Submitted", Toast.LENGTH_SHORT).show();
 			}
 		});
 		cancelButton.setOnClickListener(new OnClickListener()
@@ -209,7 +243,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 	@Override
 	protected boolean gotoMenu()
 	{
-		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+		Intent i = new Intent(getApplicationContext(),
+		    SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
@@ -217,7 +252,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 	@Override
 	protected boolean gotoProfile()
 	{
-		Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
+		Intent myIntent = new Intent(getBaseContext(),
+		    ProfileActivity.class);
 		// TODO profile button from a capsule takes you to the user
 		// who left that capsule's profile
 		// myIntent.putExtra("player_id",
@@ -229,7 +265,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener
 	@Override
 	protected boolean gotoMap()
 	{
-		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
+		Intent myIntent = new Intent(getBaseContext(),
+		    CapsuleMapActivity.class);
 		startActivity(myIntent);
 		finish();
 		return true;
