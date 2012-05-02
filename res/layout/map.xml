@@ -83,12 +83,16 @@
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
+            android:apiKey="0rFOu71JsBA14VRPF6cSmNJYWA6lfnjGF_2KmUQ"
             android:clickable="true" />
-        <!-- calebs api key is in use -->
+        <!-- jeremy's laptop api key is in use -->
         <!--
+        caleb's api
+        android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
         jeremy's key 
         android:apiKey="0DYjEaTwZugbC39-tQds60JYG2iS2KpI-9zEQrQ"
+        jeremy's laptop key
+        android:apiKey="0rFOu71JsBA14VRPF6cSmNJYWA6lfnjGF_2KmUQ"
         -->
 
         <LinearLayout
