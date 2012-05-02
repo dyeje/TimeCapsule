@@ -40,7 +40,10 @@ public class UserOverlay extends Overlay {
 			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.marker);
 			
 			Matrix matrix = new Matrix();
-			matrix.postRotate(bearing, point.x, point.y);
+			//TODO Fix warping
+			//matrix.translate(-middleofx,-middleofy); // these might be positive.
+			//matrix.setRotate(35.0f);
+			matrix.setRotate(bearing);//, point.x - X_OFFSET, point.y - Y_OFFSET);
 			Bitmap rbm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
 			
 			canvas.drawBitmap(rbm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
@@ -49,6 +52,7 @@ public class UserOverlay extends Overlay {
 			
 			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
 		}
+		mapView.invalidate();
 	}
 	
 	public static int metersToRadius(float meters, MapView map, double latitude) {

@@ -357,10 +357,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	}
 
 	@Override
-	protected boolean isRouteDisplayed()
-	{
-		return false;
-	}
+	protected boolean isRouteDisplayed() {return false;}
 
 	@Override
 	public void onLocationChanged(Location location)
@@ -432,20 +429,13 @@ public class CapsuleMapActivity extends MapActivity implements
 	}
 
 	@Override
-	public void onProviderDisabled(String provider)
-	{
-	}
+	public void onProviderDisabled(String provider) {}
 
 	@Override
-	public void onProviderEnabled(String provider)
-	{
-	}
+	public void onProviderEnabled(String provider) {}
 
 	@Override
-	public void onStatusChanged(String provider, int status,
-	    Bundle extras)
-	{
-	}
+	public void onStatusChanged(String provider, int status, Bundle extras) {}
 
 	/****************************************************************
 	 * Centers the map on user's location as it changes, but
