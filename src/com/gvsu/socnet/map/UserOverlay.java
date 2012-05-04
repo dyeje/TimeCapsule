@@ -37,16 +37,13 @@ public class UserOverlay extends Overlay {
 		projection.toPixels(position, point);
 		
 		if(rotate) {
+			//IMPORTANT: Make sure image is 20x45
 			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.marker);
 			
-			Matrix matrix = new Matrix();
-			//TODO Fix warping
-			//matrix.translate(-middleofx,-middleofy); // these might be positive.
-			//matrix.setRotate(35.0f);
-			matrix.setRotate(bearing);//, point.x - X_OFFSET, point.y - Y_OFFSET);
-			Bitmap rbm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-			
-			canvas.drawBitmap(rbm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+			canvas.save();
+			canvas.rotate(bearing, point.x, point.y);
+			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+			canvas.restore();
 		} else {
 			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.user);
 			

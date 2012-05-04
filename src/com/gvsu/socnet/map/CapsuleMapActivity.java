@@ -599,9 +599,12 @@ public class CapsuleMapActivity extends MapActivity implements
 			SensorManager.getRotationMatrix(rotation, null, accelerometerData, magneticData);
 			SensorManager.getOrientation(rotation, orientation);
 			
-			bearing = (float) Math.toDegrees(orientation[0]);
+			float tempBearing = (float) Math.toDegrees(orientation[0]);
 			
-			drawUser();
+			if(Math.abs(tempBearing - bearing) > 5) {
+				bearing = tempBearing;
+				drawUser();
+			}
 		}
 	}
 

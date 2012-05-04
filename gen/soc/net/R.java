@@ -64,18 +64,19 @@ public final class R {
         public static final int play_icon=0x7f020028;
         public static final int play_movie=0x7f020029;
         public static final int ratingbar_full=0x7f02002a;
-        public static final int seek_thumb_normal=0x7f02002b;
-        public static final int seek_thumb_pressed=0x7f02002c;
-        public static final int star_empty=0x7f02002d;
-        public static final int star_full=0x7f02002e;
-        public static final int star_half=0x7f02002f;
-        public static final int titlebar=0x7f020030;
-        public static final int user=0x7f020031;
-        public static final int user_pic=0x7f020032;
-        public static final int user_pic_edit=0x7f020033;
-        public static final int user_picture=0x7f020034;
-        public static final int zoom_in=0x7f020035;
-        public static final int zoom_out=0x7f020036;
+        public static final int rotate_user=0x7f02002b;
+        public static final int seek_thumb_normal=0x7f02002c;
+        public static final int seek_thumb_pressed=0x7f02002d;
+        public static final int star_empty=0x7f02002e;
+        public static final int star_full=0x7f02002f;
+        public static final int star_half=0x7f020030;
+        public static final int titlebar=0x7f020031;
+        public static final int user=0x7f020032;
+        public static final int user_pic=0x7f020033;
+        public static final int user_pic_edit=0x7f020034;
+        public static final int user_picture=0x7f020035;
+        public static final int zoom_in=0x7f020036;
+        public static final int zoom_out=0x7f020037;
     }
     public static final class id {
         public static final int btn_add_document=0x7f0a0007;
