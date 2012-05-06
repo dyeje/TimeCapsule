@@ -43,61 +43,63 @@ public class Server {
 	private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
 
 	public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
-		String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password=" + password + "&userName=" + username;
+		String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
+		    + password + "&userName=" + username;
 		Log.d("debug", command);
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
-		String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password=" + password + "&userName=" + username;
+		String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
+		    + "&password=" + password + "&userName=" + username;
 		Log.d("debug", command);
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String newCapsule(String lat, String lon, String title, String description) {
 		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description;
 		Log.d("debug", command);
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String getUser(String id) {
 		String command = GETUSER + id;
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String authenticate(String id, String password) {
 		String command = GETUSER + id + "&password=" + password;
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String getCapsule(String id) {
 		String command = GETCAPSULE + "id=" + id;
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String getTreasure(String lat, String lng) {
 		String command = GETCAPSULE + "lat=" + lat + "&long=" + lng + "&radius=4";
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String getComments(String capsuleId) {
 		String command = GETCOMMENTS + "capsuleId=" + capsuleId;
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String getComments(String capsuleId, String userId) {
 		String command = GETCOMMENTS + "userId=" + userId + "&capsuleId=" + capsuleId;
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String getRating(String capsuleId) {
 		String command = GETRATING + capsuleId;
-		return get(command);
+		return valid(get(command));
 	}
 
 	public static String addRating(String userId, String capsuleId, String rating) {
 		String command = ADDRATING + "userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
-		return get(command);
+		return valid(get(command));
 	}
 
 	// Adds a comment left by a user on a specific capsule
@@ -108,11 +110,11 @@ public class Server {
 			Log.d("debug", "addComment command: " + command);
 			result = get(command);
 			Log.d("debug", "result: " + result);
-			return get(result);
+			return valid(get(result));
 		} catch (IllegalStateException e) {
 			result = "An error occured";
 		}
-		return result;
+		return valid(result);
 	}
 
 	public static String uploadTreasure(String path) {
@@ -136,7 +138,7 @@ public class Server {
 		String request = GETCAPSULE;
 		String result;
 		request += "lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
-		result = get(request);
+		result = valid(get(request));
 
 		Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:" + result);
 		return result;
@@ -144,7 +146,7 @@ public class Server {
 
 	public static String login(String username, String password) {
 		String request = GETUSER + "&userName=" + username + "&password=" + password;
-		String result = get(request);
+		String result = valid(get(request));
 		return result;
 	}
 
@@ -156,7 +158,16 @@ public class Server {
 		// Log.d("debug", request);
 		// String response = get(request);
 		// return response;
-		return "not finished yet...";
+		return valid("not finished yet...");
+	}
+
+	/**makes sure the server's response is valid before returning it*/
+	private static String valid(String response) {
+		if (response.contains("bluesocket")) {
+			return "Blue Socket Error";
+		} else {
+			return response;
+		}
 	}
 
 	/****************************************************************

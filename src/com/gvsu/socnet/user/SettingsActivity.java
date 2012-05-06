@@ -26,7 +26,7 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 
-		CheckBoxPreference logout = (CheckBoxPreference) findPreference("logout");
+		Preference logout = (Preference) findPreference("logout");
 		logout.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			@Override

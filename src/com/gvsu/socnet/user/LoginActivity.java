@@ -27,11 +27,12 @@ import com.gvsu.socnet.data.Server;
  ***************************************************************/
 public class LoginActivity extends Activity implements
     OnClickListener {
-	// TODO put login in a scroll view
+	// TODO SUMMER LIST
+	// DONE put login in a scroll view
+	// TODO Fix logic behind 'following user'
 	// TODO prevent server from getting/returning garbage
 	// TODO Scaling radius based on number of capsules
 	// parseAnd draw will stop at N capsules
-	// TODO SUMMER LIST
 	// TODO Polish up the user interface
 	// everyone can be on the look out for a designer that could
 	// possibly pretty up the app
@@ -99,7 +100,7 @@ public class LoginActivity extends Activity implements
 				getSharedPreferences(PROFILE, 0).edit()
 				    .putString(PLAYER_ID, id).commit();
 				finish();
-				gotoProfile();
+//				gotoProfile();
 			} else {
 				showDialog("Nope...",
 				    "Your username or password are incorrect", this);
