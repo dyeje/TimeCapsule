@@ -1,8 +1,5 @@
 package com.gvsu.socnet.user;
 
-import com.gvsu.socnet.data.Server;
-import com.gvsu.socnet.map.CapsuleMapActivity;
-
 import soc.net.R;
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +13,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.gvsu.socnet.data.Server;
+import com.gvsu.socnet.map.CapsuleMapActivity;
 
 /****************************************************************
  * com.gvsusocnet.AddCapsule

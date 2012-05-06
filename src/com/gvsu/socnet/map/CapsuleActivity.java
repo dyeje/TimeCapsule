@@ -25,9 +25,7 @@ import com.gvsu.socnet.user.ProfileActivity;
 import com.gvsu.socnet.user.SettingsActivity;
 import com.gvsu.socnet.views.NavigationMenu;
 
-public class CapsuleActivity extends NavigationMenu implements
-    OnClickListener
-{
+public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 
 	/** String YOUTUBE */
 	private final String YOUTUBE = "http://www.youtube.com/watch?v=";
@@ -38,8 +36,7 @@ public class CapsuleActivity extends NavigationMenu implements
 	private String creatorID;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
@@ -47,9 +44,7 @@ public class CapsuleActivity extends NavigationMenu implements
 
 		refresh();
 
-		this.getWindow()
-		    .setSoftInputMode(
-		        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
 	/****************************************************************
@@ -57,8 +52,7 @@ public class CapsuleActivity extends NavigationMenu implements
 	 **************************************************************
 	 */
 	@Override
-	protected void refresh()
-	{
+	protected void refresh() {
 		Intent intent = this.getIntent();
 		final String cId = intent.getStringExtra("cID");
 		Log.d("debug", "capid=" + cId);
@@ -73,15 +67,12 @@ public class CapsuleActivity extends NavigationMenu implements
 	 * @param v
 	 ***************************************************************/
 	@Override
-	public void onClick(View v)
-	{
+	public void onClick(View v) {
 		Log.println(3, "debug", "buttonClicked");
-		switch (v.getId())
-		{
+		switch (v.getId()) {
 		case R.id.play_button:
 			Log.println(3, "debug", "playButtonClicked");
-			startActivity(new Intent(Intent.ACTION_VIEW,
-			    Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
 			break;
 		default:
 			super.onClick(v);
@@ -90,8 +81,7 @@ public class CapsuleActivity extends NavigationMenu implements
 
 	}
 
-	private void setCapsuleInfo(String capsuleId)
-	{
+	private void setCapsuleInfo(String capsuleId) {
 
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
@@ -107,61 +97,47 @@ public class CapsuleActivity extends NavigationMenu implements
 		description.setText(capsuleInfo[3]);
 
 		// gets the date capsule was left
-		leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0]
-		    + " at " + capsuleInfo[4].split(" ")[1]);
+		leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0] + " at " + capsuleInfo[4].split(" ")[1]);
 
 		String strRating = Server.getRating(capsuleId);
-		if (!strRating.equals(""))
-		{
+		if (!strRating.equals("")) {
 			Log.d("debug", "rating: |" + strRating + "|");
 			rating.setRating(Float.parseFloat(strRating));
-		} else
-		{
+		} else {
 			rating.setRating(0);
 		}
 		creatorID = capsuleInfo[5];
 		creator.setText(capsuleInfo[6]);
-		creator.setOnClickListener(new OnClickListener()
-		{
+		creator.setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v)
-			{
-				Toast.makeText(getApplicationContext(),
-				    "User Id= " + creatorID, Toast.LENGTH_SHORT)
-				    .show();
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "User Id= " + creatorID, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
 
-	private void setComments(final String capsuleId)
-	{
+	private void setComments(final String capsuleId) {
 		final LinearLayout commentList = (LinearLayout) findViewById(R.id.comment_layout);
 		commentList.removeAllViews();
 		String commentsFromServer = Server.getComments(capsuleId);
 
-		Log.d("debug", "Comments on capsule number " + capsuleId
-		    + "\n" + commentsFromServer);
+		Log.d("debug", "Comments on capsule number " + capsuleId + "\n" + commentsFromServer);
 		String[] strArrayComments = commentsFromServer.split("\n");
-		if (!strArrayComments[0].equals(""))
-		{
-			for (String s : strArrayComments)
-			{
-				if (!s.equals(""))
-				{
+		if (!strArrayComments[0].equals("")) {
+			for (String s : strArrayComments) {
+				if (!s.equals("")) {
 					String[] strArrayComment = s.split("\t");
-					String[] strArrayUser = Server.getUser(
-					    strArrayComment[0]).split("\t");
+					String[] strArrayUser = Server.getUser(strArrayComment[0]).split("\t");
 					TextView t = new TextView(this);
 					String user = strArrayUser[8];
 					t.setId(Integer.parseInt(strArrayComment[0]));
-					t.setText(new Comment(user, strArrayComment[2],
-					    strArrayComment[1]).toString());
+					t.setText(new Comment(user, strArrayComment[2], strArrayComment[1]).toString());
 					t.setPadding(0, 10, 0, 0);
 					commentList.addView(t);
 				}
 			}
-		} else
-		{
+		} else {
 			TextView noComments = new TextView(this);
 			noComments.setText("Be the first to comment!");
 			commentList.addView(noComments);
@@ -169,71 +145,53 @@ public class CapsuleActivity extends NavigationMenu implements
 	}
 
 	//
-	private void setupAddComments(final String capsuleId)
-	{
-		((Button) findViewById(R.id.button_add_comment))
-		    .setOnClickListener(new OnClickListener()
-		    {
+	private void setupAddComments(final String capsuleId) {
+		((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener() {
 
-			    @Override
-			    public void onClick(View v)
-			    {
-				    EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
-				    Server.addComment(
-				        getSharedPreferences("profile", 0).getString(
-				            "player_id", "0"), capsuleId,
-				        fixSpaces(newComment.getText().toString()));
-				    newComment.setText("");
-				    refresh();
-			    }
-		    });
+			@Override
+			public void onClick(View v) {
+				EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
+				Server.addComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newComment.getText().toString()));
+				newComment.setText("");
+				refresh();
+			}
+		});
 	}
 
-	private void setupAddRating(final String capsuleId)
-	{
+	private void setupAddRating(final String capsuleId) {
 
 		final RatingBar ratingBar = ((RatingBar) findViewById(R.id.capsule_rating_bar));
 		final LinearLayout submitLayout = ((LinearLayout) findViewById(R.id.submit_rating_layout));
 		final Button submitButton = ((Button) findViewById(R.id.capsule_rating_submit));
 		final Button cancelButton = ((Button) findViewById(R.id.capsule_rating_cancel));
 
-		final float ratingBeforeUserMessedWithIt = ratingBar
-		    .getRating();
+		final float ratingBeforeUserMessedWithIt = ratingBar.getRating();
 
 		// listens for ratingbar to be changed
-		ratingBar.setOnTouchListener(new OnTouchListener()
-		{
+		ratingBar.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event)
-			{
+			public boolean onTouch(View v, MotionEvent event) {
 				submitLayout.setVisibility(View.VISIBLE);
 				return false;
 			}
 		});
 
 		// listens for ratingbar submit button
-		submitButton.setOnClickListener(new OnClickListener()
-		{
+		submitButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				submitLayout.setVisibility(View.GONE);
-				Server.addRating(getSharedPreferences("profile", 0)
-				    .getString("player_id", "0"), capsuleId, Float
-				    .toString(ratingBar.getRating()));
+				Server.addRating(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, Float.toString(ratingBar.getRating()));
 				refresh();
-				Toast.makeText(getApplicationContext(),
-				    "Rating Submitted", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Rating Submitted", Toast.LENGTH_SHORT).show();
 			}
 		});
-		cancelButton.setOnClickListener(new OnClickListener()
-		{
+		cancelButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				submitLayout.setVisibility(View.GONE);
 				ratingBar.setRating(ratingBeforeUserMessedWithIt);
 			}
@@ -241,19 +199,15 @@ public class CapsuleActivity extends NavigationMenu implements
 	}
 
 	@Override
-	protected boolean gotoMenu()
-	{
-		Intent i = new Intent(getApplicationContext(),
-		    SettingsActivity.class);
+	protected boolean gotoMenu() {
+		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
 
 	@Override
-	protected boolean gotoProfile()
-	{
-		Intent myIntent = new Intent(getBaseContext(),
-		    ProfileActivity.class);
+	protected boolean gotoProfile() {
+		Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
 		// TODO profile button from a capsule takes you to the user
 		// who left that capsule's profile
 		// myIntent.putExtra("player_id",
@@ -263,18 +217,15 @@ public class CapsuleActivity extends NavigationMenu implements
 	}
 
 	@Override
-	protected boolean gotoMap()
-	{
-		Intent myIntent = new Intent(getBaseContext(),
-		    CapsuleMapActivity.class);
+	protected boolean gotoMap() {
+		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
 		startActivity(myIntent);
 		finish();
 		return true;
 	}
 
 	@Override
-	protected boolean newCapsule()
-	{
+	protected boolean newCapsule() {
 		return false;
 	}
 
@@ -282,17 +233,14 @@ public class CapsuleActivity extends NavigationMenu implements
 	 * @see com.gvsu.socnet.views.NavigationMenu#onBackPressed()
 	 ***************************************************************/
 	@Override
-	public void onBackPressed()
-	{
+	public void onBackPressed() {
 		finish();
 	}
 
-	private String fixSpaces(String str)
-	{
+	private String fixSpaces(String str) {
 		String result = "";
 		char[] stra = str.toCharArray();
-		for (int i = 0; i < stra.length; i++)
-		{
+		for (int i = 0; i < stra.length; i++) {
 			if (stra[i] == ' ')
 				result += "+";
 			else

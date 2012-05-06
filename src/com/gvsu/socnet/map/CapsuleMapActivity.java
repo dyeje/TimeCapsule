@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,7 +30,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.gvsu.socnet.data.Server;
 import com.gvsu.socnet.user.AddCapsuleActivity;
@@ -41,12 +44,12 @@ import com.gvsu.socnet.user.SettingsActivity;
  *
  */
 public class CapsuleMapActivity extends MapActivity implements
-    LocationListener, OnClickListener {
+    LocationListener, OnClickListener, SensorEventListener
+{
 
 	List<Overlay> mapOverlays;
 	Drawable capsuleInnerDrawable;
 	Drawable capsuleOuterDrawable;
-	Drawable userDrawable;
 	CapsuleOverlays innerCapsules;
 	CapsuleOverlays outerCapsules;
 	UserOverlay user;
@@ -59,6 +62,16 @@ public class CapsuleMapActivity extends MapActivity implements
 	long lastTimeMapCentered, lastTimeRedrawn,
 	    timeBetweenUpdates = 5000, distBetweenUpdates = 5;
 	boolean warnedAboutDriving, forceRedraw, forceRecenter;
+	SensorManager sensorManager;
+	Sensor accelerometerSensor;
+	Sensor magneticSensor;
+	float[] accelerometerData = new float[3];
+	float[] magneticData = new float[3];
+	float[] rotation = new float[16];
+	float[] inclination = new float[16];
+	float[] orientation = new float[3];
+	float bearing = 0;
+	boolean rotatableUser = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -97,12 +110,16 @@ public class CapsuleMapActivity extends MapActivity implements
 		if (userLocation == null)
 			userLocation = new Location(provider);
 
-		user = new UserOverlay(toGeoPoint(userLocation), this);
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		if(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null &&
+		   sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
+			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+			rotatableUser = true;
+		}
+		
+		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
 		mapOverlays.add(user);
-		// userOverlay = new MyLocationOverlay(this, mapView);
-		// mapOverlays.add(userOverlay);
-		// userOverlay.enableCompass();
-		// userOverlay.enableMyLocation();
 
 		/** Register header-footer buttons for clicks*/
 		((Button) findViewById(R.id.map_settings_button))
@@ -150,15 +167,21 @@ public class CapsuleMapActivity extends MapActivity implements
 		forceRecenter = true;
 
 		/** setup follow user button icon **/
-		// if (PreferenceManager.getDefaultSharedPreferences(
-		// getApplicationContext()).getBoolean("follow_user", false))
-		// {
-		// ((ImageView) findViewById(R.id.map_center_map_button))
-		// .setImageResource(R.drawable.center_on_user);
-		// } else {
-		// ((ImageView) findViewById(R.id.map_center_map_button))
-		// .setImageResource(R.drawable.dont_center);
-		// }
+//		if (PreferenceManager.getDefaultSharedPreferences(
+//		    getApplicationContext()).getBoolean("follow_user", false))
+//		{
+//			((ImageView) findViewById(R.id.map_center_map_button))
+//			    .setImageResource(R.drawable.center_on_user);
+//		} else
+//		{
+//			((ImageView) findViewById(R.id.map_center_map_button))
+//			    .setImageResource(R.drawable.dont_center);
+//		}
+		
+		if(rotatableUser) {
+			sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
+			sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
+		}
 		/**************************/
 		// Debug.stopMethodTracing();
 		/**************************/
@@ -168,6 +191,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	public void onPause() {
 		super.onPause();
 		stopLocationUpdates();
+		sensorManager.unregisterListener(this);
 	}
 
 	// public void onBackPressed()
@@ -311,9 +335,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	}
 
 	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
+	protected boolean isRouteDisplayed() {return false;}
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -349,9 +371,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			        - lastTimeRedrawn > timeBetweenUpdates)) {
 				forceRedraw = false;
 				userLocation = location;
-				mapOverlays.remove(mapOverlays.indexOf(user));
-				user = new UserOverlay(toGeoPoint(userLocation), this);
-				mapOverlays.add(user);
+				drawUser();
 				// retrieveCapsules();
 				/** new way to update map **/
 				new Thread(new Runnable() {
@@ -359,7 +379,6 @@ public class CapsuleMapActivity extends MapActivity implements
 						retrieveCapsules();
 					}
 				}).start();
-
 			}
 
 			/**
@@ -381,17 +400,14 @@ public class CapsuleMapActivity extends MapActivity implements
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) {
-	}
+	public void onProviderDisabled(String provider) {}
 
 	@Override
-	public void onProviderEnabled(String provider) {
-	}
+	public void onProviderEnabled(String provider) {}
 
 	@Override
-	public void onStatusChanged(String provider, int status,
-	    Bundle extras) {
-	}
+	public void onStatusChanged(String provider, int status, Bundle extras) {}
+
 
 	/****************************************************************
 	 * Centers the map on user's location as it changes, but
@@ -508,6 +524,12 @@ public class CapsuleMapActivity extends MapActivity implements
 		}
 
 	}
+	
+	public void drawUser() {
+		mapOverlays.remove(mapOverlays.indexOf(user));
+		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
+		mapOverlays.add(user);
+	}
 
 	/****************************************************************
 	 * @param location user's location
@@ -525,4 +547,32 @@ public class CapsuleMapActivity extends MapActivity implements
 			return new GeoPoint(0, 0);
 		}
 	}
+
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1) {}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		if(rotatableUser) {
+			int type = event.sensor.getType();
+
+			if (type == Sensor.TYPE_ACCELEROMETER) {
+				accelerometerData = event.values;
+			} else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
+				magneticData = event.values;
+			}
+
+			SensorManager.getRotationMatrix(rotation, null, accelerometerData, magneticData);
+			SensorManager.getOrientation(rotation, orientation);
+			
+			float tempBearing = (float) Math.toDegrees(orientation[0]);
+			
+			if(Math.abs(tempBearing - bearing) > 5) {
+				bearing = tempBearing;
+				drawUser();
+			}
+		}
+	}
+
+
 }

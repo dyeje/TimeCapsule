@@ -17,28 +17,44 @@ public class UserOverlay extends Overlay {
 
 	GeoPoint position;
 	Context context;
+	boolean rotate;
+	float bearing;
 	//these help the overlay look like it's in the correct position when zoomed out
 	static final int X_OFFSET = 15;
 	static final int Y_OFFSET = 30;
 
-	public UserOverlay(GeoPoint point, Context pContext) {
-		position = point;
+	public UserOverlay(GeoPoint pPosition, Context pContext, boolean pRotate, float pBearing) {
+		position = pPosition;
 		context = pContext;
+		rotate = pRotate;
+		bearing = pBearing;
 	}
 
 	@Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		// Transfrom geoposition to Point on canvas
 		Projection projection = mapView.getProjection();
 		Point point = new Point();
 		projection.toPixels(position, point);
 		
-		Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.user);
-		
-		canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+		if(rotate) {
+			//IMPORTANT: Make sure image is 20x45
+			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.marker);
+			
+			canvas.save();
+			canvas.rotate(bearing, point.x, point.y);
+			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+			canvas.restore();
+		} else {
+			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.user);
+			
+			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+		}
+		mapView.invalidate();
 	}
-
+	
 	public static int metersToRadius(float meters, MapView map, double latitude) {
 		return (int) (map.getProjection().metersToEquatorPixels(meters) * (1 / Math.cos(Math.toRadians(latitude))));
 	}
+	
+	
 }
