@@ -1,159 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/commonlayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-    android:background="#FFFFFF"
+    android:layout_height="fill_parent" >
 
-    <RelativeLayout
-        android:id="@+id/llheader"
+    <com.google.android.maps.MapView
+        android:id="@+id/mapview_thingy"
         android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:layout_margin="0dip"
-        android:background="@drawable/header_and_footer"
-        android:orientation="horizontal"
-        android:visibility="visible" >
-
-        <Button
-            android:id="@+id/map_settings_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="25dip"
-            android:background="@drawable/ic_menu_settings"
-            android:textColor="#FFFFFF" >
-        </Button>
-
-        <Button
-            android:id="@+id/map_blank1"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_toLeftOf="@+id/map_filter_button"
-            android:background="@drawable/blnk_button"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/map_filter_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_toLeftOf="@+id/map_profile_button"
-            android:background="@drawable/star_full"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/map_profile_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="2dip"
-            android:layout_toLeftOf="@+id/map_map_button"
-            android:background="@drawable/user_pic"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/map_map_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_marginRight="2dip"
-            android:layout_toLeftOf="@+id/map_capture_button"
-            android:background="@drawable/ic_tab_map_color"
-            android:padding="10dip"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/map_capture_button"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="2dip"
-            android:background="@drawable/camera" />
-    </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/lldata"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:background="#FFFFFF" >
-
-        <com.google.android.maps.MapView
-            android:id="@+id/mapview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
-            android:clickable="true" />
-        <!-- calebs api key is in use -->
-        <!--
+        android:layout_height="fill_parent"
+        android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
+        android:clickable="true" />
+    <!-- calebs api key is in use -->
+    <!--
         jeremy's key 
         android:apiKey="0DYjEaTwZugbC39-tQds60JYG2iS2KpI-9zEQrQ"
-        -->
+    -->
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:orientation="horizontal">
+
+        <com.gvsu.socnet.views.TranslucentPanel
+            android:id="@+id/transparent_panel"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="bottom|center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="50dip"
-            android:paddingRight="50dip"
-            android:paddingTop="10dp" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" >
 
-            <com.gvsu.socnet.views.TranslucentPanel
-                android:id="@+id/transparent_panel"
+            <RelativeLayout
+                android:id="@+id/llheader"
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <Button
+                    android:id="@+id/map_settings_button"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="25dip"
+                    android:background="@drawable/ic_menu_settings"
+                    android:textColor="#FFFFFF" >
+                </Button>
+
+                <Button
+                    android:id="@+id/map_blank1"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_toLeftOf="@+id/map_filter_button"
+                    android:background="@drawable/blnk_button"
+                    android:padding="10dip"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/map_filter_button"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_toLeftOf="@+id/map_profile_button"
+                    android:background="@drawable/star_full"
+                    android:padding="10dip"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/map_profile_button"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_toLeftOf="@+id/map_map_button"
+                    android:background="@drawable/user_pic"
+                    android:padding="10dip"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/map_map_button"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_marginRight="2dip"
+                    android:layout_toLeftOf="@+id/map_capture_button"
+                    android:background="@drawable/ic_tab_map_color"
+                    android:padding="10dip"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/map_capture_button"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="2dip"
+                    android:background="@drawable/camera" />
+            </RelativeLayout>
+        </com.gvsu.socnet.views.TranslucentPanel>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:orientation="horizontal"
+        android:paddingBottom="10dip"
+        android:paddingRight="10dip" >
+
+        <com.gvsu.socnet.views.TranslucentPanel
+            android:id="@+id/transparent_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dip"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:paddingTop="5dip" >
+                android:gravity="center"
+                android:orientation="vertical" >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/map_zoom_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:src="@drawable/zoom_in" />
 
-                    <ImageView
-                        android:id="@+id/map_center_map_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/center_on_user" />
+                <ImageView
+                    android:id="@+id/map_zoom_out_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:src="@drawable/zoom_out" />
+            </LinearLayout>
+        </com.gvsu.socnet.views.TranslucentPanel>
+    </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/map_zoom_out_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/zoom_out" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/map_zoom_in_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/zoom_in" />
-
-                    <!-- <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/map_notsurewhattouseitfor_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/dont_center" /> -->
-                </LinearLayout>
-            </com.gvsu.socnet.views.TranslucentPanel>
-        </LinearLayout>
-    </FrameLayout>
-
-</LinearLayout>
+</FrameLayout>

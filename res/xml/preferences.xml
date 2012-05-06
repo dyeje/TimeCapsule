@@ -13,7 +13,7 @@
             android:summary="Player ID to Test"
             android:title="Player ID" /> -->
 
-        <CheckBoxPreference
+        <Preference
             android:defaultValue="false"
             android:key="logout"
             android:summary="Log me out!"
