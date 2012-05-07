@@ -45,25 +45,26 @@ public class Server {
 	public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
 		    + password + "&userName=" + username;
-		Log.d("debug", command);
+//		Log.d("debug", command);
 		return valid(get(command));
 	}
 
 	public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
 		    + "&password=" + password + "&userName=" + username;
-		Log.d("debug", command);
+//		Log.d("debug", command);
 		return valid(get(command));
 	}
 
 	public static String newCapsule(String lat, String lon, String title, String description) {
 		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description;
-		Log.d("debug", command);
+//		Log.d("debug", command);
 		return valid(get(command));
 	}
 
 	public static String getUser(String id) {
 		String command = GETUSER + id;
+//		Log.d("debug", "tried: " + command);
 		return valid(get(command));
 	}
 
@@ -107,9 +108,9 @@ public class Server {
 		String result;
 		try {
 			String command = ADDCOMMENT + "userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
-			Log.d("debug", "addComment command: " + command);
+//			Log.d("debug", "addComment command: " + command);
 			result = get(command);
-			Log.d("debug", "result: " + result);
+//			Log.d("debug", "result: " + result);
 			return valid(get(result));
 		} catch (IllegalStateException e) {
 			result = "An error occured";
@@ -140,34 +141,30 @@ public class Server {
 		request += "lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
 		result = valid(get(request));
 
-		Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:" + result);
+//		Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:" + result);
 		return result;
 	}
 
 	public static String login(String username, String password) {
 		String request = GETUSER + "&userName=" + username + "&password=" + password;
+//		Log.d("debug", "logging in with: username=" + username + " password=" + password);
 		String result = valid(get(request));
+//		Log.d("debug", "login response: " + result);
 		return result;
-	}
-
-	public static String getVenuesFromFoursquare(String lat, String lng) {
-		// String request =
-		// "https://api.foursquare.com/v2/venues/search?ll="+lat+","+lng+"&oauth_token=4LYDLPUKK0XU1PPAESDJYQYJTPI0TLKYWINVGQ4IHJJKPY3F&v=20120311";
-		// String request =
-		// "https://api.foursquare.com/v2/venues/search?ll=42.966881,-85.887036&oauth_token=4LYDLPUKK0XU1PPAESDJYQYJTPI0TLKYWINVGQ4IHJJKPY3F&v=20120311";
-		// Log.d("debug", request);
-		// String response = get(request);
-		// return response;
-		return valid("not finished yet...");
 	}
 
 	/**makes sure the server's response is valid before returning it*/
 	private static String valid(String response) {
-		if (response.contains("bluesocket")) {
-			return "Blue Socket Error";
+		// TODO prevent server from getting/returning garbage
+		/** a possible way to do this */
+		if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
+			return response.substring(11);
 		} else {
-			return response;
+			Log.d("debug", "response:" + response + " *****NOT VALID*****");
+			return "error";
 		}
+
+		// return response;
 	}
 
 	/****************************************************************

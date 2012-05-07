@@ -30,7 +30,7 @@ public class LoginActivity extends Activity implements
 	// TODO SUMMER LIST
 	// DONE put login in a scroll view
 	// TODO Fix logic behind 'following user'
-	// TODO prevent server from getting/returning garbage
+	// prevent server from getting/returning garbage
 	// TODO Scaling radius based on number of capsules
 	// parseAnd draw will stop at N capsules
 	// TODO Polish up the user interface

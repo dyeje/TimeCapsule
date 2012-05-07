@@ -222,9 +222,9 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		super.onPause();
 	}
 	
-	public void onBackPressed() {
-		return;
-	}
+	//public void onBackPressed() {
+	//	return;
+	//}
 
 	/****************************************************************
 	 * @see android.app.Activity#onRestart()
