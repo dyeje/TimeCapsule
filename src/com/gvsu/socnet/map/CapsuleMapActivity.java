@@ -3,6 +3,10 @@ package com.gvsu.socnet.map;
 import java.util.Calendar;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import soc.net.R;
 import android.content.Context;
 import android.content.Intent;
@@ -43,9 +47,7 @@ import com.gvsu.socnet.user.SettingsActivity;
  * @author Jeremy Dye
  *
  */
-public class CapsuleMapActivity extends MapActivity implements
-    LocationListener, OnClickListener, SensorEventListener
-{
+public class CapsuleMapActivity extends MapActivity implements LocationListener, OnClickListener, SensorEventListener {
 
 	List<Overlay> mapOverlays;
 	Drawable capsuleInnerDrawable;
@@ -59,8 +61,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	String lastRetrieve;
 	LocationManager locationManager;
 	Criteria crit;
-	long lastTimeMapCentered, lastTimeRedrawn,
-	    timeBetweenUpdates = 5000, distBetweenUpdates = 5;
+	long lastTimeMapCentered, lastTimeRedrawn, timeBetweenUpdates = 5000, distBetweenUpdates = 5;
 	boolean warnedAboutDriving, forceRedraw, forceRecenter;
 	SensorManager sensorManager;
 	Sensor accelerometerSensor;
@@ -88,17 +89,12 @@ public class CapsuleMapActivity extends MapActivity implements
 		mapView.setSatellite(true);
 
 		mapController = mapView.getController();
-		locationManager = (LocationManager) this
-		    .getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		mapOverlays = mapView.getOverlays();
-		capsuleInnerDrawable = this.getResources().getDrawable(
-		    R.drawable.ic_capsule_inner);
-		capsuleOuterDrawable = this.getResources().getDrawable(
-		    R.drawable.ic_capsule_outer);
-		innerCapsules = new CapsuleOverlays(capsuleInnerDrawable,
-		    this);
-		outerCapsules = new CapsuleOverlays(capsuleOuterDrawable,
-		    this);
+		capsuleInnerDrawable = this.getResources().getDrawable(R.drawable.ic_capsule_inner);
+		capsuleOuterDrawable = this.getResources().getDrawable(R.drawable.ic_capsule_outer);
+		innerCapsules = new CapsuleOverlays(capsuleInnerDrawable, this);
+		outerCapsules = new CapsuleOverlays(capsuleOuterDrawable, this);
 		lastRetrieve = null;
 		lastTimeMapCentered = 0L;
 
@@ -111,33 +107,25 @@ public class CapsuleMapActivity extends MapActivity implements
 			userLocation = new Location(provider);
 
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		if(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null &&
-		   sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
+		if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
 			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 			rotatableUser = true;
 		}
-		
+
 		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
 		mapOverlays.add(user);
 
 		/** Register header-footer buttons for clicks*/
-		((Button) findViewById(R.id.map_settings_button))
-		    .setOnClickListener(this);
-		((Button) findViewById(R.id.map_filter_button))
-		    .setOnClickListener(this);
-		((Button) findViewById(R.id.map_capture_button))
-		    .setOnClickListener(this);
-		((Button) findViewById(R.id.map_profile_button))
-		    .setOnClickListener(this);
-		((Button) findViewById(R.id.map_map_button))
-		    .setOnClickListener(this);
+		((Button) findViewById(R.id.map_settings_button)).setOnClickListener(this);
+		((Button) findViewById(R.id.map_filter_button)).setOnClickListener(this);
+		((Button) findViewById(R.id.map_capture_button)).setOnClickListener(this);
+		((Button) findViewById(R.id.map_profile_button)).setOnClickListener(this);
+		((Button) findViewById(R.id.map_map_button)).setOnClickListener(this);
 		// ((ImageView) findViewById(R.id.map_center_map_button))
 		// .setOnClickListener(this);
-		((ImageView) findViewById(R.id.map_zoom_in_button))
-		    .setOnClickListener(this);
-		((ImageView) findViewById(R.id.map_zoom_out_button))
-		    .setOnClickListener(this);
+		((ImageView) findViewById(R.id.map_zoom_in_button)).setOnClickListener(this);
+		((ImageView) findViewById(R.id.map_zoom_out_button)).setOnClickListener(this);
 		// ((ImageView)
 		// findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
 
@@ -152,11 +140,9 @@ public class CapsuleMapActivity extends MapActivity implements
 		// Debug.startMethodTracing("map_resume");
 		/**************************/
 		// makes sure user is logged in otherwise makes them login
-		if (getSharedPreferences("profile", 0).getString("player_id",
-		    "-1").equals("-1")) {
+		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1")) {
 			// finish();
-			Intent i = new Intent(getApplicationContext(),
-			    LoginActivity.class);
+			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(i);
 		}
 
@@ -166,19 +152,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		forceRedraw = true;
 		forceRecenter = true;
 
-		/** setup follow user button icon **/
-//		if (PreferenceManager.getDefaultSharedPreferences(
-//		    getApplicationContext()).getBoolean("follow_user", false))
-//		{
-//			((ImageView) findViewById(R.id.map_center_map_button))
-//			    .setImageResource(R.drawable.center_on_user);
-//		} else
-//		{
-//			((ImageView) findViewById(R.id.map_center_map_button))
-//			    .setImageResource(R.drawable.dont_center);
-//		}
-		
-		if(rotatableUser) {
+		if (rotatableUser) {
 			sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
 			sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
 		}
@@ -194,20 +168,13 @@ public class CapsuleMapActivity extends MapActivity implements
 		sensorManager.unregisterListener(this);
 	}
 
-	// public void onBackPressed()
-	// {
-	// return;
-	// }
-
 	/****************************************************************
 	 * You called this a few times so I moved it into one method  
 	 * @return void
 	 ***************************************************************/
 	protected void requestLocationUpdates() {
-		locationManager.requestLocationUpdates(
-		    LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		locationManager.requestLocationUpdates(
-		    LocationManager.GPS_PROVIDER, 0, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	protected void stopLocationUpdates() {
@@ -226,48 +193,34 @@ public class CapsuleMapActivity extends MapActivity implements
 		String lat = Double.toString(userLocation.getLatitude());
 		String lng = Double.toString(userLocation.getLongitude());
 
-		SharedPreferences prefs = PreferenceManager
-		    .getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(prefs.getLong(FilterActivity.START_RANGE,
-		    0L));
+		c.setTimeInMillis(prefs.getLong(FilterActivity.START_RANGE, 0L));
 		String from = "";
 
 		if (c.getTimeInMillis() != 0L) {
-			from = c.get(Calendar.YEAR) + "/"
-			    + (c.get(Calendar.MONTH) + 1) + "/"
-			    + c.get(Calendar.DAY_OF_MONTH);
+			from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
 		}
 
 		c.setTimeInMillis(prefs.getLong(FilterActivity.END_RANGE, 0L));
 		String to = "";
 		if (c.getTimeInMillis() != 0L) {
-			to = c.get(Calendar.YEAR) + "/"
-			    + (c.get(Calendar.MONTH) + 1) + "/"
-			    + c.get(Calendar.DAY_OF_MONTH);
+			to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
 		}
 
-		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING,
-		    0) + " ").substring(0, 1);
+		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
-		final String retrieveInner = Server.getCapsules(lat, lng,
-		    "1", from, to, minRating);
-		final String retrieveOuter = Server.getCapsules(lat, lng,
-		    "2", from, to, minRating);
+		final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
+		final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
 		String retrieve = retrieveInner + retrieveOuter;
 
-		if (lastRetrieve != retrieve || lastRetrieve == null) {
+		if (lastRetrieve == null || lastRetrieve.equals(retrieve)) {
 			lastRetrieve = retrieve;
-			// parseAndDrawCapsules(retrieveInner, true);
-			// parseAndDrawCapsules(retrieveOuter, false);
 			/** new way to update map **/
-			mapView.post(new Runnable() {
-				public void run() {
-					parseAndDrawCapsules(retrieveInner, true);
-					parseAndDrawCapsules(retrieveOuter, false);
-				}
-			});
 		}
+
+		parseAndDrawCapsules(retrieveInner, true);
+		parseAndDrawCapsules(retrieveOuter, false);
 
 		/**************************/
 		// Debug.stopMethodTracing();
@@ -275,67 +228,114 @@ public class CapsuleMapActivity extends MapActivity implements
 	}
 
 	/**
-	 * Takes a long string taken from the server.  Splits
-	 * it into an array of a string per capsule.  Splits
-	 * each string for the capsules by the separate variables
-	 * which are then used to generate capsule object.  If
-	 * capsules is identical to the previously retrieved string
-	 * then the method stops.
-	 * @param capsules
+	 * Takes a JSON Array of time capsules from the server and displays them on the map
+	 * @param strCapsules
 	 */
-	protected void parseAndDrawCapsules(String capsules, boolean inner) {
+	protected void parseAndDrawCapsules(String strCapsules, boolean inner) {
 		// TODO clean this up when we combine the inner/outer calls
 		if (inner) {
+			Log.i("debug", "nearby capsules:");// LOG
 			innerCapsules.clear();
 			outerCapsules.clear();
 		}
 
-		String[] splitCapsules = capsules.split("\\n");
+		if (!strCapsules.equals("error")) {
+			JSONArray capsules = null;
+			try {
+				capsules = new JSONArray(strCapsules);
+				// capsules.getJSONObject(0)
+			} catch (JSONException e) {
+				Log.e("debug", "Improper JSON (Capsules from server):\n" + strCapsules);
+			}
+			if (capsules != null) {
+				for (int i = 0; i < capsules.length(); i++) {
+					try {
+						JSONObject capsule = capsules.getJSONObject(i);
+						int capID;
+						if (inner)
+							capID = Integer.parseInt(capsule.getString("id"));
+						else
+							capID = -1;
+						double latitude = Double.parseDouble(capsule.getString("locLat")) * 1e6;
+						double longitude = Double.parseDouble(capsule.getString("locLong")) * 1e6;
 
-		for (int i = 0; i < splitCapsules.length; i++) {
-			String[] capsuleData = splitCapsules[i].split("\\t");
+						int lat = (int) latitude;
+						int lng = (int) longitude;
 
-			if (splitCapsules[i] != "") {
+						GeoPoint point = new GeoPoint(lat, lng);
+						CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, capID);
 
-				try {
-					int cID;
-					if (inner)
-						cID = Integer.parseInt(capsuleData[0]);
-					else
-						cID = -1;
-					double latitude = Double
-					    .parseDouble(capsuleData[2]) * 1e6;
-					double longitude = Double
-					    .parseDouble(capsuleData[3]) * 1e6;
+						if (inner) {
+							Log.i("debug", "capsule " + capsule.getString("title"));// LOG
+							innerCapsules.addOverlay(item);
+						} else {
+							outerCapsules.addOverlay(item);
+						}
 
-					int lat = (int) latitude;
-					int lng = (int) longitude;
-
-					GeoPoint point = new GeoPoint(lat, lng);
-					CapsuleOverlayItem item = new CapsuleOverlayItem(
-					    point, null, null, cID);
-					if (cID == -1) {
-						outerCapsules.addOverlay(item);
-					} else {
-						innerCapsules.addOverlay(item);
+					} catch (JSONException e) {
+						Log.e("debug", "error: " + capsules.toString() + " is not valid JSON");
+						e.printStackTrace();
+					} catch (NumberFormatException e) {
+						Log.e("debug", e.getMessage());
 					}
-
-				} catch (NumberFormatException ex) {
-					Log.e("debug",
-					    "Improper treasure format, encountered Number Format Exception.");
-				} catch (ArrayIndexOutOfBoundsException ex) {
-					Log.e("debug",
-					    "Array Index out of Bounds, problem traversing array.");
 				}
 			}
+		} else {
+			Toast.makeText(this, "There was an error finding the time capsules", Toast.LENGTH_LONG).show();
 		}
-		mapOverlays.add(innerCapsules);
-		mapOverlays.add(outerCapsules);
-		mapView.invalidate();
+
+		/** older method without JSON **/
+		// String[] splitCapsules = strCapsules.split("\\n");
+		//
+		// for (int i = 0; i < splitCapsules.length; i++) {
+		// String[] capsuleData = splitCapsules[i].split("\\t");
+		//
+		// if (splitCapsules[i] != "") {
+		//
+		// try {
+		// int cID;
+		// if (inner)
+		// cID = Integer.parseInt(capsuleData[0]);
+		// else
+		// cID = -1;
+		// double latitude = Double.parseDouble(capsuleData[2]) * 1e6;
+		// double longitude = Double.parseDouble(capsuleData[3]) * 1e6;
+		//
+		// int lat = (int) latitude;
+		// int lng = (int) longitude;
+		//
+		// GeoPoint point = new GeoPoint(lat, lng);
+		// CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, cID);
+		// if (cID == -1) {
+		// outerCapsules.addOverlay(item);
+		// } else {
+		// innerCapsules.addOverlay(item);
+		// }
+		//
+		// } catch (NumberFormatException ex) {
+		// Log.e("debug", "Improper treasure format, encountered Number Format Exception.");
+		// } catch (ArrayIndexOutOfBoundsException ex) {
+		// Log.e("debug", "Array Index out of Bounds, problem traversing array.");
+		// }
+		// }
+		// }
+		if (inner)
+			mapOverlays.add(innerCapsules);
+		else {
+			mapOverlays.add(outerCapsules);
+			mapView.post(new Runnable() {
+				public void run() {
+					Log.i("debug", "drawing capsules on UI thread");
+					mapView.invalidate();
+				}
+			});
+		}
 	}
 
 	@Override
-	protected boolean isRouteDisplayed() {return false;}
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -348,34 +348,40 @@ public class CapsuleMapActivity extends MapActivity implements
 		// location.getBearing(), this);
 		// mapOverlays.add(user);
 
-		if (location.getSpeed() > 25 && !warnedAboutDriving) {
-			warnedAboutDriving = true;
-			Toast.makeText(this,
-			    "Caution: do not use this application while driving",
-			    Toast.LENGTH_LONG).show();
+		if (location == null) {
+			return;
 		}
 
-		Log.d("debug", "accuracy:" + location.getAccuracy());
+		if (location.getSpeed() > 25 && !warnedAboutDriving) {
+			warnedAboutDriving = true;
+			Toast.makeText(this, "Caution: do not use this application while driving", Toast.LENGTH_LONG).show();
+		}
+
+		Log.i("debug", "accuracy:" + location.getAccuracy());
 		// will not accept location without a good accuracy
-		if (location != null && location.getAccuracy() <= 500) {
+		if (location.getAccuracy() <= 500) {
 			/**
 			 * Conditions for redrawing capsules and user layer
 			 * 1) onResume() forces redraw
 			 * 2) the user has moved more than 5
 			 * 3) meters, assuming a good level of accuracy haven't redrawn in the last 5 seconds
 			 */
-			if (forceRedraw
-			    || (userLocation.distanceTo(location) > 5
-			        && location.getAccuracy() <= 500 && Calendar
-			        .getInstance().getTimeInMillis()
-			        - lastTimeRedrawn > timeBetweenUpdates)) {
-				forceRedraw = false;
+			if (forceRedraw || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates)) {
+				if (forceRedraw) {
+					Log.i("debug", "redraw forced");
+					forceRedraw = false;
+				}
 				userLocation = location;
-				drawUser();
-				// retrieveCapsules();
+				mapView.post(new Runnable() {
+					public void run() {
+						Log.i("debug", "drawing user on UI thread");
+						drawUser();
+					}
+				});
 				/** new way to update map **/
 				new Thread(new Runnable() {
 					public void run() {
+						Log.i("debug", "getting capsules on another thread");
 						retrieveCapsules();
 					}
 				}).start();
@@ -386,10 +392,7 @@ public class CapsuleMapActivity extends MapActivity implements
 			 * the optional box in preferences of if their location
 			 * was just found and a recenter is forced
 			 */
-			if (forceRecenter
-			    || PreferenceManager.getDefaultSharedPreferences(
-			        getApplicationContext()).getBoolean(
-			        "follow_user", false)) {
+			if (forceRecenter || PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false)) {
 				forceRecenter = false;
 				centerMap(false);
 			}
@@ -400,14 +403,16 @@ public class CapsuleMapActivity extends MapActivity implements
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) {}
+	public void onProviderDisabled(String provider) {
+	}
 
 	@Override
-	public void onProviderEnabled(String provider) {}
+	public void onProviderEnabled(String provider) {
+	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {}
-
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
 
 	/****************************************************************
 	 * Centers the map on user's location as it changes, but
@@ -417,18 +422,16 @@ public class CapsuleMapActivity extends MapActivity implements
 	private void centerMap(boolean forceRefresh) {
 		if (userLocation == null)
 			return;
+		Log.i("debug", "centering map");
 		if (forceRefresh) {
 			mapController.animateTo(toGeoPoint(userLocation));
-			PreferenceManager
-			    .getDefaultSharedPreferences(getApplicationContext())
-			    .edit().putBoolean("follow_user", true).commit();
-			Log.d("debug", "centering map");
+			PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", true).commit();
+			Log.i("debug", "search pressed, following user");
 		} else {
 			long now = Calendar.getInstance().getTimeInMillis();
 			if ((now - lastTimeMapCentered) > timeBetweenUpdates) {
 				mapController.animateTo(toGeoPoint(userLocation));
 				lastTimeMapCentered = now;
-				Log.d("debug", "centering map");
 			}
 		}
 	}
@@ -439,6 +442,7 @@ public class CapsuleMapActivity extends MapActivity implements
 	@Override
 	public boolean onSearchRequested() {
 		centerMap(true);
+		super.onSearchRequested();
 		return false;
 	}
 
@@ -450,34 +454,28 @@ public class CapsuleMapActivity extends MapActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.map_settings_button:
-			Intent i = new Intent(getApplicationContext(),
-			    SettingsActivity.class);
+			Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 			startActivity(i);
 			break;
 		case R.id.map_filter_button:
-			Intent i1 = new Intent(getApplicationContext(),
-			    FilterActivity.class);
+			Intent i1 = new Intent(getApplicationContext(), FilterActivity.class);
 			startActivity(i1);
 			break;
 		case R.id.map_capture_button:
-			Intent i2 = new Intent(getApplicationContext(),
-			    AddCapsuleActivity.class);
+			Intent i2 = new Intent(getApplicationContext(), AddCapsuleActivity.class);
 			startActivity(i2);
 			break;
 		case R.id.map_profile_button:
-			Intent i3 = new Intent(getApplicationContext(),
-			    ProfileActivity.class);
+			Intent i3 = new Intent(getApplicationContext(), ProfileActivity.class);
 			startActivity(i3);
 			break;
 		case R.id.map_map_button:
 			if (mapView.isSatellite()) {
 				mapView.setSatellite(false);
-				((Button) findViewById(R.id.map_map_button))
-				    .setBackgroundResource(R.drawable.ic_tab_map_grey);
+				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
 			} else {
 				mapView.setSatellite(true);
-				((Button) findViewById(R.id.map_map_button))
-				    .setBackgroundResource(R.drawable.ic_tab_map_color);
+				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
 			}
 			break;
 		// case R.id.map_center_map_button:
@@ -524,7 +522,7 @@ public class CapsuleMapActivity extends MapActivity implements
 		}
 
 	}
-	
+
 	public void drawUser() {
 		mapOverlays.remove(mapOverlays.indexOf(user));
 		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
@@ -541,19 +539,19 @@ public class CapsuleMapActivity extends MapActivity implements
 	 ***************************************************************/
 	private GeoPoint toGeoPoint(Location location) {
 		if (location != null) {
-			return new GeoPoint((int) (location.getLatitude() * 1e6),
-			    (int) (location.getLongitude() * 1e6));
+			return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
 		} else {
 			return new GeoPoint(0, 0);
 		}
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor arg0, int arg1) {}
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if(rotatableUser) {
+		if (rotatableUser) {
 			int type = event.sensor.getType();
 
 			if (type == Sensor.TYPE_ACCELEROMETER) {
@@ -564,15 +562,14 @@ public class CapsuleMapActivity extends MapActivity implements
 
 			SensorManager.getRotationMatrix(rotation, null, accelerometerData, magneticData);
 			SensorManager.getOrientation(rotation, orientation);
-			
+
 			float tempBearing = (float) Math.toDegrees(orientation[0]);
-			
-			if(Math.abs(tempBearing - bearing) > 5) {
+
+			if (Math.abs(tempBearing - bearing) > 5) {
 				bearing = tempBearing;
 				drawUser();
 			}
 		}
 	}
-
 
 }

@@ -15,6 +15,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -45,26 +48,26 @@ public class Server {
 	public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
 		    + password + "&userName=" + username;
-//		Log.d("debug", command);
+		// Log.d("debug", command);
 		return valid(get(command));
 	}
 
 	public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
 		    + "&password=" + password + "&userName=" + username;
-//		Log.d("debug", command);
+		// Log.d("debug", command);
 		return valid(get(command));
 	}
 
 	public static String newCapsule(String lat, String lon, String title, String description) {
 		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description;
-//		Log.d("debug", command);
+		// Log.d("debug", command);
 		return valid(get(command));
 	}
 
 	public static String getUser(String id) {
 		String command = GETUSER + id;
-//		Log.d("debug", "tried: " + command);
+		// Log.d("debug", "tried: " + command);
 		return valid(get(command));
 	}
 
@@ -108,14 +111,20 @@ public class Server {
 		String result;
 		try {
 			String command = ADDCOMMENT + "userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
-//			Log.d("debug", "addComment command: " + command);
+			// Log.d("debug", "addComment command: " + command);
 			result = get(command);
-//			Log.d("debug", "result: " + result);
-			return valid(get(result));
+			// Log.d("debug", "result: " + result);
+			return valid(result);
 		} catch (IllegalStateException e) {
 			result = "An error occured";
 		}
 		return valid(result);
+	}
+
+	// increment the number of views
+	public static String addAView(String userId, String capsuleId) {
+		// add comment and add view are the same, except a view has no comment
+		return addComment(userId, capsuleId, "");
 	}
 
 	public static String uploadTreasure(String path) {
@@ -140,22 +149,40 @@ public class Server {
 		String result;
 		request += "lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
 		result = valid(get(request));
+		// if (!result.equals("error")) {
+		// JSONArray capsules = new JSONArray();
+		// try {
+		// capsules = new JSONArray(result);
+		// // capsules.getJSONObject(0)
+		// } catch (JSONException e) {
+		// e.printStackTrace();
+		// }
+		// for (int i = 0; i < capsules.length(); i++) {
+		// try {
+		// JSONObject capsule = capsules.getJSONObject(i);
+		// Log.d("debug", "capsule id "+ capsule.getString("id"));
+		// } catch (JSONException e) {
+		// Log.e("debug", "error: " + capsules.toString() + " is not valid JSON");
+		// e.printStackTrace();
+		// }
+		// }
+		// }
 
-//		Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:" + result);
+		// Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:" + result);
 		return result;
 	}
 
 	public static String login(String username, String password) {
 		String request = GETUSER + "&userName=" + username + "&password=" + password;
-//		Log.d("debug", "logging in with: username=" + username + " password=" + password);
+		// Log.d("debug", "logging in with: username=" + username + " password=" + password);
 		String result = valid(get(request));
-//		Log.d("debug", "login response: " + result);
+		// Log.d("debug", "login response: " + result);
 		return result;
 	}
 
 	/**makes sure the server's response is valid before returning it*/
 	private static String valid(String response) {
-		// TODO prevent server from getting/returning garbage
+		// prevent server from getting/returning garbage
 		/** a possible way to do this */
 		if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
 			return response.substring(11);
@@ -163,8 +190,6 @@ public class Server {
 			Log.d("debug", "response:" + response + " *****NOT VALID*****");
 			return "error";
 		}
-
-		// return response;
 	}
 
 	/****************************************************************

@@ -33,14 +33,14 @@
     </PreferenceCategory>
     -->
 
-    <PreferenceCategory
+    <!-- <PreferenceCategory
         android:key="map"
-        android:title="Map Preferences" >
+        android:title="Map Preferences" > -->
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="follow_user"
             android:summary="Follow your location around the map as you move"
             android:title="Follow Me" />
-    </PreferenceCategory>
+    <!-- </PreferenceCategory> -->
 
 </PreferenceScreen>

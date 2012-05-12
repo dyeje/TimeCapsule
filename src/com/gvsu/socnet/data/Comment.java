@@ -55,12 +55,9 @@ public class Comment {
 	public String toString() {
 		String timeLeft = "";
 		timeLeft += user + ":\t\t  ";
-		timeLeft += leftTime;
-		// timeLeft += leftOn.get(Calendar.MONTH) + "/"
-		// + leftOn.get(Calendar.DAY_OF_MONTH) + " "
-		// + leftOn.get(Calendar.HOUR) + ":"
-		// + leftOn.get(Calendar.MINUTE) + " "
-		// + (leftOn.get(Calendar.AM_PM) == 0 ? "am" : "pm");
+//		timeLeft += leftTime;
+		timeLeft += leftOn.get(Calendar.MONTH) + "/" + leftOn.get(Calendar.DAY_OF_MONTH) + " " + leftOn.get(Calendar.HOUR) + ":" + leftOn.get(Calendar.MINUTE) + " "
+		    + (leftOn.get(Calendar.AM_PM) == 0 ? "am" : "pm");
 		timeLeft += "\n\t" + body;
 		return timeLeft;
 	}

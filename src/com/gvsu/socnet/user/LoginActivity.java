@@ -29,7 +29,7 @@ public class LoginActivity extends Activity implements
     OnClickListener {
 	// TODO SUMMER LIST
 	// DONE put login in a scroll view
-	// TODO Fix logic behind 'following user'
+	// Ã Fix logic behind 'following user'
 	// prevent server from getting/returning garbage
 	// TODO Scaling radius based on number of capsules
 	// parseAnd draw will stop at N capsules

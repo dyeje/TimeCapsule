@@ -74,7 +74,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.btn_filter_today)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				seekBar.setSelectedMinValue(seekBar.getAbsoluteMaxValue() - millisInDay);
 				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
 				onRangeSeekBarValuesChanged(seekBar, seekBar.getAbsoluteMaxValue() - millisInDay, seekBar.getAbsoluteMaxValue());
@@ -84,7 +84,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.btn_filter_anytime)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				seekBar.setSelectedMinValue(seekBar.getAbsoluteMinValue());
 				seekBar.setSelectedMaxValue(seekBar.getAbsoluteMaxValue());
 				onRangeSeekBarValuesChanged(seekBar, seekBar.getAbsoluteMinValue(), seekBar.getAbsoluteMaxValue());
@@ -94,7 +94,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.btn_filter_week)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7;
 				if (newMin < seekBar.getAbsoluteMinValue())
 					newMin = seekBar.getAbsoluteMinValue();
@@ -107,7 +107,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.btn_filter_month)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7 * 4;
 				if (newMin < seekBar.getAbsoluteMinValue())
 					newMin = seekBar.getAbsoluteMinValue();
@@ -120,7 +120,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.btn_filter_year)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				long newMin = seekBar.getAbsoluteMaxValue() - millisInDay * 7 * 52;
 				if (newMin < seekBar.getAbsoluteMinValue())
 					newMin = seekBar.getAbsoluteMinValue();
@@ -135,7 +135,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.button_set_rating_0)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				((RatingBar) findViewById(R.id.rating_bar)).setRating(0);
 
 			}
@@ -143,7 +143,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.button_set_rating_3)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				((RatingBar) findViewById(R.id.rating_bar)).setRating(3);
 
 			}
@@ -151,13 +151,13 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 		((Button) findViewById(R.id.button_set_rating_5)).setOnClickListener(new OnClickListener() {
 
 			@Override
-            public void onClick(View v) {
+			public void onClick(View v) {
 				((RatingBar) findViewById(R.id.rating_bar)).setRating(5);
 
 			}
 		});
 		((Button) findViewById(R.id.map_filter_filter_button)).setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
@@ -189,17 +189,18 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 				String minDate = dateFormat.format(new Date(cal.getTimeInMillis()));
 				cal.setTimeInMillis(maxDate);
 				String maxDate = dateFormat.format(new Date(cal.getTimeInMillis()));
-//				Log.d("debug", "saved stuff:: startDate: " + minDate + " endDate: " + maxDate + " minRating: " + rating);
+				// Log.d("debug", "saved stuff:: startDate: " + minDate + " endDate: " + maxDate +
+				// " minRating: " + rating);
 				finish();
-				
+
 			}
 		});
 		((Button) findViewById(R.id.map_filter_cancel_button)).setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				finish();
-				
+
 			}
 		});
 
@@ -221,10 +222,10 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 	protected void onPause() {
 		super.onPause();
 	}
-	
-	//public void onBackPressed() {
-	//	return;
-	//}
+
+	// public void onBackPressed() {
+	// return;
+	// }
 
 	/****************************************************************
 	 * @see android.app.Activity#onRestart()
@@ -268,7 +269,7 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
 	public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Long minValue, Long maxValue) {
 		minDate = minValue;
 		maxDate = maxValue;
-		Log.d("one_thing", minDate % millisInDay + " " + maxDate % millisInDay);
+		Log.d("filter", "Earliest Date: " + minDate % millisInDay + " Latest Date: " + maxDate % millisInDay);
 
 		TextView from = (TextView) findViewById(R.id.text_from);
 		from.setText(dateFormat.format(new Date(minDate)));
