@@ -106,16 +106,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		if (userLocation == null)
 			userLocation = new Location(provider);
 
-		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
-			accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-			magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-			rotatableUser = true;
-		}
-
-		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
-		mapOverlays.add(user);
-
 		/** Register header-footer buttons for clicks*/
 		((Button) findViewById(R.id.map_settings_button)).setOnClickListener(this);
 		((Button) findViewById(R.id.map_filter_button)).setOnClickListener(this);
@@ -145,6 +135,32 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(i);
 		}
+		// if (rotatableUser) {
+		// rotate user's icon as they change direction
+		// users can opt out of this in the preferences screen
+		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("rotate_user", false)) {
+			sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+			if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
+				accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+				magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+				rotatableUser = true;
+			}
+			// }
+			// remove any existing user overlay
+			sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
+			sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
+		} else {
+			rotatableUser = false;
+		}
+		if (user != null)
+			mapOverlays.remove(mapOverlays.indexOf(user));
+		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
+		mapView.post(new Runnable() {
+			public void run() {
+				Log.i("debug", "adding user overlay on UI thread");
+				mapOverlays.add(user);
+			}
+		});
 
 		super.onResume();
 		requestLocationUpdates();
@@ -152,10 +168,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		forceRedraw = true;
 		forceRecenter = true;
 
-		if (rotatableUser) {
-			sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
-			sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
-		}
 		/**************************/
 		// Debug.stopMethodTracing();
 		/**************************/
@@ -165,7 +177,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	public void onPause() {
 		super.onPause();
 		stopLocationUpdates();
-		sensorManager.unregisterListener(this);
+		if (sensorManager != null) {
+			sensorManager.unregisterListener(this);
+		}
 	}
 
 	/****************************************************************

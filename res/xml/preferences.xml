@@ -5,42 +5,25 @@
     <PreferenceCategory
         android:key="profile"
         android:title="Profile" >
-        <!-- <EditTextPreference
-            android:defaultValue="1"
-            android:dialogMessage="Provide an ID"
-            android:dialogTitle="Player ID"
-            android:key="player_id"
-            android:summary="Player ID to Test"
-            android:title="Player ID" /> -->
-
         <Preference
             android:defaultValue="false"
             android:key="logout"
             android:summary="Log me out!"
             android:title="Logout" />
     </PreferenceCategory>
-    <!--
     <PreferenceCategory
-        android:key="capsule"
-        android:title="Capsule" >
-        <EditTextPreference
-            android:defaultValue="1"
-            android:dialogMessage="Provide an ID"
-            android:dialogTitle="Capsule ID"
-            android:key="capsule_id"
-            android:summary="Capsule ID to Test"
-            android:title="Capsule ID" />
-    </PreferenceCategory>
-    -->
-
-    <!-- <PreferenceCategory
         android:key="map"
-        android:title="Map Preferences" > -->
+        android:title="Map Preferences" >
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="follow_user"
             android:summary="Follow your location around the map as you move"
             android:title="Follow Me" />
-    <!-- </PreferenceCategory> -->
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="rotate_user"
+            android:summary="Rotate your icon as you change direction"
+            android:title="Rotate With Me" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
