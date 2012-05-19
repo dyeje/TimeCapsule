@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -78,8 +79,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 					else
 						description += descript[i];
 				}
-
-				Server.newCapsule(Double.toString(userLocation.getLatitude()), Double.toString(userLocation.getLongitude()), name.toString(), description);
+				String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString("player_id", "");
+				Server.newCapsule(userId, Double.toString(userLocation.getLatitude()), Double.toString(userLocation.getLongitude()), name.toString(), description);
 				finish();
 			} else {
 				Toast.makeText(getApplicationContext(), "Unable to determine location", Toast.LENGTH_SHORT).show();

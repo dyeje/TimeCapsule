@@ -34,6 +34,8 @@ public class Server {
 	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
 	// Get User
 	private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
+	// Authenticate user
+	private static final String AUTHENTICATE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?userName=";
 	// Set User
 	private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
 	// Get Comments
@@ -59,10 +61,15 @@ public class Server {
 		return valid(get(command));
 	}
 
-	public static String newCapsule(String lat, String lon, String title, String description) {
-		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description;
+	public static String newCapsule(String userId, String lat, String lon, String title, String description) {
+		// String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon +
+		// "&description=" + description;
+		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
+		Log.i("server", "newCapsule request:" + command);
 		// Log.d("debug", command);
-		return valid(get(command));
+		String response = valid(get(command));
+		Log.i("server", "newCapsule response:" + response);
+		return response;
 	}
 
 	public static String getUser(String id) {
@@ -72,7 +79,7 @@ public class Server {
 	}
 
 	public static String authenticate(String id, String password) {
-		String command = GETUSER + id + "&password=" + password;
+		String command = AUTHENTICATE + id + "&password=" + password;
 		return valid(get(command));
 	}
 
@@ -146,9 +153,10 @@ public class Server {
 	 ***************************************************************/
 	public static String getCapsules(String latitude, String longitude, String radiusCode, String startDate, String endDate, String minRating) {
 		String request = GETCAPSULE;
-		String result;
 		request += "lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
-		result = valid(get(request));
+		Log.i("server", "getCapsules request:" + request);
+		String result = valid(get(request));
+		Log.i("server", "getCapsules response:" + result);
 		// if (!result.equals("error")) {
 		// JSONArray capsules = new JSONArray();
 		// try {

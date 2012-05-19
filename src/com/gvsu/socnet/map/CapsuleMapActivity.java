@@ -538,7 +538,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	}
 
 	public void drawUser() {
-		mapOverlays.remove(mapOverlays.indexOf(user));
+		int index = mapOverlays.indexOf(user);
+		if (index != -1)
+			mapOverlays.remove(mapOverlays.indexOf(user));
 		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
 		mapOverlays.add(user);
 	}

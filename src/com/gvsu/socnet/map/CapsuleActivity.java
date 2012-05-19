@@ -49,6 +49,15 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
 		View.inflate(this, R.layout.capsule, vg);
 
+		// Increment the number of views on the capsule
+		final String cId = getIntent().getStringExtra("cID");
+
+		String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString(LoginActivity.PLAYER_ID, "-1");
+		if (userId.equals("-1"))// just in case user is not logged in somehow
+			startActivity(new Intent(this, LoginActivity.class));
+		else
+			Server.addAView(userId, cId);
+
 		refresh();
 
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -103,13 +112,6 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		// Log.i("debug", "capsuleinfo: " + strCapInfo);
 		// TODO show and link to the user who left capsule when the server returns this
 		// information
-
-		// Increment the number of views on the capsule
-		String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString(LoginActivity.PLAYER_ID, "-1");
-		if (userId.equals("-1"))// just in case user is not logged in somehow
-			startActivity(new Intent(this, LoginActivity.class));
-		else
-			Server.addAView(userId, capsuleId);
 
 		try {
 			JSONArray capsuleStuff = new JSONArray(strCapInfo);
@@ -176,14 +178,15 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			JSONArray comments = new JSONArray(commentsFromServer);
 			int len = comments.length();
 			int numComments = 0;
-			((TextView) findViewById(R.id.timesFound)).setText("Read " + len + " Time" + ((len != 1) ? "s" : ""));
+			int numViews = 0;
 			for (int i = 0; i < len; i++) {
 				JSONObject comment = comments.getJSONObject(i);
 
 				String strComment = comment.getString("comments");
-				if (strComment.equals(""))
+				if (strComment.equals("")) {
+					numViews++;
 					continue; // this is just a view, not a comment
-				else
+				} else
 					numComments++;
 				String strVisitTime = comment.getString("visitTime");
 				String strUserId = comment.getString("userId");
@@ -204,6 +207,8 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 				noComments.setText("Be the first to comment!");
 				commentList.addView(noComments);
 			}
+			((TextView) findViewById(R.id.timesFound)).setText("Read " + numViews + " Time" + ((numViews != 1) ? "s" : ""));
+
 		} catch (JSONException e) {
 			Log.e("debug", "error parsing comments on capsule (id=" + capsuleId + ")\n" + e.getMessage());
 		}
