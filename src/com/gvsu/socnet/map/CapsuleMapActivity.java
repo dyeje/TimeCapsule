@@ -152,15 +152,16 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		} else {
 			rotatableUser = false;
 		}
-		if (user != null)
-			mapOverlays.remove(mapOverlays.indexOf(user));
-		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
-		mapView.post(new Runnable() {
-			public void run() {
-				Log.i("debug", "adding user overlay on UI thread");
-				mapOverlays.add(user);
-			}
-		});
+		// if (user != null)
+		// if (mapOverlays.indexOf(user) != -1)
+		// mapOverlays.remove(mapOverlays.indexOf(user));
+		// user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
+		// mapView.post(new Runnable() {
+		// public void run() {
+		// Log.i("debug", "adding user overlay on UI thread");
+		// mapOverlays.add(0, user);
+		// }
+		// });
 
 		super.onResume();
 		requestLocationUpdates();
@@ -235,6 +236,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 		parseAndDrawCapsules(retrieveInner, true);
 		parseAndDrawCapsules(retrieveOuter, false);
+		Log.v("map", "finished parsing and drawing");
 
 		/**************************/
 		// Debug.stopMethodTracing();
@@ -248,10 +250,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	protected void parseAndDrawCapsules(String strCapsules, boolean inner) {
 		// TODO clean this up when we combine the inner/outer calls
 		if (inner) {
-			Log.i("debug", "nearby capsules:");// LOG
+			Log.i("debug", "drawing nearby capsules:");// LOG
 			innerCapsules.clear();
 			outerCapsules.clear();
-		}
+		} else
+			Log.i("debug", "drawing perimeter capsules:");// LOG
 
 		if (!strCapsules.equals("error")) {
 			JSONArray capsules = null;
@@ -283,6 +286,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 							Log.i("debug", "capsule " + capsule.getString("title"));// LOG
 							innerCapsules.addOverlay(item);
 						} else {
+							Log.i("debug", "outercapsule " + capsule.getString("title"));// LOG
 							outerCapsules.addOverlay(item);
 						}
 
@@ -297,52 +301,10 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		} else {
 			Toast.makeText(this, "There was an error finding the time capsules", Toast.LENGTH_LONG).show();
 		}
-
-		/** older method without JSON **/
-		// String[] splitCapsules = strCapsules.split("\\n");
-		//
-		// for (int i = 0; i < splitCapsules.length; i++) {
-		// String[] capsuleData = splitCapsules[i].split("\\t");
-		//
-		// if (splitCapsules[i] != "") {
-		//
-		// try {
-		// int cID;
-		// if (inner)
-		// cID = Integer.parseInt(capsuleData[0]);
-		// else
-		// cID = -1;
-		// double latitude = Double.parseDouble(capsuleData[2]) * 1e6;
-		// double longitude = Double.parseDouble(capsuleData[3]) * 1e6;
-		//
-		// int lat = (int) latitude;
-		// int lng = (int) longitude;
-		//
-		// GeoPoint point = new GeoPoint(lat, lng);
-		// CapsuleOverlayItem item = new CapsuleOverlayItem(point, null, null, cID);
-		// if (cID == -1) {
-		// outerCapsules.addOverlay(item);
-		// } else {
-		// innerCapsules.addOverlay(item);
-		// }
-		//
-		// } catch (NumberFormatException ex) {
-		// Log.e("debug", "Improper treasure format, encountered Number Format Exception.");
-		// } catch (ArrayIndexOutOfBoundsException ex) {
-		// Log.e("debug", "Array Index out of Bounds, problem traversing array.");
-		// }
-		// }
-		// }
 		if (inner)
 			mapOverlays.add(innerCapsules);
 		else {
 			mapOverlays.add(outerCapsules);
-			mapView.post(new Runnable() {
-				public void run() {
-					Log.i("debug", "drawing capsules on UI thread");
-					mapView.invalidate();
-				}
-			});
 		}
 	}
 
@@ -386,24 +348,36 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 					forceRedraw = false;
 				}
 				userLocation = location;
-				mapView.post(new Runnable() {
-					public void run() {
-						Log.i("debug", "drawing user on UI thread");
-						drawUser();
-					}
-				});
 				/** new way to update map **/
-				new Thread(new Runnable() {
+				Runnable getCaps = new Runnable() {
 					public void run() {
 						Log.i("debug", "getting capsules on another thread");
-						retrieveCapsules();
+						boolean done = false;
+						while (!done && !Thread.currentThread().isInterrupted()) {
+							retrieveCapsules();
+							done = true;
+						}
+						if (!Thread.currentThread().isInterrupted()) {
+							mapView.post(new Runnable() {
+								public void run() {
+									Log.i("debug", "drawing user on UI thread");
+									drawUser();// make one of these draw methods wait on the other!
+									Log.i("debug", "invalidating mapView");
+									mapView.invalidate();
+									// it might work :(//FIXME
+									Log.i("debug", "mapView invalidated");
+								}
+							});
+						}
 					}
-				}).start();
+				};
+				new Thread(getCaps).start();
 			}
 
 			/**
-			 * updates user's location as they move if they checked
-			 * the optional box in preferences of if their location
+			 * centers map on user's location as they move if they checked
+			 * the box in preferences
+			 * also centers on user's location if their location
 			 * was just found and a recenter is forced
 			 */
 			if (forceRecenter || PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("follow_user", false)) {
@@ -418,14 +392,17 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 	@Override
 	public void onProviderDisabled(String provider) {
+		Log.i("map", "oops, " + provider + " provider was disabled...");
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
+		Log.i("map", "yay, " + provider + " provider was enabled!");
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.i("map", provider + " provider status changed\nnew status=" + status);
 	}
 
 	/****************************************************************
@@ -435,9 +412,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 ***************************************************************/
 	private void centerMap(boolean forceRefresh) {
 		if (userLocation == null)
-			return;
+			return; // can't center on a null location, get out!
 		Log.i("debug", "centering map");
+		Log.v("map", "0");
 		if (forceRefresh) {
+			Log.v("map", "1");
 			mapController.animateTo(toGeoPoint(userLocation));
 			PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", true).commit();
 			Log.i("debug", "search pressed, following user");
@@ -448,6 +427,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				lastTimeMapCentered = now;
 			}
 		}
+		Log.v("map", "2");
 	}
 
 	/****************************************************************
@@ -455,6 +435,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 	 ***************************************************************/
 	@Override
 	public boolean onSearchRequested() {
+		Log.v("map", "-1");
 		centerMap(true);
 		super.onSearchRequested();
 		return false;
@@ -539,10 +520,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 	public void drawUser() {
 		int index = mapOverlays.indexOf(user);
+		// Log.d("map", "**removing user**");
 		if (index != -1)
 			mapOverlays.remove(mapOverlays.indexOf(user));
+		// Log.d("map", "**removed user**");
 		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
-		mapOverlays.add(user);
+		// Log.d("map", "**adding user**");
+		mapOverlays.add(0, user);
+		// Log.d("map", "**added user**");
 	}
 
 	/****************************************************************

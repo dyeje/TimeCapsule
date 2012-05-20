@@ -37,9 +37,10 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	private final String TAB = "\t";
 	private final String NO_CONN = "No Network Connection";
 	private final String NO_CONN_INFO = "Many features of this app will not work without an internet connection";
-	private final String PROFILE_NOT_RETRIEVED = "Sorry, your profile could not be retrieved :(";
+	private final String PROFILE_NOT_RETRIEVED = "Sorry, this profile could not be retrieved :(";
 	private TextView username, name, location, gender, age, interests, aboutme;
 	private OnSharedPreferenceChangeListener listener;
+	private boolean viewing;
 
 	/****************************************************************
 	 * @see com.gvsu.socnet.views.gvsusocnet.NavigationMenu#onCreate(android.os.Bundle)
@@ -54,10 +55,15 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-		View.inflate(this, R.layout.profile, vg);
+		viewing = (getIntent().getStringExtra("viewing_id") != null);
+		if (viewing) {
+			setContentView(R.layout.profile);
+		} else {
+			ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
+			View.inflate(this, R.layout.profile, vg);
+		}
 
-		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
+//		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
 
 		username = (TextView) findViewById(R.id.text_username);
 		name = (TextView) findViewById(R.id.text_name);
@@ -68,41 +74,45 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		aboutme = (TextView) findViewById(R.id.text_about);
 
 		btnProfile.setBackgroundResource(R.drawable.user_pic_edit);
-		btnInfo.setOnClickListener(this);
-		TextView btnStat = (TextView) findViewById(R.id.text_name);
-		btnStat.setOnClickListener(this);
-		TextView btnClan = (TextView) findViewById(R.id.text_age);
-		btnClan.setOnClickListener(this);
+//		btnInfo.setOnClickListener(this);
+//		TextView btnStat = (TextView) findViewById(R.id.text_name);
+//		btnStat.setOnClickListener(this);
+//		TextView btnClan = (TextView) findViewById(R.id.text_age);
+//		btnClan.setOnClickListener(this);
 
 		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
-		setInfo(prefs);
-		listener = new OnSharedPreferenceChangeListener() {
+		if (viewing) {
+			setInfo(getIntent().getStringExtra("viewing_id"));
+		} else {
+			setInfo(prefs);
+			listener = new OnSharedPreferenceChangeListener() {
 
-			@Override
-			public void onSharedPreferenceChanged(SharedPreferences sPrefs, String key) {
+				@Override
+				public void onSharedPreferenceChanged(SharedPreferences sPrefs, String key) {
 
-				Log.d("debug", "prefs updated:key=" + key);
+					Log.d("debug", "prefs updated:key=" + key);
 
-				if (key.equals("username")) {
-					username.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("name")) {
-					name.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("location")) {
-					location.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("age")) {
-					age.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("gender")) {
-					gender.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("interests")) {
-					interests.setText(sPrefs.getString(key, ""));
-				} else if (key.equals("aboutme")) {
-					aboutme.setText(sPrefs.getString(key, ""));
-				} else {
-					Log.d("debug", "I don't know what was changed, updating all");
-					setInfo(sPrefs);
+					if (key.equals("username")) {
+						username.setText(sPrefs.getString(key, ""));
+					} else if (key.equals("name")) {
+						name.setText(sPrefs.getString(key, ""));
+					} else if (key.equals("location")) {
+						location.setText(sPrefs.getString(key, ""));
+					} else if (key.equals("age")) {
+						age.setText(sPrefs.getString(key, ""));
+					} else if (key.equals("gender")) {
+						gender.setText(sPrefs.getString(key, ""));
+					} else if (key.equals("interests")) {
+						interests.setText(sPrefs.getString(key, ""));
+					} else if (key.equals("aboutme")) {
+						aboutme.setText(sPrefs.getString(key, ""));
+					} else {
+						Log.d("debug", "I don't know what was changed, updating all");
+						setInfo(sPrefs);
+					}
 				}
-			}
-		};
+			};
+		}
 	}
 
 	/****************************************************************
@@ -143,6 +153,51 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		age.setText(prefs.getString("age", "--") + " years old");
 		interests.setText(prefs.getString("interests", "-----"));
 		aboutme.setText(prefs.getString("aboutme", "-----"));
+	}
+
+	private void setInfo(String playerId) {
+
+		boolean online = isOnline();
+
+		// make sure we have internet connection before talking to
+		// server
+		if (online) {
+			Log.d("debug", "updating from network");
+			// String playerId = prefs.getString("player_id", "");
+			String s = Server.getUser(playerId);
+			if (!s.equals("error")) {
+				// SocNetData:[{"name":"Caleb","location":"Allendale","state":"MI","gender":"m","age":"19","interest":"anything CS!","about":"CS major at GVSU","password":"pass","userName":"calebgomer"}]
+				JSONArray profileInfos;
+				try {
+					profileInfos = new JSONArray(s);
+					if (profileInfos.length() == 1) {
+						JSONObject info = profileInfos.getJSONObject(0);
+						username.setText(info.getString("userName"));
+						String strGender = info.getString("gender");
+						if (strGender.equalsIgnoreCase("m")) {
+							strGender = "Male";
+						} else if (strGender.equalsIgnoreCase("f")) {
+							strGender = "Female";
+						} else {
+							strGender = "Other";
+						}
+						name.setText(info.getString("name"));
+						location.setText(info.getString("location"));
+						gender.setText(strGender);
+						age.setText(info.getString("age"));
+						interests.setText(info.getString("interest"));
+						aboutme.setText(info.getString("about"));
+					}
+				} catch (JSONException e) {
+					Log.e("profile", "error with JSON");
+					e.printStackTrace();
+				}
+			}
+		} else {
+			Log.d("debug", "couldn't update - no network connection");
+			showDialog(NO_CONN, PROFILE_NOT_RETRIEVED);
+		}
+
 	}
 
 	/****************************************************************

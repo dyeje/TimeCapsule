@@ -1,15 +1,17 @@
 package com.gvsu.socnet.map;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import soc.net.R;
 import android.content.Intent;
-import android.graphics.LinearGradient;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -120,22 +122,24 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			String strDescription = capsule.getString("description");
 			String strCreateDate = capsule.getString("createDate");
 			creatorID = capsule.getString("creatorId");
-			String strCreatorName = capsule.getString("userName");
+			String strCreatorUName = capsule.getString("userName");
 			String strRating = capsule.getString("avgRate");
 
 			title.setText(strTitle);
 			description.setText(strDescription);
-			leftOn.setText("Left on " + strCreateDate.split(" ")[0] + " at " + strCreateDate.split(" ")[1]);
+			leftOn.setText(leftOnToString(strCreateDate));
+			// leftOn.setText("Left on " + strCreateDate.split(" ")[0] + " at " +
+			// strCreateDate.split(" ")[1]);
 			if (strRating == null || strRating.equals("null"))
 				rating.setRating(0);
 			else
 				rating.setRating(Float.parseFloat(strRating));
-			if (strCreatorName == null || strCapInfo.equals("null"))
+			if (strCreatorUName == null || strCapInfo.equals("") || strCreatorUName.equals(""))
 				creator.setText("Anonymous");
 			else
-				creator.setText(strCreatorName);
+				creator.setText("Left by " + strCreatorUName);
 		} catch (JSONException e) {
-			Log.e("debug", "error parsing capsule (id=" + capsuleId + ")" + e.getMessage());
+			Log.e("debug", "Error parsing capsule id=" + capsuleId + ": " + e.getMessage());
 		}
 
 		/** old non-JSON method **/
@@ -160,7 +164,9 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "User Id= " + creatorID, Toast.LENGTH_SHORT).show();
+				Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+				i.putExtra("viewing_id", creatorID);
+				startActivity(i);
 			}
 		});
 	}
@@ -179,13 +185,19 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			int len = comments.length();
 			int numComments = 0;
 			int numViews = 0;
+			ArrayList<String> viewers = new ArrayList<String>();
+			int numDistinctViewers = 0;
 			for (int i = 0; i < len; i++) {
 				JSONObject comment = comments.getJSONObject(i);
 
 				String strComment = comment.getString("comments");
 				if (strComment.equals("")) {
 					numViews++;
-					continue; // this is just a view, not a comment
+					if (!viewers.contains(comment.getString("userId"))) {
+						viewers.add(comment.getString("userId"));
+						numDistinctViewers++;
+					}
+					continue; // this is just a view, not a comment so don't do anything else
 				} else
 					numComments++;
 				String strVisitTime = comment.getString("visitTime");
@@ -207,40 +219,14 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 				noComments.setText("Be the first to comment!");
 				commentList.addView(noComments);
 			}
-			((TextView) findViewById(R.id.timesFound)).setText("Read " + numViews + " Time" + ((numViews != 1) ? "s" : ""));
+			((TextView) findViewById(R.id.timesFound)).setText("Read " + numViews + " time" + ((numViews != 1) ? "s" : "") + " by " + numDistinctViewers
+			    + ((numDistinctViewers != 1) ? " different users" : " user"));
 
 		} catch (JSONException e) {
 			Log.e("debug", "error parsing comments on capsule (id=" + capsuleId + ")\n" + e.getMessage());
 		}
-
-		// String[] strArrayComments = commentsFromServer.split("\n");
-		// if (!strArrayComments[0].equals("")) {
-		// // set number of views since it is related to number of comments
-		// ((TextView) findViewById(R.id.timesFound)).setText("Read " + strArrayComments.length +
-		// " Time" + ((strArrayComments.length != 1) ? "s" : ""));
-		// // show the comments
-		// for (String s : strArrayComments) {
-		// if (!s.equals("")) {
-		// String[] strArrayComment = s.split("\t");
-		// if (strArrayComment.length == 2)
-		// continue;// ignore "visits" with no comment
-		// String[] strArrayUser = Server.getUser(strArrayComment[0]).split("\t");
-		// TextView t = new TextView(this);
-		// String user = strArrayUser[8];
-		// t.setId(Integer.parseInt(strArrayComment[0]));
-		// t.setText(new Comment(user, strArrayComment[2], strArrayComment[1]).toString());
-		// t.setPadding(0, 10, 0, 0);
-		// commentList.addView(t);
-		// }
-		// }
-		// } else {
-		// TextView noComments = new TextView(this);
-		// noComments.setText("Be the first to comment!");
-		// commentList.addView(noComments);
-		// }
 	}
 
-	//
 	private void setupAddComments(final String capsuleId) {
 		((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener() {
 
@@ -343,5 +329,89 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 				result += stra[i];
 		}
 		return result;
+	}
+
+	private String leftOnToString(String strCreateDate) {
+		GregorianCalendar c = Comment.makeSenseOf(strCreateDate);
+		// String s = "Left on ";
+		String s = "";
+		switch (c.get(Calendar.DAY_OF_WEEK)) {
+		case 1:
+			s += "Sunday, ";
+			break;
+		case 2:
+			s += "Monday, ";
+			break;
+		case 3:
+			s += "Tuesday, ";
+			break;
+		case 4:
+			s += "Wednesday, ";
+			break;
+		case 5:
+			s += "Thursday, ";
+			break;
+		case 6:
+			s += "Friday, ";
+			break;
+		case 7:
+			s += "Saturday, ";
+			break;
+		}
+		switch (c.get(Calendar.MONTH)) {
+		case 0:
+			s += "January ";
+			break;
+		case 1:
+			s += "February ";
+			break;
+		case 2:
+			s += "March ";
+			break;
+		case 3:
+			s += "April ";
+			break;
+		case 4:
+			s += "May ";
+			break;
+		case 5:
+			s += "June ";
+			break;
+		case 6:
+			s += "July ";
+			break;
+		case 7:
+			s += "August, ";
+			break;
+		case 8:
+			s += "Sunday, ";
+			break;
+		case 9:
+			s += "Monday, ";
+			break;
+		case 10:
+			s += "Tuesday, ";
+			break;
+		case 11:
+			s += "Wednesday, ";
+			break;
+		}
+		s += c.get(Calendar.DAY_OF_MONTH);
+		s += " at ";
+		int hour = c.get(Calendar.HOUR);
+		if (hour == 0)
+			hour = 12;
+		s += hour;
+		s += ":";
+		int minute = c.get(Calendar.MINUTE);
+		String sminute = "";
+		if (minute < 10)
+			sminute = "0" + minute;
+		else
+			sminute = "" + minute;
+		s += sminute;
+		s += (c.get(Calendar.AM_PM) == 0 ? "am" : "pm");
+		// s += "\n" + strCreateDate;
+		return s;
 	}
 }
