@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import soc.net.R;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +38,8 @@ import com.gvsu.socnet.views.NavigationMenu;
 
 public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 
+	private final String TAG = "CapsuleActivity";
+	
 	/** String YOUTUBE */
 	private final String YOUTUBE = "http://www.youtube.com/watch?v=";
 
@@ -43,16 +47,25 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	private final String TAB = "\t";
 
 	private String creatorID;
+	private String cId;
+	
+	private Context mContext;
+	private ViewGroup mViewGroup;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		
+		mContext = this;
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
+		mViewGroup = vg;
 		View.inflate(this, R.layout.capsule, vg);
 
 		// Increment the number of views on the capsule
 		final String cId = getIntent().getStringExtra("cID");
+		this.cId = cId;
 
 		String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString(LoginActivity.PLAYER_ID, "-1");
 		if (userId.equals("-1"))// just in case user is not logged in somehow
@@ -71,13 +84,18 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	 */
 	@Override
 	protected void refresh() {
-		Intent intent = this.getIntent();
-		final String cId = intent.getStringExtra("cID");
-		Log.i("debug", "capid=" + cId);
-		setCapsuleInfo(cId);
-		setComments(cId);
-		setupAddComments(cId);
-		setupAddRating(cId);
+		Runnable refreshRunnable = new Runnable() {
+			@Override
+			public void run() {
+				Log.i(TAG, "capid=" + cId);
+				setCapsuleInfo(cId);
+				setComments(cId);
+				setupAddComments(cId);
+				setupAddRating(cId);
+				
+			}
+		};
+		mViewGroup.post(refreshRunnable);
 	}
 
 	/****************************************************************
@@ -86,10 +104,10 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	 ***************************************************************/
 	@Override
 	public void onClick(View v) {
-		Log.println(3, "debug", "buttonClicked");
+		Log.println(3, TAG, "buttonClicked");
 		switch (v.getId()) {
 		case R.id.play_button:
-			Log.i("debug", "playButtonClicked");
+			Log.i(TAG, "playButtonClicked");
 			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
 			break;
 		default:
@@ -111,7 +129,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		String strCapInfo = Server.getCapsule(capsuleId);
 		if (strCapInfo.equals("error"))
 			return;// return instead
-		// Log.i("debug", "capsuleinfo: " + strCapInfo);
+		// Log.i(TAG, "capsuleinfo: " + strCapInfo);
 		// TODO show and link to the user who left capsule when the server returns this
 		// information
 
@@ -139,27 +157,9 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			else
 				creator.setText("Left by " + strCreatorUName);
 		} catch (JSONException e) {
-			Log.e("debug", "Error parsing capsule id=" + capsuleId + ": " + e.getMessage());
+			Log.e(TAG, "Error parsing capsule id=" + capsuleId + ": " + e.getMessage());
 		}
-
-		/** old non-JSON method **/
-		// String[] capsuleInfo = strCapInfo.split(TAB);
-		// title.setText(capsuleInfo[0]);
-		// description.setText(capsuleInfo[3]);
-		//
-		// // gets the date capsule was left
-		// leftOn.setText("Left on " + capsuleInfo[4].split(" ")[0] + " at " +
-		// capsuleInfo[4].split(" ")[1]);
-		//
-		// String strRating = Server.getRating(capsuleId);
-		// if (!strRating.equals("")) {
-		// Log.i("debug", "rating: " + strRating);
-		// rating.setRating(Float.parseFloat(strRating));
-		// } else {
-		// rating.setRating(0);
-		// }
-		// creatorID = capsuleInfo[5];
-		// creator.setText(capsuleInfo[6]);
+		
 		creator.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -178,7 +178,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		if (commentsFromServer.equals("error"))
 			return;// return instead
 
-		// Log.i("debug", "Comments on capsule number " + capsuleId + "\n" + commentsFromServer);
+		// Log.i(TAG, "Comments on capsule number " + capsuleId + "\n" + commentsFromServer);
 
 		try {
 			JSONArray comments = new JSONArray(commentsFromServer);
@@ -201,17 +201,23 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 				} else
 					numComments++;
 				String strVisitTime = comment.getString("visitTime");
-				String strUserId = comment.getString("userId");
-
-				JSONArray userStuff = new JSONArray(Server.getUser(strUserId));
-				JSONObject user = userStuff.getJSONObject(0);
-
-				Log.i("debug", "user=" + user.toString());
+				final String strUserId = comment.getString("userId");
+				String strUserName = comment.getString("userName");
 
 				TextView t = new TextView(this);
-				t.setId(Integer.parseInt(strUserId));
-				t.setText(new Comment(user.getString("name"), strComment, strVisitTime).toString());
+//				t.setId(Integer.parseInt(strUserId));
+//				t.setText(new Comment(user.getString("name"), strComment, strVisitTime).toString());
+				t.setText(new Comment(strUserName, strComment, strVisitTime).toString());
 				t.setPadding(0, 10, 0, 0);
+				t.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+						i.putExtra("viewing_id", strUserId);
+						startActivity(i);						
+					}
+				});
 				commentList.addView(t);
 			}
 			if (numComments == 0) {
@@ -223,7 +229,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			    + ((numDistinctViewers != 1) ? " different users" : " user"));
 
 		} catch (JSONException e) {
-			Log.e("debug", "error parsing comments on capsule (id=" + capsuleId + ")\n" + e.getMessage());
+			Log.e(TAG, "error parsing comments on capsule (id=" + capsuleId + ")\n" + e.getMessage());
 		}
 	}
 
@@ -231,11 +237,24 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
-				Server.addComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newComment.getText().toString()));
-				newComment.setText("");
-				refresh();
+			public void onClick(final View v) {
+				switch(v.getId()) {
+				case R.id.button_add_comment:
+					//make sure user left a comment
+					if (!((Button) v).getText().toString().equals("")) {
+						EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
+						final String newCommentString = newComment.getText().toString();
+						newComment.setText("");
+						new Thread(new Runnable() {
+							@Override
+							public void run() {						
+								Server.addComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newCommentString));
+								refresh();
+							}
+						}).start();
+					}
+					break;
+				}
 			}
 		});
 	}
@@ -265,8 +284,16 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				submitLayout.setVisibility(View.GONE);
-				Server.addRating(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, Float.toString(ratingBar.getRating()));
-				refresh();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {//FIXME ratings are not being submitted??
+						String userId = getSharedPreferences("profile", 0).getString("player_id", "0");
+						String rating = Float.toString(ratingBar.getRating());
+						Log.d(TAG, "Submitting rating from user="+userId+" to capsuleId="+capsuleId+" at rating="+rating);
+						Server.addRating(userId, capsuleId, rating);
+						refresh();
+					}
+				});
 				Toast.makeText(getApplicationContext(), "Rating Submitted", Toast.LENGTH_SHORT).show();
 			}
 		});

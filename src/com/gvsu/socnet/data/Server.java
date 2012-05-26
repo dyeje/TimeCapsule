@@ -1,9 +1,13 @@
 package com.gvsu.socnet.data;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
@@ -15,10 +19,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 /****************************************************************
@@ -27,6 +31,7 @@ import android.util.Log;
  * @version 1.0
  ***************************************************************/
 public class Server {
+	private final static String TAG = "Server";
 
 	// Get Capsule
 	private static final String GETCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
@@ -50,14 +55,14 @@ public class Server {
 	public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
 		    + password + "&userName=" + username;
-		// Log.d("debug", command);
+		// Log.d(TAG, command);
 		return valid(get(command));
 	}
 
 	public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
 		    + "&password=" + password + "&userName=" + username;
-		// Log.d("debug", command);
+		// Log.d(TAG, command);
 		return valid(get(command));
 	}
 
@@ -66,7 +71,7 @@ public class Server {
 		// "&description=" + description;
 		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
 		Log.i("server", "newCapsule request:" + command);
-		// Log.d("debug", command);
+		// Log.d(TAG, command);
 		String response = valid(get(command));
 		Log.i("server", "newCapsule response:" + response);
 		return response;
@@ -74,7 +79,7 @@ public class Server {
 
 	public static String getUser(String id) {
 		String command = GETUSER + id;
-		// Log.d("debug", "tried: " + command);
+		// Log.d(TAG, "tried: " + command);
 		return valid(get(command));
 	}
 
@@ -110,7 +115,10 @@ public class Server {
 
 	public static String addRating(String userId, String capsuleId, String rating) {
 		String command = ADDRATING + "userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
-		return valid(get(command));
+		Log.d(TAG, "addRating:request="+command);
+		String response = valid(get(command));
+		Log.d(TAG, "addRating:response="+response);
+		return response;
 	}
 
 	// Adds a comment left by a user on a specific capsule
@@ -118,9 +126,9 @@ public class Server {
 		String result;
 		try {
 			String command = ADDCOMMENT + "userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
-			// Log.d("debug", "addComment command: " + command);
+			// Log.d(TAG, "addComment command: " + command);
 			result = get(command);
-			// Log.d("debug", "result: " + result);
+			// Log.d(TAG, "result: " + result);
 			return valid(result);
 		} catch (IllegalStateException e) {
 			result = "An error occured";
@@ -168,34 +176,32 @@ public class Server {
 		// for (int i = 0; i < capsules.length(); i++) {
 		// try {
 		// JSONObject capsule = capsules.getJSONObject(i);
-		// Log.d("debug", "capsule id "+ capsule.getString("id"));
+		// Log.d(TAG, "capsule id "+ capsule.getString("id"));
 		// } catch (JSONException e) {
-		// Log.e("debug", "error: " + capsules.toString() + " is not valid JSON");
+		// Log.e(TAG, "error: " + capsules.toString() + " is not valid JSON");
 		// e.printStackTrace();
 		// }
 		// }
 		// }
 
-		// Log.d("debug", "getCapsule\nrequest:" + request + "\nresult:" + result);
+		// Log.d(TAG, "getCapsule\nrequest:" + request + "\nresult:" + result);
 		return result;
 	}
 
 	public static String login(String username, String password) {
 		String request = GETUSER + "&userName=" + username + "&password=" + password;
-		// Log.d("debug", "logging in with: username=" + username + " password=" + password);
+		// Log.d(TAG, "logging in with: username=" + username + " password=" + password);
 		String result = valid(get(request));
-		// Log.d("debug", "login response: " + result);
+		// Log.d(TAG, "login response: " + result);
 		return result;
 	}
 
 	/**makes sure the server's response is valid before returning it*/
 	private static String valid(String response) {
-		// prevent server from getting/returning garbage
-		/** a possible way to do this */
 		if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
 			return response.substring(11);
 		} else {
-			Log.d("debug", "response:" + response + " *****NOT VALID*****");
+			Log.d(TAG, "response:" + response + " *****NOT VALID*****");
 			return "error";
 		}
 	}
@@ -292,4 +298,47 @@ public class Server {
 		}
 		return charset;
 	}
+	
+	
+	
+	
+	public static boolean uploadFile(String path) {
+		Log.i(TAG, "uploading from path: "+path);
+		new UploadFileTask().execute(new File(path));		
+		return true;
+	}
+	
+	public static Drawable downloadPicture(String url) {
+		
+		return null;
+	}
+
+	Bitmap bmImg;
+	void downloadFile(String fileUrl){
+		URL myFileUrl =null; 
+		try {
+			myFileUrl= new URL(fileUrl);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			HttpURLConnection conn= (HttpURLConnection)myFileUrl.openConnection();
+			conn.setDoInput(true);
+			conn.connect();
+			int length = conn.getContentLength();
+			int[] bitmapData =new int[length];
+			byte[] bitmapData2 =new byte[length];
+			InputStream is = conn.getInputStream();
+
+			bmImg = BitmapFactory.decodeStream(is);
+//			imView.setImageBitmap(bmImg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+//	Read more: http://getablogger.blogspot.com/2008/01/android-download-image-from-server-and.html#ixzz1vuoPl0w7
 }

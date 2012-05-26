@@ -25,5 +25,19 @@
             android:summary="Rotate your icon as you change direction"
             android:title="Rotate With Me" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="server"
+        android:title="Server Settings" >
+        <EditTextPreference
+            android:defaultValue="localhost"
+            android:key="upload_server_ip"
+            android:summary="IP Address of Upload Server"
+            android:title="Upload Server IP"/>
+        <EditTextPreference
+            android:defaultValue="8888"
+            android:key="upload_server_port"
+            android:summary="Listening Port of Upload Server"
+            android:title="Upload Server Port"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>

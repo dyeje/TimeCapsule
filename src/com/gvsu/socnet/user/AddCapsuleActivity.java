@@ -1,13 +1,20 @@
 package com.gvsu.socnet.user;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 import soc.net.R;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -25,22 +32,34 @@ import com.gvsu.socnet.map.CapsuleMapActivity;
  ***************************************************************/
 public class AddCapsuleActivity extends Activity implements OnClickListener, LocationListener {
 
-	private Button capture, cancel, addpicture;
+	private String TAG = "AddCapActivity";
+	
+	private Button capture, cancel, addPicture, addAudio, addVideo, addDocument;
+	private final int PICK_PIC=0, PICK_AUD=1, PICK_VID=2, PICK_DOC=3;
 	private EditText name, content, description;
 	private LocationManager locationManager;
-	private Location userLocation = CapsuleMapActivity.userLocation;;
+	private Location userLocation = CapsuleMapActivity.userLocation;
+	private static Context mContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_capsule);
+		
+		mContext = getApplicationContext();
 
 		capture = (Button) findViewById(R.id.btn_capture);
 		capture.setOnClickListener(this);
 		cancel = (Button) findViewById(R.id.btn_cancel);
 		cancel.setOnClickListener(this);
-		addpicture = (Button) findViewById(R.id.btn_add_picture);
-		addpicture.setOnClickListener(this);
+		addPicture = (Button) findViewById(R.id.btn_add_picture);
+		addPicture.setOnClickListener(this);
+		addAudio = (Button) findViewById(R.id.btn_add_audio);
+		addAudio.setOnClickListener(this);
+		addVideo = (Button) findViewById(R.id.btn_add_video);
+		addVideo.setOnClickListener(this);
+		addDocument = (Button)findViewById(R.id.btn_add_document);
+		addDocument.setOnClickListener(this);
 
 		name = (EditText) findViewById(R.id.text_new_capsule_name);
 		// content = (EditText)
@@ -90,9 +109,134 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 			finish();
 			break;
 		case R.id.btn_add_picture:
+			Log.i(TAG, "choosing a picture");
+			Intent choosePicIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+			startActivityForResult(choosePicIntent, PICK_PIC);
+			break;
+		case R.id.btn_add_audio:
+			Log.i(TAG, "choosing audio");
+//			Intent chooseAudIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
+			Intent chooseAudIntent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
+			chooseAudIntent.setType("audio/*");
+			startActivityForResult(chooseAudIntent, PICK_AUD);
+			break;
+		case R.id.btn_add_video:
+			Log.i(TAG, "choosing a video");
+			Intent chooseVidIntent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Video.Media.INTERNAL_CONTENT_URI);
+			chooseVidIntent.setType("video/*");
+			startActivityForResult(chooseVidIntent, PICK_VID);
+			break;
+		case R.id.btn_add_document:
+			Log.i(TAG, "choosing a document");
+			Intent chooseDocIntent = new Intent(Intent.ACTION_GET_CONTENT, Uri.fromFile(new File("/sdcard")));
+			chooseDocIntent.setType("*/*");
+			chooseDocIntent.addCategory(Intent.CATEGORY_OPENABLE);
+			try {
+				startActivityForResult(/*Intent.createChooser(*/chooseDocIntent/*), "Select a Document")*/, PICK_DOC);
+			} catch (android.content.ActivityNotFoundException e) {
+				Toast.makeText(this, "Please install a File Manager", Toast.LENGTH_LONG).show();
+			}
 			break;
 		}
 	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		switch(requestCode) {
+		case PICK_PIC:
+			if(resultCode==RESULT_OK) {
+				Uri uri = data.getData();
+				Log.i(TAG, "Picture Uri: "+uri);
+				try {
+					String path = getFilePath(this, uri);					
+					Log.i(TAG, "Picture path: "+path);
+					if (path == null) {
+						Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
+					} else {
+						Server.uploadFile(path);
+					}
+				} catch(URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+			break;
+		case PICK_AUD:
+			if (resultCode == RESULT_OK) {
+				Uri uri = data.getData();
+				Log.d(TAG, "Audio Uri: "+uri.toString());
+				try {
+					String path = getFilePath(this, uri);
+					Log.d(TAG, "Audio Path: " + path);
+					if (path == null) {
+						Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
+					} else {
+						Server.uploadFile(path);
+					}
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+			break;
+		case PICK_VID:
+			if (resultCode == RESULT_OK) {
+				
+				Uri uri = data.getData();
+				Log.d(TAG, "Video Uri: "+uri.toString());
+				try {
+					String path = getFilePath(this, uri);
+					Log.d(TAG, "Video Path: " + path);
+					if (path == null) {
+						Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
+					} else {
+						Server.uploadFile(path);
+					}
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+			break;
+		case PICK_DOC:
+			if (resultCode == RESULT_OK) {				
+				Uri uri = data.getData();
+				Log.d(TAG, "Doc Uri: "+uri.toString());
+				try {
+					String path = getFilePath(this, uri);
+					Log.d(TAG, "Doc Path: " + path);
+					if (path == null) {
+						Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
+					} else {
+						Server.uploadFile(path);
+					}
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+			break;
+		}
+	}
+	
+	public static String getFilePath(Context context, Uri uri) throws URISyntaxException {
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "_data" };
+            Cursor cursor = null;
+
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor
+                .getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -153,5 +297,9 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 	public void onStop() {
 		super.onStop();
 		locationManager.removeUpdates(this);
+	}
+	
+	public static Context stealContext() {
+		return mContext;
 	}
 }

@@ -8,11 +8,15 @@
         android:id="@+id/mapview_thingy"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
+        android:apiKey="0Pvg9pZ1g3nrZ6Dzme9MrLh5RZrD-8LDwbzOA8w"
         android:clickable="true" />
+
     <!--
-         calebs api key is in use
-    
+         calebs 15" api key is in use
+         
+         caleb's 13" key
+        android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
+        
         jeremy's key 
         android:apiKey="0DYjEaTwZugbC39-tQds60JYG2iS2KpI-9zEQrQ"
     -->

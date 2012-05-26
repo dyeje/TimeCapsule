@@ -19,11 +19,13 @@ public class UserOverlay extends Overlay {
 	Context context;
 	boolean rotate;
 	float bearing;
-	//these help the overlay look like it's in the correct position when zoomed out
+	// these help the overlay look like it's in the correct position when zoomed
+	// out
 	static final int X_OFFSET = 15;
 	static final int Y_OFFSET = 30;
 
-	public UserOverlay(GeoPoint pPosition, Context pContext, boolean pRotate, float pBearing) {
+	public UserOverlay(GeoPoint pPosition, Context pContext, boolean pRotate,
+			float pBearing) {
 		position = pPosition;
 		context = pContext;
 		rotate = pRotate;
@@ -31,30 +33,35 @@ public class UserOverlay extends Overlay {
 	}
 
 	@Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		Projection projection = mapView.getProjection();
 		Point point = new Point();
 		projection.toPixels(position, point);
-		
-		if(rotate) {
-			//IMPORTANT: Make sure image is 20x45
-			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.marker);
-			
+
+		if (rotate) {
+			// IMPORTANT: Make sure image is 20x45
+			Bitmap bm = BitmapFactory.decodeResource(context.getResources(),
+					R.drawable.marker);
+
 			canvas.save();
 			canvas.rotate(bearing, point.x, point.y);
 			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
 			canvas.restore();
 		} else {
-			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.user);
-			
+			Bitmap bm = BitmapFactory.decodeResource(context.getResources(),
+					R.drawable.user);
+
 			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
 		}
-		mapView.invalidate();
+		/**
+		 * Invalidate should be called outside of this function!
+		 */
+		// mapView.invalidate();
 	}
-	
+
 	public static int metersToRadius(float meters, MapView map, double latitude) {
-		return (int) (map.getProjection().metersToEquatorPixels(meters) * (1 / Math.cos(Math.toRadians(latitude))));
+		return (int) (map.getProjection().metersToEquatorPixels(meters) * (1 / Math
+				.cos(Math.toRadians(latitude))));
 	}
-	
-	
+
 }

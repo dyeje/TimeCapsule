@@ -60,9 +60,6 @@ public class Comment {
 		if (ids.length == 0)
 			System.exit(0);
 
-		// begin output
-		System.out.println("Current Time");
-
 		// create a Pacific Standard Time time zone
 		SimpleTimeZone pdt = new SimpleTimeZone(-8 * 60 * 60 * 1000, ids[0]);
 
@@ -81,8 +78,8 @@ public class Comment {
 		c.set(Calendar.SECOND, second);
 
 		// GregorianCalendar c = new GregorianCalendar(year, month, day, hour, minute, second);
-		Log.i("comment", "dow=" + c.get(Calendar.DAY_OF_WEEK));
-		Log.i("comment", "madeSenseOf " + dateStamp + ":=" + c.toString());
+		// Log.i("comment", "dow=" + c.get(Calendar.DAY_OF_WEEK));
+		// Log.i("comment", "madeSenseOf " + dateStamp + ":=" + c.toString()); 
 		return c;
 	}
 
