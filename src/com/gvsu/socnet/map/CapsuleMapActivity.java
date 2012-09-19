@@ -3,6 +3,7 @@ package com.gvsu.socnet.map;
 import java.util.Calendar;
 import java.util.List;
 
+import com.gvsu.socnet.data.AsyncDownloader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -225,18 +226,36 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
-		final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
-		final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
-		String retrieve = retrieveInner + retrieveOuter;
+        new AsyncDownloader().execute(new AsyncDownloader.Payload(
+                1, new Object[] {
+                CapsuleMapActivity.this,
+                new Object[] { userLocation.getLatitude(), userLocation.getLongitude(), from, to, minRating, lastRetrieve} }));
 
-		if (lastRetrieve == null || lastRetrieve.equals(retrieve)) {
-			lastRetrieve = retrieve;
-			/** new way to update map **/
-		}
 
-		parseAndDrawCapsules(retrieveInner, true);
-		parseAndDrawCapsules(retrieveOuter, false);
-		Log.v("map", "finished parsing and drawing");
+
+//        Object[] data = (Object[]) payload.data[1];
+//        double dLat = (Double) data[0];
+//        double dLng = (Double) data[1];
+//        long startTime = (Long) data[2];
+//        long endTime = (Long) data[3];
+//        double dMinRating = (Double) data[4];
+//        String lastRetrieve = (String) data[5];
+
+
+
+//
+//		final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
+//		final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
+//		String retrieve = retrieveInner + retrieveOuter;
+//
+//		if (lastRetrieve == null || lastRetrieve.equals(retrieve)) {
+//			lastRetrieve = retrieve;
+//			/** new way to update map **/
+//		}
+//
+//		parseAndDrawCapsules(retrieveInner, true);
+//		parseAndDrawCapsules(retrieveOuter, false);
+//		Log.v("map", "finished parsing and drawing");
 
 		/**************************/
 		// Debug.stopMethodTracing();
@@ -573,4 +592,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		}
 	}
 
+
+    /****************************************************************
+     * void
+     ***************************************************************/
+    public void retrieveSuccess(String[] result) {
+
+        parseAndDrawCapsules(result[0],true);
+        parseAndDrawCapsules(result[1],false);
+
+    }
 }
