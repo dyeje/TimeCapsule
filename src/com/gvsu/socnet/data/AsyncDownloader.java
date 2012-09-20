@@ -49,15 +49,16 @@ import com.gvsu.socnet.map.FilterActivity;
 
 
 public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, AsyncDownloader.Payload> {
-    public static final String TAG = "debug";
+    public static final String TAG = "async";
 
-    public static final int GETBANNERDATA = 1;
+    public static final int RETRIEVECAPSULES = 1;
 
     /*
       * Runs on GUI thread
       */
     @Override
     protected void onPreExecute() {
+        Log.i(TAG,"*******GOING*****");
     }
 
     /*
@@ -68,7 +69,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
 
         switch (payload.taskType) {
 
-            case GETBANNERDATA:
+            case RETRIEVECAPSULES:
                 CapsuleMapActivity app = (CapsuleMapActivity) payload.data[0];
 
                 if (payload.result != null) {
@@ -91,16 +92,16 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
       */
     @Override
     public void onProgressUpdate(Object... value) {
-        int type = ((Integer) value[0]).intValue();
-
-        switch (type) {
-
-            case 1:
-                // LoginActivity app = (LoginActivity) value[1];
-                // int progress = ((Integer) value[2]).intValue();
-                // app.progressBar.setProgress(progress);
-                break;
-        }
+//        int type = ((Integer) value[0]).intValue();
+//
+//        switch (type) {
+//
+//            case RETRIEVECAPSULES:
+//                // LoginActivity app = (LoginActivity) value[1];
+//                // int progress = ((Integer) value[2]).intValue();
+//                // app.progressBar.setProgress(progress);
+//                break;
+//        }
 
     }
 
@@ -109,11 +110,12 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
       */
     @Override
     public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... params) {
+        Log.d(TAG,"*******BACKGROUND********");
         AsyncDownloader.Payload payload = params[0];
 
         try {
             switch (payload.taskType) {
-                case 1:
+                case RETRIEVECAPSULES:
 
                     // extract the parameters of the task from payload
                     // LoginActivity app = (LoginActivity)
@@ -123,7 +125,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
                     double dLng = (Double) data[1];
                     long startTime = (Long) data[2];
                     long endTime = (Long) data[3];
-                    double dMinRating = (Double) data[4];
+                    double dMinRating = (Float) data[4];
                     String lastRetrieve = (String) data[5];
 
 
@@ -167,7 +169,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
      ***************************************************************/
     private void loginSuccess(CapsuleMapActivity app, String[] result) {
         try {
-            app.setProgressBarIndeterminateVisibility(false);
+//            app.setProgressBarIndeterminateVisibility(false);
         } catch (NullPointerException ne) {
         }
         app.retrieveSuccess(result);

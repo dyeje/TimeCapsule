@@ -226,10 +226,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
 		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
-        new AsyncDownloader().execute(new AsyncDownloader.Payload(
-                1, new Object[] {
-                CapsuleMapActivity.this,
-                new Object[] { userLocation.getLatitude(), userLocation.getLongitude(), from, to, minRating, lastRetrieve} }));
+       new AsyncDownloader().execute(new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, new Object[] { CapsuleMapActivity.this, new Object[] { userLocation.getLatitude(), userLocation.getLongitude(), prefs.getLong(FilterActivity.START_RANGE, 0L), prefs.getLong(FilterActivity.END_RANGE, 0L), prefs.getFloat(FilterActivity.MIN_RATING, 0), lastRetrieve} }));
 
 
 
@@ -368,29 +365,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				}
 				userLocation = location;
 				/** new way to update map **/
-				Runnable getCaps = new Runnable() {
-					public void run() {
-						Log.i("debug", "getting capsules on another thread");
-						boolean done = false;
-						while (!done && !Thread.currentThread().isInterrupted()) {
-							retrieveCapsules();
-							done = true;
-						}
-						if (!Thread.currentThread().isInterrupted()) {
-							mapView.post(new Runnable() {
-								public void run() {
-									Log.i("debug", "drawing user on UI thread");
-									drawUser();// make one of these draw methods wait on the other!
-									Log.i("debug", "invalidating mapView");
-									mapView.invalidate();
-									// it might work :(//FIXME
-									Log.i("debug", "mapView invalidated");
-								}
-							});
-						}
-					}
-				};
-				new Thread(getCaps).start();
+			    retrieveCapsules();
+
 			}
 
 			/**
