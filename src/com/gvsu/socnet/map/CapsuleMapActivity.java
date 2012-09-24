@@ -117,8 +117,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		// .setOnClickListener(this);
 		((ImageView) findViewById(R.id.map_zoom_in_button)).setOnClickListener(this);
 		((ImageView) findViewById(R.id.map_zoom_out_button)).setOnClickListener(this);
-		// ((ImageView)
-		// findViewById(R.id.map_notsurewhattouseitfor_button)).setOnClickListener(this);
 
 		/**************************/
 		// Debug.stopMethodTracing();
@@ -132,13 +130,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		/**************************/
 		// makes sure user is logged in otherwise makes them login
 		if (getSharedPreferences("profile", 0).getString("player_id", "-1").equals("-1")) {
-			// finish();
 			Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(i);
 		}
-		// if (rotatableUser) {
-		// rotate user's icon as they change direction
-		// users can opt out of this in the preferences screen
 		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("rotate_user", false)) {
 			sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 			if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
@@ -146,23 +140,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 				rotatableUser = true;
 			}
-			// }
-			// remove any existing user overlay
 			sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
 			sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
 		} else {
 			rotatableUser = false;
 		}
-		// if (user != null)
-		// if (mapOverlays.indexOf(user) != -1)
-		// mapOverlays.remove(mapOverlays.indexOf(user));
-		// user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
-		// mapView.post(new Runnable() {
-		// public void run() {
-		// Log.i("debug", "adding user overlay on UI thread");
-		// mapOverlays.add(0, user);
-		// }
-		// });
 
 		super.onResume();
 		requestLocationUpdates();
@@ -227,36 +209,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
        new AsyncDownloader().execute(new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, new Object[] { CapsuleMapActivity.this, new Object[] { userLocation.getLatitude(), userLocation.getLongitude(), prefs.getLong(FilterActivity.START_RANGE, 0L), prefs.getLong(FilterActivity.END_RANGE, 0L), prefs.getFloat(FilterActivity.MIN_RATING, 0), lastRetrieve} }));
-
-
-
-//        Object[] data = (Object[]) payload.data[1];
-//        double dLat = (Double) data[0];
-//        double dLng = (Double) data[1];
-//        long startTime = (Long) data[2];
-//        long endTime = (Long) data[3];
-//        double dMinRating = (Double) data[4];
-//        String lastRetrieve = (String) data[5];
-
-
-
-//
-//		final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
-//		final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
-//		String retrieve = retrieveInner + retrieveOuter;
-//
-//		if (lastRetrieve == null || lastRetrieve.equals(retrieve)) {
-//			lastRetrieve = retrieve;
-//			/** new way to update map **/
-//		}
-//
-//		parseAndDrawCapsules(retrieveInner, true);
-//		parseAndDrawCapsules(retrieveOuter, false);
-//		Log.v("map", "finished parsing and drawing");
-
-		/**************************/
-		// Debug.stopMethodTracing();
-		/**************************/
 	}
 
 	/**
@@ -334,11 +286,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 		/**************************/
 		// Debug.startMethodTracing("map_location_changed");
 		/**************************/
-
-		// mapOverlays.remove(mapOverlays.indexOf(user));
-		// user = new UserOverlay(toGeoPoint(location),
-		// location.getBearing(), this);
-		// mapOverlays.add(user);
 
 		if (location == null) {
 			return;
@@ -468,61 +415,22 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 				((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
 			}
 			break;
-		// case R.id.map_center_map_button:
-		// if (!PreferenceManager.getDefaultSharedPreferences(
-		// getApplicationContext()).getBoolean("follow_user",
-		// false)) {
-		// centerMap(true);
-		// int zoomLvl = mapView.getZoomLevel();
-		// if (zoomLvl <= 10) {
-		// while (zoomLvl <= 15) {
-		// zoomLvl++;
-		// mapController.zoomIn();
-		// }
-		// }
-		// Toast.makeText(getApplicationContext(), "Following",
-		// Toast.LENGTH_SHORT).show();
-		// ((ImageView) findViewById(R.id.map_center_map_button))
-		// .setImageResource(R.drawable.center_on_user);
-		//
-		// } else {
-		// PreferenceManager
-		// .getDefaultSharedPreferences(
-		// getApplicationContext()).edit()
-		// .putBoolean("follow_user", false).commit();
-		// Toast.makeText(getApplicationContext(),
-		// "Not Following", Toast.LENGTH_SHORT).show();
-		// ((ImageView) findViewById(R.id.map_center_map_button))
-		// .setImageResource(R.drawable.dont_center);
-		// }
-		// if (userLocation == null) {
-		// Toast.makeText(this, "Waiting for GPS Location...",
-		// Toast.LENGTH_LONG).show();
-		// }
-		// break;
 		case R.id.map_zoom_in_button:
 			mapController.zoomIn();
 			break;
 		case R.id.map_zoom_out_button:
 			mapController.zoomOut();
 			break;
-		// case R.id.map_notsurewhattouseitfor_button:
-		// centerMap(true);
-		// break;
 		}
 
 	}
 
 	public void drawUser() {
 		int index = mapOverlays.indexOf(user);
-		// Log.d("map", "**removing user**");
 		if (index != -1)
 			mapOverlays.remove(mapOverlays.indexOf(user));
-		// Log.d("map", "**removed user**");
 		user = new UserOverlay(toGeoPoint(userLocation), this, rotatableUser, bearing);
-		// Log.d("map", "**adding user**");
 		mapOverlays.add(0, user);
-		// Log.d("map", "**added user**");
 	}
 
 	/****************************************************************
@@ -573,9 +481,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
      * void
      ***************************************************************/
     public void retrieveSuccess(String[] result) {
-
         parseAndDrawCapsules(result[0],true);
         parseAndDrawCapsules(result[1],false);
-
     }
 }

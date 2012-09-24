@@ -53,10 +53,6 @@ public class UserOverlay extends Overlay {
 
 			canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
 		}
-		/**
-		 * Invalidate should be called outside of this function!
-		 */
-		// mapView.invalidate();
 	}
 
 	public static int metersToRadius(float meters, MapView map, double latitude) {

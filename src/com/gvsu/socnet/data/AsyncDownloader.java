@@ -88,59 +88,36 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     }
 
     /*
-      * Runs on GUI thread
-      */
-    @Override
-    public void onProgressUpdate(Object... value) {
-//        int type = ((Integer) value[0]).intValue();
-//
-//        switch (type) {
-//
-//            case RETRIEVECAPSULES:
-//                // LoginActivity app = (LoginActivity) value[1];
-//                // int progress = ((Integer) value[2]).intValue();
-//                // app.progressBar.setProgress(progress);
-//                break;
-//        }
-
-    }
-
-    /*
       * Runs on background thread
       */
     @Override
     public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... params) {
-        Log.d(TAG,"*******BACKGROUND********");
-        AsyncDownloader.Payload payload = params[0];
+      Log.d(TAG,"*******BACKGROUND********");
+      AsyncDownloader.Payload payload = params[0];
 
-        try {
-            switch (payload.taskType) {
-                case RETRIEVECAPSULES:
+      try {
+        switch (payload.taskType) {
+          case RETRIEVECAPSULES:
+            Object[] data = (Object[]) payload.data[1];
+            double dLat = (Double) data[0];
+            double dLng = (Double) data[1];
+            long startTime = (Long) data[2];
+            long endTime = (Long) data[3];
+            double dMinRating = (Float) data[4];
+            String lastRetrieve = (String) data[5];
 
-                    // extract the parameters of the task from payload
-                    // LoginActivity app = (LoginActivity)
-                    // payload.data[0];
-                    Object[] data = (Object[]) payload.data[1];
-                    double dLat = (Double) data[0];
-                    double dLng = (Double) data[1];
-                    long startTime = (Long) data[2];
-                    long endTime = (Long) data[3];
-                    double dMinRating = (Float) data[4];
-                    String lastRetrieve = (String) data[5];
+            String[] results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
 
+            payload.result = results;
 
-                    String[] results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
-
-                    payload.result = results;
-
-                    break;
-            }
-        } catch (Exception ae) {
-            payload.exception = ae;
-            payload.result = null;
+            break;
         }
+      } catch (Exception ae) {
+        payload.exception = ae;
+        payload.result = null;
+      }
 
-        return payload;
+      return payload;
     }
 
     public static class Payload {
@@ -156,23 +133,14 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     }
 
     private void retrieveFailed(CapsuleMapActivity app, CharSequence message) {
-        try {
-
-            app.setProgressBarIndeterminateVisibility(false);
-        } catch (NullPointerException ne) {
-        }
+      try {
+        app.setProgressBarIndeterminateVisibility(false);
+      } catch (NullPointerException ne) {
+      }
     }
 
-    /****************************************************************
-     * @param app
-     * @param result void
-     ***************************************************************/
     private void loginSuccess(CapsuleMapActivity app, String[] result) {
-        try {
-//            app.setProgressBarIndeterminateVisibility(false);
-        } catch (NullPointerException ne) {
-        }
-        app.retrieveSuccess(result);
+      app.retrieveSuccess(result);
     }
 
     /****************************************************************
@@ -181,21 +149,21 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
      * @return int
      ***************************************************************/
     private int processTime(String time) {
-        boolean add12 = false;
-        String[] start = time.split(":");
-        String startBase = start[0].trim() + start[1].substring(0, 2);
-        if ((start[1].substring(3).equals("pm"))) {
-            if (start[0].length() == 1) {
-                add12 = true;
-            } else if (start[0].length() > 1 && !start[0].substring(0, 2).equals("12")) {
-                add12 = true;
-            }
+      boolean add12 = false;
+      String[] start = time.split(":");
+      String startBase = start[0].trim() + start[1].substring(0, 2);
+      if ((start[1].substring(3).equals("pm"))) {
+        if (start[0].length() == 1) {
+          add12 = true;
+        } else if (start[0].length() > 1 && !start[0].substring(0, 2).equals("12")) {
+          add12 = true;
         }
-        int startTime = Integer.parseInt(startBase);
-        if (add12) {
-            startTime += 1200;
-        }
-        return startTime;
+      }
+      int startTime = Integer.parseInt(startBase);
+      if (add12) {
+        startTime += 1200;
+      }
+      return startTime;
     }
 
     protected String[] retrieveCapsules(Double dLat, Double dLng, Long startTime, Long endTime, double dMinRating, String lastRetrieve) {

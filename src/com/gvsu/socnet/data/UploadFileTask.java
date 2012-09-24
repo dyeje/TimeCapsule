@@ -55,10 +55,6 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
         		Log.v(TAG, "new upload url:"+UPLOAD_URL);
         	}
         }
-//        setProgressBarIndeterminateVisibility(true);
-//        mConfirm.setEnabled(false);
-//        mCancel.setEnabled(false);
-//        showDialog(UPLOAD_PROGRESS_DIALOG);
     }
 
     /**
@@ -67,19 +63,12 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
-//        setProgressBarIndeterminateVisibility(false);
-//        mConfirm.setEnabled(true);
-//        mDialog.dismiss();
-
         if (result) {
         	Log.d(TAG, "upload success");
-//        	Toast.makeText(this), "Upload Success!", Toast.LENGTH_SHORT).show();
-//            showDialog(UPLOAD_SUCCESS_DIALOG);
         } else {
         	Log.d(TAG, "upload failed :(");
         	Toast.makeText(mContext, "Please check network configuration", Toast.LENGTH_SHORT).show();
         	mContext = null;
-//            showDialog(UPLOAD_ERROR_DIALOG);
         }
     }
 
@@ -94,11 +83,9 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
 
         if (values[0] == 0) {
         	Log.i(TAG, "uploaded is starting");
-//            mDialog.setTitle(getString(R.string.progress_dialog_title_uploading));
         }
 
         Log.i(TAG, values[0]+ " % uploaded");
-//        mDialog.setProgress(values[0]);
     }
     
 
@@ -139,10 +126,6 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
             publishProgress(0);
 
             dos = new DataOutputStream(conn.getOutputStream());
-
-            // Send location params
-//            writeFormField(dos, separator, FIELD_LATITUDE, "" + mLocation.getLatitude());
-//            writeFormField(dos, separator, FIELD_LONGITUDE, "" + mLocation.getLongitude());
 
             // Send multipart headers
             dos.writeBytes(twoHyphens + boundary + lineEnd);

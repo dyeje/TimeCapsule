@@ -44,15 +44,11 @@ public class Comment {
 		int year = Integer.parseInt(dateArray[0]);
 		int month = Integer.parseInt(dateArray[1]) - 1;// because Java Calendar is inconsistent
 		int day = Integer.parseInt(dateArray[2]);
-		// c.set(year, month, day);
 
 		String[] timeArray = time.split(":");
 		int hour = Integer.parseInt(timeArray[0]);
 		int minute = Integer.parseInt(timeArray[1]);
 		int second = Integer.parseInt(timeArray[2]);
-		// c.set(Calendar.HOUR_OF_DAY, hour);
-		// c.set(Calendar.MINUTE, minute);
-		// c.set(Calendar.SECOND, second);
 
 		// get the supported ids for GMT-08:00 (Pacific Standard Time)
 		String[] ids = TimeZone.getAvailableIDs(-8 * 60 * 60 * 1000);
@@ -60,6 +56,7 @@ public class Comment {
 		if (ids.length == 0)
 			System.exit(0);
 
+		// TODO set time zone?
 		// create a Pacific Standard Time time zone
 		SimpleTimeZone pdt = new SimpleTimeZone(-8 * 60 * 60 * 1000, ids[0]);
 
@@ -77,9 +74,6 @@ public class Comment {
 		c.set(Calendar.MINUTE, minute);
 		c.set(Calendar.SECOND, second);
 
-		// GregorianCalendar c = new GregorianCalendar(year, month, day, hour, minute, second);
-		// Log.i("comment", "dow=" + c.get(Calendar.DAY_OF_WEEK));
-		// Log.i("comment", "madeSenseOf " + dateStamp + ":=" + c.toString()); 
 		return c;
 	}
 

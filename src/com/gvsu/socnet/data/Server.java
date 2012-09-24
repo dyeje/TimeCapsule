@@ -165,26 +165,6 @@ public class Server {
 		Log.i("server", "getCapsules request:" + request);
 		String result = valid(get(request));
 		Log.i("server", "getCapsules response:" + result);
-		// if (!result.equals("error")) {
-		// JSONArray capsules = new JSONArray();
-		// try {
-		// capsules = new JSONArray(result);
-		// // capsules.getJSONObject(0)
-		// } catch (JSONException e) {
-		// e.printStackTrace();
-		// }
-		// for (int i = 0; i < capsules.length(); i++) {
-		// try {
-		// JSONObject capsule = capsules.getJSONObject(i);
-		// Log.d(TAG, "capsule id "+ capsule.getString("id"));
-		// } catch (JSONException e) {
-		// Log.e(TAG, "error: " + capsules.toString() + " is not valid JSON");
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-
-		// Log.d(TAG, "getCapsule\nrequest:" + request + "\nresult:" + result);
 		return result;
 	}
 
@@ -206,16 +186,6 @@ public class Server {
 		}
 	}
 
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
-	/****************************************************************
 	/****************************************************************
 	 * Basic server post code
 	 * @param command
