@@ -1,7 +1,6 @@
 /** NewUserActivity.java */
 package com.gvsu.socnet.user;
 
-import soc.net.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import soc.net.R;
 
 import com.gvsu.socnet.data.Server;
 

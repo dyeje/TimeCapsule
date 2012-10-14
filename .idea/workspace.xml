@@ -11,15 +11,40 @@
       </GlobalState>
     </option>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="soc.net" />
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="WARN" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="9f1a0254-a9e7-42b6-beb1-b571668cc33b" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/achieve_pic.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/androidmarker.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/back.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/blank_button.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/center_on_user.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/clan_pic.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/dont_center.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/footer.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/header.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/header_map.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/icon.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/level_pic.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/marker.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/play_movie.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/rotate_user.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/map.xml" afterPath="$PROJECT_DIR$/res/layout/map.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/data/AsyncDownloader.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/data/AsyncDownloader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/navigation_header.xml" afterPath="$PROJECT_DIR$/res/layout/navigation_header.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/profile.xml" afterPath="$PROJECT_DIR$/res/layout/profile.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleMapActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleMapActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleOverlayItem.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleOverlayItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleOverlays.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleOverlays.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/map/FilterActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/map/FilterActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/map/UserOverlay.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/map/UserOverlay.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/user/AddCapsuleActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/user/AddCapsuleActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/user/LoginActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/user/LoginActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/user/NewUserActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/user/NewUserActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/user/ProfileActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/user/ProfileActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/user/SettingsActivity.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/user/SettingsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/views/NavigationMenu.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/views/NavigationMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gvsu/socnet/views/RangeSeekBar.java" afterPath="$PROJECT_DIR$/src/com/gvsu/socnet/views/RangeSeekBar.java" />
     </list>
     <ignored path="TimeCapsule.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,10 +102,97 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="map.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/map.xml">
+      <file leaf-file-name="NavigationMenu.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/views/NavigationMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="37" selection-start="649" selection-end="649" vertical-scroll-proportion="0.49707603">
+            <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RangeSeekBar.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/views/RangeSeekBar.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="17" selection-start="505" selection-end="505" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#16138#16168#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FilterActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/FilterActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="17" selection-start="562" selection-end="562" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CapsuleActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="61" column="51" selection-start="1671" selection-end="1671" vertical-scroll-proportion="0.3276699">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2436#2633#0" expanded="true" />
+                <element signature="e#2628#2629#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProfileActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/ProfileActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="64" column="58" selection-start="2480" selection-end="2480" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CapsuleMapActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleMapActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="17" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserOverlay.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/UserOverlay.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="17" selection-start="378" selection-end="378" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/LoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="17" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NewUserActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/NewUserActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="17" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -106,11 +218,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/user/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/data/AsyncException.java" />
         <option value="$PROJECT_DIR$/src/com/gvsu/socnet/data/AsyncDownloader.java" />
-        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleMapActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/map.xml" />
+        <option value="$PROJECT_DIR$/res/layout/profile.xml" />
+        <option value="$PROJECT_DIR$/res/layout/navigation_header.xml" />
+        <option value="$PROJECT_DIR$/gen/soc/net/R.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/user/SettingsActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleMapActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/map/UserOverlay.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/user/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/user/NewUserActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/views/NavigationMenu.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/views/RangeSeekBar.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/map/FilterActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/user/AddCapsuleActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/user/ProfileActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleActivity.java" />
       </list>
     </option>
   </component>
@@ -126,7 +249,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
@@ -159,7 +282,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -195,18 +317,8 @@
               <option name="myItemId" value="socnet" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TimeCapsule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TimeCapsule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -220,21 +332,89 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
+              <option name="myItemId" value="socnet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeCapsule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeCapsule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="socnet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="map" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeCapsule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeCapsule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="socnet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeCapsule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeCapsule" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gen" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="net" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
@@ -245,9 +425,19 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/drawable" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/drawable/navigation" />
+      <recent name="$PROJECT_DIR$/res/drawable" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.LoginActivity">
     <configuration default="false" name="LoginActivity" type="AndroidRunConfigurationType" factoryName="Android Application" temporary="true">
@@ -487,24 +677,24 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.6704708" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297414" sideWeight="0.7860262" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32896653" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952926" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32896653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33770016" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952926" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14583333" sideWeight="0.7860262" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2139738" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14583333" sideWeight="0.6710335" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2139738" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297414" sideWeight="0.6710335" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32952926" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -568,52 +758,124 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/data/UploadFileTask.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/map.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="6" selection-start="472" selection-end="472" vertical-scroll-proportion="0.23702031" />
+        <state line="9" column="4" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/navigation_header.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="297" selection-end="297" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/profile.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="37" selection-start="1025" selection-end="1025" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/new_user.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="28" selection-start="2017" selection-end="2017" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/soc/net/R.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="40" selection-start="4903" selection-end="4903" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="406" selection-end="423" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="31" selection-start="2578" selection-end="2578" vertical-scroll-proportion="-6.15">
+        <state line="41" column="17" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/data/AsyncDownloader.java">
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/UserOverlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="61" selection-start="2553" selection-end="2553" vertical-scroll-proportion="0.029239766">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/data/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="3202" selection-end="3202" vertical-scroll-proportion="0.03">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/data/AsyncException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="445" selection-end="445" vertical-scroll-proportion="0.4385965">
-          <folding />
+        <state line="12" column="17" selection-start="378" selection-end="378" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="23" selection-start="888" selection-end="888" vertical-scroll-proportion="0.029239766">
+        <state line="18" column="17" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/map.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/NewUserActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="37" selection-start="649" selection-end="649" vertical-scroll-proportion="0.49707603">
+        <state line="15" column="17" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/views/RangeSeekBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="17" selection-start="505" selection-end="505" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#16138#16168#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/AddCapsuleActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="17" selection-start="700" selection-end="700" vertical-scroll-proportion="0.4079498">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/FilterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="17" selection-start="562" selection-end="562" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/user/ProfileActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="58" selection-start="2480" selection-end="2480" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/views/NavigationMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gvsu/socnet/map/CapsuleActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="51" selection-start="1671" selection-end="1671" vertical-scroll-proportion="0.3276699">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2436#2633#0" expanded="true" />
+            <element signature="e#2628#2629#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

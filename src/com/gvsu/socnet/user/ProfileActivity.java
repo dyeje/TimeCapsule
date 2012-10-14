@@ -1,13 +1,13 @@
 package com.gvsu.socnet.user;
 
+import android.app.Activity;
+import android.widget.Button;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.gvsu.socnet.data.Server;
-import com.gvsu.socnet.views.NavigationMenu;
 
-import soc.net.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,15 +22,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import soc.net.R;
 
 /****************************************************************
  * com.gvsusocnet.ProfileActivity
  * @version 1.0
  ***************************************************************/
-public class ProfileActivity extends NavigationMenu implements OnClickListener {
+public class ProfileActivity extends Activity implements OnClickListener {
 
 	// private SharedPreferences prefs;
 	public final String PROFILE = "profile", PLAYER_ID = "player_id";
@@ -41,11 +41,8 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	private TextView username, name, location, gender, age, interests, aboutme;
 	private OnSharedPreferenceChangeListener listener;
 	private boolean viewing;
+    protected Button btnMenu, btnCapture, btnProfile, btnMap;
 
-	/****************************************************************
-	 * @see com.gvsu.socnet.views.gvsusocnet.NavigationMenu#onCreate(android.os.Bundle)
-	 * @param savedInstanceState
-	 ***************************************************************/
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// makes sure user is logged in, otherwise kicks them out to
@@ -55,15 +52,7 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		viewing = (getIntent().getStringExtra("viewing_id") != null);
-		if (viewing) {
-			setContentView(R.layout.profile);
-		} else {
-			ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-			View.inflate(this, R.layout.profile, vg);
-		}
-
-//		LinearLayout btnInfo = (LinearLayout) findViewById(R.id.player_info);
+		setContentView(R.layout.profile);
 
 		username = (TextView) findViewById(R.id.text_username);
 		name = (TextView) findViewById(R.id.text_name);
@@ -73,12 +62,16 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		interests = (TextView) findViewById(R.id.text_interests);
 		aboutme = (TextView) findViewById(R.id.text_about);
 
+        btnMenu = (Button) findViewById(R.id.menu_button);
+        btnMenu.setOnClickListener(this);
+        btnCapture = (Button) findViewById(R.id.capture_button);
+        btnCapture.setOnClickListener(this);
+        btnProfile = (Button) findViewById(R.id.profile_button);
+        btnProfile.setOnClickListener(this);
+        btnMap = (Button) findViewById(R.id.map_button);
+        btnMap.setOnClickListener(this);
+
 		btnProfile.setBackgroundResource(R.drawable.user_pic_edit);
-//		btnInfo.setOnClickListener(this);
-//		TextView btnStat = (TextView) findViewById(R.id.text_name);
-//		btnStat.setOnClickListener(this);
-//		TextView btnClan = (TextView) findViewById(R.id.text_age);
-//		btnClan.setOnClickListener(this);
 
 		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 		if (viewing) {
@@ -204,7 +197,6 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 	 * Checks server for user information and updates any changes 
 	 * void
 	 ***************************************************************/
-	@Override
 	protected void refresh() {
 		SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 		boolean online = isOnline();
@@ -301,14 +293,12 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		}
 	}
 
-	@Override
 	protected boolean gotoMenu() {
 		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
 
-	@Override
 	protected boolean gotoProfile() {
 		Toast.makeText(this, "Edit your profile", Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(getApplicationContext(), NewUserActivity.class);
@@ -316,7 +306,6 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		return false;
 	}
 
-	@Override
 	protected boolean gotoMap() {
 		// Intent myIntent = new Intent(getBaseContext(),
 		// CapsuleMapActivity.class);
@@ -325,10 +314,30 @@ public class ProfileActivity extends NavigationMenu implements OnClickListener {
 		return true;
 	}
 
-	@Override
 	protected boolean newCapsule() {
 		Intent myIntent = new Intent(this, AddCapsuleActivity.class);
 		startActivity(myIntent);
 		return true;
 	}
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.menu_button:
+                gotoMenu();
+                break;
+            case R.id.capture_button:
+                Toast.makeText(getApplicationContext(), "Capture a Moment", Toast.LENGTH_SHORT).show();
+                newCapsule();
+                break;
+            case R.id.profile_button:
+                gotoProfile();
+                break;
+            case R.id.map_button:
+                gotoMap();
+                break;
+            default:
+                break;
+        }
+    }
 }

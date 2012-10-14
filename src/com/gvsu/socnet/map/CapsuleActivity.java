@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import android.app.Activity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import soc.net.R;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,8 +34,9 @@ import com.gvsu.socnet.user.LoginActivity;
 import com.gvsu.socnet.user.ProfileActivity;
 import com.gvsu.socnet.user.SettingsActivity;
 import com.gvsu.socnet.views.NavigationMenu;
+import soc.net.R;
 
-public class CapsuleActivity extends NavigationMenu implements OnClickListener {
+public class CapsuleActivity extends Activity implements OnClickListener {
 
 	private final String TAG = "CapsuleActivity";
 	
@@ -59,9 +59,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		ViewGroup vg = (ViewGroup) findViewById(R.id.lldata);
-		mViewGroup = vg;
-		View.inflate(this, R.layout.capsule, vg);
+        setContentView(R.layout.capsule);
 
 		// Increment the number of views on the capsule
 		final String cId = getIntent().getStringExtra("cID");
@@ -82,7 +80,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 	 * Get capsule info from the server and display it
 	 **************************************************************
 	 */
-	@Override
+
 	protected void refresh() {
 		Runnable refreshRunnable = new Runnable() {
 			@Override
@@ -95,7 +93,6 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 				
 			}
 		};
-		mViewGroup.post(refreshRunnable);
 	}
 
 	/****************************************************************
@@ -111,7 +108,6 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
 			break;
 		default:
-			super.onClick(v);
 			break;
 		}
 
@@ -307,14 +303,12 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		});
 	}
 
-	@Override
 	protected boolean gotoMenu() {
 		Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
 		startActivity(i);
 		return true;
 	}
 
-	@Override
 	protected boolean gotoProfile() {
 		Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
 		// TODO profile button from a capsule takes you to the user
@@ -325,7 +319,6 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		return false;
 	}
 
-	@Override
 	protected boolean gotoMap() {
 		Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
 		startActivity(myIntent);
@@ -333,7 +326,6 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener {
 		return true;
 	}
 
-	@Override
 	protected boolean newCapsule() {
 		return false;
 	}

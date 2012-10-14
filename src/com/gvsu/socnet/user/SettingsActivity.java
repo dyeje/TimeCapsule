@@ -1,11 +1,8 @@
 /** SettingsActivity.java */
 package com.gvsu.socnet.user;
 
-import soc.net.R;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
@@ -13,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import soc.net.R;
 
 /****************************************************************
  * com.gvsusocnet.SettingsActivity

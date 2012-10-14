@@ -1,7 +1,6 @@
 /** LoginActivity.java */
 package com.gvsu.socnet.user;
 
-import soc.net.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,6 +16,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import soc.net.R;
 
 import com.gvsu.socnet.data.Server;
 
