@@ -139,21 +139,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="100dip"
-            android:text="Horrible" />
+            android:text="All" />
 
         <Button
             android:id="@+id/button_set_rating_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="100dip"
-            android:text="Mediocre" />
+            android:text="Good" />
 
         <Button
             android:id="@+id/button_set_rating_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="100dip"
-            android:text="Amazing" />
+            android:text="Great" />
     </LinearLayout>
 
     <LinearLayout

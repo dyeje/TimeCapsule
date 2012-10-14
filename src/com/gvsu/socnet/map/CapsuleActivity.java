@@ -5,9 +5,17 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import android.app.Activity;
+import com.gvsu.socnet.data.AsyncCallbackListener;
+import com.gvsu.socnet.data.AsyncDownloader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import soc.net.R;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +44,8 @@ import com.gvsu.socnet.user.SettingsActivity;
 import com.gvsu.socnet.views.NavigationMenu;
 import soc.net.R;
 
-public class CapsuleActivity extends Activity implements OnClickListener {
+public class CapsuleActivity extends NavigationMenu implements OnClickListener, AsyncCallbackListener {
+
 
 	private final String TAG = "CapsuleActivity";
 	
@@ -66,10 +75,10 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 		this.cId = cId;
 
 		String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString(LoginActivity.PLAYER_ID, "-1");
-		if (userId.equals("-1"))// just in case user is not logged in somehow
+		if (userId.equals("-1")) // just in case user is not logged in somehow
 			startActivity(new Intent(this, LoginActivity.class));
 		else
-			Server.addAView(userId, cId);
+      addAView(userId,cId);
 
 		refresh();
 
@@ -82,18 +91,58 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 	 */
 
 	protected void refresh() {
-		Runnable refreshRunnable = new Runnable() {
-			@Override
-			public void run() {
-				Log.i(TAG, "capid=" + cId);
-				setCapsuleInfo(cId);
-				setComments(cId);
-				setupAddComments(cId);
-				setupAddRating(cId);
-				
-			}
-		};
+    Log.i(TAG, "capid=" + cId);
+
+    refreshCapsuleInfo();
+    refreshCommentsInfo();
+    setupAddComments(cId);
+    setupAddRating(cId);
 	}
+
+  private void refreshCapsuleInfo() {
+    Log.d(TAG,"REFRESHING-CAP-INFO");
+    new AsyncDownloader().execute(
+      new AsyncDownloader.Payload(
+        AsyncDownloader.GETCAPSULE,
+        new Object[] {
+          CapsuleActivity.this,
+          new Object[] {
+            cId
+          }
+        }
+      )
+    );
+  }
+  private void refreshCommentsInfo() {
+    Log.d(TAG,"REFRESHING-COMMENTS-INFO");
+    new AsyncDownloader().execute(
+        new AsyncDownloader.Payload(
+            AsyncDownloader.GETCOMMENTS,
+            new Object[] {
+                CapsuleActivity.this,
+                new Object[] {
+                    cId
+                }
+            }
+        )
+    );
+  }
+
+  private void refreshRating() {
+    Log.d(TAG,"REFRESHING-RATING");
+    new AsyncDownloader().execute(
+        new AsyncDownloader.Payload(
+            AsyncDownloader.GETRATING,
+            new Object[] {
+                CapsuleActivity.this,
+                new Object[] {
+                    cId
+                }
+            }
+        )
+    );
+  }
+
 
 	/****************************************************************
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
@@ -113,7 +162,8 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 
 	}
 
-	private void setCapsuleInfo(String capsuleId) {
+//	private void setCapsuleInfo(String capsuleId) {
+  private void setCapsuleInfo(String strCapInfo) {
 
 		TextView title = (TextView) findViewById(R.id.capsule_title);
 		TextView description = (TextView) findViewById(R.id.description);
@@ -121,14 +171,9 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 		TextView leftOn = (TextView) findViewById(R.id.left_on);
 		RatingBar rating = (RatingBar) findViewById(R.id.capsule_rating_bar);
 
-		// Get Capsule Information from Server
-		String strCapInfo = Server.getCapsule(capsuleId);
 		if (strCapInfo.equals("error"))
 			return;// return instead
-		// Log.i(TAG, "capsuleinfo: " + strCapInfo);
-		// TODO show and link to the user who left capsule when the server returns this
 		// information
-
 		try {
 			JSONArray capsuleStuff = new JSONArray(strCapInfo);
 			JSONObject capsule = capsuleStuff.getJSONObject(0);
@@ -153,7 +198,7 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 			else
 				creator.setText("Left by " + strCreatorUName);
 		} catch (JSONException e) {
-			Log.e(TAG, "Error parsing capsule id=" + capsuleId + ": " + e.getMessage());
+			Log.e(TAG, "Error parsing capsule id=" + cId + ": " + e.getMessage());
 		}
 		
 		creator.setOnClickListener(new OnClickListener() {
@@ -167,10 +212,11 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 		});
 	}
 
-	private void setComments(final String capsuleId) {
+	private void setComments(final String commentsFromServer) {
+//    private void setComments(final String capsuleId) {
 		final LinearLayout commentList = (LinearLayout) findViewById(R.id.comment_layout);
 		commentList.removeAllViews();
-		String commentsFromServer = Server.getComments(capsuleId);
+//		String commentsFromServer = Server.getComments(capsuleId);
 		if (commentsFromServer.equals("error"))
 			return;// return instead
 
@@ -225,7 +271,7 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 			    + ((numDistinctViewers != 1) ? " different users" : " user"));
 
 		} catch (JSONException e) {
-			Log.e(TAG, "error parsing comments on capsule (id=" + capsuleId + ")\n" + e.getMessage());
+			Log.e(TAG, "error parsing comments on capsule (id=" + cId + ")\n" + e.getMessage());
 		}
 	}
 
@@ -241,13 +287,7 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 						EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
 						final String newCommentString = newComment.getText().toString();
 						newComment.setText("");
-						new Thread(new Runnable() {
-							@Override
-							public void run() {						
-								Server.addComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newCommentString));
-								refresh();
-							}
-						}).start();
+            addAComment(getSharedPreferences("profile", 0).getString("player_id", "0"),capsuleId,fixSpaces(newCommentString));
 					}
 					break;
 				}
@@ -280,17 +320,9 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				submitLayout.setVisibility(View.GONE);
-				new Thread(new Runnable() {
-					@Override
-					public void run() {//FIXME ratings are not being submitted??
-						String userId = getSharedPreferences("profile", 0).getString("player_id", "0");
-						String rating = Float.toString(ratingBar.getRating());
-						Log.d(TAG, "Submitting rating from user="+userId+" to capsuleId="+capsuleId+" at rating="+rating);
-						Server.addRating(userId, capsuleId, rating);
-						refresh();
-					}
-				});
-				Toast.makeText(getApplicationContext(), "Rating Submitted", Toast.LENGTH_SHORT).show();
+        addRating(ratingBar.getRating(),capsuleId);
+        ratingBar.setRating(0);
+//				Toast.makeText(getApplicationContext(), "Recalculating Rating", Toast.LENGTH_SHORT).show();
 			}
 		});
 		cancelButton.setOnClickListener(new OnClickListener() {
@@ -301,6 +333,8 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 				ratingBar.setRating(ratingBeforeUserMessedWithIt);
 			}
 		});
+
+    ratingBar.requestFocus();
 	}
 
 	protected boolean gotoMenu() {
@@ -433,4 +467,89 @@ public class CapsuleActivity extends Activity implements OnClickListener {
 		// s += "\n" + strCreateDate;
 		return s;
 	}
+
+  private void addRating(float rate,String capsuleId) {
+    String userId = getSharedPreferences("profile", 0).getString("player_id", "0");
+    String rating = Float.toString(rate);
+    Log.d(TAG, "Submitting rating from user="+userId+" to capsuleId="+capsuleId+" at rating="+rating);
+    new AsyncDownloader().execute(
+      new AsyncDownloader.Payload(
+        AsyncDownloader.ADDRATING,
+        new Object[] {
+          CapsuleActivity.this,
+          new Object[] {
+            userId,
+            capsuleId,
+            rating
+          }
+        }
+      )
+    );
+  }
+
+  private void addAView(String userId, String capsuleId) {
+    new AsyncDownloader().execute(
+        new AsyncDownloader.Payload(
+            AsyncDownloader.ADDCOMMENT,
+            new Object[] {
+                CapsuleActivity.this,
+                new Object[] {
+                    userId,
+                    capsuleId,
+                    ""
+                }
+            }
+        )
+    );
+  }
+
+  private void addAComment(String userId, String capsuleId, String comment) {
+    new AsyncDownloader().execute(
+        new AsyncDownloader.Payload(
+            AsyncDownloader.ADDCOMMENT,
+            new Object[] {
+                CapsuleActivity.this,
+                new Object[] {
+                    userId,
+                    capsuleId,
+                    comment
+                }
+            }
+        )
+    );
+  }
+
+  public void asyncSuccess(String[] results) {
+    int request = Integer.parseInt(results[0]);
+    switch (request) {
+      case AsyncDownloader.GETCAPSULE:
+        setCapsuleInfo(results[1]);
+        break;
+      case AsyncDownloader.GETCOMMENTS:
+        setComments(results[1]);
+        break;
+      case AsyncDownloader.GETRATING:
+        String rating = results[1].split("\":\"")[1].substring(0,1);
+        ((RatingBar) findViewById(R.id.capsule_rating_bar)).setRating(Float.parseFloat(rating));
+        break;
+      case AsyncDownloader.ADDRATING:
+        refreshRating();
+        break;
+      case AsyncDownloader.ADDCOMMENT:
+        refresh();
+        break;
+    }
+//    refresh();
+  }
+
+  public void asyncFailure(String[] results) {
+    new AlertDialog.Builder(this)
+        .setTitle("Internet Error ("+results[1]+")["+results[0]+"]")
+        .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
+        .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int which) {
+          }
+        })
+        .show();
+  }
 }

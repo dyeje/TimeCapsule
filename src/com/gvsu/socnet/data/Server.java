@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
@@ -33,7 +34,12 @@ import android.util.Log;
 public class Server {
 	private final static String TAG = "Server";
 
+  private static final String HTTP_TYPE = "http";
+  private static final String HOST = "www.cis.gvsu.edu";
+  private static final String PATH = "~scrippsj/socNet/functions";
+  private static final String BASE_URL = HTTP_TYPE+"://"+HOST+"/"+PATH+"/";
 	// Get Capsule
+//  private static final String GETCAPSULE = BASE_URL + "getCapsule.php?";
 	private static final String GETCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
 	// Create Capsule
 	private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
@@ -52,18 +58,53 @@ public class Server {
 	// Set Rating
 	private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
 
+//  private enum Method {
+//    GETCAPSULE,NEWCAPSULE,GETUSER,AUTHENTICATE,SETUSER,GETCOMMENTS,ADDCOMMENT,GETRATING,ADDRATING
+//  }
+
+//  private static String makeUrl(Method method, HashMap<String,String> arguments) {
+//    String command = BASE_URL;
+//    switch (method) {
+//      case GETCAPSULE:
+////        command += GETCAPSULE;
+////        command += "id=";
+////        String id = arguments.get("id");
+////        if (id != null) {
+////          command += id;
+////        }
+//        break;
+//      case NEWCAPSULE:
+//        break;
+//      case GETUSER:
+//        break;
+//      case AUTHENTICATE:
+//        break;
+//      case SETUSER:
+//        break;
+//      case GETCOMMENTS:
+//        break;
+//      case ADDCOMMENT:
+//        break;
+//      case GETRATING:
+//        break;
+//      case ADDRATING:
+//        break;
+//
+//    }
+//  }
+
 	public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
 		    + password + "&userName=" + username;
 		// Log.d(TAG, command);
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
 		String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
 		    + "&password=" + password + "&userName=" + username;
 		// Log.d(TAG, command);
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String newCapsule(String userId, String lat, String lon, String title, String description) {
@@ -72,7 +113,7 @@ public class Server {
 		String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
 		Log.i("server", "newCapsule request:" + command);
 		// Log.d(TAG, command);
-		String response = valid(get(command));
+		String response = get(command);
 		Log.i("server", "newCapsule response:" + response);
 		return response;
 	}
@@ -80,43 +121,43 @@ public class Server {
 	public static String getUser(String id) {
 		String command = GETUSER + id;
 		// Log.d(TAG, "tried: " + command);
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String authenticate(String id, String password) {
 		String command = AUTHENTICATE + id + "&password=" + password;
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String getCapsule(String id) {
 		String command = GETCAPSULE + "id=" + id;
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String getTreasure(String lat, String lng) {
 		String command = GETCAPSULE + "lat=" + lat + "&long=" + lng + "&radius=4";
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String getComments(String capsuleId) {
 		String command = GETCOMMENTS + "capsuleId=" + capsuleId;
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String getComments(String capsuleId, String userId) {
 		String command = GETCOMMENTS + "userId=" + userId + "&capsuleId=" + capsuleId;
-		return valid(get(command));
+		return get(command);
 	}
 
 	public static String getRating(String capsuleId) {
 		String command = GETRATING + capsuleId;
-		return valid(get(command));
+		return get(command);
 	}
-
+  //http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?userId=2&capsuleId=1&rating=5
 	public static String addRating(String userId, String capsuleId, String rating) {
 		String command = ADDRATING + "userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
 		Log.d(TAG, "addRating:request="+command);
-		String response = valid(get(command));
+		String response = get(command);
 		Log.d(TAG, "addRating:response="+response);
 		return response;
 	}
@@ -126,10 +167,10 @@ public class Server {
 		String result;
 		try {
 			String command = ADDCOMMENT + "userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
-			// Log.d(TAG, "addComment command: " + command);
+			Log.d(TAG, "addComment command: " + command);
 			result = get(command);
-			// Log.d(TAG, "result: " + result);
-			return valid(result);
+			Log.d(TAG, "result: " + result);
+			return result;
 		} catch (IllegalStateException e) {
 			result = "An error occured";
 		}
@@ -163,7 +204,7 @@ public class Server {
 		String request = GETCAPSULE;
 		request += "lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
 		Log.i("server", "getCapsules request:" + request);
-		String result = valid(get(request));
+		String result = get(request);
 		Log.i("server", "getCapsules response:" + result);
 		return result;
 	}
@@ -171,7 +212,7 @@ public class Server {
 	public static String login(String username, String password) {
 		String request = GETUSER + "&userName=" + username + "&password=" + password;
 		// Log.d(TAG, "logging in with: username=" + username + " password=" + password);
-		String result = valid(get(request));
+		String result = get(request);
 		// Log.d(TAG, "login response: " + result);
 		return result;
 	}
@@ -181,7 +222,7 @@ public class Server {
 		if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
 			return response.substring(11);
 		} else {
-			Log.d(TAG, "response:" + response + " *****NOT VALID*****");
+			Log.d(TAG, "response: '" + response + "' *****NOT VALID*****");
 			return "error";
 		}
 	}
@@ -220,7 +261,7 @@ public class Server {
 				}
 			}
 		}
-		return response_text;
+		return valid(response_text);
 	}
 
 	private static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException {
@@ -274,7 +315,7 @@ public class Server {
 	
 	public static boolean uploadFile(String path) {
 		Log.i(TAG, "uploading from path: "+path);
-		new UploadFileTask().execute(new File(path));		
+		new UploadFileTask().execute(new File(path));
 		return true;
 	}
 	

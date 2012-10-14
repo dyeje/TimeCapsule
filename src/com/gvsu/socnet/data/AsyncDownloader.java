@@ -1,12 +1,6 @@
 /** AsyncTask.java */
 package com.gvsu.socnet.data;
 
-/****************************************************************
- * com.ciscomputingclub.silencer.AsyncTask
- * @author
- * @version 1.0
- ***************************************************************/
-
 /*
  * Copyright (C) 2009 
  * Jayesh Salvi <jayesh@altcanvas.com>
@@ -26,32 +20,28 @@ package com.gvsu.socnet.data;
  * 
  * 
  * 
- * This file has been modified by GV-Computing-Club
+ * This file has been modified by Caleb Gomer
  */
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Hashtable;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-
 import android.util.Log;
-import com.gvsu.socnet.data.AsyncException;
-import com.gvsu.socnet.map.CapsuleMapActivity;
-import com.gvsu.socnet.map.FilterActivity;
 
 
 public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, AsyncDownloader.Payload> {
     public static final String TAG = "async";
 
     public static final int RETRIEVECAPSULES = 1;
+    public static final int GETCAPSULE= 10;
+    public static final int NEWCAPSULE = 2;
+    public static final int LOGIN = 3;
+    public static final int GETUSER = 4;
+    public static final int NEWUSER = 11;
+    public static final int EDITUSER = 5;
+    public static final int GETCOMMENTS = 6;
+    public static final int ADDCOMMENT = 7;
+    public static final int GETRATING = 8;
+    public static final int ADDRATING = 9;
 
     /*
       * Runs on GUI thread
@@ -66,25 +56,13 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
       */
     @Override
     public void onPostExecute(AsyncDownloader.Payload payload) {
-
-        switch (payload.taskType) {
-
-            case RETRIEVECAPSULES:
-                CapsuleMapActivity app = (CapsuleMapActivity) payload.data[0];
-
-                if (payload.result != null) {
-
-                    // Present the result on success
-                    String[] result = (String[]) payload.result;
-                    loginSuccess(app, result);
-
-                } else {
-                    String msg = (payload.exception != null) ? payload.exception.toString() : "";
-                    retrieveFailed(app, msg);
-                }
-
-                break;
-        }
+      AsyncCallbackListener app = (AsyncCallbackListener) payload.data[0];
+      if (payload.result != null && !payload.result[1].equals("error")) {
+        // Present the result on success
+        app.asyncSuccess(payload.result);
+      } else {
+        app.asyncFailure(payload.result);
+      }
     }
 
     /*
@@ -96,9 +74,29 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
       AsyncDownloader.Payload payload = params[0];
 
       try {
+
+        payload.result = new String[] {Integer.toString(payload.taskType),""};
+
+        Object[] data = (Object[]) payload.data[1];
+        String result = "";
+
+
+        //stupid java scoping...
+        String userId = "";
+        String password = "";
+        String name = "";
+        String location = "";
+        String state = "";
+        String gender = "";
+        String age = "";
+        String interests = "";
+        String about = "";
+        String username = "";
+        //end stupid java scoping...
+
+
         switch (payload.taskType) {
           case RETRIEVECAPSULES:
-            Object[] data = (Object[]) payload.data[1];
             double dLat = (Double) data[0];
             double dLng = (Double) data[1];
             long startTime = (Long) data[2];
@@ -106,10 +104,106 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
             double dMinRating = (Float) data[4];
             String lastRetrieve = (String) data[5];
 
-            String[] results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
+            String results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
 
-            payload.result = results;
+            payload.result[1] = results;
 
+            break;
+          case GETCAPSULE:
+            String capsuleId = (String) data[0];
+
+            result = Server.getCapsule(capsuleId);
+
+            payload.result[1] = result;
+            break;
+          case NEWCAPSULE:
+            userId = (String) data[0];
+            String lat = (String) data[1];
+            String lon = (String) data[2];
+            String title = (String) data[3];
+            String description = (String) data[4];
+
+            result = Server.newCapsule(userId,lat,lon,title,description);
+
+            payload.result[1] = result;
+            break;
+          case LOGIN:
+            userId = (String) data[0];
+            password = (String) data[1];
+
+            result = Server.authenticate(userId,password);
+
+            payload.result[1] = result;
+            break;
+          case GETUSER:
+            userId = (String) data[0];
+
+            result = Server.getUser(userId);
+
+            payload.result[1] = result;
+            break;
+          case NEWUSER:
+            name = (String) data[0];
+            location = (String) data[1];
+            state = (String) data[2];
+            gender = (String) data[3];
+            age = (String) data[4];
+            interests = (String) data[5];
+            about = (String) data[6];
+            password = (String) data[7];
+            username = (String) data[8];
+
+            result = Server.newUser(name,location,state,gender,age,interests,about,password,username);
+
+            payload.result[1] = result;
+            break;
+          case EDITUSER:
+            userId = (String) data[0];
+            name = (String) data[1];
+            location = (String) data[2];
+            state = (String) data[3];
+            gender = (String) data[4];
+            age = (String) data[5];
+            interests = (String) data[6];
+            about = (String) data[7];
+            password = (String) data[8];
+            username = (String) data[9];
+
+            result = Server.editUser(userId,name,location,state,gender,age,interests,about,password,username);
+
+            payload.result[1] = result;
+            break;
+          case GETCOMMENTS:
+            capsuleId = (String) data[0];
+
+            result = Server.getComments(capsuleId);
+
+            payload.result[1] = result;
+            break;
+          case ADDCOMMENT:
+            userId = (String) data[0];
+            capsuleId = (String) data[1];
+            String comment = (String) data[2];
+
+            result = Server.addComment(userId,capsuleId,comment);
+
+            payload.result[1] = result;
+            break;
+          case GETRATING:
+            capsuleId = (String) data[0];
+
+            result = Server.getRating(capsuleId);
+
+            payload.result[1] = result;
+            break;
+          case ADDRATING:
+            userId = (String) data[0];
+            capsuleId = (String) data[1];
+            String rating = (String) data[2];
+
+            result = Server.addRating(userId,capsuleId,rating);
+
+            payload.result[1] = result;
             break;
         }
       } catch (Exception ae) {
@@ -123,24 +217,13 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     public static class Payload {
         public int taskType;
         public Object[] data;
-        public Object result;
+        public String[] result;
         public Exception exception;
 
         public Payload(int taskType, Object[] data) {
             this.taskType = taskType;
             this.data = data;
         }
-    }
-
-    private void retrieveFailed(CapsuleMapActivity app, CharSequence message) {
-      try {
-        app.setProgressBarIndeterminateVisibility(false);
-      } catch (NullPointerException ne) {
-      }
-    }
-
-    private void loginSuccess(CapsuleMapActivity app, String[] result) {
-      app.retrieveSuccess(result);
     }
 
     /****************************************************************
@@ -166,7 +249,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
       return startTime;
     }
 
-    protected String[] retrieveCapsules(Double dLat, Double dLng, Long startTime, Long endTime, double dMinRating, String lastRetrieve) {
+    protected String retrieveCapsules(Double dLat, Double dLng, Long startTime, Long endTime, double dMinRating, String lastRetrieve) {
         /**************************/
         // Debug.startMethodTracing("map_retrieve");
         /**************************/
@@ -192,19 +275,12 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
 
         final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
         final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
-        String retrieve = retrieveInner + retrieveOuter;
-
-        if (lastRetrieve == null || lastRetrieve.equals(retrieve)) {
-            lastRetrieve = retrieve;
-            /** new way to update map **/
-        }
-
         Log.v("map", "finished collecting capsules");
 
         /**************************/
         // Debug.stopMethodTracing();
         /**************************/
 
-        return new String[] {retrieveInner,retrieveOuter};
+        return retrieveInner+"\n-\r-\t-\r-\n"+retrieveOuter;
     }
 }

@@ -19,6 +19,8 @@
 
             <TextView
                 android:id="@+id/capsule_title"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Capsule Title"
@@ -94,15 +96,15 @@
                     android:id="@+id/edit_text_new_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Add a comment"
+                    android:hint="Add a comment"/>
                     android:minWidth="200dip" />
-
                 <Button
-                    android:id="@+id/button_add_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="200dip"
-                    android:text="Submit" />
+                        android:id="@+id/button_add_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Submit" />
+                        android:minWidth="200dip"
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
