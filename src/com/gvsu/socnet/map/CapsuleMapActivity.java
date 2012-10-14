@@ -492,7 +492,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 			}
 		}
 	}
->>>>>>> General server call fixes
 
 
     /****************************************************************
