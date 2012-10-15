@@ -1,13 +1,6 @@
 package com.gvsu.socnet.user;
 
 import android.app.Activity;
-import android.widget.Button;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.gvsu.socnet.data.Server;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,14 +15,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.gvsu.socnet.data.Server;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import soc.net.R;
 
-/****************************************************************
+/**
+ * *************************************************************
  * com.gvsusocnet.ProfileActivity
+ *
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class ProfileActivity extends Activity implements OnClickListener {
 
   // private SharedPreferences prefs;
@@ -41,7 +42,7 @@ public class ProfileActivity extends Activity implements OnClickListener {
   private TextView username, name, location, gender, age, interests, aboutme;
   private OnSharedPreferenceChangeListener listener;
   private boolean viewing;
-    protected Button btnMenu, btnCapture, btnProfile, btnMap;
+  protected Button btnMenu, btnCapture, btnProfile, btnMap;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -62,18 +63,22 @@ public class ProfileActivity extends Activity implements OnClickListener {
     interests = (TextView) findViewById(R.id.text_interests);
     aboutme = (TextView) findViewById(R.id.text_about);
 
-        btnMenu = (Button) findViewById(R.id.menu_button);
-        btnMenu.setOnClickListener(this);
-        btnCapture = (Button) findViewById(R.id.capture_button);
-        btnCapture.setOnClickListener(this);
-        btnProfile = (Button) findViewById(R.id.profile_button);
-        btnProfile.setOnClickListener(this);
-        btnMap = (Button) findViewById(R.id.map_button);
-        btnMap.setOnClickListener(this);
+    btnMenu = (Button) findViewById(R.id.menu_button);
+    btnMenu.setOnClickListener(this);
+    btnCapture = (Button) findViewById(R.id.capture_button);
+    btnCapture.setOnClickListener(this);
+    btnProfile = (Button) findViewById(R.id.profile_button);
+    btnProfile.setOnClickListener(this);
+    btnMap = (Button) findViewById(R.id.map_button);
+    btnMap.setOnClickListener(this);
 
     btnProfile.setBackgroundResource(R.drawable.user_pic_edit);
 
     SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
+
+    String viewing_id = getIntent().getStringExtra("viewing_id");
+    viewing = (viewing_id != null && !viewing_id.equals("-1"));
+
     if (viewing) {
       setInfo(getIntent().getStringExtra("viewing_id"));
     } else {
@@ -108,9 +113,12 @@ public class ProfileActivity extends Activity implements OnClickListener {
     }
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onResume()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   public void onResume() {
     if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
@@ -159,7 +167,6 @@ public class ProfileActivity extends Activity implements OnClickListener {
       // String playerId = prefs.getString("player_id", "");
       String s = Server.getUser(playerId);
       if (!s.equals("error")) {
-        // SocNetData:[{"name":"Caleb","location":"Allendale","state":"MI","gender":"m","age":"19","interest":"anything CS!","about":"CS major at GVSU","password":"pass","userName":"calebgomer"}]
         JSONArray profileInfos;
         try {
           profileInfos = new JSONArray(s);
@@ -193,10 +200,12 @@ public class ProfileActivity extends Activity implements OnClickListener {
 
   }
 
-  /****************************************************************
-   * Checks server for user information and updates any changes 
+  /**
+   * *************************************************************
+   * Checks server for user information and updates any changes
    * void
-   ***************************************************************/
+   * *************************************************************
+   */
   protected void refresh() {
     SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
     boolean online = isOnline();
@@ -255,10 +264,13 @@ public class ProfileActivity extends Activity implements OnClickListener {
     }
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @param title
-   * @param info void
-   ***************************************************************/
+   * @param info  void
+   *              *************************************************************
+   */
   private void showDialog(String title, String info) {
 
     AlertDialog.Builder builder;
@@ -301,7 +313,7 @@ public class ProfileActivity extends Activity implements OnClickListener {
 
   protected boolean gotoProfile() {
     Toast.makeText(this, "Edit your profile", Toast.LENGTH_SHORT).show();
-    Intent i = new Intent(getApplicationContext(), NewUserActivity.class);
+    Intent i = new Intent(getApplicationContext(), NewEditUserActivity.class);
     startActivity(i);
     return false;
   }
@@ -320,24 +332,24 @@ public class ProfileActivity extends Activity implements OnClickListener {
     return true;
   }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.menu_button:
-                gotoMenu();
-                break;
-            case R.id.capture_button:
-                Toast.makeText(getApplicationContext(), "Capture a Moment", Toast.LENGTH_SHORT).show();
-                newCapsule();
-                break;
-            case R.id.profile_button:
-                gotoProfile();
-                break;
-            case R.id.map_button:
-                gotoMap();
-                break;
-            default:
-                break;
-        }
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.menu_button:
+        gotoMenu();
+        break;
+      case R.id.capture_button:
+        Toast.makeText(getApplicationContext(), "Capture a Moment", Toast.LENGTH_SHORT).show();
+        newCapsule();
+        break;
+      case R.id.profile_button:
+        gotoProfile();
+        break;
+      case R.id.map_button:
+        gotoMap();
+        break;
+      default:
+        break;
     }
+  }
 }

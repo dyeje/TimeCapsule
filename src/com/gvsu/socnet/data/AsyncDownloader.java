@@ -24,263 +24,276 @@ package com.gvsu.socnet.data;
  */
 
 import java.util.Calendar;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
 
 public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, AsyncDownloader.Payload> {
-    public static final String TAG = "async";
+  public static final String TAG = "async";
 
-    public static final int RETRIEVECAPSULES = 1;
-    public static final int GETCAPSULE= 10;
-    public static final int NEWCAPSULE = 2;
-    public static final int LOGIN = 3;
-    public static final int GETUSER = 4;
-    public static final int NEWUSER = 11;
-    public static final int EDITUSER = 5;
-    public static final int GETCOMMENTS = 6;
-    public static final int ADDCOMMENT = 7;
-    public static final int GETRATING = 8;
-    public static final int ADDRATING = 9;
+  public static final int RETRIEVECAPSULES = 1;
+  public static final int GETCAPSULE = 2;
+  public static final int NEWCAPSULE = 3;
+  public static final int LOGIN = 4;
+  public static final int GETUSER = 5;
+  public static final int NEWUSER = 6;
+  public static final int EDITUSER = 7;
+  public static final int GETCOMMENTS = 8;
+  public static final int ADDCOMMENT = 9;
+  public static final int GETRATING = 10;
+  public static final int ADDRATING = 11;
+  public static final int UPLOADFILE = 12;
 
-    /*
-      * Runs on GUI thread
-      */
-    @Override
-    protected void onPreExecute() {
-        Log.i(TAG,"*******GOING*****");
+  /*
+  * Runs on GUI thread
+  */
+  @Override
+  protected void onPreExecute() {
+    Log.i(TAG, "*******GOING*****");
+  }
+
+  /*
+  * Runs on GUI thread
+  */
+  @Override
+  public void onPostExecute(AsyncDownloader.Payload payload) {
+    AsyncCallbackListener app = (AsyncCallbackListener) payload.data[0];
+    if (payload.result != null && !payload.result[1].equals("error")) {
+      // Present the result on success
+      app.asyncSuccess(payload.result);
+    } else {
+      app.asyncFailure(payload.result);
+    }
+  }
+
+  /*
+  * Runs on background thread
+  */
+  @Override
+  public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... params) {
+    Log.d(TAG, "*******BACKGROUND********");
+    AsyncDownloader.Payload payload = params[0];
+
+    try {
+
+      payload.result = new String[]{Integer.toString(payload.taskType), ""};
+
+      Object[] data = (Object[]) payload.data[1];
+      String result = "";
+
+
+      //stupid java scoping...
+      String userId = "";
+      String password = "";
+      String name = "";
+      String location = "";
+      String state = "";
+      String gender = "";
+      String age = "";
+      String interests = "";
+      String about = "";
+      String username = "";
+      //end stupid java scoping...
+
+
+      switch (payload.taskType) {
+        case RETRIEVECAPSULES:
+          double dLat = (Double) data[0];
+          double dLng = (Double) data[1];
+          long startTime = (Long) data[2];
+          long endTime = (Long) data[3];
+          double dMinRating = (Float) data[4];
+          String lastRetrieve = (String) data[5];
+
+          String results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
+
+          payload.result[1] = results;
+
+          break;
+        case GETCAPSULE:
+          String capsuleId = (String) data[0];
+
+          result = Server.getCapsule(capsuleId);
+
+          payload.result[1] = result;
+          break;
+        case NEWCAPSULE:
+          userId = (String) data[0];
+          String lat = (String) data[1];
+          String lon = (String) data[2];
+          String title = (String) data[3];
+          String description = (String) data[4];
+
+          result = Server.newCapsule(userId, lat, lon, title, description);
+
+          payload.result[1] = result;
+          break;
+        case LOGIN:
+          userId = (String) data[0];
+          password = (String) data[1];
+
+          result = Server.authenticate(userId, password);
+
+          payload.result[1] = result;
+          break;
+        case GETUSER:
+          userId = (String) data[0];
+
+          result = Server.getUser(userId);
+
+          payload.result[1] = result;
+          break;
+        case NEWUSER:
+          name = (String) data[0];
+          location = (String) data[1];
+          state = (String) data[2];
+          gender = (String) data[3];
+          age = (String) data[4];
+          interests = (String) data[5];
+          about = (String) data[6];
+          password = (String) data[7];
+          username = (String) data[8];
+
+          result = Server.newUser(name, location, state, gender, age, interests, about, password, username);
+
+          payload.result[1] = result;
+          break;
+        case EDITUSER:
+          userId = (String) data[0];
+          name = (String) data[1];
+          location = (String) data[2];
+          state = (String) data[3];
+          gender = (String) data[4];
+          age = (String) data[5];
+          interests = (String) data[6];
+          about = (String) data[7];
+          password = (String) data[8];
+          username = (String) data[9];
+
+          result = Server.editUser(userId, name, location, state, gender, age, interests, about, password, username);
+
+          payload.result[1] = result;
+          break;
+        case GETCOMMENTS:
+          capsuleId = (String) data[0];
+
+          result = Server.getComments(capsuleId);
+
+          payload.result[1] = result;
+          break;
+        case ADDCOMMENT:
+          userId = (String) data[0];
+          capsuleId = (String) data[1];
+          String comment = (String) data[2];
+
+          result = Server.addComment(userId, capsuleId, comment);
+
+          payload.result[1] = result;
+          break;
+        case GETRATING:
+          capsuleId = (String) data[0];
+
+          result = Server.getRating(capsuleId);
+
+          payload.result[1] = result;
+          break;
+        case ADDRATING:
+          userId = (String) data[0];
+          capsuleId = (String) data[1];
+          String rating = (String) data[2];
+
+          result = Server.addRating(userId, capsuleId, rating);
+
+          payload.result[1] = result;
+          break;
+        case UPLOADFILE:
+          userId = (String) data[0];
+          String filePath = (String) data[1];
+
+          result = Boolean.toString(Server.uploadFile(filePath));
+
+          payload.result[1] = result;
+          break;
+      }
+    } catch (Exception ae) {
+      payload.exception = ae;
+      payload.result = null;
     }
 
-    /*
-      * Runs on GUI thread
-      */
-    @Override
-    public void onPostExecute(AsyncDownloader.Payload payload) {
-      AsyncCallbackListener app = (AsyncCallbackListener) payload.data[0];
-      if (payload.result != null && !payload.result[1].equals("error")) {
-        // Present the result on success
-        app.asyncSuccess(payload.result);
-      } else {
-        app.asyncFailure(payload.result);
+    return payload;
+  }
+
+  public static class Payload {
+    public int taskType;
+    public Object[] data;
+    public String[] result;
+    public Exception exception;
+
+    public Payload(int taskType, Object[] data) {
+      this.taskType = taskType;
+      this.data = data;
+    }
+  }
+
+  /**
+   * *************************************************************
+   * figure out start or end time
+   *
+   * @param time
+   * @return int
+   *         *************************************************************
+   */
+  private int processTime(String time) {
+    boolean add12 = false;
+    String[] start = time.split(":");
+    String startBase = start[0].trim() + start[1].substring(0, 2);
+    if ((start[1].substring(3).equals("pm"))) {
+      if (start[0].length() == 1) {
+        add12 = true;
+      } else if (start[0].length() > 1 && !start[0].substring(0, 2).equals("12")) {
+        add12 = true;
       }
     }
+    int startTime = Integer.parseInt(startBase);
+    if (add12) {
+      startTime += 1200;
+    }
+    return startTime;
+  }
 
-    /*
-      * Runs on background thread
-      */
-    @Override
-    public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... params) {
-      Log.d(TAG,"*******BACKGROUND********");
-      AsyncDownloader.Payload payload = params[0];
+  protected String retrieveCapsules(Double dLat, Double dLng, Long startTime, Long endTime, double dMinRating, String lastRetrieve) {
+    /**************************/
+    // Debug.startMethodTracing("map_retrieve");
+    /**************************/
 
-      try {
+    String lat = Double.toString(dLat);
+    String lng = Double.toString(dLng);
 
-        payload.result = new String[] {Integer.toString(payload.taskType),""};
+    Calendar c = Calendar.getInstance();
+    c.setTimeInMillis(startTime);
+    String from = "";
 
-        Object[] data = (Object[]) payload.data[1];
-        String result = "";
-
-
-        //stupid java scoping...
-        String userId = "";
-        String password = "";
-        String name = "";
-        String location = "";
-        String state = "";
-        String gender = "";
-        String age = "";
-        String interests = "";
-        String about = "";
-        String username = "";
-        //end stupid java scoping...
-
-
-        switch (payload.taskType) {
-          case RETRIEVECAPSULES:
-            double dLat = (Double) data[0];
-            double dLng = (Double) data[1];
-            long startTime = (Long) data[2];
-            long endTime = (Long) data[3];
-            double dMinRating = (Float) data[4];
-            String lastRetrieve = (String) data[5];
-
-            String results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
-
-            payload.result[1] = results;
-
-            break;
-          case GETCAPSULE:
-            String capsuleId = (String) data[0];
-
-            result = Server.getCapsule(capsuleId);
-
-            payload.result[1] = result;
-            break;
-          case NEWCAPSULE:
-            userId = (String) data[0];
-            String lat = (String) data[1];
-            String lon = (String) data[2];
-            String title = (String) data[3];
-            String description = (String) data[4];
-
-            result = Server.newCapsule(userId,lat,lon,title,description);
-
-            payload.result[1] = result;
-            break;
-          case LOGIN:
-            userId = (String) data[0];
-            password = (String) data[1];
-
-            result = Server.authenticate(userId,password);
-
-            payload.result[1] = result;
-            break;
-          case GETUSER:
-            userId = (String) data[0];
-
-            result = Server.getUser(userId);
-
-            payload.result[1] = result;
-            break;
-          case NEWUSER:
-            name = (String) data[0];
-            location = (String) data[1];
-            state = (String) data[2];
-            gender = (String) data[3];
-            age = (String) data[4];
-            interests = (String) data[5];
-            about = (String) data[6];
-            password = (String) data[7];
-            username = (String) data[8];
-
-            result = Server.newUser(name,location,state,gender,age,interests,about,password,username);
-
-            payload.result[1] = result;
-            break;
-          case EDITUSER:
-            userId = (String) data[0];
-            name = (String) data[1];
-            location = (String) data[2];
-            state = (String) data[3];
-            gender = (String) data[4];
-            age = (String) data[5];
-            interests = (String) data[6];
-            about = (String) data[7];
-            password = (String) data[8];
-            username = (String) data[9];
-
-            result = Server.editUser(userId,name,location,state,gender,age,interests,about,password,username);
-
-            payload.result[1] = result;
-            break;
-          case GETCOMMENTS:
-            capsuleId = (String) data[0];
-
-            result = Server.getComments(capsuleId);
-
-            payload.result[1] = result;
-            break;
-          case ADDCOMMENT:
-            userId = (String) data[0];
-            capsuleId = (String) data[1];
-            String comment = (String) data[2];
-
-            result = Server.addComment(userId,capsuleId,comment);
-
-            payload.result[1] = result;
-            break;
-          case GETRATING:
-            capsuleId = (String) data[0];
-
-            result = Server.getRating(capsuleId);
-
-            payload.result[1] = result;
-            break;
-          case ADDRATING:
-            userId = (String) data[0];
-            capsuleId = (String) data[1];
-            String rating = (String) data[2];
-
-            result = Server.addRating(userId,capsuleId,rating);
-
-            payload.result[1] = result;
-            break;
-        }
-      } catch (Exception ae) {
-        payload.exception = ae;
-        payload.result = null;
-      }
-
-      return payload;
+    if (c.getTimeInMillis() != 0L) {
+      from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
     }
 
-    public static class Payload {
-        public int taskType;
-        public Object[] data;
-        public String[] result;
-        public Exception exception;
-
-        public Payload(int taskType, Object[] data) {
-            this.taskType = taskType;
-            this.data = data;
-        }
+    c.setTimeInMillis(endTime);
+    String to = "";
+    if (c.getTimeInMillis() != 0L) {
+      to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
     }
 
-    /****************************************************************
-     * figure out start or end time
-     * @param time
-     * @return int
-     ***************************************************************/
-    private int processTime(String time) {
-      boolean add12 = false;
-      String[] start = time.split(":");
-      String startBase = start[0].trim() + start[1].substring(0, 2);
-      if ((start[1].substring(3).equals("pm"))) {
-        if (start[0].length() == 1) {
-          add12 = true;
-        } else if (start[0].length() > 1 && !start[0].substring(0, 2).equals("12")) {
-          add12 = true;
-        }
-      }
-      int startTime = Integer.parseInt(startBase);
-      if (add12) {
-        startTime += 1200;
-      }
-      return startTime;
-    }
+    String minRating = Integer.toString((int) dMinRating);
 
-    protected String retrieveCapsules(Double dLat, Double dLng, Long startTime, Long endTime, double dMinRating, String lastRetrieve) {
-        /**************************/
-        // Debug.startMethodTracing("map_retrieve");
-        /**************************/
+    final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
+    final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
+    Log.v("map", "finished collecting capsules");
 
-        String lat = Double.toString(dLat);
-        String lng = Double.toString(dLng);
+    /**************************/
+    // Debug.stopMethodTracing();
+    /**************************/
 
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(startTime);
-        String from = "";
-
-        if (c.getTimeInMillis() != 0L) {
-            from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
-        }
-
-        c.setTimeInMillis(endTime);
-        String to = "";
-        if (c.getTimeInMillis() != 0L) {
-            to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
-        }
-
-        String minRating = Integer.toString((int)dMinRating);
-
-        final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
-        final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
-        Log.v("map", "finished collecting capsules");
-
-        /**************************/
-        // Debug.stopMethodTracing();
-        /**************************/
-
-        return retrieveInner+"\n-\r-\t-\r-\n"+retrieveOuter;
-    }
+    return retrieveInner + "\n-\r-\t-\r-\n" + retrieveOuter;
+  }
 }

@@ -12,11 +12,14 @@ import android.widget.*;
 import com.gvsu.socnet.data.Server;
 import soc.net.R;
 
-/****************************************************************
+/**
+ * *************************************************************
  * com.gvsu.socnet.NewEditUserActivity
+ *
  * @author Caleb Gomer
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class NewEditUserActivity extends Activity implements OnClickListener {
 
   EditText username, password, name, city, state, age, interests, aboutme;
@@ -24,10 +27,12 @@ public class NewEditUserActivity extends Activity implements OnClickListener {
   Button create, cancel;
   boolean editing, worked, authenticated = false;
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
+   * @param savedInstanceState *************************************************************
    * @see android.app.Activity#onCreate(android.os.Bundle)
-   * @param savedInstanceState
-   ***************************************************************/
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -116,63 +121,63 @@ public class NewEditUserActivity extends Activity implements OnClickListener {
     String aboutme = fixSpaces(this.aboutme.getText().toString());
 
     switch (v.getId()) {
-    case R.id.button_create_account:
+      case R.id.button_create_account:
 
-      /*******************************
-       * Editing an existing profile
-       ******************************/
-      if (editing) {
-        makeUserLogin();
         /*******************************
-         * Creating a new profile
+         * Editing an existing profile
          ******************************/
-      } else {
-        String userID = Server.newUser(name, city, state, gender, age, interests, aboutme, password, username);
-        if (Integer.parseInt(userID) != -1) {
+        if (editing) {
+          makeUserLogin();
+          /*******************************
+           * Creating a new profile
+           ******************************/
+        } else {
+          String userID = Server.newUser(name, city, state, gender, age, interests, aboutme, password, username);
+          if (Integer.parseInt(userID) != -1) {
 
-          getSharedPreferences("profile", 0).edit().putString(LoginActivity.PLAYER_ID, userID).commit();
-          worked = true;
+            getSharedPreferences("profile", 0).edit().putString(LoginActivity.PLAYER_ID, userID).commit();
+            worked = true;
+          }
         }
-      }
 
-      /****************************************
-       * Leaves activity if everything's done
-       ***************************************/
-      if (worked) {
-        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-        startActivity(i);
-        finish();
-      } else {
-
-      }
-      break;
-    case R.id.button_cancel:
-      finish();
-      break;
-    case R.id.btn_login:
-      EditText pass = (EditText) findViewById(R.id.password_edit);
-      String strPass = pass.getText().toString();
-      if (!strPass.equals("")) {
-
-        String strUserName = getSharedPreferences("profile", 0).getString("username", "");
-
-        Log.d("debug", "userName: " + strUserName + " ps: " + strPass);
-        String auth = Server.authenticate(strUserName, strPass);
-        Log.d("debug", "auth: " + auth);
-        if (!auth.equals("-1")) {
-          Log.d("debug", "auth worked");
-          SharedPreferences prefs = getSharedPreferences("profile", 0);
-          String id = prefs.getString("player_id", "-1");
-          String strWorked = Server.editUser(id, name, city, state, gender, age, interests, aboutme, strPass, getSharedPreferences("profile", 0).getString("username", ""));
+        /****************************************
+         * Leaves activity if everything's done
+         ***************************************/
+        if (worked) {
+          Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+          startActivity(i);
           finish();
+        } else {
+
+        }
+        break;
+      case R.id.button_cancel:
+        finish();
+        break;
+      case R.id.btn_login:
+        EditText pass = (EditText) findViewById(R.id.password_edit);
+        String strPass = pass.getText().toString();
+        if (!strPass.equals("")) {
+
+          String strUserName = getSharedPreferences("profile", 0).getString("username", "");
+
+          Log.d("debug", "userName: " + strUserName + " ps: " + strPass);
+          String auth = Server.authenticate(strUserName, strPass);
+          Log.d("debug", "auth: " + auth);
+          if (!auth.equals("-1")) {
+            Log.d("debug", "auth worked");
+            SharedPreferences prefs = getSharedPreferences("profile", 0);
+            String id = prefs.getString("player_id", "-1");
+            String strWorked = Server.editUser(id, name, city, state, gender, age, interests, aboutme, strPass, getSharedPreferences("profile", 0).getString("username", ""));
+            finish();
+          } else {
+            Log.d("debug", "auth didn't work");
+            ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
+          }
         } else {
           Log.d("debug", "auth didn't work");
           ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
         }
-      } else {
-        Log.d("debug", "auth didn't work");
-        ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
-      }
     }
   }
 
@@ -194,33 +199,45 @@ public class NewEditUserActivity extends Activity implements OnClickListener {
     ((Button) findViewById(R.id.btn_login)).setOnClickListener(this);
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onRestart()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onRestart() {
     super.onRestart();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onResume()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onResume() {
     super.onResume();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onStart()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onStart() {
     super.onStart();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onStop()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onStop() {
     super.onStop();

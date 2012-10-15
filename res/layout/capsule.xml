@@ -1,134 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/background"
-    android:orientation="vertical" >
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@drawable/background"
+              android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="9" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|top"
-            android:orientation="vertical"
-            android:paddingTop="10dp" >
-
-            <TextView
-                android:id="@+id/capsule_title"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Capsule Title"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10sp"
-                android:text="A funny Youtube video I found"
-                android:textSize="20sp" />
-
-            <RatingBar
-                android:id="@+id/capsule_rating_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:rating="3"
-                android:stepSize="1" />
-            <TextView
-                android:id="@+id/capsule_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="User"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/left_on"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Left on MM/dd/yyyy" />
-
-            <ImageView
-                android:id="@+id/play_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/play_icon"
-                android:text="media"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/timesFound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Read XX Times" />
-
-            <TextView
-                android:id="@+id/comment"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:text="Comments"
-                android:textSize="20sp" />
-
-            <LinearLayout
-                android:id="@+id/comment_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:orientation="vertical" >
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/feedback_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:orientation="vertical" >
-
-                <EditText
-                    android:id="@+id/edit_text_new_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Add a comment"/>
-                    android:minWidth="200dip" />
-                <Button
-                        android:id="@+id/button_add_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Submit" />
-                        android:minWidth="200dip"
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+  <ScrollView
+      android:layout_width="fill_parent"
+      android:layout_height="0dip"
+      android:layout_weight="9">
 
     <LinearLayout
-        android:id="@+id/submit_rating_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+        android:gravity="center|top"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
-        <Button
-            android:id="@+id/capsule_rating_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:text="Rate Capsule" />
+      <TextView
+          android:id="@+id/capsule_title"
+          android:focusable="true"
+          android:focusableInTouchMode="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""
+          android:textSize="20sp"/>
 
-        <Button
-            android:id="@+id/capsule_rating_cancel"
-            android:layout_width="wrap_content"
+
+      <TextView
+          android:id="@+id/description"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingBottom="10sp"
+          android:text=""
+          android:textSize="20sp"/>
+
+      <RatingBar
+          android:id="@+id/capsule_rating_bar"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:numStars="5"
+          android:rating="0"
+          android:stepSize="1"/>
+      <TextView
+          android:id="@+id/capsule_creator"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""
+          android:textSize="20sp"/>
+
+      <TextView
+          android:id="@+id/left_on"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""/>
+
+      <ImageView
+          android:id="@+id/play_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/play_icon"
+          android:text="media"
+          android:visibility="gone"/>
+
+      <TextView
+          android:id="@+id/timesFound"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""/>
+
+      <TextView
+          android:id="@+id/comment"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dip"
+          android:text=""
+          android:textSize="20sp"/>
+
+      <LinearLayout
+          android:id="@+id/comment_layout"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dip"
+          android:orientation="vertical">
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/feedback_layout"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dip"
+          android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_text_new_comment"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel" />
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:minWidth="270dip"
+            android:hint="Add a comment"/>
+        <Button
+            android:id="@+id/button_add_comment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:minWidth="270dip"
+            android:text="Submit Comment"/>
+      </LinearLayout>
     </LinearLayout>
+  </ScrollView>
+
+  <LinearLayout
+      android:id="@+id/submit_rating_layout"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:visibility="gone">
+
+    <Button
+        android:id="@+id/capsule_rating_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:text="Rate Capsule"/>
+
+    <Button
+        android:id="@+id/capsule_rating_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Cancel"/>
+  </LinearLayout>
 
 </LinearLayout>

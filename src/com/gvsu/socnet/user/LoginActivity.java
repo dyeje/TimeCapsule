@@ -4,6 +4,7 @@ package com.gvsu.socnet.user;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,32 +17,26 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.gvsu.socnet.data.AsyncCallbackListener;
+import com.gvsu.socnet.data.AsyncDownloader;
 import soc.net.R;
 
 import com.gvsu.socnet.data.Server;
 
-/****************************************************************
+/**
+ * *************************************************************
  * com.gvsu.socnet.LoginActivity
+ *
  * @author Caleb Gomer
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class LoginActivity extends Activity implements
-    OnClickListener {
-  // TODO SUMMER LIST
-  // DONE put login in a scroll view
-  // Fix logic behind 'following user'
-  // prevent server from getting/returning garbage
-  // TODO Scaling radius based on number of capsules
-  // parseAnd draw will stop at N capsules
-  // TODO Polish up the user interface
-  // everyone can be on the look out for a designer that could
-  // possibly pretty up the app
-  // TODO look for a small group to beta test it in the fall
-  // TODO add pictures to the game maybe add a profile picture
-  // (gravatar?)
+    OnClickListener, AsyncCallbackListener {
 
-  public static final String PROFILE = "profile",
-      PLAYER_ID = "player_id";
+  public static final String PROFILE = "profile";
+  public static final String PLAYER_ID = "player_id";
   public TextView loginResult, username, password, newUser;
   public Button loginButton = null;
 
@@ -77,50 +72,54 @@ public class LoginActivity extends Activity implements
     return;
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
+   * @param v *************************************************************
    * @see android.view.View.OnClickListener#onClick(android.view.View)
-   * @param v
-   ***************************************************************/
+   */
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-    case R.id.button_start:
+      case R.id.button_start:
 
-      String strUsername = username.getText().toString();
-      String strPassword = password.getText().toString();
+        String strUsername = username.getText().toString();
+        String strPassword = password.getText().toString();
 
-      if (strUsername.equals("") || strPassword.equals("")) {
-        showDialog("Missing Information",
-            "Please enter a username and password", this);
-        return;
-      }
+        if (strUsername.equals("") || strPassword.equals("")) {
+          showDialog("Missing Information",
+              "Please enter a username and password", this);
+          return;
+        }
 
-      String id = Server.login(strUsername, strPassword);
-      if (!id.equals("-1")) {
-        getSharedPreferences(PROFILE, 0).edit()
-            .putString(PLAYER_ID, id).commit();
+        new AsyncDownloader().execute(
+            new AsyncDownloader.Payload(
+                AsyncDownloader.LOGIN, new Object[]{
+                LoginActivity.this, new Object[]{
+                strUsername,
+                strPassword
+            }
+            }
+            )
+        );
+
+        break;
+      case R.id.button_new_user:
+        Intent i = new Intent(getApplicationContext(),
+            NewEditUserActivity.class);
+        startActivity(i);
         finish();
-//        gotoProfile();
-      } else {
-        showDialog("Nope...",
-            "Your username or password are incorrect", this);
-      }
-
-      break;
-    case R.id.button_new_user:
-      Intent i = new Intent(getApplicationContext(),
-          NewUserActivity.class);
-      startActivity(i);
-      finish();
     }
 
   }
 
-  /****************************************************************
-  * @param info
-  * @param title
-  * void
-  ***************************************************************/
+  /**
+   * *************************************************************
+   *
+   * @param info
+   * @param title void
+   *              *************************************************************
+   */
   public void showDialog(String title, String info, Context context) {
 
     AlertDialog.Builder builder;
@@ -141,14 +140,41 @@ public class LoginActivity extends Activity implements
     alertDialog.show();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
    * void
-   ***************************************************************/
+   * *************************************************************
+   */
   public void gotoProfile() {
 
     Intent intent = new Intent(getBaseContext(),
         ProfileActivity.class);
     startActivity(intent);
     finish();
+  }
+
+  public void asyncSuccess(String[] results) {
+    int request = Integer.parseInt(results[0]);
+    if (request == AsyncDownloader.LOGIN) {
+      if (!results[1].equals("-1")) {
+        getSharedPreferences(PROFILE, 0).edit()
+            .putString(PLAYER_ID, results[1]).commit();
+        finish();
+      } else {
+        showDialog("Sorry...",
+            "Your username or password is incorrect", this);
+      }
+    }
+  }
+
+  public void asyncFailure(String[] results) {
+    new AlertDialog.Builder(this)
+        .setTitle("Internet Error (" + results[1] + ")[" + results[0] + "]{ID-10-T}")
+        .setMessage("Sorry, we couldn't save your Time Capsule. Please try that again...")
+        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int which) {
+          }
+        })
+        .show();
   }
 }

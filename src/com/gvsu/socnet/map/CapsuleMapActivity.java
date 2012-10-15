@@ -47,9 +47,8 @@ import soc.net.R;
 
 /**
  * Map to display and retrieve capsules.
- * 
- * @author Jeremy Dye
  *
+ * @author Jeremy Dye
  */
 public class CapsuleMapActivity extends MapActivity implements LocationListener, OnClickListener, SensorEventListener, AsyncCallbackListener {
 
@@ -169,10 +168,13 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     }
   }
 
-  /****************************************************************
-   * You called this a few times so I moved it into one method  
+  /**
+   * *************************************************************
+   * You called this a few times so I moved it into one method
+   *
    * @return void
-   ***************************************************************/
+   *         *************************************************************
+   */
   protected void requestLocationUpdates() {
     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
@@ -182,12 +184,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     locationManager.removeUpdates(this);
   }
 
-  /***************************************************************
+  /**
+   * ************************************************************
    * Retrieve string from the server of all treasures relevant
    * to the users current location.
-   ***************************************************************/
+   * *************************************************************
+   */
   protected void retrieveCapsules() {
-        Log.d("MAP","RETRIEVING");
+    Log.d("MAP", "RETRIEVING");
     /**************************/
     // Debug.startMethodTracing("map_retrieve");
     /**************************/
@@ -213,23 +217,24 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
     new AsyncDownloader().execute(
-      new AsyncDownloader.Payload(
-        AsyncDownloader.RETRIEVECAPSULES, new Object[] {
-          CapsuleMapActivity.this, new Object[] {
+        new AsyncDownloader.Payload(
+            AsyncDownloader.RETRIEVECAPSULES, new Object[]{
+            CapsuleMapActivity.this, new Object[]{
             userLocation.getLatitude(),
             userLocation.getLongitude(),
             prefs.getLong(FilterActivity.START_RANGE, 0L),
             prefs.getLong(FilterActivity.END_RANGE, 0L),
             prefs.getFloat(FilterActivity.MIN_RATING, 0),
             lastRetrieve
-          }
         }
-      )
+        }
+        )
     );
   }
 
   /**
    * Takes a JSON Array of time capsules from the server and displays them on the map
+   *
    * @param strCapsules
    */
   protected void parseAndDrawCapsules(String strCapsules, boolean inner) {
@@ -329,7 +334,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
         }
         userLocation = location;
         /** new way to update map **/
-          retrieveCapsules();
+        retrieveCapsules();
 
       }
 
@@ -364,11 +369,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     Log.i("map", provider + " provider status changed\nnew status=" + status);
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
    * Centers the map on user's location as it changes, but
    * at most every 1 seconds to avoid excessive 'jittering'
+   *
    * @returns void
-   ***************************************************************/
+   * *************************************************************
+   */
   private void centerMap(boolean forceRefresh) {
     if (userLocation == null)
       return; // can't center on a null location, get out!
@@ -389,9 +397,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     Log.v("map", "2");
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
    * Centers the map on user location when search button pressed
-   ***************************************************************/
+   * *************************************************************
+   */
   @Override
   public boolean onSearchRequested() {
     Log.v("map", "-1");
@@ -400,44 +410,46 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     return false;
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
+   * @param v *************************************************************
    * @see android.view.View.OnClickListener#onClick(android.view.View)
-   * @param v
-   ***************************************************************/
+   */
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-    case R.id.map_settings_button:
-      Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-      startActivity(i);
-      break;
-    case R.id.map_filter_button:
-      Intent i1 = new Intent(getApplicationContext(), FilterActivity.class);
-      startActivity(i1);
-      break;
-    case R.id.map_capture_button:
-      Intent i2 = new Intent(getApplicationContext(), AddCapsuleActivity.class);
-      startActivity(i2);
-      break;
-    case R.id.map_profile_button:
-      Intent i3 = new Intent(getApplicationContext(), ProfileActivity.class);
-      startActivity(i3);
-      break;
-    case R.id.map_map_button:
-      if (mapView.isSatellite()) {
-        mapView.setSatellite(false);
-        ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
-      } else {
-        mapView.setSatellite(true);
-        ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
-      }
-      break;
-    case R.id.map_zoom_in_button:
-      mapController.zoomIn();
-      break;
-    case R.id.map_zoom_out_button:
-      mapController.zoomOut();
-      break;
+      case R.id.map_settings_button:
+        Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(i);
+        break;
+      case R.id.map_filter_button:
+        Intent i1 = new Intent(getApplicationContext(), FilterActivity.class);
+        startActivity(i1);
+        break;
+      case R.id.map_capture_button:
+        Intent i2 = new Intent(getApplicationContext(), AddCapsuleActivity.class);
+        startActivity(i2);
+        break;
+      case R.id.map_profile_button:
+        Intent i3 = new Intent(getApplicationContext(), ProfileActivity.class);
+        startActivity(i3);
+        break;
+      case R.id.map_map_button:
+        if (mapView.isSatellite()) {
+          mapView.setSatellite(false);
+          ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
+        } else {
+          mapView.setSatellite(true);
+          ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
+        }
+        break;
+      case R.id.map_zoom_in_button:
+        mapController.zoomIn();
+        break;
+      case R.id.map_zoom_out_button:
+        mapController.zoomOut();
+        break;
     }
 
   }
@@ -450,14 +462,16 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     mapOverlays.add(0, user);
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @param location user's location
    * @return GeoPoint the lat/lng GeoPoint of user
-   * @WhyHaveThisMethod
-   * This method is just a handy way to quickly convert
+   * @WhyHaveThisMethod This method is just a handy way to quickly convert
    * from the userLocation member field to a GeoPoint
    * which is helpful when communicating with the server
-   ***************************************************************/
+   * *************************************************************
+   */
   private GeoPoint toGeoPoint(Location location) {
     if (location != null) {
       return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
@@ -494,26 +508,23 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
   }
 
 
-    /****************************************************************
-     * void
-     ***************************************************************/
-    public void asyncSuccess(String[] results) {
-      int request = Integer.parseInt(results[0]);
-      if (request == AsyncDownloader.RETRIEVECAPSULES) {
-        String[] result = results[1].split("\n-\r-\t-\r-\n");
-        parseAndDrawCapsules(result[0],true);
-        parseAndDrawCapsules(result[1],false);
-      }
+  public void asyncSuccess(String[] results) {
+    int request = Integer.parseInt(results[0]);
+    if (request == AsyncDownloader.RETRIEVECAPSULES) {
+      String[] result = results[1].split("\n-\r-\t-\r-\n");
+      parseAndDrawCapsules(result[0], true);
+      parseAndDrawCapsules(result[1], false);
     }
+  }
 
-    public void asyncFailure(String[] results) {
-      new AlertDialog.Builder(this)
-          .setTitle("Internet Error ("+results[1]+")["+results[0]+"]{ID-10-T}")
-          .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
-          .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-          })
-          .show();
-    }
+  public void asyncFailure(String[] results) {
+    new AlertDialog.Builder(this)
+        .setTitle("Internet Error (" + results[1] + ")[" + results[0] + "]{ID-10-T}")
+        .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
+        .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int which) {
+          }
+        })
+        .show();
+  }
 }

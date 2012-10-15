@@ -153,7 +153,7 @@ public class Server {
     String command = GETRATING + capsuleId;
     return get(command);
   }
-  //http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?userId=2&capsuleId=1&rating=5
+
   public static String addRating(String userId, String capsuleId, String rating) {
     String command = ADDRATING + "userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
     Log.d(TAG, "addRating:request="+command);

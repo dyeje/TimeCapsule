@@ -1,74 +1,60 @@
 package com.gvsu.socnet.map;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import android.app.Activity;
-import com.gvsu.socnet.data.AsyncCallbackListener;
-import com.gvsu.socnet.data.AsyncDownloader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import soc.net.R;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
+import com.gvsu.socnet.data.AsyncCallbackListener;
+import com.gvsu.socnet.data.AsyncDownloader;
 import com.gvsu.socnet.data.Comment;
-import com.gvsu.socnet.data.Server;
 import com.gvsu.socnet.user.LoginActivity;
 import com.gvsu.socnet.user.ProfileActivity;
-import com.gvsu.socnet.user.SettingsActivity;
-import com.gvsu.socnet.views.NavigationMenu;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import soc.net.R;
 
-public class CapsuleActivity extends NavigationMenu implements OnClickListener, AsyncCallbackListener {
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class CapsuleActivity extends Activity implements OnClickListener, AsyncCallbackListener {
 
 
   private final String TAG = "CapsuleActivity";
-  
-  /** String YOUTUBE */
+
+  /**
+   * String YOUTUBE
+   */
   private final String YOUTUBE = "http://www.youtube.com/watch?v=";
 
-  /** String TAB */
+  /**
+   * String TAB
+   */
   private final String TAB = "\t";
 
   private String creatorID;
   private String cId;
-  
+
   private Context mContext;
   private ViewGroup mViewGroup;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    
+
     mContext = this;
-    
+
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     super.onCreate(savedInstanceState);
-        setContentView(R.layout.capsule);
+    setContentView(R.layout.capsule);
 
     // Increment the number of views on the capsule
     final String cId = getIntent().getStringExtra("cID");
@@ -78,16 +64,17 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
     if (userId.equals("-1")) // just in case user is not logged in somehow
       startActivity(new Intent(this, LoginActivity.class));
     else
-      addAView(userId,cId);
+      addAView(userId, cId);
 
     refresh();
 
     this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
    * Get capsule info from the server and display it
-   **************************************************************
+   * *************************************************************
    */
 
   protected void refresh() {
@@ -100,27 +87,28 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
   }
 
   private void refreshCapsuleInfo() {
-    Log.d(TAG,"REFRESHING-CAP-INFO");
+    Log.d(TAG, "REFRESHING-CAP-INFO");
     new AsyncDownloader().execute(
-      new AsyncDownloader.Payload(
-        AsyncDownloader.GETCAPSULE,
-        new Object[] {
-          CapsuleActivity.this,
-          new Object[] {
-            cId
-          }
-        }
-      )
+        new AsyncDownloader.Payload(
+            AsyncDownloader.GETCAPSULE,
+            new Object[]{
+                CapsuleActivity.this,
+                new Object[]{
+                    cId
+                }
+            }
+        )
     );
   }
+
   private void refreshCommentsInfo() {
-    Log.d(TAG,"REFRESHING-COMMENTS-INFO");
+    Log.d(TAG, "REFRESHING-COMMENTS-INFO");
     new AsyncDownloader().execute(
         new AsyncDownloader.Payload(
             AsyncDownloader.GETCOMMENTS,
-            new Object[] {
+            new Object[]{
                 CapsuleActivity.this,
-                new Object[] {
+                new Object[]{
                     cId
                 }
             }
@@ -129,13 +117,13 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
   }
 
   private void refreshRating() {
-    Log.d(TAG,"REFRESHING-RATING");
+    Log.d(TAG, "REFRESHING-RATING");
     new AsyncDownloader().execute(
         new AsyncDownloader.Payload(
             AsyncDownloader.GETRATING,
-            new Object[] {
+            new Object[]{
                 CapsuleActivity.this,
-                new Object[] {
+                new Object[]{
                     cId
                 }
             }
@@ -144,25 +132,27 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
   }
 
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
+   * @param v *************************************************************
    * @see android.view.View.OnClickListener#onClick(android.view.View)
-   * @param v
-   ***************************************************************/
+   */
   @Override
   public void onClick(View v) {
     Log.println(3, TAG, "buttonClicked");
     switch (v.getId()) {
-    case R.id.play_button:
-      Log.i(TAG, "playButtonClicked");
-      startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
-      break;
-    default:
-      break;
+      case R.id.play_button:
+        Log.i(TAG, "playButtonClicked");
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE + "RCUBxgdKZ_Y")));
+        break;
+      default:
+        break;
     }
 
   }
 
-//  private void setCapsuleInfo(String capsuleId) {
+
   private void setCapsuleInfo(String strCapInfo) {
 
     TextView title = (TextView) findViewById(R.id.capsule_title);
@@ -187,40 +177,37 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
       title.setText(strTitle);
       description.setText(strDescription);
       leftOn.setText(leftOnToString(strCreateDate));
-      // leftOn.setText("Left on " + strCreateDate.split(" ")[0] + " at " +
-      // strCreateDate.split(" ")[1]);
+
       if (strRating == null || strRating.equals("null"))
         rating.setRating(0);
       else
         rating.setRating(Float.parseFloat(strRating));
-      if (strCreatorUName == null || strCapInfo.equals("") || strCreatorUName.equals(""))
-        creator.setText("Anonymous");
+      if (strCreatorUName == null || strCapInfo.equals("") || strCreatorUName.equals("") || strCreatorUName.equals("null"))
+        creator.setText("Left by Anonymous");
       else
         creator.setText("Left by " + strCreatorUName);
     } catch (JSONException e) {
       Log.e(TAG, "Error parsing capsule id=" + cId + ": " + e.getMessage());
     }
-    
+
     creator.setOnClickListener(new OnClickListener() {
 
       @Override
       public void onClick(View v) {
-        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-        i.putExtra("viewing_id", creatorID);
-        startActivity(i);
+        if (creatorID != null && !creatorID.equals("null")) {
+          Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+          i.putExtra("viewing_id", creatorID);
+          startActivity(i);
+        }
       }
     });
   }
 
   private void setComments(final String commentsFromServer) {
-//    private void setComments(final String capsuleId) {
     final LinearLayout commentList = (LinearLayout) findViewById(R.id.comment_layout);
     commentList.removeAllViews();
-//    String commentsFromServer = Server.getComments(capsuleId);
     if (commentsFromServer.equals("error"))
       return;// return instead
-
-    // Log.i(TAG, "Comments on capsule number " + capsuleId + "\n" + commentsFromServer);
 
     try {
       JSONArray comments = new JSONArray(commentsFromServer);
@@ -247,17 +234,15 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
         String strUserName = comment.getString("userName");
 
         TextView t = new TextView(this);
-//        t.setId(Integer.parseInt(strUserId));
-//        t.setText(new Comment(user.getString("name"), strComment, strVisitTime).toString());
         t.setText(new Comment(strUserName, strComment, strVisitTime).toString());
-        t.setPadding(0, 10, 0, 0);
+        t.setPadding(40, 10, 40, 0);
         t.setOnClickListener(new OnClickListener() {
-          
+
           @Override
           public void onClick(View arg0) {
             Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
             i.putExtra("viewing_id", strUserId);
-            startActivity(i);           
+            startActivity(i);
           }
         });
         commentList.addView(t);
@@ -280,16 +265,16 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
 
       @Override
       public void onClick(final View v) {
-        switch(v.getId()) {
-        case R.id.button_add_comment:
-          //make sure user left a comment
-          if (!((Button) v).getText().toString().equals("")) {
-            EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
-            final String newCommentString = newComment.getText().toString();
-            newComment.setText("");
-            addAComment(getSharedPreferences("profile", 0).getString("player_id", "0"),capsuleId,fixSpaces(newCommentString));
-          }
-          break;
+        switch (v.getId()) {
+          case R.id.button_add_comment:
+            //make sure user left a comment
+            if (!((Button) v).getText().toString().equals("")) {
+              EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
+              final String newCommentString = newComment.getText().toString();
+              newComment.setText("");
+              addAComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newCommentString));
+            }
+            break;
         }
       }
     });
@@ -320,7 +305,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
       @Override
       public void onClick(View v) {
         submitLayout.setVisibility(View.GONE);
-        addRating(ratingBar.getRating(),capsuleId);
+        addRating(ratingBar.getRating(), capsuleId);
         ratingBar.setRating(0);
 //        Toast.makeText(getApplicationContext(), "Recalculating Rating", Toast.LENGTH_SHORT).show();
       }
@@ -335,41 +320,6 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
     });
 
     ratingBar.requestFocus();
-  }
-
-  protected boolean gotoMenu() {
-    Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-    startActivity(i);
-    return true;
-  }
-
-  protected boolean gotoProfile() {
-    Intent myIntent = new Intent(getBaseContext(), ProfileActivity.class);
-    // TODO profile button from a capsule takes you to the user
-    // who left that capsule's profile
-    // myIntent.putExtra("player_id",
-    // "the player's id who left it");
-    startActivity(myIntent);
-    return false;
-  }
-
-  protected boolean gotoMap() {
-    Intent myIntent = new Intent(getBaseContext(), CapsuleMapActivity.class);
-    startActivity(myIntent);
-    finish();
-    return true;
-  }
-
-  protected boolean newCapsule() {
-    return false;
-  }
-
-  /****************************************************************
-   * @see com.gvsu.socnet.views.NavigationMenu#onBackPressed()
-   ***************************************************************/
-  @Override
-  public void onBackPressed() {
-    finish();
   }
 
   private String fixSpaces(String str) {
@@ -389,65 +339,65 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
     // String s = "Left on ";
     String s = "";
     switch (c.get(Calendar.DAY_OF_WEEK)) {
-    case 1:
-      s += "Sunday, ";
-      break;
-    case 2:
-      s += "Monday, ";
-      break;
-    case 3:
-      s += "Tuesday, ";
-      break;
-    case 4:
-      s += "Wednesday, ";
-      break;
-    case 5:
-      s += "Thursday, ";
-      break;
-    case 6:
-      s += "Friday, ";
-      break;
-    case 7:
-      s += "Saturday, ";
-      break;
+      case 1:
+        s += "Sunday, ";
+        break;
+      case 2:
+        s += "Monday, ";
+        break;
+      case 3:
+        s += "Tuesday, ";
+        break;
+      case 4:
+        s += "Wednesday, ";
+        break;
+      case 5:
+        s += "Thursday, ";
+        break;
+      case 6:
+        s += "Friday, ";
+        break;
+      case 7:
+        s += "Saturday, ";
+        break;
     }
     switch (c.get(Calendar.MONTH)) {
-    case 0:
-      s += "January ";
-      break;
-    case 1:
-      s += "February ";
-      break;
-    case 2:
-      s += "March ";
-      break;
-    case 3:
-      s += "April ";
-      break;
-    case 4:
-      s += "May ";
-      break;
-    case 5:
-      s += "June ";
-      break;
-    case 6:
-      s += "July ";
-      break;
-    case 7:
-      s += "August, ";
-      break;
-    case 8:
-      s += "Sunday, ";
-      break;
-    case 9:
-      s += "Monday, ";
-      break;
-    case 10:
-      s += "Tuesday, ";
-      break;
-    case 11:
-      s += "Wednesday, ";
-      break;
+      case 0:
+        s += "January ";
+        break;
+      case 1:
+        s += "February ";
+        break;
+      case 2:
+        s += "March ";
+        break;
+      case 3:
+        s += "April ";
+        break;
+      case 4:
+        s += "May ";
+        break;
+      case 5:
+        s += "June ";
+        break;
+      case 6:
+        s += "July ";
+        break;
+      case 7:
+        s += "August ";
+        break;
+      case 8:
+        s += "September ";
+        break;
+      case 9:
+        s += "October ";
+        break;
+      case 10:
+        s += "November ";
+        break;
+      case 11:
+        s += "December ";
+        break;
     }
     s += c.get(Calendar.DAY_OF_MONTH);
     s += " at ";
@@ -464,26 +414,25 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
       sminute = "" + minute;
     s += sminute;
     s += (c.get(Calendar.AM_PM) == 0 ? "am" : "pm");
-    // s += "\n" + strCreateDate;
     return s;
   }
 
-  private void addRating(float rate,String capsuleId) {
+  private void addRating(float rate, String capsuleId) {
     String userId = getSharedPreferences("profile", 0).getString("player_id", "0");
     String rating = Float.toString(rate);
-    Log.d(TAG, "Submitting rating from user="+userId+" to capsuleId="+capsuleId+" at rating="+rating);
+    Log.d(TAG, "Submitting rating from user=" + userId + " to capsuleId=" + capsuleId + " at rating=" + rating);
     new AsyncDownloader().execute(
-      new AsyncDownloader.Payload(
-        AsyncDownloader.ADDRATING,
-        new Object[] {
-          CapsuleActivity.this,
-          new Object[] {
-            userId,
-            capsuleId,
-            rating
-          }
-        }
-      )
+        new AsyncDownloader.Payload(
+            AsyncDownloader.ADDRATING,
+            new Object[]{
+                CapsuleActivity.this,
+                new Object[]{
+                    userId,
+                    capsuleId,
+                    rating
+                }
+            }
+        )
     );
   }
 
@@ -491,9 +440,9 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
     new AsyncDownloader().execute(
         new AsyncDownloader.Payload(
             AsyncDownloader.ADDCOMMENT,
-            new Object[] {
+            new Object[]{
                 CapsuleActivity.this,
-                new Object[] {
+                new Object[]{
                     userId,
                     capsuleId,
                     ""
@@ -507,9 +456,9 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
     new AsyncDownloader().execute(
         new AsyncDownloader.Payload(
             AsyncDownloader.ADDCOMMENT,
-            new Object[] {
+            new Object[]{
                 CapsuleActivity.this,
-                new Object[] {
+                new Object[]{
                     userId,
                     capsuleId,
                     comment
@@ -529,7 +478,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
         setComments(results[1]);
         break;
       case AsyncDownloader.GETRATING:
-        String rating = results[1].split("\":\"")[1].substring(0,1);
+        String rating = results[1].split("\":\"")[1].substring(0, 1);
         ((RatingBar) findViewById(R.id.capsule_rating_bar)).setRating(Float.parseFloat(rating));
         break;
       case AsyncDownloader.ADDRATING:
@@ -544,7 +493,7 @@ public class CapsuleActivity extends NavigationMenu implements OnClickListener, 
 
   public void asyncFailure(String[] results) {
     new AlertDialog.Builder(this)
-        .setTitle("Internet Error ("+results[1]+")["+results[0]+"]")
+        .setTitle("Internet Error (" + results[1] + ")[" + results[0] + "]")
         .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
         .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int which) {
