@@ -19,21 +19,21 @@ import com.gvsu.socnet.user.AddCapsuleActivity;
  * Asynchronous task to upload file to server
  */
 class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
-	
-	private String TAG = "FileUpload";
-	
-	//default values
-	private static String IP ="localhost";
-	private static String port = "8888";
-	private static String UPLOAD_URL = "http://"+IP+":"+port+"/uploadFromAndroid";
-	private static Context mContext = null;
+    
+    private String TAG = "FileUpload";
+    
+    //default values
+    private static String IP ="localhost";
+    private static String port = "8888";
+    private static String UPLOAD_URL = "http://"+IP+":"+port+"/uploadFromAndroid";
+    private static Context mContext = null;
     /** Send the file with this form name */
     private static final String FIELD_FILE = "upload";
     private static final String FIELD_LATITUDE = "latitude";
     private static final String FIELD_LONGITUDE = "longitude";
     
     public static void giveContext(Context context) {
-    	mContext = context;
+        mContext = context;
     }
 
     /**
@@ -43,17 +43,17 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
     protected void onPreExecute() {
         super.onPreExecute();
         if (mContext == null) {
-        	Log.i(TAG, "no context");
-        	mContext = AddCapsuleActivity.stealContext();
-        	if (mContext == null) {
-        		Log.e(TAG, "NO CONTEXT! using default values for upload server");
-        	} else {        		
-        		Log.i(TAG, "stole context");
-        		IP = PreferenceManager.getDefaultSharedPreferences(mContext).getString("upload_server_ip", IP);
-        		port = PreferenceManager.getDefaultSharedPreferences(mContext).getString("upload_server_port", port);
-        		UPLOAD_URL = "http://"+IP+":"+port+"/uploadFromAndroid";
-        		Log.v(TAG, "new upload url:"+UPLOAD_URL);
-        	}
+            Log.i(TAG, "no context");
+            mContext = AddCapsuleActivity.stealContext();
+            if (mContext == null) {
+                Log.e(TAG, "NO CONTEXT! using default values for upload server");
+            } else {                
+                Log.i(TAG, "stole context");
+                IP = PreferenceManager.getDefaultSharedPreferences(mContext).getString("upload_server_ip", IP);
+                port = PreferenceManager.getDefaultSharedPreferences(mContext).getString("upload_server_port", port);
+                UPLOAD_URL = "http://"+IP+":"+port+"/uploadFromAndroid";
+                Log.v(TAG, "new upload url:"+UPLOAD_URL);
+            }
         }
     }
 
@@ -64,11 +64,11 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
         if (result) {
-        	Log.d(TAG, "upload success");
+            Log.d(TAG, "upload success");
         } else {
-        	Log.d(TAG, "upload failed :(");
-        	Toast.makeText(mContext, "Please check network configuration", Toast.LENGTH_SHORT).show();
-        	mContext = null;
+            Log.d(TAG, "upload failed :(");
+            Toast.makeText(mContext, "Please check network configuration", Toast.LENGTH_SHORT).show();
+            mContext = null;
         }
     }
 
@@ -82,7 +82,7 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
         super.onProgressUpdate(values);
 
         if (values[0] == 0) {
-        	Log.i(TAG, "uploaded is starting");
+            Log.i(TAG, "uploaded is starting");
         }
 
         Log.i(TAG, values[0]+ " % uploaded");
@@ -99,7 +99,7 @@ class UploadFileTask extends AsyncTask<File, Integer, Boolean> {
      * @return boolean true is the upload succeeded
      */
     private boolean doFileUpload(File file, String uploadUrl) {
-    	
+        
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
         String lineEnd = "\r\n";
