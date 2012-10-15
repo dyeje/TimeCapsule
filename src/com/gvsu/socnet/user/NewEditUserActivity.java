@@ -1,4 +1,4 @@
-/** NewUserActivity.java */
+/** NewEditUserActivity.java */
 package com.gvsu.socnet.user;
 
 import android.app.Activity;
@@ -8,21 +8,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.TextView;
+import android.widget.*;
+import com.gvsu.socnet.data.Server;
 import soc.net.R;
 
-import com.gvsu.socnet.data.Server;
-
 /****************************************************************
- * com.gvsu.socnet.NewUserActivity
+ * com.gvsu.socnet.NewEditUserActivity
  * @author Caleb Gomer
  * @version 1.0
  ***************************************************************/
-public class NewUserActivity extends Activity implements OnClickListener {
+public class NewEditUserActivity extends Activity implements OnClickListener {
 
   EditText username, password, name, city, state, age, interests, aboutme;
   RadioButton male, female, unsure;
@@ -58,6 +53,7 @@ public class NewUserActivity extends Activity implements OnClickListener {
 
     SharedPreferences prefs = getSharedPreferences("profile", 0);
     Log.d("debug", prefs.getString("player_id", ""));
+
     if (!prefs.getString("player_id", "").equals("-1")) {
       editing = true;
       username.setVisibility(View.GONE);
@@ -197,93 +193,6 @@ public class NewUserActivity extends Activity implements OnClickListener {
     ((LinearLayout) findViewById(R.id.login_fields)).setVisibility(View.VISIBLE);
     ((Button) findViewById(R.id.btn_login)).setOnClickListener(this);
   }
-
-  // protected Dialog onCreateDialog(int id) {
-  // // This example shows how to add a custom layout to an
-  // // AlertDialog
-  // LayoutInflater factory = LayoutInflater.from(this);
-  // final View textEntryView = factory.inflate(
-  // R.layout.alert_dialog_text_entry, null);
-  // return new AlertDialog.Builder(NewUserActivity.this)
-  // // .setIconAttribute(android.R.attr.alertDialogIcon)
-  // .setTitle("Please authenticate to change your info")
-  // .setView(textEntryView)
-  // .setPositiveButton("Ok",
-  // new DialogInterface.OnClickListener() {
-  // public void onClick(DialogInterface dialog,
-  // int whichButton) {
-  //
-  // EditText pass = (EditText) findViewById(R.id.password_edit);
-  // String strPass = pass.getText().toString();
-  //
-  // String strUsername = getSharedPreferences(
-  // "profile", 0).getString("username", "");
-  // if (!Server.authenticate(strUsername, strPass)
-  // .equals("0")) {
-  // authenticated = true;
-  // } else {
-  // ((TextView
-  // )findViewById(R.id.password_view)).setText("Password    please try again");
-  // }
-  // }
-  // })
-  // .setNegativeButton("Cancel",
-  // new DialogInterface.OnClickListener() {
-  // public void onClick(DialogInterface dialog,
-  // int whichButton) {
-  //
-  // /* User clicked cancel so do some stuff */
-  // }
-  // }).create();
-  // }
-
-  // /****************************************************************
-  // * @param title
-  // * @param info void
-  // ***************************************************************/
-  // private void showLoginDialog() {
-  //
-  // AlertDialog.Builder builder;
-  // final AlertDialog alertDialog;
-  //
-  // LayoutInflater inflater = (LayoutInflater) this
-  // .getSystemService(LAYOUT_INFLATER_SERVICE);
-  // final View layout = inflater.inflate(
-  // R.layout.alert_dialog_text_entry,
-  // (ViewGroup) findViewById(R.id.layout_root));
-  //
-  // builder = new AlertDialog.Builder(this);
-  // builder.setView(layout);
-  // alertDialog = builder.create();
-  // alertDialog.setTitle("What is your password?");
-  // alertDialog.show();
-  //
-  // Button login = (Button) layout.findViewById(R.id.btn_login);
-  // login.setOnClickListener(new OnClickListener() {
-  //
-  // public void onClick(View v) {
-  // EditText pass = (EditText) layout
-  // .findViewById(R.id.password_edit);
-  // String strPass = pass.getText().toString();
-  //
-  // String strUserId = getSharedPreferences("profile", 0)
-  // .getString(LoginActivity.PLAYER_ID, "");
-  //
-  // Log.d("debug", "id: " + strUserId + " ps: " + strPass);
-  // String auth = Server.authenticate(strUserId, strPass);
-  // Log.d("debug", "auth: " + auth);
-  // if (!auth.equals("0")) {
-  // authenticated = true;
-  // alertDialog.dismiss();
-  // } else {
-  // ((TextView) layout
-  // .findViewById(R.id.password_view))
-  // .setVisibility(TextView.VISIBLE);
-  // }
-  //
-  // }
-  // });
-  // }
 
   /****************************************************************
    * @see android.app.Activity#onRestart()
