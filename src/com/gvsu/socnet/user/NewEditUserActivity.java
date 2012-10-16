@@ -2,6 +2,8 @@
 package com.gvsu.socnet.user;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
-import com.gvsu.socnet.data.Server;
+import com.gvsu.socnet.data.AsyncCallbackListener;
+import com.gvsu.socnet.data.AsyncDownloader;
 import soc.net.R;
+
+import java.util.HashMap;
 
 /**
  * *************************************************************
@@ -20,12 +25,12 @@ import soc.net.R;
  * @version 1.0
  *          *************************************************************
  */
-public class NewEditUserActivity extends Activity implements OnClickListener {
+public class NewEditUserActivity extends Activity implements OnClickListener, AsyncCallbackListener {
 
   EditText username, password, name, city, state, age, interests, aboutme;
   RadioButton male, female, unsure;
   Button create, cancel;
-  boolean editing, worked, authenticated = false;
+  boolean editing;//, worked, authenticated = false;
 
   /**
    * *************************************************************
@@ -98,7 +103,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener {
   }
 
   @Override
-  public void onClick(View v) {
+  public void onClick(View clickedView) {
     String gender;
     if (male.isChecked()) {
       gender = "m";
@@ -120,64 +125,54 @@ public class NewEditUserActivity extends Activity implements OnClickListener {
     String interests = fixSpaces(this.interests.getText().toString());
     String aboutme = fixSpaces(this.aboutme.getText().toString());
 
-    switch (v.getId()) {
+    switch (clickedView.getId()) {
       case R.id.button_create_account:
-
-        /*******************************
-         * Editing an existing profile
-         ******************************/
         if (editing) {
-          makeUserLogin();
-          /*******************************
-           * Creating a new profile
-           ******************************/
+          showLoginFields();
         } else {
-          String userID = Server.newUser(name, city, state, gender, age, interests, aboutme, password, username);
-          if (Integer.parseInt(userID) != -1) {
+          HashMap<String, String> requestParams = new HashMap<String, String>();
+          requestParams.put(AsyncDownloader.NAME, name);
+          requestParams.put(AsyncDownloader.LOCATION, city);
+          requestParams.put(AsyncDownloader.STATE, state);
+          requestParams.put(AsyncDownloader.GENDER, gender);
+          requestParams.put(AsyncDownloader.AGE, age);
+          requestParams.put(AsyncDownloader.INTERESTS, interests);
+          requestParams.put(AsyncDownloader.ABOUT, aboutme);
+          requestParams.put(AsyncDownloader.PASSWORD, password);
+          requestParams.put(AsyncDownloader.USERNAME, username);
 
-            getSharedPreferences("profile", 0).edit().putString(LoginActivity.PLAYER_ID, userID).commit();
-            worked = true;
-          }
-        }
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWUSER, this, requestParams);
 
-        /****************************************
-         * Leaves activity if everything's done
-         ***************************************/
-        if (worked) {
-          Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-          startActivity(i);
-          finish();
-        } else {
-
+          new AsyncDownloader().execute(request);
         }
         break;
+
       case R.id.button_cancel:
         finish();
         break;
-      case R.id.btn_login:
+
+      case R.id.btn_save:
         EditText pass = (EditText) findViewById(R.id.password_edit);
         String strPass = pass.getText().toString();
         if (!strPass.equals("")) {
 
           String strUserName = getSharedPreferences("profile", 0).getString("username", "");
 
-          Log.d("debug", "userName: " + strUserName + " ps: " + strPass);
-          String auth = Server.authenticate(strUserName, strPass);
-          Log.d("debug", "auth: " + auth);
-          if (!auth.equals("-1")) {
-            Log.d("debug", "auth worked");
-            SharedPreferences prefs = getSharedPreferences("profile", 0);
-            String id = prefs.getString("player_id", "-1");
-            String strWorked = Server.editUser(id, name, city, state, gender, age, interests, aboutme, strPass, getSharedPreferences("profile", 0).getString("username", ""));
-            finish();
-          } else {
-            Log.d("debug", "auth didn't work");
-            ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
-          }
+          HashMap<String, String> requestParams = new HashMap<String, String>();
+          requestParams.put(AsyncDownloader.USERNAME, strUserName);
+          requestParams.put(AsyncDownloader.PASSWORD, strPass);
+
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, this, requestParams);
+
+          new AsyncDownloader().execute(request);
+
+          Log.d("edit", "sent request");
+
+          findViewById(R.id.btn_save).setEnabled(false);
         } else {
-          Log.d("debug", "auth didn't work");
-          ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
+          ((TextView) findViewById(R.id.password_view)).setText("Enter a Password");
         }
+        break;
     }
   }
 
@@ -193,54 +188,93 @@ public class NewEditUserActivity extends Activity implements OnClickListener {
     return result;
   }
 
-  private void makeUserLogin() {
-    ((LinearLayout) findViewById(R.id.text_fields)).setVisibility(View.GONE);
-    ((LinearLayout) findViewById(R.id.login_fields)).setVisibility(View.VISIBLE);
-    ((Button) findViewById(R.id.btn_login)).setOnClickListener(this);
+  private void showLoginFields() {
+    findViewById(R.id.text_fields).setVisibility(View.GONE);
+    findViewById(R.id.login_fields).setVisibility(View.VISIBLE);
+    findViewById(R.id.btn_save).setOnClickListener(this);
   }
 
-  /**
-   * *************************************************************
-   *
-   * @see android.app.Activity#onRestart()
-   *      *************************************************************
-   */
-  @Override
-  protected void onRestart() {
-    super.onRestart();
-  }
+  public void asyncDone(AsyncDownloader.Payload payload) {
+    if (payload.exception == null) {
+      switch (payload.taskType) {
+        case AsyncDownloader.NEWUSER:
+          if (Integer.parseInt(payload.result) != -1) {
+            getSharedPreferences("profile", 0).edit().putString(LoginActivity.PLAYER_ID, payload.result).commit();
 
-  /**
-   * *************************************************************
-   *
-   * @see android.app.Activity#onResume()
-   *      *************************************************************
-   */
-  @Override
-  protected void onResume() {
-    super.onResume();
-  }
+            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(i);
+            finish();
+          }
+          break;
 
-  /**
-   * *************************************************************
-   *
-   * @see android.app.Activity#onStart()
-   *      *************************************************************
-   */
-  @Override
-  protected void onStart() {
-    super.onStart();
-  }
+        case AsyncDownloader.EDITUSER:
+          new AlertDialog.Builder(this)
+              .setTitle("Success EditUser...Server says:")
+              .setMessage(payload.result)
+              .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+              })
+              .show();
+          break;
 
-  /**
-   * *************************************************************
-   *
-   * @see android.app.Activity#onStop()
-   *      *************************************************************
-   */
-  @Override
-  protected void onStop() {
-    super.onStop();
-  }
+        case AsyncDownloader.LOGIN:
+          findViewById(R.id.btn_save).setEnabled(true);
+          if (!payload.result.equals("-1")) {
+            SharedPreferences prefs = getSharedPreferences("profile", 0);
+            String id = prefs.getString("player_id", "-1");
 
+            String gender;
+            if (male.isChecked()) {
+              gender = "m";
+            } else if (female.isChecked()) {
+              gender = "f";
+
+            } else if (unsure.isChecked()) {
+              gender = "u";
+            } else {
+              gender = "?";
+            }
+
+            String name = fixSpaces(this.name.getText().toString());
+            String username = fixSpaces(this.username.getText().toString());
+            String password = fixSpaces(this.password.getText().toString());
+            String city = fixSpaces(this.city.getText().toString());
+            String state = fixSpaces(this.state.getText().toString());
+            String age = fixSpaces(this.age.getText().toString());
+            String interests = fixSpaces(this.interests.getText().toString());
+            String aboutme = fixSpaces(this.aboutme.getText().toString());
+
+            HashMap<String, String> requestParams = new HashMap<String, String>();
+            requestParams.put(AsyncDownloader.USERID, id);
+            requestParams.put(AsyncDownloader.NAME, name);
+            requestParams.put(AsyncDownloader.USERNAME, username);
+            requestParams.put(AsyncDownloader.PASSWORD, password);
+            requestParams.put(AsyncDownloader.LOCATION, city);
+            requestParams.put(AsyncDownloader.STATE, state);
+            requestParams.put(AsyncDownloader.GENDER, gender);
+            requestParams.put(AsyncDownloader.AGE, age);
+            requestParams.put(AsyncDownloader.INTERESTS, interests);
+            requestParams.put(AsyncDownloader.ABOUT, aboutme);
+
+            AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.EDITUSER, this, requestParams);
+
+            new AsyncDownloader().execute(request);
+
+          } else {
+            ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
+          }
+          break;
+      }
+    } else {
+      new AlertDialog.Builder(this)
+          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
+          .setMessage("Sorry, we're having trouble editing your profile. Please try that again...")
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+          })
+          .show();
+    }
+  }
 }

@@ -24,6 +24,8 @@ import soc.net.R;
 
 import com.gvsu.socnet.data.Server;
 
+import java.util.HashMap;
+
 /**
  * *************************************************************
  * com.gvsu.socnet.LoginActivity
@@ -92,16 +94,26 @@ public class LoginActivity extends Activity implements
           return;
         }
 
-        new AsyncDownloader().execute(
-            new AsyncDownloader.Payload(
-                AsyncDownloader.LOGIN, new Object[]{
-                LoginActivity.this, new Object[]{
-                strUsername,
-                strPassword
-            }
-            }
-            )
-        );
+
+        HashMap<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put(AsyncDownloader.USERNAME, strUsername);
+        requestParams.put(AsyncDownloader.PASSWORD, strPassword);
+
+        AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, this, requestParams);
+
+        new AsyncDownloader().execute(request);
+
+
+//        new AsyncDownloader().execute(
+//            new AsyncDownloader.Payload(
+//                AsyncDownloader.LOGIN, new Object[]{
+//                LoginActivity.this, new Object[]{
+//                strUsername,
+//                strPassword
+//            }
+//            }
+//            )
+//        );
 
         break;
       case R.id.button_new_user:
@@ -153,28 +165,31 @@ public class LoginActivity extends Activity implements
     finish();
   }
 
-  public void asyncSuccess(String[] results) {
-    int request = Integer.parseInt(results[0]);
-    if (request == AsyncDownloader.LOGIN) {
-      if (!results[1].equals("-1")) {
-        getSharedPreferences(PROFILE, 0).edit()
-            .putString(PLAYER_ID, results[1]).commit();
-        finish();
-      } else {
-        showDialog("Sorry...",
-            "Your username or password is incorrect", this);
-      }
+  public void asyncDone(AsyncDownloader.Payload payload) {
+    if (payload.exception == null) {
+            switch (payload.taskType) {
+              case AsyncDownloader.LOGIN:
+                if (payload.result.equals("-1")) {
+                  showDialog("Sorry...",
+                      "Your username or password is incorrect", this);
+                }
+                else {
+                  getSharedPreferences(PROFILE, 0).edit()
+                      .putString(PLAYER_ID, payload.result).commit();
+                  finish();
+                }
+                break;
+            }
     }
-  }
-
-  public void asyncFailure(String[] results) {
-    new AlertDialog.Builder(this)
-        .setTitle("Internet Error (" + results[1] + ")[" + results[0] + "]{ID-10-T}")
-        .setMessage("Sorry, we couldn't save your Time Capsule. Please try that again...")
-        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int which) {
-          }
-        })
-        .show();
+    else {
+      new AlertDialog.Builder(this)
+          .setTitle("Internet Error ["+payload.taskType+"](" + payload.exception.getMessage() + "){ID-10-T}")
+          .setMessage("Sorry, we couldn't find the internet. Please try that again...")
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+          })
+          .show();
+    }
   }
 }

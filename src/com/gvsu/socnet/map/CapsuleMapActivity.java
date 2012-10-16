@@ -1,6 +1,7 @@
 package com.gvsu.socnet.map;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -216,20 +217,47 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
     String minRating = (prefs.getFloat(FilterActivity.MIN_RATING, 0) + " ").substring(0, 1);
 
-    new AsyncDownloader().execute(
-        new AsyncDownloader.Payload(
-            AsyncDownloader.RETRIEVECAPSULES, new Object[]{
-            CapsuleMapActivity.this, new Object[]{
-            userLocation.getLatitude(),
-            userLocation.getLongitude(),
-            prefs.getLong(FilterActivity.START_RANGE, 0L),
-            prefs.getLong(FilterActivity.END_RANGE, 0L),
-            prefs.getFloat(FilterActivity.MIN_RATING, 0),
-            lastRetrieve
-        }
-        }
-        )
-    );
+
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.LATITUDE, Double.toString(userLocation.getLatitude()));
+    requestParams.put(AsyncDownloader.LONGITUDE, Double.toString(userLocation.getLongitude()));
+    requestParams.put(AsyncDownloader.FROM, from);
+    requestParams.put(AsyncDownloader.TO, to);
+    requestParams.put(AsyncDownloader.RATING, minRating);
+
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, this, requestParams);
+
+    new AsyncDownloader().execute(request);
+
+
+//    Calendar c = Calendar.getInstance();
+//    c.setTimeInMillis(startTime);
+//    String from = "";
+//
+//    if (c.getTimeInMillis() != 0L) {
+//      from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
+//    }
+//
+//    c.setTimeInMillis(endTime);
+//    String to = "";
+//    if (c.getTimeInMillis() != 0L) {
+//      to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
+//    }
+
+//    new AsyncDownloader().execute(
+//        new AsyncDownloader.Payload(
+//            AsyncDownloader.RETRIEVECAPSULES, new Object[]{
+//            CapsuleMapActivity.this, new Object[]{
+//            userLocation.getLatitude(),
+//            userLocation.getLongitude(),
+//            prefs.getLong(FilterActivity.START_RANGE, 0L),
+//            prefs.getLong(FilterActivity.END_RANGE, 0L),
+//            prefs.getFloat(FilterActivity.MIN_RATING, 0),
+//            lastRetrieve
+//        }
+//        }
+//        )
+//    );
   }
 
   /**
@@ -508,23 +536,24 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
   }
 
 
-  public void asyncSuccess(String[] results) {
-    int request = Integer.parseInt(results[0]);
-    if (request == AsyncDownloader.RETRIEVECAPSULES) {
-      String[] result = results[1].split("\n-\r-\t-\r-\n");
-      parseAndDrawCapsules(result[0], true);
-      parseAndDrawCapsules(result[1], false);
+  public void asyncDone(AsyncDownloader.Payload payload) {
+    if (payload.exception == null) {
+      switch (payload.taskType) {
+        case AsyncDownloader.RETRIEVECAPSULES:
+          String[] result = payload.result.split(AsyncDownloader.INNEROUTERSPLIT);
+          parseAndDrawCapsules(result[0], true);
+          parseAndDrawCapsules(result[1], false);
+          break;
+      }
+    } else {
+      new AlertDialog.Builder(this)
+          .setTitle("Internet Error (" + payload.result + ")[" + payload.taskType + "]{ID-10-T}")
+          .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
+          .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+          })
+          .show();
     }
-  }
-
-  public void asyncFailure(String[] results) {
-    new AlertDialog.Builder(this)
-        .setTitle("Internet Error (" + results[1] + ")[" + results[0] + "]{ID-10-T}")
-        .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
-        .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int which) {
-          }
-        })
-        .show();
   }
 }

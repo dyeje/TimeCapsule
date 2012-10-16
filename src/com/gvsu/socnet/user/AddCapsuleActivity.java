@@ -25,6 +25,7 @@ import soc.net.R;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 /**
  * *************************************************************
@@ -101,19 +102,32 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
           }
           String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString("player_id", "");
 
-          new AsyncDownloader().execute(
-              new AsyncDownloader.Payload(
-                  AsyncDownloader.NEWCAPSULE, new Object[]{
-                  AddCapsuleActivity.this, new Object[]{
-                  userId,
-                  Double.toString(userLocation.getLatitude()),
-                  Double.toString(userLocation.getLongitude()),
-                  name.toString(),
-                  description
-              }
-              }
-              )
-          );
+          HashMap<String,String> requestParams = new HashMap<String,String>();
+          requestParams.put(AsyncDownloader.USERID,userId);
+          requestParams.put(AsyncDownloader.LATITUDE,Double.toString(userLocation.getLatitude()));
+          requestParams.put(AsyncDownloader.LONGITUDE,Double.toString(userLocation.getLongitude()));
+          requestParams.put(AsyncDownloader.TITLE,name);
+          requestParams.put(AsyncDownloader.DESCRIPTION,description);
+
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWCAPSULE,this,requestParams);
+
+          new AsyncDownloader().execute(request);
+
+
+
+//          new AsyncDownloader().execute(
+//              new AsyncDownloader.Payload(
+//                  AsyncDownloader.NEWCAPSULE, new Object[]{
+//                  AddCapsuleActivity.this, new Object[]{
+//                  userId,
+//                  Double.toString(userLocation.getLatitude()),
+//                  Double.toString(userLocation.getLongitude()),
+//                  name.toString(),
+//                  description
+//              }
+//              }
+//              )
+//          );
         } else {
           Toast.makeText(getApplicationContext(), "Unable to determine location", Toast.LENGTH_SHORT).show();
         }
@@ -237,16 +251,24 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
         break;
     }
 
-    new AsyncDownloader().execute(
-        new AsyncDownloader.Payload(
-            AsyncDownloader.UPLOADFILE, new Object[]{
-            AddCapsuleActivity.this, new Object[]{
-            userId,
-            filePath
-        }
-        }
-        )
-    );
+    HashMap<String,String> requestParams = new HashMap<String,String>();
+    requestParams.put(AsyncDownloader.USERID,userId);
+    requestParams.put(AsyncDownloader.FILEPATH,filePath);
+
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.UPLOADFILE,this,requestParams);
+
+    new AsyncDownloader().execute(request);
+
+//    new AsyncDownloader().execute(
+//        new AsyncDownloader.Payload(
+//            AsyncDownloader.UPLOADFILE, new Object[]{
+//            AddCapsuleActivity.this, new Object[]{
+//            userId,
+//            filePath
+//        }
+//        }
+//        )
+//    );
   }
 
   public static String getFilePath(Context context, Uri uri) throws URISyntaxException {
@@ -342,22 +364,23 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
     return mContext;
   }
 
-  public void asyncSuccess(String[] results) {
-    int request = Integer.parseInt(results[0]);
-    if (request == AsyncDownloader.NEWCAPSULE) {
-      Toast.makeText(this, "Time Capsule Saved Successfully", Toast.LENGTH_SHORT).show();
-      finish();
+  public void asyncDone(AsyncDownloader.Payload payload) {
+    if (payload.exception == null) {
+      switch (payload.taskType) {
+        case AsyncDownloader.NEWCAPSULE:
+          Toast.makeText(this, "Time Capsule Saved Successfully", Toast.LENGTH_SHORT).show();
+          finish();
+          break;
+      }
+    } else {
+      new AlertDialog.Builder(this)
+          .setTitle("Internet Error [" + payload.taskType + "](" + payload.exception.getMessage() + "){ID-10-T}")
+          .setMessage("Sorry, we couldn't save your Time Capsule. Please try that again...")
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+          })
+          .show();
     }
-  }
-
-  public void asyncFailure(String[] results) {
-    new AlertDialog.Builder(this)
-        .setTitle("Internet Error (" + results[1] + ")[" + results[0] + "]{ID-10-T}")
-        .setMessage("Sorry, we couldn't save your Time Capsule. Please try that again...")
-        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int which) {
-          }
-        })
-        .show();
   }
 }

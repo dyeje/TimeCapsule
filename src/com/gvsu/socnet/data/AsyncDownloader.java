@@ -23,7 +23,7 @@ package com.gvsu.socnet.data;
  * This file has been modified by Caleb Gomer
  */
 
-import java.util.Calendar;
+import java.util.HashMap;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -45,6 +45,29 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
   public static final int ADDRATING = 11;
   public static final int UPLOADFILE = 12;
 
+  public static final String USERID = "userId";
+  public static final String PASSWORD = "password";
+  public static final String NAME = "name";
+  public static final String LOCATION = "location";
+  public static final String STATE = "state";
+  public static final String GENDER = "gender";
+  public static final String AGE = "age";
+  public static final String INTERESTS = "interests";
+  public static final String ABOUT = "about";
+  public static final String USERNAME = "username";
+  public static final String CAPSULEID = "capsuleId";
+  public static final String LATITUDE = "lat";
+  public static final String LONGITUDE = "lon";
+  public static final String TITLE = "title";
+  public static final String DESCRIPTION = "description";
+  public static final String TO = "to";
+  public static final String FROM = "from";
+  public static final String RATING = "rating";
+  public static final String COMMENT = "comment";
+  public static final String FILEPATH = "filePath";
+
+  public static final String INNEROUTERSPLIT = "\n-\r-\t-\r-\n";
+
   /*
   * Runs on GUI thread
   */
@@ -58,181 +81,174 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
   */
   @Override
   public void onPostExecute(AsyncDownloader.Payload payload) {
-    AsyncCallbackListener app = (AsyncCallbackListener) payload.data[0];
-    if (payload.result != null && !payload.result[1].equals("error")) {
-      // Present the result on success
-      app.asyncSuccess(payload.result);
-    } else {
-      app.asyncFailure(payload.result);
+    if (!(payload.result == null && payload.exception == null))
+      payload.callback.asyncDone(payload);
+    else {
+      payload.exception = new AsyncException("Unknown Error");
+      payload.callback.asyncDone(payload);
     }
   }
+
 
   /*
   * Runs on background thread
   */
   @Override
-  public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... params) {
+  public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... _params) {
     Log.d(TAG, "*******BACKGROUND********");
-    AsyncDownloader.Payload payload = params[0];
+    AsyncDownloader.Payload payload = _params[0];
 
-    try {
+    payload.result = "";
+    HashMap<String, String> params = payload.params;
+    String userId = params.get(USERID);
+    String password = params.get(PASSWORD);
+    String name = params.get(NAME);
+    String location = params.get(LOCATION);
+    String state = params.get(STATE);
+    String gender = params.get(GENDER);
+    String age = params.get(AGE);
+    String interests = params.get(INTERESTS);
+    String about = params.get(ABOUT);
+    String username = params.get(USERNAME);
+    String capsuleId = params.get(CAPSULEID);
+    String lat = params.get(LATITUDE);
+    String lon = params.get(LONGITUDE);
+    String title = params.get(TITLE);
+    String description = params.get(DESCRIPTION);
+    String to = params.get(TO);
+    String from = params.get(FROM);
+    String rating = params.get(RATING);
+    String comment = params.get(COMMENT);
+    String filePath = params.get(FILEPATH);
 
-      payload.result = new String[]{Integer.toString(payload.taskType), ""};
+    boolean valid = false;
 
-      Object[] data = (Object[]) payload.data[1];
-      String result = "";
+    switch (payload.taskType) {
+      case RETRIEVECAPSULES:
+        valid = lat != null && lon != null && to != null && from != null && rating != null;
+        if (valid)
+          payload.result = retrieveCapsules(lat, lon, to, from, rating);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
+      case GETCAPSULE:
+        valid = capsuleId != null;
+        if (valid)
+          payload.result = Server.getCapsule(capsuleId);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-      //stupid java scoping...
-      String userId = "";
-      String password = "";
-      String name = "";
-      String location = "";
-      String state = "";
-      String gender = "";
-      String age = "";
-      String interests = "";
-      String about = "";
-      String username = "";
-      //end stupid java scoping...
+      case NEWCAPSULE:
+        valid = userId != null && lat != null && lon != null && title != null && description != null;
+        if (valid)
+          payload.result = Server.newCapsule(userId, lat, lon, title, description);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
+      case LOGIN:
+        valid = username != null && password != null;
+        if (valid)
+          payload.result = Server.authenticate(username, password);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-      switch (payload.taskType) {
-        case RETRIEVECAPSULES:
-          double dLat = (Double) data[0];
-          double dLng = (Double) data[1];
-          long startTime = (Long) data[2];
-          long endTime = (Long) data[3];
-          double dMinRating = (Float) data[4];
-          String lastRetrieve = (String) data[5];
+      case GETUSER:
+        valid = userId != null;
+        if (valid)
+          payload.result = Server.getUser(userId);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          String results = retrieveCapsules(dLat, dLng, startTime, endTime, dMinRating, lastRetrieve);
+      case NEWUSER:
+        valid = name != null && location != null && state != null && gender != null && age != null && interests != null && about != null && password != null && username != null;
+        if (valid)
+          payload.result = Server.newUser(name, location, state, gender, age, interests, about, password, username);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          payload.result[1] = results;
+      case EDITUSER:
+        valid = userId != null && name != null && location != null && state != null && gender != null && age != null && interests != null && about != null && password != null && username != null;
+        if (valid)
+          payload.result = Server.editUser(userId, name, location, state, gender, age, interests, about, password, username);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          break;
-        case GETCAPSULE:
-          String capsuleId = (String) data[0];
+      case GETCOMMENTS:
+        valid = capsuleId != null;
+        if (valid)
+          payload.result = Server.getComments(capsuleId);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          result = Server.getCapsule(capsuleId);
+      case ADDCOMMENT:
+        valid = userId != null && capsuleId != null && comment != null;
+        if (valid)
+          payload.result = Server.addComment(userId, capsuleId, comment);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          payload.result[1] = result;
-          break;
-        case NEWCAPSULE:
-          userId = (String) data[0];
-          String lat = (String) data[1];
-          String lon = (String) data[2];
-          String title = (String) data[3];
-          String description = (String) data[4];
+      case GETRATING:
+        valid = capsuleId != null;
+        if (valid)
+          payload.result = Server.getRating(capsuleId);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          result = Server.newCapsule(userId, lat, lon, title, description);
+      case ADDRATING:
+        valid = userId != null && capsuleId != null && rating != null;
+        if (valid)
+          payload.result = Server.addRating(userId, capsuleId, rating);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
 
-          payload.result[1] = result;
-          break;
-        case LOGIN:
-          userId = (String) data[0];
-          password = (String) data[1];
-
-          result = Server.authenticate(userId, password);
-
-          payload.result[1] = result;
-          break;
-        case GETUSER:
-          userId = (String) data[0];
-
-          result = Server.getUser(userId);
-
-          payload.result[1] = result;
-          break;
-        case NEWUSER:
-          name = (String) data[0];
-          location = (String) data[1];
-          state = (String) data[2];
-          gender = (String) data[3];
-          age = (String) data[4];
-          interests = (String) data[5];
-          about = (String) data[6];
-          password = (String) data[7];
-          username = (String) data[8];
-
-          result = Server.newUser(name, location, state, gender, age, interests, about, password, username);
-
-          payload.result[1] = result;
-          break;
-        case EDITUSER:
-          userId = (String) data[0];
-          name = (String) data[1];
-          location = (String) data[2];
-          state = (String) data[3];
-          gender = (String) data[4];
-          age = (String) data[5];
-          interests = (String) data[6];
-          about = (String) data[7];
-          password = (String) data[8];
-          username = (String) data[9];
-
-          result = Server.editUser(userId, name, location, state, gender, age, interests, about, password, username);
-
-          payload.result[1] = result;
-          break;
-        case GETCOMMENTS:
-          capsuleId = (String) data[0];
-
-          result = Server.getComments(capsuleId);
-
-          payload.result[1] = result;
-          break;
-        case ADDCOMMENT:
-          userId = (String) data[0];
-          capsuleId = (String) data[1];
-          String comment = (String) data[2];
-
-          result = Server.addComment(userId, capsuleId, comment);
-
-          payload.result[1] = result;
-          break;
-        case GETRATING:
-          capsuleId = (String) data[0];
-
-          result = Server.getRating(capsuleId);
-
-          payload.result[1] = result;
-          break;
-        case ADDRATING:
-          userId = (String) data[0];
-          capsuleId = (String) data[1];
-          String rating = (String) data[2];
-
-          result = Server.addRating(userId, capsuleId, rating);
-
-          payload.result[1] = result;
-          break;
-        case UPLOADFILE:
-          userId = (String) data[0];
-          String filePath = (String) data[1];
-
-          result = Boolean.toString(Server.uploadFile(filePath));
-
-          payload.result[1] = result;
-          break;
-      }
-    } catch (Exception ae) {
-      payload.exception = ae;
-      payload.result = null;
+      case UPLOADFILE:
+        valid = userId != null && filePath != null;
+        if (valid)
+          payload.result = Boolean.toString(Server.uploadFile(filePath));
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
     }
+
 
     return payload;
   }
 
+  public class AsyncTask {
+    public int taskID;
+    public AsyncCallbackListener callback;
+    public HashMap<String, String> params;
+    public String result;
+
+    public AsyncTask(int _taskID, AsyncCallbackListener _callback, HashMap _params) {
+      taskID = _taskID;
+      callback = _callback;
+      params = _params;
+    }
+  }
+
   public static class Payload {
     public int taskType;
-    public Object[] data;
-    public String[] result;
+    public AsyncCallbackListener callback;
+    public HashMap<String, String> params;
+    public String result;
     public Exception exception;
 
-    public Payload(int taskType, Object[] data) {
+    public Payload(int taskType, AsyncCallbackListener callback, HashMap<String, String> params) {
       this.taskType = taskType;
-      this.data = data;
+      this.callback = callback;
+      this.params = params;
     }
   }
 
@@ -262,38 +278,19 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     return startTime;
   }
 
-  protected String retrieveCapsules(Double dLat, Double dLng, Long startTime, Long endTime, double dMinRating, String lastRetrieve) {
+  protected String retrieveCapsules(String lat, String lon, String from, String to, String minRating) {
     /**************************/
     // Debug.startMethodTracing("map_retrieve");
     /**************************/
 
-    String lat = Double.toString(dLat);
-    String lng = Double.toString(dLng);
-
-    Calendar c = Calendar.getInstance();
-    c.setTimeInMillis(startTime);
-    String from = "";
-
-    if (c.getTimeInMillis() != 0L) {
-      from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
-    }
-
-    c.setTimeInMillis(endTime);
-    String to = "";
-    if (c.getTimeInMillis() != 0L) {
-      to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
-    }
-
-    String minRating = Integer.toString((int) dMinRating);
-
-    final String retrieveInner = Server.getCapsules(lat, lng, "1", from, to, minRating);
-    final String retrieveOuter = Server.getCapsules(lat, lng, "2", from, to, minRating);
+    final String retrieveInner = Server.getCapsules(lat, lon, "1", from, to, minRating);
+    final String retrieveOuter = Server.getCapsules(lat, lon, "2", from, to, minRating);
     Log.v("map", "finished collecting capsules");
 
     /**************************/
     // Debug.stopMethodTracing();
     /**************************/
 
-    return retrieveInner + "\n-\r-\t-\r-\n" + retrieveOuter;
+    return retrieveInner + INNEROUTERSPLIT + retrieveOuter;
   }
 }
