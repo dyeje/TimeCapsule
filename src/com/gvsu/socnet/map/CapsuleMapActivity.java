@@ -228,36 +228,6 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, this, requestParams);
 
     new AsyncDownloader().execute(request);
-
-
-//    Calendar c = Calendar.getInstance();
-//    c.setTimeInMillis(startTime);
-//    String from = "";
-//
-//    if (c.getTimeInMillis() != 0L) {
-//      from = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
-//    }
-//
-//    c.setTimeInMillis(endTime);
-//    String to = "";
-//    if (c.getTimeInMillis() != 0L) {
-//      to = c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH);
-//    }
-
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.RETRIEVECAPSULES, new Object[]{
-//            CapsuleMapActivity.this, new Object[]{
-//            userLocation.getLatitude(),
-//            userLocation.getLongitude(),
-//            prefs.getLong(FilterActivity.START_RANGE, 0L),
-//            prefs.getLong(FilterActivity.END_RANGE, 0L),
-//            prefs.getFloat(FilterActivity.MIN_RATING, 0),
-//            lastRetrieve
-//        }
-//        }
-//        )
-//    );
   }
 
   /**

@@ -113,21 +113,6 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 
           new AsyncDownloader().execute(request);
 
-
-
-//          new AsyncDownloader().execute(
-//              new AsyncDownloader.Payload(
-//                  AsyncDownloader.NEWCAPSULE, new Object[]{
-//                  AddCapsuleActivity.this, new Object[]{
-//                  userId,
-//                  Double.toString(userLocation.getLatitude()),
-//                  Double.toString(userLocation.getLongitude()),
-//                  name.toString(),
-//                  description
-//              }
-//              }
-//              )
-//          );
         } else {
           Toast.makeText(getApplicationContext(), "Unable to determine location", Toast.LENGTH_SHORT).show();
         }
@@ -258,17 +243,6 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.UPLOADFILE,this,requestParams);
 
     new AsyncDownloader().execute(request);
-
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.UPLOADFILE, new Object[]{
-//            AddCapsuleActivity.this, new Object[]{
-//            userId,
-//            filePath
-//        }
-//        }
-//        )
-//    );
   }
 
   public static String getFilePath(Context context, Uri uri) throws URISyntaxException {

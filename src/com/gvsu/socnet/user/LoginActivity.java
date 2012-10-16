@@ -103,18 +103,6 @@ public class LoginActivity extends Activity implements
 
         new AsyncDownloader().execute(request);
 
-
-//        new AsyncDownloader().execute(
-//            new AsyncDownloader.Payload(
-//                AsyncDownloader.LOGIN, new Object[]{
-//                LoginActivity.this, new Object[]{
-//                strUsername,
-//                strPassword
-//            }
-//            }
-//            )
-//        );
-
         break;
       case R.id.button_new_user:
         Intent i = new Intent(getApplicationContext(),
@@ -167,23 +155,21 @@ public class LoginActivity extends Activity implements
 
   public void asyncDone(AsyncDownloader.Payload payload) {
     if (payload.exception == null) {
-            switch (payload.taskType) {
-              case AsyncDownloader.LOGIN:
-                if (payload.result.equals("-1")) {
-                  showDialog("Sorry...",
-                      "Your username or password is incorrect", this);
-                }
-                else {
-                  getSharedPreferences(PROFILE, 0).edit()
-                      .putString(PLAYER_ID, payload.result).commit();
-                  finish();
-                }
-                break;
-            }
-    }
-    else {
+      switch (payload.taskType) {
+        case AsyncDownloader.LOGIN:
+          if (payload.result.equals("-1")) {
+            showDialog("Sorry...",
+                "Your username or password is incorrect", this);
+          } else {
+            getSharedPreferences(PROFILE, 0).edit()
+                .putString(PLAYER_ID, payload.result).commit();
+            finish();
+          }
+          break;
+      }
+    } else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error ["+payload.taskType+"](" + payload.exception.getMessage() + "){ID-10-T}")
+          .setTitle("Internet Error [" + payload.taskType + "](" + payload.exception.getMessage() + "){ID-10-T}")
           .setMessage("Sorry, we couldn't find the internet. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

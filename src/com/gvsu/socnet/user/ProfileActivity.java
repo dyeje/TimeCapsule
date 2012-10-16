@@ -3,6 +3,7 @@ package com.gvsu.socnet.user;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -18,11 +19,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.gvsu.socnet.data.AsyncCallbackListener;
+import com.gvsu.socnet.data.AsyncDownloader;
 import com.gvsu.socnet.data.Server;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import soc.net.R;
+
+import java.util.HashMap;
 
 /**
  * *************************************************************
@@ -31,7 +36,7 @@ import soc.net.R;
  * @version 1.0
  *          *************************************************************
  */
-public class ProfileActivity extends Activity implements OnClickListener {
+public class ProfileActivity extends Activity implements OnClickListener, AsyncCallbackListener {
 
   // private SharedPreferences prefs;
   public final String PROFILE = "profile", PLAYER_ID = "player_id";
@@ -80,7 +85,11 @@ public class ProfileActivity extends Activity implements OnClickListener {
     viewing = (viewing_id != null && !viewing_id.equals("-1"));
 
     if (viewing) {
-      setInfo(getIntent().getStringExtra("viewing_id"));
+      HashMap<String, String> requestParams = new HashMap<String, String>();
+      requestParams.put(AsyncDownloader.USERID, getIntent().getStringExtra("viewing_id"));
+      AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, this, requestParams);
+      new AsyncDownloader().execute(request);
+
     } else {
       setInfo(prefs);
       listener = new OnSharedPreferenceChangeListener() {
@@ -156,48 +165,35 @@ public class ProfileActivity extends Activity implements OnClickListener {
     aboutme.setText(prefs.getString("aboutme", "-----"));
   }
 
-  private void setInfo(String playerId) {
+  private void setInfo(String playerInfo) {
 
-    boolean online = isOnline();
-
-    // make sure we have internet connection before talking to
-    // server
-    if (online) {
-      Log.d("debug", "updating from network");
-      // String playerId = prefs.getString("player_id", "");
-      String s = Server.getUser(playerId);
-      if (!s.equals("error")) {
-        JSONArray profileInfos;
-        try {
-          profileInfos = new JSONArray(s);
-          if (profileInfos.length() == 1) {
-            JSONObject info = profileInfos.getJSONObject(0);
-            username.setText(info.getString("userName"));
-            String strGender = info.getString("gender");
-            if (strGender.equalsIgnoreCase("m")) {
-              strGender = "Male";
-            } else if (strGender.equalsIgnoreCase("f")) {
-              strGender = "Female";
-            } else {
-              strGender = "Other";
-            }
-            name.setText(info.getString("name"));
-            location.setText(info.getString("location"));
-            gender.setText(strGender);
-            age.setText(info.getString("age"));
-            interests.setText(info.getString("interest"));
-            aboutme.setText(info.getString("about"));
+    if (!playerInfo.equals("error")) {
+      JSONArray profileInfos;
+      try {
+        profileInfos = new JSONArray(playerInfo);
+        if (profileInfos.length() == 1) {
+          JSONObject info = profileInfos.getJSONObject(0);
+          username.setText(info.getString("userName"));
+          String strGender = info.getString("gender");
+          if (strGender.equalsIgnoreCase("m")) {
+            strGender = "Male";
+          } else if (strGender.equalsIgnoreCase("f")) {
+            strGender = "Female";
+          } else {
+            strGender = "Other";
           }
-        } catch (JSONException e) {
-          Log.e("profile", "error with JSON");
-          e.printStackTrace();
+          name.setText(info.getString("name"));
+          location.setText(info.getString("location"));
+          gender.setText(strGender);
+          age.setText(info.getString("age"));
+          interests.setText(info.getString("interest"));
+          aboutme.setText(info.getString("about"));
         }
+      } catch (JSONException e) {
+        Log.e("profile", "error with JSON");
+        e.printStackTrace();
       }
-    } else {
-      Log.d("debug", "couldn't update - no network connection");
-      showDialog(NO_CONN, PROFILE_NOT_RETRIEVED);
     }
-
   }
 
   /**
@@ -210,27 +206,20 @@ public class ProfileActivity extends Activity implements OnClickListener {
     SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
     boolean online = isOnline();
 
-    // make sure we have internet connection before talking to
-    // server
     if (online) {
       Log.d("debug", "updating from network");
       String playerId = prefs.getString("player_id", "");
       String s = Server.getUser(playerId);
       if (!s.equals("error")) {
-        // SocNetData:[{"name":"Caleb","location":"Allendale","state":"MI","gender":"m","age":"19","interest":"anything CS!","about":"CS major at GVSU","password":"pass","userName":"calebgomer"}]
         JSONArray profileInfos;
         try {
           profileInfos = new JSONArray(s);
           if (profileInfos.length() == 1) {
             JSONObject info = profileInfos.getJSONObject(0);
-
-            // String[] userinfo = s.split(TAB);
             SharedPreferences.Editor editor = prefs.edit();
             if (!prefs.getString("username", "").equals(info.getString("userName")))
-              // if (!prefs.getString("username", "").equals(userinfo[8]))
               editor.putString("username", info.getString("userName"));
             if (!prefs.getString("name", "").equals(info.getString("name")))
-              // if (!prefs.getString("name", "").equals(userinfo[0]))
               editor.putString("name", info.getString("name"));
             String strLocation = info.getString("location") + ", " + info.getString("state");
             if (!prefs.getString("location", "").equals(strLocation))
@@ -319,9 +308,6 @@ public class ProfileActivity extends Activity implements OnClickListener {
   }
 
   protected boolean gotoMap() {
-    // Intent myIntent = new Intent(getBaseContext(),
-    // CapsuleMapActivity.class);
-    // startActivity(myIntent);
     finish();
     return true;
   }
@@ -350,6 +336,25 @@ public class ProfileActivity extends Activity implements OnClickListener {
         break;
       default:
         break;
+    }
+  }
+
+  public void asyncDone(AsyncDownloader.Payload payload) {
+    if (payload.exception == null) {
+      switch (payload.taskType) {
+        case AsyncDownloader.GETUSER:
+          setInfo(payload.result);
+          break;
+      }
+    } else {
+      new AlertDialog.Builder(this)
+          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
+          .setMessage("Sorry, we're having trouble loading this profile. Please try that again...")
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+          })
+          .show();
     }
   }
 }

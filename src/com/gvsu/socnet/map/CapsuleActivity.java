@@ -95,25 +95,9 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCAPSULE,this,requestParams);
 
     new AsyncDownloader().execute(request);
-
-
-
-    Log.d(TAG, "REFRESHING-CAP-INFO");
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.GETCAPSULE,
-//            new Object[]{
-//                CapsuleActivity.this,
-//                new Object[]{
-//                    cId
-//                }
-//            }
-//        )
-//    );
   }
 
   private void refreshCommentsInfo() {
-
 
     HashMap<String,String> requestParams = new HashMap<String, String>();
     requestParams.put(AsyncDownloader.CAPSULEID,cId);
@@ -122,19 +106,6 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
 
     new AsyncDownloader().execute(request);
 
-
-    Log.d(TAG, "REFRESHING-COMMENTS-INFO");
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.GETCOMMENTS,
-//            new Object[]{
-//                CapsuleActivity.this,
-//                new Object[]{
-//                    cId
-//                }
-//            }
-//        )
-//    );
   }
 
   private void refreshRating() {
@@ -145,19 +116,6 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETRATING,this,requestParams);
 
     new AsyncDownloader().execute(request);
-
-    Log.d(TAG, "REFRESHING-RATING");
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.GETRATING,
-//            new Object[]{
-//                CapsuleActivity.this,
-//                new Object[]{
-//                    cId
-//                }
-//            }
-//        )
-//    );
   }
 
 
@@ -458,22 +416,6 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDRATING,this,requestParams);
 
     new AsyncDownloader().execute(request);
-
-
-//    Log.d(TAG, "Submitting rating from user=" + userId + " to capsuleId=" + capsuleId + " at rating=" + rating);
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.ADDRATING,
-//            new Object[]{
-//                CapsuleActivity.this,
-//                new Object[]{
-//                    userId,
-//                    capsuleId,
-//                    rating
-//                }
-//            }
-//        )
-//    );
   }
 
   private void addAView(String userId, String capsuleId) {
@@ -481,25 +423,10 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     HashMap<String,String> requestParams = new HashMap<String, String>();
     requestParams.put(AsyncDownloader.USERID,userId);
     requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
-    requestParams.put(AsyncDownloader.COMMENT,"");
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDCOMMENT,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDVIEW,this,requestParams);
 
     new AsyncDownloader().execute(request);
-
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.ADDCOMMENT,
-//            new Object[]{
-//                CapsuleActivity.this,
-//                new Object[]{
-//                    userId,
-//                    capsuleId,
-//                    ""
-//                }
-//            }
-//        )
-//    );
   }
 
   private void addAComment(String userId, String capsuleId, String comment) {
@@ -512,20 +439,6 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDCOMMENT,this,requestParams);
 
     new AsyncDownloader().execute(request);
-
-//    new AsyncDownloader().execute(
-//        new AsyncDownloader.Payload(
-//            AsyncDownloader.ADDCOMMENT,
-//            new Object[]{
-//                CapsuleActivity.this,
-//                new Object[]{
-//                    userId,
-//                    capsuleId,
-//                    comment
-//                }
-//            }
-//        )
-//    );
   }
 
   public void asyncDone(AsyncDownloader.Payload payload) {

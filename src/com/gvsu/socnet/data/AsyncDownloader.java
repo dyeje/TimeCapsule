@@ -41,9 +41,10 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
   public static final int EDITUSER = 7;
   public static final int GETCOMMENTS = 8;
   public static final int ADDCOMMENT = 9;
-  public static final int GETRATING = 10;
-  public static final int ADDRATING = 11;
-  public static final int UPLOADFILE = 12;
+  public static final int ADDVIEW = 10;
+  public static final int GETRATING = 11;
+  public static final int ADDRATING = 12;
+  public static final int UPLOADFILE = 13;
 
   public static final String USERID = "userId";
   public static final String PASSWORD = "password";
@@ -192,6 +193,14 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
         valid = userId != null && capsuleId != null && comment != null;
         if (valid)
           payload.result = Server.addComment(userId, capsuleId, comment);
+        else
+          payload.exception = new AsyncException("Bad Params");
+        break;
+
+      case ADDVIEW:
+        valid = userId != null && capsuleId != null;
+        if (valid)
+          payload.result = Server.addAView(userId, capsuleId);
         else
           payload.exception = new AsyncException("Bad Params");
         break;

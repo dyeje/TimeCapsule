@@ -34,93 +34,49 @@ import android.util.Log;
 public class Server {
   private final static String TAG = "Server";
 
+  //base URL
   private static final String HTTP_TYPE = "http";
   private static final String HOST = "www.cis.gvsu.edu";
   private static final String PATH = "~scrippsj/socNet/functions";
   private static final String BASE_URL = HTTP_TYPE+"://"+HOST+"/"+PATH+"/";
-  // Get Capsule
+
+  //PHP Commands
 //  private static final String GETCAPSULE = BASE_URL + "getCapsule.php?";
   private static final String GETCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
-  // Create Capsule
   private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
-  // Get User
   private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
-  // Authenticate user
   private static final String AUTHENTICATE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?userName=";
-  // Set User
   private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
-  // Get Comments
   private static final String GETCOMMENTS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getVisit.php?";
-  // Add Comment
   private static final String ADDCOMMENT = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setVisit.php?";
-  // Get Rating
   private static final String GETRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getRate.php?capsuleId=";
-  // Set Rating
   private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
 
-//  private enum Method {
-//    GETCAPSULE,NEWCAPSULE,GETUSER,AUTHENTICATE,SETUSER,GETCOMMENTS,ADDCOMMENT,GETRATING,ADDRATING
-//  }
-
-//  private static String makeUrl(Method method, HashMap<String,String> arguments) {
-//    String command = BASE_URL;
-//    switch (method) {
-//      case GETCAPSULE:
-////        command += GETCAPSULE;
-////        command += "id=";
-////        String id = arguments.get("id");
-////        if (id != null) {
-////          command += id;
-////        }
-//        break;
-//      case NEWCAPSULE:
-//        break;
-//      case GETUSER:
-//        break;
-//      case AUTHENTICATE:
-//        break;
-//      case SETUSER:
-//        break;
-//      case GETCOMMENTS:
-//        break;
-//      case ADDCOMMENT:
-//        break;
-//      case GETRATING:
-//        break;
-//      case ADDRATING:
-//        break;
-//
-//    }
-//  }
 
   public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
     String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
         + password + "&userName=" + username;
-    // Log.d(TAG, command);
+    Log.d(TAG, command);
     return get(command);
   }
 
   public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
     String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
         + "&password=" + password + "&userName=" + username;
-    // Log.d(TAG, command);
+    Log.d(TAG, command);
     return get(command);
   }
 
   public static String newCapsule(String userId, String lat, String lon, String title, String description) {
-    // String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon +
-    // "&description=" + description;
     String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
-    Log.i("server", "newCapsule request:" + command);
-    // Log.d(TAG, command);
+    Log.d(TAG, command);
     String response = get(command);
-    Log.i("server", "newCapsule response:" + response);
     return response;
   }
 
   public static String getUser(String id) {
     String command = GETUSER + id;
-    // Log.d(TAG, "tried: " + command);
+    Log.d(TAG, "tried: " + command);
     return get(command);
   }
 
@@ -156,9 +112,7 @@ public class Server {
 
   public static String addRating(String userId, String capsuleId, String rating) {
     String command = ADDRATING + "userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
-    Log.d(TAG, "addRating:request="+command);
     String response = get(command);
-    Log.d(TAG, "addRating:response="+response);
     return response;
   }
 
@@ -167,9 +121,7 @@ public class Server {
     String result;
     try {
       String command = ADDCOMMENT + "userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
-      Log.d(TAG, "addComment command: " + command);
       result = get(command);
-      Log.d(TAG, "result: " + result);
       return result;
     } catch (IllegalStateException e) {
       result = "An error occured";
@@ -183,13 +135,6 @@ public class Server {
     return addComment(userId, capsuleId, "");
   }
 
-  public static String uploadTreasure(String path) {
-    String command = "http://api.imgur.com/2/upload?" + "key=30b2407b8988775ad0f9e9339cfb4ddd" + "&image=" + path
-    // + "&name=GVSUSOCNETHOLYBALLS"
-    // + "&title=JMDJMDJMD"
-    ;
-    return get(command);
-  }
 
   /****************************************************************
    * @param latitude float value of latitude (not E6)

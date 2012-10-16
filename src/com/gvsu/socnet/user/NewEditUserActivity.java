@@ -64,7 +64,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
     SharedPreferences prefs = getSharedPreferences("profile", 0);
     Log.d("debug", prefs.getString("player_id", ""));
 
-    if (!prefs.getString("player_id", "").equals("-1")) {
+    if (!prefs.getString("player_id", "-1").equals("-1")) {
       editing = true;
       username.setVisibility(View.GONE);
       password.setVisibility(View.GONE);
@@ -89,17 +89,6 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
     } else {
       editing = false;
     }
-
-    // for debug purposes
-    // username.setText("User1");
-    // password.setText("abcd1234");
-    // name.setText("User number 1");
-    // city.setText("Allendale");
-    // state.setText("MI");
-    // age.setText("21");
-    // interests.setText("Pizza and Apple Pie");
-    // aboutme.setText("I eat pizza and pie");
-    // female.setChecked(true);
   }
 
   @Override
