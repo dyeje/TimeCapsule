@@ -12,11 +12,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import soc.net.R;
 
-/****************************************************************
+/**
+ * *************************************************************
  * com.gvsusocnet.SettingsActivity
+ *
  * @author Caleb Gomer
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class SettingsActivity extends PreferenceActivity {
 
   @Override
@@ -45,16 +48,16 @@ public class SettingsActivity extends PreferenceActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-    case 0:
-      // Toast!!
-      SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-      StringBuilder builder = new StringBuilder();
-      builder.append(sharedPrefs.getBoolean("perform_updates", false));
-      builder.append(" " + sharedPrefs.getString("updates_interval", "-1"));
-      builder.append(" " + sharedPrefs.getString("welcome_message", "NULL"));
+      case 0:
+        // Toast!!
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        StringBuilder builder = new StringBuilder();
+        builder.append(sharedPrefs.getBoolean("perform_updates", false));
+        builder.append(" " + sharedPrefs.getString("updates_interval", "-1"));
+        builder.append(" " + sharedPrefs.getString("welcome_message", "NULL"));
 
-      Toast.makeText(getApplicationContext(), builder.toString(), Toast.LENGTH_SHORT).show();
-      return true;
+        Toast.makeText(getApplicationContext(), builder.toString(), Toast.LENGTH_SHORT).show();
+        return true;
     }
     return false;
   }

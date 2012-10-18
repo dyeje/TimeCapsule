@@ -225,9 +225,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     requestParams.put(AsyncDownloader.TO, to);
     requestParams.put(AsyncDownloader.RATING, minRating);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, this, requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   /**
@@ -517,9 +517,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       }
     } else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error (" + payload.result + ")[" + payload.taskType + "]{ID-10-T}")
+          .setTitle(payload.exception.getMessage() + " ["+payload.taskType+"](" + payload.result + "){ID-10-T}")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
-          .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
           })

@@ -25,6 +25,9 @@ package com.gvsu.socnet.data;
 
 import java.util.HashMap;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -66,8 +69,11 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
   public static final String RATING = "rating";
   public static final String COMMENT = "comment";
   public static final String FILEPATH = "filePath";
-
   public static final String INNEROUTERSPLIT = "\n-\r-\t-\r-\n";
+
+  public static void perform(Payload request) {
+    new AsyncDownloader().execute(request);
+  }
 
   /*
   * Runs on GUI thread
@@ -82,12 +88,10 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
   */
   @Override
   public void onPostExecute(AsyncDownloader.Payload payload) {
-    if (!(payload.result == null && payload.exception == null))
-      payload.callback.asyncDone(payload);
-    else {
+    if (payload.result == null && payload.exception == null)
       payload.exception = new AsyncException("Unknown Error");
-      payload.callback.asyncDone(payload);
-    }
+
+    payload.callback.asyncDone(payload);
   }
 
 
@@ -97,7 +101,13 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
   @Override
   public AsyncDownloader.Payload doInBackground(AsyncDownloader.Payload... _params) {
     Log.d(TAG, "*******BACKGROUND********");
+
     AsyncDownloader.Payload payload = _params[0];
+
+    if (!isOnline(payload.context.getApplicationContext())) {
+      payload.exception = new AsyncException("No Internet Connection");
+      return payload;
+    }
 
     payload.result = "";
     HashMap<String, String> params = payload.params;
@@ -228,78 +238,45 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
         else
           payload.exception = new AsyncException("Bad Params");
         break;
+      default:
+        payload.exception = new AsyncException("["+payload.taskType+"] is not a valid task type");
+        break;
     }
 
 
     return payload;
   }
 
-  public class AsyncTask {
-    public int taskID;
-    public AsyncCallbackListener callback;
-    public HashMap<String, String> params;
-    public String result;
-
-    public AsyncTask(int _taskID, AsyncCallbackListener _callback, HashMap _params) {
-      taskID = _taskID;
-      callback = _callback;
-      params = _params;
-    }
-  }
-
   public static class Payload {
     public int taskType;
     public AsyncCallbackListener callback;
+    public Context context;
     public HashMap<String, String> params;
     public String result;
     public Exception exception;
 
-    public Payload(int taskType, AsyncCallbackListener callback, HashMap<String, String> params) {
+    public Payload(int taskType, HashMap<String, String> params, AsyncCallbackListener callback, Context context) {
       this.taskType = taskType;
       this.callback = callback;
       this.params = params;
+      this.context = context;
     }
-  }
 
-  /**
-   * *************************************************************
-   * figure out start or end time
-   *
-   * @param time
-   * @return int
-   *         *************************************************************
-   */
-  private int processTime(String time) {
-    boolean add12 = false;
-    String[] start = time.split(":");
-    String startBase = start[0].trim() + start[1].substring(0, 2);
-    if ((start[1].substring(3).equals("pm"))) {
-      if (start[0].length() == 1) {
-        add12 = true;
-      } else if (start[0].length() > 1 && !start[0].substring(0, 2).equals("12")) {
-        add12 = true;
-      }
+    public String errorString() {
+      return this.exception.getMessage()+" [ID-"+this.taskType+"-T]";
     }
-    int startTime = Integer.parseInt(startBase);
-    if (add12) {
-      startTime += 1200;
-    }
-    return startTime;
   }
 
   protected String retrieveCapsules(String lat, String lon, String from, String to, String minRating) {
-    /**************************/
-    // Debug.startMethodTracing("map_retrieve");
-    /**************************/
 
     final String retrieveInner = Server.getCapsules(lat, lon, "1", from, to, minRating);
     final String retrieveOuter = Server.getCapsules(lat, lon, "2", from, to, minRating);
-    Log.v("map", "finished collecting capsules");
-
-    /**************************/
-    // Debug.stopMethodTracing();
-    /**************************/
-
     return retrieveInner + INNEROUTERSPLIT + retrieveOuter;
+  }
+
+  public boolean isOnline(Context mainContext) {
+    ConnectivityManager cm = (ConnectivityManager) mainContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo info = cm.getActiveNetworkInfo();
+    return (info != null && info.isConnected());
   }
 }

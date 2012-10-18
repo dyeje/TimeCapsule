@@ -102,16 +102,16 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
           }
           String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString("player_id", "");
 
-          HashMap<String,String> requestParams = new HashMap<String,String>();
-          requestParams.put(AsyncDownloader.USERID,userId);
-          requestParams.put(AsyncDownloader.LATITUDE,Double.toString(userLocation.getLatitude()));
-          requestParams.put(AsyncDownloader.LONGITUDE,Double.toString(userLocation.getLongitude()));
-          requestParams.put(AsyncDownloader.TITLE,name);
-          requestParams.put(AsyncDownloader.DESCRIPTION,description);
+          HashMap<String, String> requestParams = new HashMap<String, String>();
+          requestParams.put(AsyncDownloader.USERID, userId);
+          requestParams.put(AsyncDownloader.LATITUDE, Double.toString(userLocation.getLatitude()));
+          requestParams.put(AsyncDownloader.LONGITUDE, Double.toString(userLocation.getLongitude()));
+          requestParams.put(AsyncDownloader.TITLE, name);
+          requestParams.put(AsyncDownloader.DESCRIPTION, description);
 
-          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWCAPSULE,this,requestParams);
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWCAPSULE, requestParams, this, getApplicationContext());
 
-          new AsyncDownloader().execute(request);
+          AsyncDownloader.perform(request);
 
         } else {
           Toast.makeText(getApplicationContext(), "Unable to determine location", Toast.LENGTH_SHORT).show();
@@ -236,13 +236,13 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
         break;
     }
 
-    HashMap<String,String> requestParams = new HashMap<String,String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.FILEPATH,filePath);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.FILEPATH, filePath);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.UPLOADFILE,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.UPLOADFILE, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   public static String getFilePath(Context context, Uri uri) throws URISyntaxException {

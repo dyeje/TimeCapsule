@@ -89,33 +89,33 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
 
   private void refreshCapsuleInfo() {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.CAPSULEID,cId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.CAPSULEID, cId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCAPSULE,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCAPSULE, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   private void refreshCommentsInfo() {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.CAPSULEID,cId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.CAPSULEID, cId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCOMMENTS,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCOMMENTS, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
 
   }
 
   private void refreshRating() {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.CAPSULEID,cId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.CAPSULEID, cId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETRATING,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETRATING, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
 
@@ -234,10 +234,12 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
         });
         commentList.addView(t);
       }
+      TextView preCommentMessage = (TextView) findViewById(R.id.pre_comment_message);
       if (numComments == 0) {
-        TextView noComments = new TextView(this);
-        noComments.setText("Be the first to comment!");
-        commentList.addView(noComments);
+        preCommentMessage.setText("Be the first to comment!");
+        preCommentMessage.setVisibility(View.VISIBLE);
+      } else {
+        preCommentMessage.setVisibility(View.GONE);
       }
       ((TextView) findViewById(R.id.timesFound)).setText("Read " + numViews + " time" + ((numViews != 1) ? "s" : "") + " by " + numDistinctViewers
           + ((numDistinctViewers != 1) ? " different users" : " user"));
@@ -408,37 +410,37 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     String userId = getSharedPreferences("profile", 0).getString("player_id", "0");
     String rating = Float.toString(rate);
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
-    requestParams.put(AsyncDownloader.RATING,rating);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.CAPSULEID, capsuleId);
+    requestParams.put(AsyncDownloader.RATING, rating);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDRATING,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDRATING, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   private void addAView(String userId, String capsuleId) {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.CAPSULEID, capsuleId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDVIEW,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDVIEW, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   private void addAComment(String userId, String capsuleId, String comment) {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
-    requestParams.put(AsyncDownloader.COMMENT,comment);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.CAPSULEID, capsuleId);
+    requestParams.put(AsyncDownloader.COMMENT, comment);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDCOMMENT,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDCOMMENT, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   public void asyncDone(AsyncDownloader.Payload payload) {
@@ -465,10 +467,9 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
           refresh();
           break;
       }
-    }
-    else {
+    } else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error ["+payload.taskType+"](" + payload.result + ")")
+          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + ")")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

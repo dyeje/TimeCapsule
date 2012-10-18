@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import com.gvsu.socnet.data.AsyncCallbackListener;
 import com.gvsu.socnet.data.AsyncDownloader;
 import soc.net.R;
@@ -137,9 +140,9 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
           requestParams.put(AsyncDownloader.PASSWORD, password);
           requestParams.put(AsyncDownloader.USERNAME, username);
 
-          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWUSER, this, requestParams);
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWUSER, requestParams, this, getApplicationContext());
 
-          new AsyncDownloader().execute(request);
+          AsyncDownloader.perform(request);
         }
         break;
 
@@ -158,9 +161,9 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
           requestParams.put(AsyncDownloader.USERNAME, strUserName);
           requestParams.put(AsyncDownloader.PASSWORD, strPass);
 
-          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, this, requestParams);
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, requestParams, this, getApplicationContext());
 
-          new AsyncDownloader().execute(request);
+          AsyncDownloader.perform(request);
 
           Log.d("edit", "sent request");
 
@@ -253,9 +256,9 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             requestParams.put(AsyncDownloader.INTERESTS, interests);
             requestParams.put(AsyncDownloader.ABOUT, aboutme);
 
-            AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.EDITUSER, this, requestParams);
+            AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.EDITUSER, requestParams, this, getApplicationContext());
 
-            new AsyncDownloader().execute(request);
+            AsyncDownloader.perform(request);
 
           } else {
             ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
@@ -264,7 +267,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       }
     } else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
+          .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble editing your profile. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

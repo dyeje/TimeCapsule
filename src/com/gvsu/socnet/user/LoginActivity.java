@@ -17,12 +17,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.gvsu.socnet.data.AsyncCallbackListener;
 import com.gvsu.socnet.data.AsyncDownloader;
 import soc.net.R;
-
-import com.gvsu.socnet.data.Server;
 
 import java.util.HashMap;
 
@@ -99,9 +96,9 @@ public class LoginActivity extends Activity implements
         requestParams.put(AsyncDownloader.USERNAME, strUsername);
         requestParams.put(AsyncDownloader.PASSWORD, strPassword);
 
-        AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, this, requestParams);
+        AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, requestParams, this, getApplicationContext());
 
-        new AsyncDownloader().execute(request);
+        AsyncDownloader.perform(request);
 
         break;
       case R.id.button_new_user:

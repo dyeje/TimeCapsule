@@ -2,13 +2,10 @@ package com.gvsu.socnet.user;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,12 +35,9 @@ import java.util.HashMap;
  */
 public class ProfileActivity extends Activity implements OnClickListener, AsyncCallbackListener {
 
-  // private SharedPreferences prefs;
-  public final String PROFILE = "profile", PLAYER_ID = "player_id";
-  private final String TAB = "\t";
-  private final String NO_CONN = "No Network Connection";
-  private final String NO_CONN_INFO = "Many features of this app will not work without an internet connection";
-  private final String PROFILE_NOT_RETRIEVED = "Sorry, this profile could not be retrieved :(";
+  public final String PROFILE = "profile";
+  public final String PLAYER_ID = "player_id";
+
   private TextView username, name, location, gender, age, interests, aboutme;
   private OnSharedPreferenceChangeListener listener;
   private boolean viewing;
@@ -85,8 +79,8 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     if (viewing) {
       HashMap<String, String> requestParams = new HashMap<String, String>();
       requestParams.put(AsyncDownloader.USERID, getIntent().getStringExtra("viewing_id"));
-      AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, this, requestParams);
-      new AsyncDownloader().execute(request);
+      AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, requestParams, this, getApplicationContext());
+      AsyncDownloader.perform(request);
 
     } else {
       setInfo(prefs);
@@ -131,6 +125,9 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
       logout();
     }
+    if (viewing) {
+      refreshPlayerInfo();
+    }
     super.onResume();
   }
 
@@ -139,12 +136,6 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     super.onStart();
     SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
     prefs.registerOnSharedPreferenceChangeListener(listener);
-
-    if (isOnline()) {
-      refresh();
-    } else {
-      showDialog(NO_CONN, NO_CONN_INFO);
-    }
   }
 
   @Override
@@ -200,54 +191,58 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
    * void
    * *************************************************************
    */
-  protected void refresh() {
+  protected void refreshPlayerInfo() {
     SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
-    boolean online = isOnline();
 
-    if (online) {
-      Log.d("debug", "updating from network");
-      String playerId = prefs.getString("player_id", "");
-      String s = Server.getUser(playerId);
-      if (!s.equals("error")) {
-        JSONArray profileInfos;
-        try {
-          profileInfos = new JSONArray(s);
-          if (profileInfos.length() == 1) {
-            JSONObject info = profileInfos.getJSONObject(0);
-            SharedPreferences.Editor editor = prefs.edit();
-            if (!prefs.getString("username", "").equals(info.getString("userName")))
-              editor.putString("username", info.getString("userName"));
-            if (!prefs.getString("name", "").equals(info.getString("name")))
-              editor.putString("name", info.getString("name"));
-            String strLocation = info.getString("location") + ", " + info.getString("state");
-            if (!prefs.getString("location", "").equals(strLocation))
-              editor.putString("location", strLocation);
-            String strGender = info.getString("gender");
-            if (strGender.equalsIgnoreCase("m")) {
-              strGender = "Male";
-            } else if (strGender.equalsIgnoreCase("f")) {
-              strGender = "Female";
-            } else {
-              strGender = "Other";
-            }
-            if (!prefs.getString("gender", "").equals(strGender))
-              editor.putString("gender", strGender);
-            if (!prefs.getString("age", "").equals(info.getString("age")))
-              editor.putString("age", info.getString("age"));
-            if (!prefs.getString("interests", "").equals(info.getString("interest")))
-              editor.putString("interests", info.getString("interest"));
-            if (!prefs.getString("aboutme", "").equals(info.getString("about")))
-              editor.putString("aboutme", info.getString("about"));
-            editor.commit();
+    Log.d("debug", "updating from network");
+    String playerId = prefs.getString("player_id", "");
+
+    HashMap<String,String> requestParams = new HashMap<String, String>(1);
+    requestParams.put(AsyncDownloader.USERID,playerId);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER,requestParams,this,getApplicationContext());
+    AsyncDownloader.perform(request);
+//    AsyncDownloader.perform(request);
+  }
+
+  protected void refreshPlayerInfo(String s) {
+    SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
+
+    if (!s.equals("error")) {
+      JSONArray profileInfos;
+      try {
+        profileInfos = new JSONArray(s);
+        if (profileInfos.length() == 1) {
+          JSONObject info = profileInfos.getJSONObject(0);
+          SharedPreferences.Editor editor = prefs.edit();
+          if (!prefs.getString("username", "").equals(info.getString("userName")))
+            editor.putString("username", info.getString("userName"));
+          if (!prefs.getString("name", "").equals(info.getString("name")))
+            editor.putString("name", info.getString("name"));
+          String strLocation = info.getString("location") + ", " + info.getString("state");
+          if (!prefs.getString("location", "").equals(strLocation))
+            editor.putString("location", strLocation);
+          String strGender = info.getString("gender");
+          if (strGender.equalsIgnoreCase("m")) {
+            strGender = "Male";
+          } else if (strGender.equalsIgnoreCase("f")) {
+            strGender = "Female";
+          } else {
+            strGender = "Other";
           }
-        } catch (JSONException e) {
-          Log.e("profile", "error with JSON");
-          e.printStackTrace();
+          if (!prefs.getString("gender", "").equals(strGender))
+            editor.putString("gender", strGender);
+          if (!prefs.getString("age", "").equals(info.getString("age")))
+            editor.putString("age", info.getString("age"));
+          if (!prefs.getString("interests", "").equals(info.getString("interest")))
+            editor.putString("interests", info.getString("interest"));
+          if (!prefs.getString("aboutme", "").equals(info.getString("about")))
+            editor.putString("aboutme", info.getString("about"));
+          editor.commit();
         }
+      } catch (JSONException e) {
+        Log.e("profile", "error with JSON");
+        e.printStackTrace();
       }
-    } else {
-      Log.d("debug", "couldn't update - no network connection");
-      showDialog(NO_CONN, PROFILE_NOT_RETRIEVED);
     }
   }
 
@@ -280,16 +275,6 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     finish();
     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
     startActivity(i);
-  }
-
-  public boolean isOnline() {
-    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo info = cm.getActiveNetworkInfo();
-    if (info != null && info.isConnected()) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   protected boolean gotoMenu() {
@@ -341,12 +326,15 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     if (payload.exception == null) {
       switch (payload.taskType) {
         case AsyncDownloader.GETUSER:
+          if (!viewing) {
+            refreshPlayerInfo(payload.result);
+          }
           setInfo(payload.result);
           break;
       }
     } else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
+          .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble loading this profile. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

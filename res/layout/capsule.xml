@@ -24,6 +24,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text=""
+          android:visibility="invisible"
           android:textSize="20sp"/>
 
 
@@ -31,6 +32,8 @@
           android:id="@+id/description"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginLeft="30dip"
+          android:layout_marginRight="30dip"
           android:paddingBottom="10sp"
           android:text=""
           android:textSize="20sp"/>
@@ -70,11 +73,14 @@
           android:text=""/>
 
       <TextView
-          android:id="@+id/comment"
+          android:id="@+id/pre_comment_message"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:layout_marginTop="10dip"
+          android:layout_marginLeft="40dip"
+          android:layout_marginRight="40dip"
+          android:layout_marginTop="40dip"
           android:text=""
+          android:visibility="gone"
           android:textSize="20sp"/>
 
       <LinearLayout
