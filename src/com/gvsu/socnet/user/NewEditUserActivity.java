@@ -72,8 +72,14 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       ((TextView) findViewById(R.id.text_view_password)).setVisibility(View.GONE);
 
       name.setText(prefs.getString("name", ""));
-      city.setText(prefs.getString("location", ", ").split(", ")[0]);
-      state.setText(prefs.getString("location", ", ").split(", ")[1]);
+
+      String location = prefs.getString("location", "");
+      if(location.length() > 0) {
+        String[] split_location = location.split(", ");
+        if(0 < split_location.length) city.setText(split_location[0]);
+        if(1 < split_location.length) state.setText(split_location[1]);
+      }
+
       String strGender = prefs.getString("gender", "");
       if (strGender.equalsIgnoreCase("Male")) {
         male.setChecked(true);
@@ -82,6 +88,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       } else {
         unsure.setChecked(true);
       }
+      
       age.setText(prefs.getString("age", ""));
       interests.setText(prefs.getString("interests", ""));
       aboutme.setText(prefs.getString("aboutme", ""));
