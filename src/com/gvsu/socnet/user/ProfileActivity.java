@@ -77,8 +77,6 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     btnMap = (Button) findViewById(R.id.map_button);
     btnMap.setOnClickListener(this);
 
-    btnProfile.setBackgroundResource(R.drawable.user_pic_edit);
-
     SharedPreferences prefs = getSharedPreferences(PROFILE, 0);
 
     String viewing_id = getIntent().getStringExtra("viewing_id");

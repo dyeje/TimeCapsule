@@ -51,7 +51,7 @@
                     android:layout_height="50dip"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="25dip"
-                    android:background="@drawable/ic_menu_settings"
+                    android:background="@drawable/settings"
                     android:textColor="#FFFFFF" >
                 </Button>
 
@@ -68,8 +68,9 @@
                     android:id="@+id/map_filter_button"
                     android:layout_width="50dip"
                     android:layout_height="50dip"
+                    android:layout_marginRight="5dip"
                     android:layout_toLeftOf="@+id/map_profile_button"
-                    android:background="@drawable/star_full"
+                    android:background="@drawable/filters"
                     android:padding="10dip"
                     android:textColor="#FFFFFF" />
 
@@ -77,9 +78,10 @@
                     android:id="@+id/map_profile_button"
                     android:layout_width="50dip"
                     android:layout_height="50dip"
-                    android:layout_marginLeft="2dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
                     android:layout_toLeftOf="@+id/map_map_button"
-                    android:background="@drawable/user_pic"
+                    android:background="@drawable/profile"
                     android:padding="10dip"
                     android:textColor="#FFFFFF" />
 
@@ -87,9 +89,10 @@
                     android:id="@+id/map_map_button"
                     android:layout_width="50dip"
                     android:layout_height="50dip"
-                    android:layout_marginRight="2dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
                     android:layout_toLeftOf="@+id/map_capture_button"
-                    android:background="@drawable/ic_tab_map_color"
+                    android:background="@drawable/map"
                     android:padding="10dip"
                     android:textColor="#FFFFFF" />
 
@@ -97,9 +100,10 @@
                     android:id="@+id/map_capture_button"
                     android:layout_width="50dip"
                     android:layout_height="50dip"
+                    android:layout_marginLeft="5dip"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="2dip"
-                    android:background="@drawable/camera" />
+                    android:background="@drawable/addcapsule" />
             </RelativeLayout>
         </com.gvsu.socnet.views.TranslucentPanel>
     </LinearLayout>
