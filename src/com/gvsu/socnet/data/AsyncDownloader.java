@@ -126,8 +126,8 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     String lon = params.get(LONGITUDE);
     String title = params.get(TITLE);
     String description = params.get(DESCRIPTION);
-    String to = params.get(TO);
     String from = params.get(FROM);
+    String to = params.get(TO);
     String rating = params.get(RATING);
     String comment = params.get(COMMENT);
     String filePath = params.get(FILEPATH);
@@ -138,7 +138,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
       case RETRIEVECAPSULES:
         valid = lat != null && lon != null && to != null && from != null && rating != null;
         if (valid)
-          payload.result = retrieveCapsules(lat, lon, to, from, rating);
+          payload.result = retrieveCapsules(lat, lon, from, to, rating);
         else
           payload.exception = new AsyncException("Bad Params");
         break;

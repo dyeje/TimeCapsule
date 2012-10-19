@@ -31,8 +31,10 @@ import soc.net.R;
  */
 public class RangeSeekBar<T extends Number> extends ImageView {
   private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-  private final Bitmap thumbImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_normal);
-  private final Bitmap thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_pressed);
+//  private final Bitmap thumbImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_normal);
+//  private final Bitmap thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_pressed);
+  private final Bitmap thumbImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_normal_grey);
+  private final Bitmap thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_pressed_grey);
   private final float thumbWidth = thumbImage.getWidth();
   private final float thumbHalfWidth = 0.5f * thumbWidth;
   private final float thumbHalfHeight = 0.5f * thumbImage.getHeight();
@@ -371,7 +373,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     // draw seek bar background line
     final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
     paint.setStyle(Style.FILL);
-    paint.setColor(Color.GRAY);
+    paint.setColor(Color.DKGRAY);
     paint.setAntiAlias(true);
     canvas.drawRect(rect, paint);
 
@@ -380,7 +382,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     rect.right = normalizedToScreen(normalizedMaxValue);
 
     // orange color
-    paint.setColor(DEFAULT_COLOR);
+//    paint.setColor(DEFAULT_COLOR);
+    paint.setColor(Color.GRAY);
     canvas.drawRect(rect, paint);
 
     // draw minimum thumb

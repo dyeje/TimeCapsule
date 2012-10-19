@@ -1,36 +1,27 @@
 package com.gvsu.socnet.data;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+import java.io.*;
+import java.net.*;
 
-/****************************************************************
+/**
+ * *************************************************************
  * com.gvsusocnet.Server
+ *
  * @author Caleb Gomer, Jeremy Dye
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class Server {
   private final static String TAG = "Server";
 
@@ -38,30 +29,29 @@ public class Server {
   private static final String HTTP_TYPE = "http";
   private static final String HOST = "www.cis.gvsu.edu";
   private static final String PATH = "~scrippsj/socNet/functions";
-  private static final String BASE_URL = HTTP_TYPE+"://"+HOST+"/"+PATH+"/";
+  private static final String BASE_URL = HTTP_TYPE + "://" + HOST + "/" + PATH + "/";
 
   //PHP Commands
-//  private static final String GETCAPSULE = BASE_URL + "getCapsule.php?";
-  private static final String GETCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getCapsule.php?";
-  private static final String NEWCAPSULE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setCapsule.php?";
-  private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
-  private static final String AUTHENTICATE = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?userName=";
-  private static final String SETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setUser.php?id=";
-  private static final String GETCOMMENTS = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getVisit.php?";
-  private static final String ADDCOMMENT = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setVisit.php?";
-  private static final String GETRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getRate.php?capsuleId=";
-  private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
+  private static final String GETCAPSULE = "getCapsule.php";
+  private static final String NEWCAPSULE = "setCapsule.php";
+  private static final String GETUSER = "getUser.php";
+  //private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
+  private static final String SETUSER = "setUser.php";
+  private static final String GETCOMMENTS = "getVisit.php";
+  private static final String ADDCOMMENT = "setVisit.php";
+  private static final String GETRATING = "getRate.php";
+  private static final String ADDRATING = "setRate.php";
 
 
   public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
-    String command = SETUSER + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
+    String command = SETUSER + "?name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about + "&password="
         + password + "&userName=" + username;
     Log.d(TAG, command);
     return get(command);
   }
 
   public static String editUser(String id, String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
-    String command = SETUSER + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
+    String command = SETUSER + "?id=" + id + "&name=" + name + "&location=" + location + "&state=" + state + "&gender=" + gender + "&age=" + age + "&interest=" + interests + "&about=" + about
         + "&password=" + password + "&userName=" + username;
     Log.d(TAG, command);
     return get(command);
@@ -75,58 +65,47 @@ public class Server {
   }
 
   public static String getUser(String id) {
-    String command = GETUSER + id;
+    String command = GETUSER + "?id=" + id;
     Log.d(TAG, "tried: " + command);
     return get(command);
   }
 
-  public static String authenticate(String id, String password) {
-    String command = AUTHENTICATE + id + "&password=" + password;
+  public static String authenticate(String userName, String password) {
+    String command = GETUSER + "?userName=" + userName + "&password=" + password;
+    return get(command);
+  }
+
+
+  public static String getComments(String capsuleId) {
+    String command = GETCOMMENTS + "?capsuleId=" + capsuleId;
     return get(command);
   }
 
   public static String getCapsule(String id) {
-    String command = GETCAPSULE + "id=" + id;
-    return get(command);
-  }
-
-  public static String getTreasure(String lat, String lng) {
-    String command = GETCAPSULE + "lat=" + lat + "&long=" + lng + "&radius=4";
-    return get(command);
-  }
-
-  public static String getComments(String capsuleId) {
-    String command = GETCOMMENTS + "capsuleId=" + capsuleId;
+    String command = GETCAPSULE + "?id=" + id;
     return get(command);
   }
 
   public static String getComments(String capsuleId, String userId) {
-    String command = GETCOMMENTS + "userId=" + userId + "&capsuleId=" + capsuleId;
+    String command = GETCOMMENTS + "?userId=" + userId + "&capsuleId=" + capsuleId;
     return get(command);
   }
 
   public static String getRating(String capsuleId) {
-    String command = GETRATING + capsuleId;
+    String command = GETRATING+"?capsuleId=" + capsuleId;
     return get(command);
   }
 
   public static String addRating(String userId, String capsuleId, String rating) {
-    String command = ADDRATING + "userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
+    String command = ADDRATING + "?userId=" + userId + "&capsuleId=" + capsuleId + "&rating=" + rating;
     String response = get(command);
     return response;
   }
 
   // Adds a comment left by a user on a specific capsule
   public static String addComment(String userId, String capsuleId, String comment) {
-    String result;
-    try {
-      String command = ADDCOMMENT + "userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
-      result = get(command);
-      return result;
-    } catch (IllegalStateException e) {
-      result = "An error occured";
-    }
-    return valid(result);
+    String command = ADDCOMMENT + "?userId=" + userId + "&capsuleId=" + capsuleId + "&comments=" + comment;
+    return get(command);
   }
 
   // increment the number of views
@@ -136,33 +115,26 @@ public class Server {
   }
 
 
-  /****************************************************************
-   * @param latitude float value of latitude (not E6)
-   * @param longitude float value of longitude (not E6)
+  /**
+   * *************************************************************
+   *
+   * @param latitude   float value of latitude (not E6)
+   * @param longitude  float value of longitude (not E6)
    * @param radiusCode 1 for inner radius, 2 for outer radius
-   * @param startDate yyyy/mm/dd date to start filtering by
-   * @param endDate yyyy/mm/dd date to end filtering by
-   * @param minRating minimum rating to return, integers 1 to 5
+   * @param startDate  yyyy/mm/dd date to start filtering by
+   * @param endDate    yyyy/mm/dd date to end filtering by
+   * @param minRating  minimum rating to return, integers 1 to 5
    * @return String the capsules returned by the query
-   ***************************************************************/
+   *         *************************************************************
+   */
   public static String getCapsules(String latitude, String longitude, String radiusCode, String startDate, String endDate, String minRating) {
-    String request = GETCAPSULE;
-    request += "lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
-    Log.i("server", "getCapsules request:" + request);
-    String result = get(request);
-    Log.i("server", "getCapsules response:" + result);
-    return result;
+    String request = GETCAPSULE + "?lat=" + latitude + "&long=" + longitude + "&radiusCode=" + radiusCode + "&dateStart=" + startDate + "&dateEnd=" + endDate + "&minRate=" + minRating;
+    return get(request);
   }
 
-  public static String login(String username, String password) {
-    String request = GETUSER + "&userName=" + username + "&password=" + password;
-    // Log.d(TAG, "logging in with: username=" + username + " password=" + password);
-    String result = get(request);
-    // Log.d(TAG, "login response: " + result);
-    return result;
-  }
-
-  /**makes sure the server's response is valid before returning it*/
+  /**
+   * makes sure the server's response is valid before returning it
+   */
   private static String valid(String response) {
     if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
       return response.substring(11);
@@ -172,14 +144,23 @@ public class Server {
     }
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
    * Basic server post code
+   *
    * @param command
    * @return String
-   ***************************************************************/
+   *         *************************************************************
+   */
   private static String get(String command) {
+
+    command = command.replace("\n","%20%20%20");
+
+    Log.d("server","URL:\n"+command);
+    String request = BASE_URL + command;
+
     HttpClient client = new DefaultHttpClient();
-    HttpPost post = new HttpPost(command);
+    HttpPost post = new HttpPost(request);
     HttpResponse response;
 
     try {
@@ -254,37 +235,36 @@ public class Server {
     }
     return charset;
   }
-  
-  
-  
-  
+
+
   public static boolean uploadFile(String path) {
-    Log.i(TAG, "uploading from path: "+path);
+    Log.i(TAG, "uploading from path: " + path);
     new UploadFileTask().execute(new File(path));
     return true;
   }
-  
+
   public static Drawable downloadPicture(String url) {
-    
+
     return null;
   }
 
   Bitmap bmImg;
-  void downloadFile(String fileUrl){
-    URL myFileUrl =null; 
+
+  void downloadFile(String fileUrl) {
+    URL myFileUrl = null;
     try {
-      myFileUrl= new URL(fileUrl);
+      myFileUrl = new URL(fileUrl);
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
     try {
-      HttpURLConnection conn= (HttpURLConnection)myFileUrl.openConnection();
+      HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
       conn.setDoInput(true);
       conn.connect();
       int length = conn.getContentLength();
-      int[] bitmapData =new int[length];
-      byte[] bitmapData2 =new byte[length];
+      int[] bitmapData = new int[length];
+      byte[] bitmapData2 = new byte[length];
       InputStream is = conn.getInputStream();
 
       bmImg = BitmapFactory.decodeStream(is);

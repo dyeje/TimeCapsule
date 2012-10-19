@@ -112,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
+            android:enabled="false"
             android:minWidth="270dip"
             android:text="Submit Comment"/>
       </LinearLayout>
@@ -130,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:text="Rate Capsule"/>
+        android:text="Submit Rating"/>
 
     <Button
         android:id="@+id/capsule_rating_cancel"
@@ -139,5 +140,27 @@
         android:layout_weight="1"
         android:text="Cancel"/>
   </LinearLayout>
+
+  <!--<LinearLayout-->
+      <!--android:id="@+id/submit_comment_layout"-->
+      <!--android:layout_width="fill_parent"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:orientation="horizontal"-->
+      <!--android:visibility="gone">-->
+
+    <!--<Button-->
+        <!--android:id="@+id/capsule_comment_submit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="4"-->
+        <!--android:text="Submit Comment"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/capsule_comment_cancel"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="Cancel"/>-->
+  <!--</LinearLayout>-->
 
 </LinearLayout>

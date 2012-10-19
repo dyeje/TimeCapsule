@@ -49,8 +49,9 @@ public class UserOverlay extends Overlay {
     } else {
       Bitmap bm = BitmapFactory.decodeResource(context.getResources(),
           R.drawable.user);
-
+      canvas.save();
       canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+      canvas.restore();
     }
   }
 

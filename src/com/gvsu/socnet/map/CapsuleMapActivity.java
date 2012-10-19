@@ -136,6 +136,26 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       Intent i = new Intent(getApplicationContext(), LoginActivity.class);
       startActivity(i);
     }
+
+    super.onResume();
+    requestLocationUpdates();
+    warnedAboutDriving = false;
+    forceRedraw = true;
+
+    /**************************/
+    // Debug.stopMethodTracing();
+    /**************************/
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    stopLocationUpdates();
+  }
+
+  protected void requestLocationUpdates() {
+    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("rotate_user", false)) {
       sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
       if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
@@ -148,41 +168,13 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     } else {
       rotatableUser = false;
     }
-
-    super.onResume();
-    requestLocationUpdates();
-    warnedAboutDriving = false;
-    forceRedraw = true;
-    forceRecenter = true;
-
-    /**************************/
-    // Debug.stopMethodTracing();
-    /**************************/
-  }
-
-  @Override
-  public void onPause() {
-    super.onPause();
-    stopLocationUpdates();
-    if (sensorManager != null) {
-      sensorManager.unregisterListener(this);
-    }
-  }
-
-  /**
-   * *************************************************************
-   * You called this a few times so I moved it into one method
-   *
-   * @return void
-   *         *************************************************************
-   */
-  protected void requestLocationUpdates() {
-    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
   }
 
   protected void stopLocationUpdates() {
     locationManager.removeUpdates(this);
+    if (sensorManager != null) {
+      sensorManager.unregisterListener(this);
+    }
   }
 
   /**
@@ -318,7 +310,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
     Log.i("debug", "accuracy:" + location.getAccuracy());
     // will not accept location without a good accuracy
-    if (location.getAccuracy() <= 5000) {
+    if (location.getAccuracy() <= 1000) {
       /**
        * Conditions for redrawing capsules and user layer
        * 1) onResume() forces redraw
@@ -328,12 +320,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       if (forceRedraw || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates)) {
         if (forceRedraw) {
           Log.i("debug", "redraw forced");
+          innerCapsules.clear();
+          outerCapsules.clear();
           forceRedraw = false;
         }
         userLocation = location;
+        drawUser();
         /** new way to update map **/
         retrieveCapsules();
-
       }
 
       /**
@@ -436,10 +430,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       case R.id.map_map_button:
         if (mapView.isSatellite()) {
           mapView.setSatellite(false);
-          ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
         } else {
           mapView.setSatellite(true);
-          ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
         }
         break;
       case R.id.map_zoom_in_button:
@@ -511,13 +503,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       switch (payload.taskType) {
         case AsyncDownloader.RETRIEVECAPSULES:
           String[] result = payload.result.split(AsyncDownloader.INNEROUTERSPLIT);
+          mapView.invalidate();
           parseAndDrawCapsules(result[0], true);
           parseAndDrawCapsules(result[1], false);
           break;
       }
     } else {
       new AlertDialog.Builder(this)
-          .setTitle(payload.exception.getMessage() + " ["+payload.taskType+"](" + payload.result + "){ID-10-T}")
+          .setTitle(payload.exception.getMessage() + " [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
