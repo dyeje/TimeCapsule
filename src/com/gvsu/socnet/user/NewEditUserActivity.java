@@ -77,26 +77,29 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       name.setText(prefs.getString("name", ""));
 
       String location = prefs.getString("location", "");
-      if(location.length() > 0) {
+      if (location.length() > 0) {
         String[] split_location = location.split(", ");
-        if(0 < split_location.length) city.setText(split_location[0]);
-        if(1 < split_location.length) state.setText(split_location[1]);
+        if (0 < split_location.length) city.setText(split_location[0]);
+        if (1 < split_location.length) state.setText(split_location[1]);
       }
 
       String strGender = prefs.getString("gender", "");
       if (strGender.equalsIgnoreCase("Male")) {
         male.setChecked(true);
-      } else if (strGender.equalsIgnoreCase("Female")) {
+      }
+      else if (strGender.equalsIgnoreCase("Female")) {
         female.setChecked(true);
-      } else {
+      }
+      else {
         unsure.setChecked(true);
       }
-      
+
       age.setText(prefs.getString("age", ""));
       interests.setText(prefs.getString("interests", ""));
       aboutme.setText(prefs.getString("aboutme", ""));
       create.setText("Save Changes");
-    } else {
+    }
+    else {
       editing = false;
     }
   }
@@ -106,12 +109,15 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
     String gender;
     if (male.isChecked()) {
       gender = "m";
-    } else if (female.isChecked()) {
+    }
+    else if (female.isChecked()) {
       gender = "f";
 
-    } else if (unsure.isChecked()) {
+    }
+    else if (unsure.isChecked()) {
       gender = "u";
-    } else {
+    }
+    else {
       gender = "?";
     }
 
@@ -128,7 +134,8 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       case R.id.button_create_account:
         if (editing) {
           showLoginFields();
-        } else {
+        }
+        else {
           HashMap<String, String> requestParams = new HashMap<String, String>();
           requestParams.put(AsyncDownloader.NAME, name);
           requestParams.put(AsyncDownloader.LOCATION, city);
@@ -168,7 +175,8 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
           Log.d("edit", "sent request");
 
           findViewById(R.id.btn_save).setEnabled(false);
-        } else {
+        }
+        else {
           ((TextView) findViewById(R.id.password_view)).setText("Enter a Password");
         }
         break;
@@ -226,12 +234,15 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             String gender;
             if (male.isChecked()) {
               gender = "m";
-            } else if (female.isChecked()) {
+            }
+            else if (female.isChecked()) {
               gender = "f";
 
-            } else if (unsure.isChecked()) {
+            }
+            else if (unsure.isChecked()) {
               gender = "u";
-            } else {
+            }
+            else {
               gender = "?";
             }
 
@@ -260,12 +271,14 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
 
             AsyncDownloader.perform(request);
 
-          } else {
+          }
+          else {
             ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
           }
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble editing your profile. Please try that again...")

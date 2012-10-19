@@ -165,7 +165,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       }
       sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
       sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
-    } else {
+    }
+    else {
       rotatableUser = false;
     }
   }
@@ -233,7 +234,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       Log.i("debug", "drawing nearby capsules:");// LOG
       innerCapsules.clear();
       outerCapsules.clear();
-    } else
+    }
+    else
       Log.i("debug", "drawing perimeter capsules:");// LOG
 
     if (!strCapsules.equals("error")) {
@@ -265,7 +267,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
             if (inner) {
               Log.i("debug", "capsule " + capsule.getString("title"));// LOG
               innerCapsules.addOverlay(item);
-            } else {
+            }
+            else {
               Log.i("debug", "outercapsule " + capsule.getString("title"));// LOG
               outerCapsules.addOverlay(item);
             }
@@ -278,7 +281,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
           }
         }
       }
-    } else {
+    }
+    else {
       Toast.makeText(this, "There was an error finding the time capsules", Toast.LENGTH_LONG).show();
     }
     if (inner)
@@ -379,7 +383,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       mapController.animateTo(toGeoPoint(userLocation));
       PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", true).commit();
       Log.i("debug", "search pressed, following user");
-    } else {
+    }
+    else {
       long now = Calendar.getInstance().getTimeInMillis();
       if ((now - lastTimeMapCentered) > timeBetweenUpdates) {
         mapController.animateTo(toGeoPoint(userLocation));
@@ -430,7 +435,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       case R.id.map_map_button:
         if (mapView.isSatellite()) {
           mapView.setSatellite(false);
-        } else {
+        }
+        else {
           mapView.setSatellite(true);
         }
         break;
@@ -465,7 +471,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
   private GeoPoint toGeoPoint(Location location) {
     if (location != null) {
       return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
-    } else {
+    }
+    else {
       return new GeoPoint(0, 0);
     }
   }
@@ -481,7 +488,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
       if (type == Sensor.TYPE_ACCELEROMETER) {
         accelerometerData = event.values;
-      } else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
+      }
+      else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
         magneticData = event.values;
       }
 
@@ -508,7 +516,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
           parseAndDrawCapsules(result[1], false);
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle(payload.exception.getMessage() + " [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")

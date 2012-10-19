@@ -113,7 +113,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 
           AsyncDownloader.perform(request);
 
-        } else {
+        }
+        else {
           Toast.makeText(getApplicationContext(), "Unable to determine location", Toast.LENGTH_SHORT).show();
         }
         break;
@@ -169,7 +170,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.i(TAG, "Picture path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
 
               shouldUpload = true;
               filePath = path;
@@ -188,7 +190,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.d(TAG, "Audio Path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
               shouldUpload = true;
               filePath = path;
             }
@@ -207,7 +210,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.d(TAG, "Video Path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
               shouldUpload = true;
               filePath = path;
             }
@@ -225,7 +229,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.d(TAG, "Doc Path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
               shouldUpload = true;
               filePath = path;
             }
@@ -260,7 +265,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
       } catch (Exception e) {
         // Eat it
       }
-    } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+    }
+    else if ("file".equalsIgnoreCase(uri.getScheme())) {
       return uri.getPath();
     }
 
@@ -346,7 +352,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
           finish();
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle("Internet Error [" + payload.taskType + "](" + payload.exception.getMessage() + "){ID-10-T}")
           .setMessage("Sorry, we couldn't save your Time Capsule. Please try that again...")

@@ -92,7 +92,7 @@ public class Server {
   }
 
   public static String getRating(String capsuleId) {
-    String command = GETRATING+"?capsuleId=" + capsuleId;
+    String command = GETRATING + "?capsuleId=" + capsuleId;
     return get(command);
   }
 
@@ -138,7 +138,8 @@ public class Server {
   private static String valid(String response) {
     if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
       return response.substring(11);
-    } else {
+    }
+    else {
       Log.d(TAG, "response: '" + response + "' *****NOT VALID*****");
       return "error";
     }
@@ -154,9 +155,9 @@ public class Server {
    */
   private static String get(String command) {
 
-    command = command.replace("\n","%20%20%20");
+    command = command.replace("\n", "%20%20%20");
 
-    Log.d("server","URL:\n"+command);
+    Log.d("server", "URL:\n" + command);
     String request = BASE_URL + command;
 
     HttpClient client = new DefaultHttpClient();

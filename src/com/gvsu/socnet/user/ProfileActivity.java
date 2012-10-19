@@ -82,7 +82,8 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
       AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, requestParams, this, getApplicationContext());
       AsyncDownloader.perform(request);
 
-    } else {
+    }
+    else {
       setInfo(prefs);
       listener = new OnSharedPreferenceChangeListener() {
 
@@ -93,19 +94,26 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
 
           if (key.equals("username")) {
             username.setText(sPrefs.getString(key, ""));
-          } else if (key.equals("name")) {
+          }
+          else if (key.equals("name")) {
             name.setText(sPrefs.getString(key, ""));
-          } else if (key.equals("location")) {
+          }
+          else if (key.equals("location")) {
             location.setText(sPrefs.getString(key, ""));
-          } else if (key.equals("age")) {
+          }
+          else if (key.equals("age")) {
             age.setText(sPrefs.getString(key, ""));
-          } else if (key.equals("gender")) {
+          }
+          else if (key.equals("gender")) {
             gender.setText(sPrefs.getString(key, ""));
-          } else if (key.equals("interests")) {
+          }
+          else if (key.equals("interests")) {
             interests.setText(sPrefs.getString(key, ""));
-          } else if (key.equals("aboutme")) {
+          }
+          else if (key.equals("aboutme")) {
             aboutme.setText(sPrefs.getString(key, ""));
-          } else {
+          }
+          else {
             Log.d("debug", "I don't know what was changed, updating all");
             setInfo(sPrefs);
           }
@@ -166,9 +174,11 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           String strGender = info.getString("gender");
           if (strGender.equalsIgnoreCase("m")) {
             strGender = "Male";
-          } else if (strGender.equalsIgnoreCase("f")) {
+          }
+          else if (strGender.equalsIgnoreCase("f")) {
             strGender = "Female";
-          } else {
+          }
+          else {
             strGender = "Other";
           }
           name.setText(info.getString("name"));
@@ -197,9 +207,9 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     Log.d("debug", "updating from network");
     String playerId = prefs.getString("player_id", "");
 
-    HashMap<String,String> requestParams = new HashMap<String, String>(1);
-    requestParams.put(AsyncDownloader.USERID,playerId);
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER,requestParams,this,getApplicationContext());
+    HashMap<String, String> requestParams = new HashMap<String, String>(1);
+    requestParams.put(AsyncDownloader.USERID, playerId);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, requestParams, this, getApplicationContext());
     AsyncDownloader.perform(request);
 //    AsyncDownloader.perform(request);
   }
@@ -224,9 +234,11 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           String strGender = info.getString("gender");
           if (strGender.equalsIgnoreCase("m")) {
             strGender = "Male";
-          } else if (strGender.equalsIgnoreCase("f")) {
+          }
+          else if (strGender.equalsIgnoreCase("f")) {
             strGender = "Female";
-          } else {
+          }
+          else {
             strGender = "Other";
           }
           if (!prefs.getString("gender", "").equals(strGender))
@@ -332,7 +344,8 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           setInfo(payload.result);
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble loading this profile. Please try that again...")

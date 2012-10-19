@@ -157,14 +157,16 @@ public class LoginActivity extends Activity implements
           if (payload.result.equals("-1")) {
             showDialog("Sorry...",
                 "Your username or password is incorrect", this);
-          } else {
+          }
+          else {
             getSharedPreferences(PROFILE, 0).edit()
                 .putString(PLAYER_ID, payload.result).commit();
             finish();
           }
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle("Internet Error [" + payload.taskType + "](" + payload.exception.getMessage() + "){ID-10-T}")
           .setMessage("Sorry, we couldn't find the internet. Please try that again...")

@@ -9,11 +9,14 @@ import java.util.TimeZone;
 
 import android.util.Log;
 
-/****************************************************************
+/**
+ * *************************************************************
  * data.Comment
+ *
  * @author Caleb Gomer
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class Comment {
 
   // private ImageView pic;
@@ -31,10 +34,13 @@ public class Comment {
     // this.leftTime = dateStamp;
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @param dateStamp string representation of date item was left
    * @return Calendar object representation of date item was left
-   ***************************************************************/
+   *         *************************************************************
+   */
   public static GregorianCalendar makeSenseOf(String dateStamp) {
     String[] ds = dateStamp.split(" ");
     String date = ds[0];

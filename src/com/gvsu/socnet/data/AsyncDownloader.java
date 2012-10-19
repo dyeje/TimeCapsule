@@ -239,7 +239,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
           payload.exception = new AsyncException("Bad Params");
         break;
       default:
-        payload.exception = new AsyncException("["+payload.taskType+"] is not a valid task type");
+        payload.exception = new AsyncException("[" + payload.taskType + "] is not a valid task type");
         break;
     }
 
@@ -263,7 +263,7 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     }
 
     public String errorString() {
-      return this.exception.getMessage()+" [ID-"+this.taskType+"-T]";
+      return this.exception.getMessage() + " [ID-" + this.taskType + "-T]";
     }
   }
 

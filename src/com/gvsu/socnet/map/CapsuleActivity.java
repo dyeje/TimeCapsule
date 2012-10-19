@@ -217,7 +217,8 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
             numDistinctViewers++;
           }
           continue; // this is just a view, not a comment so don't do anything else
-        } else
+        }
+        else
           numComments++;
         String strVisitTime = comment.getString("visitTime");
         final String strUserId = comment.getString("userId");
@@ -241,7 +242,8 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
       if (numComments == 0) {
         preCommentMessage.setText("Be the first to comment!");
         preCommentMessage.setVisibility(View.VISIBLE);
-      } else {
+      }
+      else {
         preCommentMessage.setVisibility(View.GONE);
       }
       ((TextView) findViewById(R.id.timesFound)).setText("Read " + numViews + " time" + ((numViews != 1) ? "s" : "") + " by " + numDistinctViewers
@@ -266,7 +268,7 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
 
       @Override
       public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-          submitButton.setEnabled(!charSequence.equals(""));
+        submitButton.setEnabled(!charSequence.equals(""));
       }
 
       @Override
@@ -485,7 +487,8 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
           refresh();
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + ")")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")

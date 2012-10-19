@@ -45,7 +45,8 @@ public class CapsuleOverlays extends ItemizedOverlay<CapsuleOverlayItem> {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(mContext, text, duration);
         toast.show();
-      } else {
+      }
+      else {
         Intent intent = new Intent(mContext, CapsuleActivity.class);
         intent.putExtra("cID", Integer.toString(item.getCID()));
         mContext.startActivity(intent);
