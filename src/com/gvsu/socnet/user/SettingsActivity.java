@@ -32,7 +32,7 @@ public class SettingsActivity extends PreferenceActivity {
 
       @Override
       public boolean onPreferenceClick(Preference preference) {
-        getSharedPreferences("profile", 0).edit().putString("player_id", "-1").commit();
+        getSharedPreferences(ProfileActivity.PROFILE, 0).edit().clear().putString(ProfileActivity.PLAYER_ID, "-1").commit();
         finish();
         return false;
       }

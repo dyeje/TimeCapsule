@@ -70,11 +70,14 @@ public class CapsuleOverlays extends ItemizedOverlay<CapsuleOverlayItem> {
 
   public void addOverlay(CapsuleOverlayItem overlay) {
     mOverlays.add(overlay);
+    setLastFocusedIndex(-1);
     populate();
   }
 
   public void clear() {
     mOverlays.clear();
+    setLastFocusedIndex(-1);
+    populate();
   }
 
 }

@@ -35,8 +35,8 @@ import java.util.HashMap;
  */
 public class ProfileActivity extends Activity implements OnClickListener, AsyncCallbackListener {
 
-  public final String PROFILE = "profile";
-  public final String PLAYER_ID = "player_id";
+  public static final String PROFILE = "profile";
+  public static final String PLAYER_ID = "player_id";
 
   private TextView username, name, location, gender, age, interests, aboutme;
   private OnSharedPreferenceChangeListener listener;
@@ -77,11 +77,12 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     viewing = (viewing_id != null && !viewing_id.equals("-1"));
 
     if (viewing) {
+      findViewById(R.id.llheader).setVisibility(View.GONE);
+
       HashMap<String, String> requestParams = new HashMap<String, String>();
       requestParams.put(AsyncDownloader.USERID, getIntent().getStringExtra("viewing_id"));
       AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, requestParams, this, getApplicationContext());
       AsyncDownloader.perform(request);
-
     }
     else {
       setInfo(prefs);
@@ -133,7 +134,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     if (getSharedPreferences(PROFILE, 0).getString(PLAYER_ID, "-1").equals("-1")) {
       logout();
     }
-    if (viewing) {
+    if (!viewing) {
       refreshPlayerInfo();
     }
     super.onResume();
@@ -160,6 +161,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     age.setText(prefs.getString("age", "--") + " years old");
     interests.setText(prefs.getString("interests", "-----"));
     aboutme.setText(prefs.getString("aboutme", "-----"));
+    refreshPlayerInfo();
   }
 
   private void setInfo(String playerInfo) {
@@ -211,7 +213,6 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     requestParams.put(AsyncDownloader.USERID, playerId);
     AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, requestParams, this, getApplicationContext());
     AsyncDownloader.perform(request);
-//    AsyncDownloader.perform(request);
   }
 
   protected void refreshPlayerInfo(String s) {
