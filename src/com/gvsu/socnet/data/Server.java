@@ -51,6 +51,9 @@ public class Server {
   private static final String ADDCOMMENT = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setVisit.php?";
   private static final String GETRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getRate.php?capsuleId=";
   private static final String ADDRATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/setRate.php?";
+  private static final String USER_CAPSULESCREATED = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getNbrOfCapsules?id=";
+  private static final String USER_CAPSULESOPENED = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getNbrOfVisits.php?id=";
+  private static final String USER_AVERAGERATING = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getAvgRating.php?id=";
 
 
   public static String newUser(String name, String location, String state, String gender, String age, String interests, String about, String password, String username) {
@@ -77,6 +80,21 @@ public class Server {
   public static String getUser(String id) {
     String command = GETUSER + id;
     Log.d(TAG, "tried: " + command);
+    return get(command);
+  }
+
+  public static String getUserCapsulesCreated(String id) {
+    String command = USER_CAPSULESCREATED + id;
+    return get(command);
+  }
+
+  public static String getUserCapsulesOpened(String id) {
+    String command = USER_CAPSULESOPENED + id;
+    return get(command);
+  }
+
+  public static String getUserAverageRating(String id) {
+    String command = USER_AVERAGERATING + id;
     return get(command);
   }
 

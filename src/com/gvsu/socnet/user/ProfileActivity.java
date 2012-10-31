@@ -87,7 +87,6 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
       requestParams.put(AsyncDownloader.USERID, getIntent().getStringExtra("viewing_id"));
       AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, this, requestParams);
       new AsyncDownloader().execute(request);
-
     } else {
       setInfo(prefs);
       listener = new OnSharedPreferenceChangeListener() {
