@@ -21,11 +21,14 @@ import soc.net.R;
 
 import com.gvsu.socnet.views.RangeSeekBar;
 
-/****************************************************************
+/**
+ * *************************************************************
  * com.gvsu.socnet.map.FilterActivity
+ *
  * @author Caleb Gomer
  * @version 1.0
- ***************************************************************/
+ *          *************************************************************
+ */
 public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeekBarChangeListener<Long> {
 
   private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -37,10 +40,12 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
   public static final String END_RANGE = "date_range_end";
   public static final String MIN_RATING = "min_capsule_rating";
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
+   * @param savedInstanceState *************************************************************
    * @see android.app.Activity#onCreate(android.os.Bundle)
-   * @param savedInstanceState
-   ***************************************************************/
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setContentView(R.layout.map_filter);
@@ -171,11 +176,14 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
           max.setTimeInMillis(maxDate);
           max.add(Calendar.DAY_OF_YEAR, 1);
           maxDate = max.getTimeInMillis();
-        } else if (Math.abs(minDate - maxDate) == millisInDay) {
+        }
+        else if (Math.abs(minDate - maxDate) == millisInDay) {
 
-        } else if (minDate == Calendar.getInstance().getTimeInMillis()) {
+        }
+        else if (minDate == Calendar.getInstance().getTimeInMillis()) {
           minDate -= millisInDay;
-        } else if (maxDate == Calendar.getInstance().getTimeInMillis()) {
+        }
+        else if (maxDate == Calendar.getInstance().getTimeInMillis()) {
           maxDate += millisInDay;
         }
         edit.putLong(START_RANGE, minDate);
@@ -207,17 +215,23 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
     super.onCreate(savedInstanceState);
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onDestroy()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onDestroy() {
     super.onDestroy();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onPause()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onPause() {
     super.onPause();
@@ -227,44 +241,58 @@ public class FilterActivity extends Activity implements RangeSeekBar.OnRangeSeek
   // return;
   // }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onRestart()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onRestart() {
     super.onRestart();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onResume()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onResume() {
     super.onResume();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onStart()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onStart() {
     super.onStart();
   }
 
-  /****************************************************************
+  /**
+   * *************************************************************
+   *
    * @see android.app.Activity#onStop()
-   ***************************************************************/
+   *      *************************************************************
+   */
   @Override
   protected void onStop() {
     super.onStop();
   }
 
-  /****************************************************************
-   * @see com.gvsu.socnet.views.RangeSeekBar.OnRangeSeekBarChangeListener#onRangeSeekBarValuesChanged(com.gvsu.socnet.views.RangeSeekBar, java.lang.Object, java.lang.Object)
+  /**
+   * *************************************************************
+   *
    * @param bar
    * @param minValue
-   * @param maxValue
-   ***************************************************************/
+   * @param maxValue *************************************************************
+   * @see com.gvsu.socnet.views.RangeSeekBar.OnRangeSeekBarChangeListener#onRangeSeekBarValuesChanged(com.gvsu.socnet.views.RangeSeekBar, java.lang.Object, java.lang.Object)
+   */
   @Override
   public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Long minValue, Long maxValue) {
     minDate = minValue;

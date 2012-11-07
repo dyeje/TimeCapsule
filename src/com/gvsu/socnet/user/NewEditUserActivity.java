@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import com.gvsu.socnet.data.AsyncCallbackListener;
 import com.gvsu.socnet.data.AsyncDownloader;
 import soc.net.R;
@@ -74,26 +77,29 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       name.setText(prefs.getString("name", ""));
 
       String location = prefs.getString("location", "");
-      if(location.length() > 0) {
+      if (location.length() > 0) {
         String[] split_location = location.split(", ");
-        if(0 < split_location.length) city.setText(split_location[0]);
-        if(1 < split_location.length) state.setText(split_location[1]);
+        if (0 < split_location.length) city.setText(split_location[0]);
+        if (1 < split_location.length) state.setText(split_location[1]);
       }
 
       String strGender = prefs.getString("gender", "");
       if (strGender.equalsIgnoreCase("Male")) {
         male.setChecked(true);
-      } else if (strGender.equalsIgnoreCase("Female")) {
+      }
+      else if (strGender.equalsIgnoreCase("Female")) {
         female.setChecked(true);
-      } else {
+      }
+      else {
         unsure.setChecked(true);
       }
-      
+
       age.setText(prefs.getString("age", ""));
       interests.setText(prefs.getString("interests", ""));
       aboutme.setText(prefs.getString("aboutme", ""));
       create.setText("Save Changes");
-    } else {
+    }
+    else {
       editing = false;
     }
   }
@@ -103,12 +109,15 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
     String gender;
     if (male.isChecked()) {
       gender = "m";
-    } else if (female.isChecked()) {
+    }
+    else if (female.isChecked()) {
       gender = "f";
 
-    } else if (unsure.isChecked()) {
+    }
+    else if (unsure.isChecked()) {
       gender = "u";
-    } else {
+    }
+    else {
       gender = "?";
     }
 
@@ -125,7 +134,8 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       case R.id.button_create_account:
         if (editing) {
           showLoginFields();
-        } else {
+        }
+        else {
           HashMap<String, String> requestParams = new HashMap<String, String>();
           requestParams.put(AsyncDownloader.NAME, name);
           requestParams.put(AsyncDownloader.LOCATION, city);
@@ -137,9 +147,9 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
           requestParams.put(AsyncDownloader.PASSWORD, password);
           requestParams.put(AsyncDownloader.USERNAME, username);
 
-          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWUSER, this, requestParams);
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWUSER, requestParams, this, getApplicationContext());
 
-          new AsyncDownloader().execute(request);
+          AsyncDownloader.perform(request);
         }
         break;
 
@@ -158,14 +168,15 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
           requestParams.put(AsyncDownloader.USERNAME, strUserName);
           requestParams.put(AsyncDownloader.PASSWORD, strPass);
 
-          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, this, requestParams);
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.LOGIN, requestParams, this, getApplicationContext());
 
-          new AsyncDownloader().execute(request);
+          AsyncDownloader.perform(request);
 
           Log.d("edit", "sent request");
 
           findViewById(R.id.btn_save).setEnabled(false);
-        } else {
+        }
+        else {
           ((TextView) findViewById(R.id.password_view)).setText("Enter a Password");
         }
         break;
@@ -223,12 +234,15 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             String gender;
             if (male.isChecked()) {
               gender = "m";
-            } else if (female.isChecked()) {
+            }
+            else if (female.isChecked()) {
               gender = "f";
 
-            } else if (unsure.isChecked()) {
+            }
+            else if (unsure.isChecked()) {
               gender = "u";
-            } else {
+            }
+            else {
               gender = "?";
             }
 
@@ -253,18 +267,20 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             requestParams.put(AsyncDownloader.INTERESTS, interests);
             requestParams.put(AsyncDownloader.ABOUT, aboutme);
 
-            AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.EDITUSER, this, requestParams);
+            AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.EDITUSER, requestParams, this, getApplicationContext());
 
-            new AsyncDownloader().execute(request);
+            AsyncDownloader.perform(request);
 
-          } else {
+          }
+          else {
             ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
           }
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
+          .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble editing your profile. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

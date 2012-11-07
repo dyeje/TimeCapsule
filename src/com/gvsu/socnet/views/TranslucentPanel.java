@@ -9,31 +9,19 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-/****************************************************************
- * com.gvsu.socnet.views.TranslucentPanel
- * @author Caleb Gomer
- * @version 1.0
- ***************************************************************/
 public class TranslucentPanel extends LinearLayout {
   private Paint backgroundPaint, borderPaint;
 
-  /****************************************************************
-   * @param context
-   ***************************************************************/
   public TranslucentPanel(Context context) {
     super(context);
   }
 
-  /****************************************************************
-   * @param context
-   * @param attributes
-   ***************************************************************/
   public TranslucentPanel(Context context, AttributeSet attributes) {
     super(context, attributes);
   }
 
   @Override
-    protected void dispatchDraw(Canvas canvas) {
+  protected void dispatchDraw(Canvas canvas) {
     backgroundPaint = new Paint();
     backgroundPaint.setARGB(225, 75, 75, 75);
     borderPaint = new Paint();

@@ -24,7 +24,7 @@ public class UserOverlay extends Overlay {
   static final int Y_OFFSET = 30;
 
   public UserOverlay(GeoPoint pPosition, Context pContext, boolean pRotate,
-      float pBearing) {
+                     float pBearing) {
     position = pPosition;
     context = pContext;
     rotate = pRotate;
@@ -46,11 +46,13 @@ public class UserOverlay extends Overlay {
       canvas.rotate(bearing, point.x, point.y);
       canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
       canvas.restore();
-    } else {
+    }
+    else {
       Bitmap bm = BitmapFactory.decodeResource(context.getResources(),
           R.drawable.user);
-
+      canvas.save();
       canvas.drawBitmap(bm, point.x - X_OFFSET, point.y - Y_OFFSET, null);
+      canvas.restore();
     }
   }
 

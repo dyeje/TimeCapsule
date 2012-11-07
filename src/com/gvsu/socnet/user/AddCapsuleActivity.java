@@ -102,18 +102,19 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
           }
           String userId = getSharedPreferences(LoginActivity.PROFILE, 0).getString("player_id", "");
 
-          HashMap<String,String> requestParams = new HashMap<String,String>();
-          requestParams.put(AsyncDownloader.USERID,userId);
-          requestParams.put(AsyncDownloader.LATITUDE,Double.toString(userLocation.getLatitude()));
-          requestParams.put(AsyncDownloader.LONGITUDE,Double.toString(userLocation.getLongitude()));
-          requestParams.put(AsyncDownloader.TITLE,name);
-          requestParams.put(AsyncDownloader.DESCRIPTION,description);
+          HashMap<String, String> requestParams = new HashMap<String, String>();
+          requestParams.put(AsyncDownloader.USERID, userId);
+          requestParams.put(AsyncDownloader.LATITUDE, Double.toString(userLocation.getLatitude()));
+          requestParams.put(AsyncDownloader.LONGITUDE, Double.toString(userLocation.getLongitude()));
+          requestParams.put(AsyncDownloader.TITLE, name);
+          requestParams.put(AsyncDownloader.DESCRIPTION, description);
 
-          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWCAPSULE,this,requestParams);
+          AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWCAPSULE, requestParams, this, getApplicationContext());
 
-          new AsyncDownloader().execute(request);
+          AsyncDownloader.perform(request);
 
-        } else {
+        }
+        else {
           Toast.makeText(getApplicationContext(), "Unable to determine location", Toast.LENGTH_SHORT).show();
         }
         break;
@@ -169,7 +170,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.i(TAG, "Picture path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
 
               shouldUpload = true;
               filePath = path;
@@ -188,7 +190,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.d(TAG, "Audio Path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
               shouldUpload = true;
               filePath = path;
             }
@@ -207,7 +210,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.d(TAG, "Video Path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
               shouldUpload = true;
               filePath = path;
             }
@@ -225,7 +229,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
             Log.d(TAG, "Doc Path: " + path);
             if (path == null) {
               Toast.makeText(this, "Choose a different file!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
               shouldUpload = true;
               filePath = path;
             }
@@ -236,13 +241,13 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
         break;
     }
 
-    HashMap<String,String> requestParams = new HashMap<String,String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.FILEPATH,filePath);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.FILEPATH, filePath);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.UPLOADFILE,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.UPLOADFILE, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   public static String getFilePath(Context context, Uri uri) throws URISyntaxException {
@@ -260,7 +265,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
       } catch (Exception e) {
         // Eat it
       }
-    } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+    }
+    else if ("file".equalsIgnoreCase(uri.getScheme())) {
       return uri.getPath();
     }
 
@@ -346,7 +352,8 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
           finish();
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
           .setTitle("Internet Error [" + payload.taskType + "](" + payload.exception.getMessage() + "){ID-10-T}")
           .setMessage("Sorry, we couldn't save your Time Capsule. Please try that again...")

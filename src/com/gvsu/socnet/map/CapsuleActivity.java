@@ -7,10 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.gvsu.socnet.data.AsyncCallbackListener;
 import com.gvsu.socnet.data.AsyncDownloader;
@@ -89,33 +92,33 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
 
   private void refreshCapsuleInfo() {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.CAPSULEID,cId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.CAPSULEID, cId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCAPSULE,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCAPSULE, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   private void refreshCommentsInfo() {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.CAPSULEID,cId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.CAPSULEID, cId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCOMMENTS,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETCOMMENTS, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
 
   }
 
   private void refreshRating() {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.CAPSULEID,cId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.CAPSULEID, cId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETRATING,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETRATING, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
 
@@ -214,7 +217,8 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
             numDistinctViewers++;
           }
           continue; // this is just a view, not a comment so don't do anything else
-        } else
+        }
+        else
           numComments++;
         String strVisitTime = comment.getString("visitTime");
         final String strUserId = comment.getString("userId");
@@ -234,10 +238,13 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
         });
         commentList.addView(t);
       }
+      TextView preCommentMessage = (TextView) findViewById(R.id.pre_comment_message);
       if (numComments == 0) {
-        TextView noComments = new TextView(this);
-        noComments.setText("Be the first to comment!");
-        commentList.addView(noComments);
+        preCommentMessage.setText("Be the first to comment!");
+        preCommentMessage.setVisibility(View.VISIBLE);
+      }
+      else {
+        preCommentMessage.setVisibility(View.GONE);
       }
       ((TextView) findViewById(R.id.timesFound)).setText("Read " + numViews + " time" + ((numViews != 1) ? "s" : "") + " by " + numDistinctViewers
           + ((numDistinctViewers != 1) ? " different users" : " user"));
@@ -248,21 +255,37 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
   }
 
   private void setupAddComments(final String capsuleId) {
-    ((Button) findViewById(R.id.button_add_comment)).setOnClickListener(new OnClickListener() {
+
+    final EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
+//    final LinearLayout submitLayout = ((LinearLayout) findViewById(R.id.submit_comment_layout));
+    final Button submitButton = ((Button) findViewById(R.id.button_add_comment));
+//    final Button cancelButton = ((Button) findViewById(R.id.capsule_comment_cancel));
+
+    newComment.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+      }
 
       @Override
+      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        submitButton.setEnabled(!charSequence.equals(""));
+      }
+
+      @Override
+      public void afterTextChanged(Editable editable) {
+        submitButton.setEnabled(!editable.toString().equals(""));
+      }
+    });
+
+    submitButton.setOnClickListener(new OnClickListener() {
+      @Override
       public void onClick(final View v) {
-        switch (v.getId()) {
-          case R.id.button_add_comment:
-            //make sure user left a comment
-            if (!((Button) v).getText().toString().equals("")) {
-              EditText newComment = (EditText) findViewById(R.id.edit_text_new_comment);
-              final String newCommentString = newComment.getText().toString();
-              newComment.setText("");
-              addAComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newCommentString));
-            }
-            break;
-        }
+        final String newCommentString = newComment.getText().toString();
+        newComment.setText("");
+        newComment.setHint("Add a comment");
+        addAComment(getSharedPreferences("profile", 0).getString("player_id", "0"), capsuleId, fixSpaces(newCommentString));
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
       }
     });
   }
@@ -294,7 +317,6 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
         submitLayout.setVisibility(View.GONE);
         addRating(ratingBar.getRating(), capsuleId);
         ratingBar.setRating(0);
-//        Toast.makeText(getApplicationContext(), "Recalculating Rating", Toast.LENGTH_SHORT).show();
       }
     });
     cancelButton.setOnClickListener(new OnClickListener() {
@@ -408,37 +430,37 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     String userId = getSharedPreferences("profile", 0).getString("player_id", "0");
     String rating = Float.toString(rate);
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
-    requestParams.put(AsyncDownloader.RATING,rating);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.CAPSULEID, capsuleId);
+    requestParams.put(AsyncDownloader.RATING, rating);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDRATING,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDRATING, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   private void addAView(String userId, String capsuleId) {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.CAPSULEID, capsuleId);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDVIEW,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDVIEW, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   private void addAComment(String userId, String capsuleId, String comment) {
 
-    HashMap<String,String> requestParams = new HashMap<String, String>();
-    requestParams.put(AsyncDownloader.USERID,userId);
-    requestParams.put(AsyncDownloader.CAPSULEID,capsuleId);
-    requestParams.put(AsyncDownloader.COMMENT,comment);
+    HashMap<String, String> requestParams = new HashMap<String, String>();
+    requestParams.put(AsyncDownloader.USERID, userId);
+    requestParams.put(AsyncDownloader.CAPSULEID, capsuleId);
+    requestParams.put(AsyncDownloader.COMMENT, comment);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDCOMMENT,this,requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.ADDCOMMENT, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   public void asyncDone(AsyncDownloader.Payload payload) {
@@ -468,7 +490,7 @@ public class CapsuleActivity extends Activity implements OnClickListener, AsyncC
     }
     else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error ["+payload.taskType+"](" + payload.result + ")")
+          .setTitle("Internet Error [" + payload.taskType + "](" + payload.result + ")")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

@@ -136,24 +136,11 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       Intent i = new Intent(getApplicationContext(), LoginActivity.class);
       startActivity(i);
     }
-    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("rotate_user", false)) {
-      sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-      if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
-        accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        rotatableUser = true;
-      }
-      sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
-      sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
-    } else {
-      rotatableUser = false;
-    }
 
     super.onResume();
     requestLocationUpdates();
     warnedAboutDriving = false;
     forceRedraw = true;
-    forceRecenter = true;
 
     /**************************/
     // Debug.stopMethodTracing();
@@ -164,25 +151,31 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
   public void onPause() {
     super.onPause();
     stopLocationUpdates();
-    if (sensorManager != null) {
-      sensorManager.unregisterListener(this);
-    }
   }
 
-  /**
-   * *************************************************************
-   * You called this a few times so I moved it into one method
-   *
-   * @return void
-   *         *************************************************************
-   */
   protected void requestLocationUpdates() {
     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("rotate_user", false)) {
+      sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+      if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
+        accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        rotatableUser = true;
+      }
+      sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
+      sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_UI);
+    }
+    else {
+      rotatableUser = false;
+    }
   }
 
   protected void stopLocationUpdates() {
     locationManager.removeUpdates(this);
+    if (sensorManager != null) {
+      sensorManager.unregisterListener(this);
+    }
   }
 
   /**
@@ -225,9 +218,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
     requestParams.put(AsyncDownloader.TO, to);
     requestParams.put(AsyncDownloader.RATING, minRating);
 
-    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, this, requestParams);
+    AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.RETRIEVECAPSULES, requestParams, this, getApplicationContext());
 
-    new AsyncDownloader().execute(request);
+    AsyncDownloader.perform(request);
   }
 
   /**
@@ -241,7 +234,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       Log.i("debug", "drawing nearby capsules:");// LOG
       innerCapsules.clear();
       outerCapsules.clear();
-    } else
+    }
+    else
       Log.i("debug", "drawing perimeter capsules:");// LOG
 
     if (!strCapsules.equals("error")) {
@@ -273,7 +267,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
             if (inner) {
               Log.i("debug", "capsule " + capsule.getString("title"));// LOG
               innerCapsules.addOverlay(item);
-            } else {
+            }
+            else {
               Log.i("debug", "outercapsule " + capsule.getString("title"));// LOG
               outerCapsules.addOverlay(item);
             }
@@ -286,7 +281,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
           }
         }
       }
-    } else {
+    }
+    else {
       Toast.makeText(this, "There was an error finding the time capsules", Toast.LENGTH_LONG).show();
     }
     if (inner)
@@ -318,7 +314,7 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
     Log.i("debug", "accuracy:" + location.getAccuracy());
     // will not accept location without a good accuracy
-    if (location.getAccuracy() <= 5000) {
+    if (location.getAccuracy() <= 1000) {
       /**
        * Conditions for redrawing capsules and user layer
        * 1) onResume() forces redraw
@@ -328,12 +324,14 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       if (forceRedraw || (userLocation.distanceTo(location) > 5 && location.getAccuracy() <= 500 && Calendar.getInstance().getTimeInMillis() - lastTimeRedrawn > timeBetweenUpdates)) {
         if (forceRedraw) {
           Log.i("debug", "redraw forced");
+          innerCapsules.clear();
+          outerCapsules.clear();
           forceRedraw = false;
         }
         userLocation = location;
+        drawUser();
         /** new way to update map **/
         retrieveCapsules();
-
       }
 
       /**
@@ -385,7 +383,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       mapController.animateTo(toGeoPoint(userLocation));
       PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("follow_user", true).commit();
       Log.i("debug", "search pressed, following user");
-    } else {
+    }
+    else {
       long now = Calendar.getInstance().getTimeInMillis();
       if ((now - lastTimeMapCentered) > timeBetweenUpdates) {
         mapController.animateTo(toGeoPoint(userLocation));
@@ -436,10 +435,9 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       case R.id.map_map_button:
         if (mapView.isSatellite()) {
           mapView.setSatellite(false);
-          ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_grey);
-        } else {
+        }
+        else {
           mapView.setSatellite(true);
-          ((Button) findViewById(R.id.map_map_button)).setBackgroundResource(R.drawable.ic_tab_map_color);
         }
         break;
       case R.id.map_zoom_in_button:
@@ -473,7 +471,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
   private GeoPoint toGeoPoint(Location location) {
     if (location != null) {
       return new GeoPoint((int) (location.getLatitude() * 1e6), (int) (location.getLongitude() * 1e6));
-    } else {
+    }
+    else {
       return new GeoPoint(0, 0);
     }
   }
@@ -489,7 +488,8 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
 
       if (type == Sensor.TYPE_ACCELEROMETER) {
         accelerometerData = event.values;
-      } else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
+      }
+      else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
         magneticData = event.values;
       }
 
@@ -511,15 +511,17 @@ public class CapsuleMapActivity extends MapActivity implements LocationListener,
       switch (payload.taskType) {
         case AsyncDownloader.RETRIEVECAPSULES:
           String[] result = payload.result.split(AsyncDownloader.INNEROUTERSPLIT);
+          mapView.invalidate();
           parseAndDrawCapsules(result[0], true);
           parseAndDrawCapsules(result[1], false);
           break;
       }
-    } else {
+    }
+    else {
       new AlertDialog.Builder(this)
-          .setTitle("Internet Error (" + payload.result + ")[" + payload.taskType + "]{ID-10-T}")
+          .setTitle(payload.exception.getMessage() + " [" + payload.taskType + "](" + payload.result + "){ID-10-T}")
           .setMessage("Sorry, we're having trouble talking to the internet. Please try that again...")
-          .setPositiveButton("I'll try again later", new DialogInterface.OnClickListener() {
+          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
           })
