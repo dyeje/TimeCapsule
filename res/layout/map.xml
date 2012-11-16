@@ -8,7 +8,7 @@
         android:id="@+id/mapview_thingy"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0Pvg9pZ1g3nrWHpfUgVCOa94EIhDdzl1mTa5Uog"
+        android:apiKey="0rFOu71JsBA3vLAZvTtMUqyJ1BhrXpHsinjmOXQ"
         android:clickable="true" />
 
     <!-- Caleb's key(s)

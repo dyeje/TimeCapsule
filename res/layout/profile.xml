@@ -42,7 +42,7 @@
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:layout_toLeftOf="@+id/map_button"
-                    android:background="@drawable/profile"
+                    android:background="@drawable/editprofile"
                     android:padding="10dip"
                     android:textColor="#FFFFFF" >
                 </Button>

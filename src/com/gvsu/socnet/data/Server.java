@@ -38,6 +38,7 @@ public class Server {
   //private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
   private static final String SETUSER = "setUser.php";
   private static final String GETCOMMENTS = "getVisit.php";
+  private static final String AUTHENTICATE = "getUser.php";
   private static final String ADDCOMMENT = "setVisit.php";
   private static final String GETRATING = "getRate.php";
   private static final String ADDRATING = "setRate.php";
@@ -69,23 +70,8 @@ public class Server {
     return get(command);
   }
 
-  public static String getUserCapsulesCreated(String id) {
-    String command = USER_CAPSULESCREATED + id;
-    return get(command);
-  }
-
-  public static String getUserCapsulesOpened(String id) {
-    String command = USER_CAPSULESOPENED + id;
-    return get(command);
-  }
-
-  public static String getUserAverageRating(String id) {
-    String command = USER_AVERAGERATING + id;
-    return get(command);
-  }
-
-  public static String authenticate(String id, String password) {
-    String command = AUTHENTICATE + id + "&password=" + password;
+  public static String authenticate(String userName, String password) {
+    String command = AUTHENTICATE + "?userName=" + userName + "&password=" + password;
     return get(command);
   }
 

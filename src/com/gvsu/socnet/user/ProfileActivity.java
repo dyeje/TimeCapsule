@@ -81,7 +81,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
 
       HashMap<String, String> requestParams = new HashMap<String, String>();
       requestParams.put(AsyncDownloader.USERID, getIntent().getStringExtra("viewing_id"));
-      AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, this, requestParams);
+      AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.GETUSER, requestParams, this, this.getApplicationContext());
       new AsyncDownloader().execute(request);
     } else {
       setInfo(prefs);
