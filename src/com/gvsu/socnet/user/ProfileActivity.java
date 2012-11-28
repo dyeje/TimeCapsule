@@ -38,7 +38,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
   public static final String PROFILE = "profile";
   public static final String PLAYER_ID = "player_id";
 
-  private TextView username, name, location, gender, age, interests, aboutme;
+  private TextView username, name, location, gender, age, interests, aboutme, avgRating, capsulesOpened, capsulesCreated;
   private OnSharedPreferenceChangeListener listener;
   private boolean viewing;
   protected Button btnMenu, btnCapture, btnProfile, btnMap;
@@ -61,6 +61,9 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     age = (TextView) findViewById(R.id.text_age);
     interests = (TextView) findViewById(R.id.text_interests);
     aboutme = (TextView) findViewById(R.id.text_about);
+    avgRating = (TextView) findViewById(R.id.num_capsule_rating);
+    capsulesOpened = (TextView) findViewById(R.id.num_capsules_opened);
+    capsulesCreated = (TextView) findViewById(R.id.num_capsules_created);
 
     btnMenu = (Button) findViewById(R.id.menu_button);
     btnMenu.setOnClickListener(this);
@@ -89,34 +92,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sPrefs, String key) {
-
-          Log.d("debug", "prefs updated:key=" + key);
-
-          if (key.equals("username")) {
-            username.setText(sPrefs.getString(key, ""));
-          }
-          else if (key.equals("name")) {
-            name.setText(sPrefs.getString(key, ""));
-          }
-          else if (key.equals("location")) {
-            location.setText(sPrefs.getString(key, ""));
-          }
-          else if (key.equals("age")) {
-            age.setText(sPrefs.getString(key, ""));
-          }
-          else if (key.equals("gender")) {
-            gender.setText(sPrefs.getString(key, ""));
-          }
-          else if (key.equals("interests")) {
-            interests.setText(sPrefs.getString(key, ""));
-          }
-          else if (key.equals("aboutme")) {
-            aboutme.setText(sPrefs.getString(key, ""));
-          }
-          else {
-            Log.d("debug", "I don't know what was changed, updating all");
-            setInfo(sPrefs);
-          }
+          setInfo(sPrefs);
         }
       };
     }
@@ -188,6 +164,9 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           age.setText(info.getString("age"));
           interests.setText(info.getString("interest"));
           aboutme.setText(info.getString("about"));
+          avgRating.setText(info.getString("avgRating"));
+          capsulesOpened.setText(info.getString("nbrOfVisits"));
+          capsulesCreated.setText(info.getString("nbrOfCapsules"));
         }
       } catch (JSONException e) {
         Log.e("profile", "error with JSON");

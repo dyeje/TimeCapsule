@@ -94,7 +94,6 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     payload.callback.asyncDone(payload);
   }
 
-
   /*
   * Runs on background thread
   */

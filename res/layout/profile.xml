@@ -115,18 +115,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="capsules created"
+                    android:text="Capsules Created"
                     android:textSize="12sp" />
 
-                <!--
-                     <TextView
+                
+                <TextView
                     android:id="@+id/num_capsules_created"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="21"
+                    android:text=""
                     android:textSize="20sp" />
-                -->
+                
 
                 <ImageView
                     android:id="@+id/picture1"
@@ -134,24 +134,24 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="Capsules Created"
                     android:src="@drawable/capsule"
-                    android:text="21" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/text_capsules_opened"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="capsules opened"
+                    android:text="Capsules Opened"
                     android:textSize="12sp" />
-                <!--
+                
                 <TextView
                     android:id="@+id/num_capsules_opened"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="246"
+                    android:text=""
                     android:textSize="20sp" />
-                -->
+                
 
                 <ImageView
                     android:id="@+id/picture2"
@@ -159,25 +159,25 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="Capsules Opened"
                     android:src="@drawable/capsule"
-                    android:text="246" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/text_capsule_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="average rating"
+                    android:text="Average Rating"
                     android:textSize="12sp" />
 
-                <!--
-                     <TextView
+                
+                <TextView
                     android:id="@+id/num_capsule_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:text="4.20"
+                    android:text=""
                     android:textSize="20sp" />
-                -->
+                
 
                 <ImageView
                     android:id="@+id/picture3"

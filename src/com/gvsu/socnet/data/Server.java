@@ -34,8 +34,7 @@ public class Server {
   //PHP Commands
   private static final String GETCAPSULE = "getCapsule.php";
   private static final String NEWCAPSULE = "setCapsule.php";
-  private static final String GETUSER = "getUser.php";
-  //private static final String GETUSER = "http://www.cis.gvsu.edu/~scrippsj/socNet/functions/getUser.php?id=";
+  private static final String GETUSER = "getUserNew.php";
   private static final String SETUSER = "setUser.php";
   private static final String GETCOMMENTS = "getVisit.php";
   private static final String AUTHENTICATE = "getUser.php";
@@ -66,7 +65,6 @@ public class Server {
 
   public static String getUser(String id) {
     String command = GETUSER + "?id=" + id;
-    Log.d(TAG, "tried: " + command);
     return get(command);
   }
 
