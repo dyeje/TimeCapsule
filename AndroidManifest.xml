@@ -58,10 +58,6 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gvsu.socnet.views.NavigationMenu"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name="com.gvsu.socnet.user.SettingsActivity"
             android:label="@string/activ_settings" >
         </activity>
