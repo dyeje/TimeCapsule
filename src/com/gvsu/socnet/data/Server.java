@@ -8,6 +8,7 @@ import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
@@ -56,8 +57,8 @@ public class Server {
     return get(command);
   }
 
-  public static String newCapsule(String userId, String lat, String lon, String title, String description) {
-    String command = NEWCAPSULE + "title=" + title + "&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
+  public static String newCapsule(String userId, String lat, String lon, String description) {
+    String command = NEWCAPSULE + "title="+"&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
     Log.d(TAG, command);
     String response = get(command);
     return response;
@@ -134,6 +135,7 @@ public class Server {
    */
   private static String valid(String response) {
     if (response.length() >= 11 && response.substring(0, 11).equals("SocNetData:")) {
+      Log.d(TAG, "response: '" + response);
       return response.substring(11);
     }
     else {
@@ -153,9 +155,10 @@ public class Server {
   private static String get(String command) {
 
     command = command.replace("\n", "%20%20%20");
+    command = command.replace(" ", "%20");
 
-    Log.d("server", "URL:\n" + command);
     String request = BASE_URL + command;
+    Log.d("server", "URL:\n" + request);
 
     HttpClient client = new DefaultHttpClient();
     HttpPost post = new HttpPost(request);
