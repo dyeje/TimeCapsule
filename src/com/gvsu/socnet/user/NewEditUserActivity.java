@@ -215,14 +215,9 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
           break;
 
         case AsyncDownloader.EDITUSER:
-          new AlertDialog.Builder(this)
-              .setTitle("Success EditUser...Server says:")
-              .setMessage(payload.result)
-              .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                }
-              })
-              .show();
+          Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+          startActivity(i);
+          finish();
           break;
 
         case AsyncDownloader.LOGIN:

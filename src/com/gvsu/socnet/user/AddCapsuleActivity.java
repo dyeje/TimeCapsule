@@ -296,6 +296,7 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
   }
 
   public void asyncDone(AsyncDownloader.Payload payload) {
+    System.out.println("result:"+payload.result);
     if (payload.exception == null) {
       switch (payload.taskType) {
         case AsyncDownloader.NEWCAPSULE:

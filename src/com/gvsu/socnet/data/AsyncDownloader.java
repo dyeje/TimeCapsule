@@ -123,7 +123,6 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
     String capsuleId = params.get(CAPSULEID);
     String lat = params.get(LATITUDE);
     String lon = params.get(LONGITUDE);
-    String title = params.get(TITLE);
     String description = params.get(DESCRIPTION);
     String from = params.get(FROM);
     String to = params.get(TO);
@@ -151,9 +150,9 @@ public class AsyncDownloader extends AsyncTask<AsyncDownloader.Payload, Object, 
         break;
 
       case NEWCAPSULE:
-        valid = userId != null && lat != null && lon != null && title != null && description != null;
+        valid = userId != null && lat != null && lon != null && description != null;
         if (valid)
-          payload.result = Server.newCapsule(userId, lat, lon, title, description);
+          payload.result = Server.newCapsule(userId, lat, lon, description);
         else
           payload.exception = new AsyncException("Bad Params");
         break;
