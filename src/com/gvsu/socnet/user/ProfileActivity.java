@@ -129,41 +129,49 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
   }
 
   private void setInfo(SharedPreferences prefs) {
-    username.setText(prefs.getString("username", "-----"));
-    name.setText(prefs.getString("name", "----"));
-    location.setText(prefs.getString("location", "---, --"));
-    gender.setText(prefs.getString("gender", "--"));
-    age.setText(prefs.getString("age", "--") + " years old");
-    interests.setText(prefs.getString("interests", "-----"));
-    aboutme.setText(prefs.getString("aboutme", "-----"));
+    username.setText(prefs.getString("username", ""));
+
+    name.setText(prefs.getString("name", ""));
+
+    location.setText(prefs.getString("location", ""));
+
+    gender.setText(prefs.getString("gender", ""));
+
+    age.setText(prefs.getString("age", "") + " years old");
+
+    interests.setText(prefs.getString("interests", ""));
+
+    aboutme.setText(prefs.getString("aboutme", ""));
+
     refreshPlayerInfo();
   }
 
   private void setInfo(String playerInfo) {
-
     if (!playerInfo.equals("error")) {
       JSONArray profileInfos;
       try {
         profileInfos = new JSONArray(playerInfo);
         if (profileInfos.length() == 1) {
           JSONObject info = profileInfos.getJSONObject(0);
+
           username.setText(info.getString("userName"));
-          String strGender = info.getString("gender");
-          if (strGender.equalsIgnoreCase("m")) {
-            strGender = "Male";
-          } else if (strGender.equalsIgnoreCase("f")) {
-            strGender = "Female";
-          } else {
-            strGender = "Other";
-          }
+
+          gender.setText(processGender(info.getString("gender")));
+
           name.setText(info.getString("name"));
+
           location.setText(info.getString("location") + ", " + info.getString("state"));
-          gender.setText(strGender);
+
           age.setText(info.getString("age") + " years old");
+
           interests.setText(info.getString("interest"));
+
           aboutme.setText(info.getString("about"));
+
           avgRating.setText(info.getString("avgRating"));
+
           capsulesOpened.setText(info.getString("nbrOfVisits"));
+
           capsulesCreated.setText(info.getString("nbrOfCapsules"));
         }
       } catch (JSONException e) {
@@ -201,29 +209,30 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
         if (profileInfos.length() == 1) {
           JSONObject info = profileInfos.getJSONObject(0);
           SharedPreferences.Editor editor = prefs.edit();
+
           if (!prefs.getString("username", "").equals(info.getString("userName")))
             editor.putString("username", info.getString("userName"));
+
           if (!prefs.getString("name", "").equals(info.getString("name")))
             editor.putString("name", info.getString("name"));
+
           String strLocation = info.getString("location") + ", " + info.getString("state");
           if (!prefs.getString("location", "").equals(strLocation))
             editor.putString("location", strLocation);
-          String strGender = info.getString("gender");
-          if (strGender.equalsIgnoreCase("m")) {
-            strGender = "Male";
-          } else if (strGender.equalsIgnoreCase("f")) {
-            strGender = "Female";
-          } else {
-            strGender = "Other";
-          }
+
+          String strGender = processGender(info.getString("gender"));
           if (!prefs.getString("gender", "").equals(strGender))
             editor.putString("gender", strGender);
+
           if (!prefs.getString("age", "").equals(info.getString("age")))
             editor.putString("age", info.getString("age"));
+
           if (!prefs.getString("interests", "").equals(info.getString("interest")))
             editor.putString("interests", info.getString("interest"));
+
           if (!prefs.getString("aboutme", "").equals(info.getString("about")))
             editor.putString("aboutme", info.getString("about"));
+
           editor.commit();
         }
       } catch (JSONException e) {
@@ -323,11 +332,17 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
       new AlertDialog.Builder(this)
           .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble loading this profile. Please try that again...")
-          .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-          })
+          .setPositiveButton(
+            "Ok", 
+            new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int which) {}}
+            )
           .show();
     }
+  }
+
+  public String processGender(String gender) {
+    if (gender.equalsIgnoreCase("m")) {return "Male";}
+    else if (gender.equalsIgnoreCase("f")) {return "Female";}
+    else {return "Other";}
   }
 }
