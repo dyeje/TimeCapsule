@@ -3,15 +3,6 @@
     android:key="capsule" >
 
     <PreferenceCategory
-        android:key="profile"
-        android:title="Profile" >
-        <Preference
-            android:defaultValue="false"
-            android:key="logout"
-            android:summary="Log me out!"
-            android:title="Logout" />
-    </PreferenceCategory>
-    <PreferenceCategory
         android:key="map"
         android:title="Map Preferences" >
         <CheckBoxPreference
@@ -24,6 +15,15 @@
             android:key="rotate_user"
             android:summary="Rotate your icon as you change direction"
             android:title="Rotate With Me" />
+    </PreferenceCategory>
+    <PreferenceCategory
+            android:key="profile"
+            android:title="Profile" >
+        <Preference
+                android:defaultValue="false"
+                android:key="logout"
+                android:summary="Log me out!"
+                android:title="Logout" />
     </PreferenceCategory>
 
 </PreferenceScreen>
