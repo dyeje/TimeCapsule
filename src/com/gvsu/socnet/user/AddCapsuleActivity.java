@@ -38,9 +38,9 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 
   private String TAG = "AddCapActivity";
 
-  private Button capture, cancel, addPicture, addAudio, addVideo, addDocument;
+  private Button capture, cancel;
   private final int PICK_PIC = 0, PICK_AUD = 1, PICK_VID = 2, PICK_DOC = 3;
-  private EditText name, content, description;
+  private EditText description;
   private LocationManager locationManager;
   private Location userLocation = CapsuleMapActivity.userLocation;
   private static Context mContext;
@@ -56,16 +56,6 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
     capture.setOnClickListener(this);
     cancel = (Button) findViewById(R.id.btn_cancel);
     cancel.setOnClickListener(this);
-    addPicture = (Button) findViewById(R.id.btn_add_picture);
-    addPicture.setOnClickListener(this);
-    addAudio = (Button) findViewById(R.id.btn_add_audio);
-    addAudio.setOnClickListener(this);
-    addVideo = (Button) findViewById(R.id.btn_add_video);
-    addVideo.setOnClickListener(this);
-    addDocument = (Button) findViewById(R.id.btn_add_document);
-    addDocument.setOnClickListener(this);
-
-    name = (EditText) findViewById(R.id.text_new_capsule_name);
     description = (EditText) findViewById(R.id.text_new_capsule_description);
 
     locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -83,15 +73,6 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
 
         if (userLocation != null && userLocation.getAccuracy() < 500) {
 
-          String name = "";
-          char[] nam = this.name.getText().toString().toCharArray();
-          for (int i = 0; i < nam.length; i++) {
-            if (nam[i] == ' ')
-              name += "+";
-            else
-              name += nam[i];
-          }
-
           String description = "";
           char[] descript = this.description.getText().toString().toCharArray();
           for (int i = 0; i < descript.length; i++) {
@@ -106,7 +87,6 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
           requestParams.put(AsyncDownloader.USERID, userId);
           requestParams.put(AsyncDownloader.LATITUDE, Double.toString(userLocation.getLatitude()));
           requestParams.put(AsyncDownloader.LONGITUDE, Double.toString(userLocation.getLongitude()));
-          requestParams.put(AsyncDownloader.TITLE, name);
           requestParams.put(AsyncDownloader.DESCRIPTION, description);
 
           AsyncDownloader.Payload request = new AsyncDownloader.Payload(AsyncDownloader.NEWCAPSULE, requestParams, this, getApplicationContext());
@@ -120,35 +100,6 @@ public class AddCapsuleActivity extends Activity implements OnClickListener, Loc
         break;
       case R.id.btn_cancel:
         finish();
-        break;
-      case R.id.btn_add_picture:
-        Log.i(TAG, "choosing a picture");
-        Intent choosePicIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(choosePicIntent, PICK_PIC);
-        break;
-      case R.id.btn_add_audio:
-        Log.i(TAG, "choosing audio");
-//      Intent chooseAudIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
-        Intent chooseAudIntent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
-        chooseAudIntent.setType("audio/*");
-        startActivityForResult(chooseAudIntent, PICK_AUD);
-        break;
-      case R.id.btn_add_video:
-        Log.i(TAG, "choosing a video");
-        Intent chooseVidIntent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Video.Media.INTERNAL_CONTENT_URI);
-        chooseVidIntent.setType("video/*");
-        startActivityForResult(chooseVidIntent, PICK_VID);
-        break;
-      case R.id.btn_add_document:
-        Log.i(TAG, "choosing a document");
-        Intent chooseDocIntent = new Intent(Intent.ACTION_GET_CONTENT, Uri.fromFile(new File("/sdcard")));
-        chooseDocIntent.setType("*/*");
-        chooseDocIntent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
-          startActivityForResult(/*Intent.createChooser(*/chooseDocIntent/*), "Select a Document")*/, PICK_DOC);
-        } catch (android.content.ActivityNotFoundException e) {
-          Toast.makeText(this, "Please install a File Manager", Toast.LENGTH_LONG).show();
-        }
         break;
     }
   }

@@ -16,73 +16,18 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/view_new_capsule_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:visibility="gone"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/text_new_capsule_name"
-                android:layout_width="fill_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content" >
-            </EditText>
-
-            <TextView
                 android:id="@+id/view_new_capsule_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="What's going on?"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/text_new_capsule_description"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:minLines="2"
                 android:inputType="textMultiLine" />
-
-            <TextView
-                android:id="@+id/view_new_capsule_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Content"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <WebView
-                android:id="@+id/view_new_capsule_upload"
-                android:clickable="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            
-            <Button
-                android:id="@+id/btn_add_picture"
-                android:layout_width="150dip"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:text="Add a Picture" />
-            
-            <Button
-                android:id="@+id/btn_add_audio"
-                android:layout_width="150dip"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:text="Add Audio" />
-
-            <Button
-                android:id="@+id/btn_add_video"
-                android:layout_width="150dip"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:text="Add a Video" />
-
-            <Button
-                android:id="@+id/btn_add_document"
-                android:layout_width="150dip"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:text="Add a Document" />
 
         </LinearLayout>
     </ScrollView>
