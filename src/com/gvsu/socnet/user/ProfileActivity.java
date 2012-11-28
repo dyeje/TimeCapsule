@@ -151,17 +151,15 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           String strGender = info.getString("gender");
           if (strGender.equalsIgnoreCase("m")) {
             strGender = "Male";
-          }
-          else if (strGender.equalsIgnoreCase("f")) {
+          } else if (strGender.equalsIgnoreCase("f")) {
             strGender = "Female";
-          }
-          else {
+          } else {
             strGender = "Other";
           }
           name.setText(info.getString("name"));
-          location.setText(info.getString("location"));
+          location.setText(info.getString("location") + ", " + info.getString("state"));
           gender.setText(strGender);
-          age.setText(info.getString("age"));
+          age.setText(info.getString("age") + " years old");
           interests.setText(info.getString("interest"));
           aboutme.setText(info.getString("about"));
           avgRating.setText(info.getString("avgRating"));
@@ -213,11 +211,9 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           String strGender = info.getString("gender");
           if (strGender.equalsIgnoreCase("m")) {
             strGender = "Male";
-          }
-          else if (strGender.equalsIgnoreCase("f")) {
+          } else if (strGender.equalsIgnoreCase("f")) {
             strGender = "Female";
-          }
-          else {
+          } else {
             strGender = "Other";
           }
           if (!prefs.getString("gender", "").equals(strGender))
@@ -323,8 +319,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           setInfo(payload.result);
           break;
       }
-    }
-    else {
+    } else {
       new AlertDialog.Builder(this)
           .setTitle(payload.errorString())
           .setMessage("Sorry, we're having trouble loading this profile. Please try that again...")
