@@ -268,7 +268,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
 
           }
           else {
-            ((TextView) findViewById(R.id.password_view)).setText("Please Try Again");
+            Toast.makeText(this, "Incorrect password, please try again", Toast.LENGTH_SHORT).show();
           }
           break;
       }

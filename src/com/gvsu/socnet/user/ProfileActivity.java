@@ -280,7 +280,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
   }
 
   protected boolean gotoProfile() {
-    Toast.makeText(this, "Edit your profile", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "Edit your Profile", Toast.LENGTH_SHORT).show();
     Intent i = new Intent(getApplicationContext(), NewEditUserActivity.class);
     startActivity(i);
     return false;
