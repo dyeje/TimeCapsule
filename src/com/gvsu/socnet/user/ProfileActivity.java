@@ -160,7 +160,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
 
           name.setText(info.getString("name"));
 
-          location.setText(info.getString("location") + ", " + info.getString("state"));
+          location.setText(processLocation(info.getString("location"), info.getString("state")));
 
           age.setText(info.getString("age") + " years old");
 
@@ -216,7 +216,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
           if (!prefs.getString("name", "").equals(info.getString("name")))
             editor.putString("name", info.getString("name"));
 
-          String strLocation = info.getString("location") + ", " + info.getString("state");
+          String strLocation = processLocation(info.getString("location"), info.getString("state"));
           if (!prefs.getString("location", "").equals(strLocation))
             editor.putString("location", strLocation);
 
@@ -340,9 +340,23 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
     }
   }
 
+  public String processLocation(String city, String state) {
+    if (!city.trim().equals("") && !state.trim().equals("")) {
+      return city.trim() + ", " + state.trim();
+    } else if (!city.trim().equals("") ^ !state.trim().equals("")) {
+      return city.trim() + state.trim();
+    } else {
+      return "";
+    }
+  }
+
   public String processGender(String gender) {
-    if (gender.equalsIgnoreCase("m")) {return "Male";}
-    else if (gender.equalsIgnoreCase("f")) {return "Female";}
-    else {return "Other";}
+    if (gender.equalsIgnoreCase("m")) {
+      return "Male";
+    } else if (gender.equalsIgnoreCase("f")) {
+      return "Female";
+    } else {
+      return "Other";
+    }
   }
 }

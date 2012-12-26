@@ -215,6 +215,8 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(i);
             finish();
+          } else {
+            Toast.makeText(this, "That user name is already taken, please use another", Toast.LENGTH_SHORT).show();
           }
           break;
 
