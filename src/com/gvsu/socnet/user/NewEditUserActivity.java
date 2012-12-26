@@ -36,6 +36,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
   RadioButton male, female, unsure;
   CheckBox change_password;
   Button create, cancel;
+  String strPass;
   boolean editing;//, worked, authenticated = false;
 
   /**
@@ -162,7 +163,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
 
       case R.id.btn_save:
         EditText pass = (EditText) findViewById(R.id.password_edit);
-        String strPass = pass.getText().toString();
+        strPass = pass.getText().toString();
         if (!strPass.equals("")) {
 
           String strUserName = getSharedPreferences("profile", 0).getString("username", "");
@@ -244,7 +245,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             }
 
             String username = editing ? prefs.getString("username", "") : fixSpaces(this.username.getText().toString());
-            String password = (editing && change_password.isChecked()) ? prefs.getString("password", "") : fixSpaces(this.password.getText().toString());
+            String password = (editing && !change_password.isChecked()) ? strPass : fixSpaces(this.password.getText().toString());
 
             String name = fixSpaces(this.name.getText().toString());
             String city = fixSpaces(this.city.getText().toString());
