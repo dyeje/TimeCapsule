@@ -47,7 +47,7 @@
             android:id="@+id/button_start"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="login" />
+            android:text="Login" />
 
         <TextView
             android:id="@+id/button_new_user"

@@ -58,7 +58,7 @@ public class Server {
   }
 
   public static String newCapsule(String userId, String lat, String lon, String description) {
-    String command = NEWCAPSULE + "title="+"&locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
+    String command = NEWCAPSULE + "?locLat=" + lat + "&locLong=" + lon + "&description=" + description + "&creatorId=" + userId;
     Log.d(TAG, command);
     String response = get(command);
     return response;
