@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.gvsu.socnet.data.AsyncCallbackListener;
 import com.gvsu.socnet.data.AsyncDownloader;
 import android.widget.Toast;
+import android.widget.CheckBox;
 import soc.net.R;
 
 import java.util.HashMap;
@@ -33,6 +34,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
 
   EditText username, password, name, city, state, age, interests, aboutme;
   RadioButton male, female, unsure;
+  CheckBox change_password;
   Button create, cancel;
   boolean editing;//, worked, authenticated = false;
 
@@ -49,6 +51,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
 
     username = (EditText) findViewById(R.id.text_username);
     password = (EditText) findViewById(R.id.text_password);
+    change_password = (CheckBox) findViewById(R.id.change_password);
     name = (EditText) findViewById(R.id.text_name);
     city = (EditText) findViewById(R.id.text_city);
     state = (EditText) findViewById(R.id.text_state);
@@ -71,9 +74,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
     if (!prefs.getString("player_id", "-1").equals("-1")) {
       editing = true;
       username.setVisibility(View.GONE);
-      password.setVisibility(View.GONE);
       ((TextView) findViewById(R.id.text_view_username)).setVisibility(View.GONE);
-      ((TextView) findViewById(R.id.text_view_password)).setVisibility(View.GONE);
 
       name.setText(prefs.getString("name", ""));
 
@@ -101,6 +102,7 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
       create.setText("Save Changes");
     }
     else {
+      change_password.setVisibility(View.GONE);
       editing = false;
     }
   }
@@ -233,7 +235,6 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
             }
             else if (female.isChecked()) {
               gender = "f";
-
             }
             else if (unsure.isChecked()) {
               gender = "u";
@@ -242,9 +243,10 @@ public class NewEditUserActivity extends Activity implements OnClickListener, As
               gender = "?";
             }
 
+            String username = editing ? prefs.getString("username", "") : fixSpaces(this.username.getText().toString());
+            String password = (editing && change_password.isChecked()) ? prefs.getString("password", "") : fixSpaces(this.password.getText().toString());
+
             String name = fixSpaces(this.name.getText().toString());
-            String username = fixSpaces(this.username.getText().toString());
-            String password = fixSpaces(this.password.getText().toString());
             String city = fixSpaces(this.city.getText().toString());
             String state = fixSpaces(this.state.getText().toString());
             String age = fixSpaces(this.age.getText().toString());
