@@ -168,7 +168,7 @@ public class ProfileActivity extends Activity implements OnClickListener, AsyncC
 
           aboutme.setText(info.getString("about"));
 
-          avgRating.setText(info.getString("avgRating"));
+          avgRating.setText((info.getString("avgRating").equals("null"))?"No Rating":info.getString("avgRating"));
 
           capsulesOpened.setText(info.getString("nbrOfVisits"));
 
